@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ParentComponent } from './pages/parent/parent.component';
 import { ProfessorComponent } from './pages/professor/professor.component';
 import { StudentComponent } from './pages/student/student.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,6 @@ import { StudentComponent } from './pages/student/student.component';
     ProfessorComponent,
     StudentComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule, MatIconModule],
+  imports: [CommonModule, AdminRoutingModule, MatIconModule, ChartModule],
 })
 export class AdminModule {}

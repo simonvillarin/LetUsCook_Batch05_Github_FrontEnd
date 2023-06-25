@@ -309,6 +309,24 @@
     </header>
 
     <!-- CODE HERE -->
-    <main></main>
+    <main>
+      <div class="chart-container">
+        <div class="chart">
+          <p-chart
+            type="bar"
+            [data]="basicData"
+            [options]="basicOptions"
+          ></p-chart>
+        </div>
+        <div class="chart">
+          <p-chart
+            type="bar"
+            [data]="basicData"
+            [options]="basicOptions"
+          ></p-chart>
+        </div>
+      </div>
+      <div></div>
+    </main>
   </div>
 </div>
