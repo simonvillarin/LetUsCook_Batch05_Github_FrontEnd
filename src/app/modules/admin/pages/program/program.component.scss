@@ -10,6 +10,8 @@
 
 /* ========== SIDEBAR ========== */
 .sidebar {
+  position: sticky;
+  top: 0;
   width: 100%;
   max-width: 17.5rem;
   height: 100vh;
