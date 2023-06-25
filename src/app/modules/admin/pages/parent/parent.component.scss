@@ -34,7 +34,7 @@ mat-icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--primary);
+  color: var(--very-dark-saturated-blue);
 }
 
 nav {
@@ -178,6 +178,7 @@ header {
   background-color: var(--white);
   transition: max-height 200ms ease-in;
   overflow-y: auto;
+  z-index: 999;
 }
 
 .notification-container::-webkit-scrollbar {
