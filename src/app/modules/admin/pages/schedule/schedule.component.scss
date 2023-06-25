@@ -52,6 +52,7 @@ nav {
   gap: 01rem;
   padding: 1rem 2rem;
   cursor: pointer;
+  user-select: none;
 }
 
 .link-active {
