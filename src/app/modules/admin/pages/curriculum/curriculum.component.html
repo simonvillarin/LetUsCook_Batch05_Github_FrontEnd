@@ -1,1 +1,314 @@
-<p>curriculum works!</p>
+<div class="container">
+  <div class="sidebar">
+    <div class="logo">
+      <mat-icon fontIcon="school"></mat-icon><span>SMA University</span>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/admin/home"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="home"></mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/schedule"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="event_available"></mat-icon>
+          <span>Class Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/course"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="menu_book"></mat-icon>
+          <span>Course</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/curriculum"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="event_note"></mat-icon>
+          <span>Curriculum</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/program"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="description"></mat-icon>
+          <span>Program</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/parent"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="escalator_warning"></mat-icon>
+          <span>Parent</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/professor"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="man_4"></mat-icon>
+          <span>Professor</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/student"
+          routerLinkActive="link-active"
+        >
+          <mat-icon fontIcon="man"></mat-icon>
+          <span>Student</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
+    <div class="close-icon" (click)="closeMobileNav()">
+      <mat-icon fontIcon="close"></mat-icon>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/admin/home"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="home"></mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/schedule"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="event_available"></mat-icon>
+          <span>Class Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/course"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="menu_book"></mat-icon>
+          <span>Course</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/curriculum"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="event_note"></mat-icon>
+          <span>Curriculum</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/program"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="description"></mat-icon>
+          <span>Program</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/parent"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="escalator_warning"></mat-icon>
+          <span>Parent</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/professor"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="man_4"></mat-icon>
+          <span>Professor</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/admin/student"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon fontIcon="man"></mat-icon>
+          <span>Student</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="main-container">
+    <header>
+      <div class="left-nav">
+        <div class="menu-icon" (click)="openMobileNav()">
+          <mat-icon fontIcon="menu"></mat-icon>
+        </div>
+        <div class="location">Curriculum</div>
+      </div>
+      <div class="right-nav">
+        <div class="notif">
+          <div (click)="toggleShowNotifications()">
+            <mat-icon fontIcon="notifications"></mat-icon>
+          </div>
+          <div
+            class="notification-container"
+            [class.notification-active]="isShowNotifications"
+          >
+            <div class="border"></div>
+            <div class="notifs">
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon
+                  fontIcon="notifications"
+                  class="notif-icon"
+                ></mat-icon>
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile">
+          <div class="avatar" (click)="toggleShowDropdown()">
+            <div class="img">
+              <img
+                src="../../../../assets/images/itachi.jpg"
+                alt="Profile Image"
+              />
+            </div>
+          </div>
+          <div class="name">
+            <div class="type">
+              <span>Simon James Villarin</span>
+              <div class="role">Admin</div>
+            </div>
+            <div (click)="toggleShowDropdown()">
+              <mat-icon
+                fontIcon="expand_more"
+                class="arrow-down"
+                [class.arrow-down-active]="isShowDropdown"
+              ></mat-icon>
+            </div>
+          </div>
+
+          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+            <div class="border"></div>
+            <div class="dropdown-links">
+              <div class="dropdown-link">
+                <mat-icon fontIcon="person" class="dropdown-icon"></mat-icon
+                >Profile
+              </div>
+              <div class="dropdown-link">
+                <mat-icon fontIcon="logout" class="dropdown-icon"></mat-icon
+                ><span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CODE HERE -->
+    <main></main>
+  </div>
+</div>

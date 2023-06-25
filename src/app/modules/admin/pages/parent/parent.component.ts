@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-course',
-  templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss'],
+  selector: 'app-parent',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.scss'],
 })
-export class CourseComponent {
+export class ParentComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
