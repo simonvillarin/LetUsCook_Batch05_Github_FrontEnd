@@ -46,13 +46,15 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  padding: 0.5rem 1rem;
 }
 
 .link {
   display: flex;
   align-items: center;
   gap: 01rem;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.25rem;
   cursor: pointer;
   user-select: none;
 }
