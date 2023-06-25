@@ -12,10 +12,14 @@ export class ParentComponent {
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
+    this.isShowMobileNav = false;
+    this.isShowNotifications = false;
   };
 
   toggleShowNotifications = () => {
     this.isShowNotifications = !this.isShowNotifications;
+    this.isShowMobileNav = false;
+    this.isShowDropdown = false;
   };
 
   openMobileNav = () => {
