@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProgramService } from 'src/app/shared/services/program/program.service';
 
 @Component({
   selector: 'app-program',
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.scss'],
 })
-export class ProgramComponent {
+export class ProgramComponent implements OnInit {
+  constructor(private programService: ProgramService) {}
+
+  ngOnInit(): void {
+    this.getAllPrograms();
+  }
+
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
@@ -28,5 +35,9 @@ export class ProgramComponent {
 
   closeMobileNav = () => {
     this.isShowMobileNav = false;
+  };
+
+  getAllPrograms = () => {
+    this.programService.getAllPrograms().subscribe((data) => console.log(data));
   };
 }
