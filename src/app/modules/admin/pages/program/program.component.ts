@@ -7,15 +7,36 @@ import { ProgramService } from 'src/app/shared/services/program/program.service'
   styleUrls: ['./program.component.scss'],
 })
 export class ProgramComponent implements OnInit {
+  customers = [
+    {
+      id: 1000,
+      name: 'James Butt',
+      country: {
+        name: 'Algeria',
+        code: 'dz',
+      },
+      company: 'Benton, John B Jr',
+      date: '2015-09-13',
+      status: 'unqualified',
+      verified: true,
+      activity: 17,
+      representative: {
+        name: 'Ioni Bowcher',
+        image: 'ionibowcher.png',
+      },
+      balance: 70663,
+    },
+  ];
+
+  isShowDropdown = false;
+  isShowMobileNav = false;
+  isShowNotifications = false;
+
   constructor(private programService: ProgramService) {}
 
   ngOnInit(): void {
     this.getAllPrograms();
   }
-
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
