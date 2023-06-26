@@ -52,6 +52,7 @@ export class ProgramComponent implements OnInit {
 
   openMobileNav = () => {
     this.isShowMobileNav = true;
+    scroll(0, 0);
   };
 
   closeMobileNav = () => {
