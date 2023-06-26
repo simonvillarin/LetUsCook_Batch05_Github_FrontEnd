@@ -7,6 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ToastModule } from 'primeng/toast';
 @NgModule({
   declarations: [],
   imports: [
@@ -19,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     InputTextModule,
     MatDialogModule,
     HttpClientModule,
+    FileUploadModule,
+    ToastModule,
   ],
   exports: [
     MatIconModule,
@@ -28,6 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     InputTextModule,
     MatDialogModule,
+    FileUploadModule,
+    ToastModule,
   ],
 })
 export class SharedModule {}
