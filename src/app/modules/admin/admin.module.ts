@@ -11,6 +11,10 @@ import { ParentComponent } from './pages/parent/parent.component';
 import { ProfessorComponent } from './pages/professor/professor.component';
 import { StudentComponent } from './pages/student/student.component';
 import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,15 @@ import { ChartModule } from 'primeng/chart';
     ProfessorComponent,
     StudentComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule, MatIconModule, ChartModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    MatIconModule,
+    ChartModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+  ],
 })
 export class AdminModule {}
