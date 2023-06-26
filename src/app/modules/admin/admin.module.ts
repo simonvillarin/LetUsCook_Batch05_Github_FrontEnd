@@ -15,6 +15,9 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
 import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
@@ -37,7 +40,9 @@ import { ChipsModule } from 'primeng/chips';
     ButtonModule,
     InputTextModule,
     DropdownModule,
-    ChipsModule,
+    FileUploadModule,
+    MessagesModule,
+    ToastModule,
   ],
 })
 export class AdminModule {}
