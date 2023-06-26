@@ -303,6 +303,115 @@
     </header>
 
     <!-- CODE HERE -->
-    <main></main>
+    <main>
+      <div class="form">
+        <h2>Add Subject</h2>
+        <form>
+          <div class="form-group">
+            <div class="input-group">
+              <label>Program</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Subject Code</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Subject Title</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <label>Units</label>
+              <input pInputText type="number" />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Prerequisites</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Year Level</label>
+              <p-dropdown
+                [options]="types"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+          </div>
+          <div class="form-group" *ngIf="isUpdating">
+            <div class="input-group">
+              <label>Activate</label>
+              <p-dropdown
+                [options]="activeDeactive"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="submit">Add</button>
+            <button type="button" id="clear">Clear</button>
+          </div>
+        </form>
+      </div>
+      <div class="table">
+        <div class="table-header">
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+            />
+          </span>
+        </div>
+        <p-table
+          [value]="customers"
+          [paginator]="true"
+          [rows]="5"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 25, 50]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 25%">Name</th>
+              <th style="width: 25%">Country</th>
+              <th style="width: 25%">Company</th>
+              <th style="width: 25%">Representative</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer>
+            <tr>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.country.name }}</td>
+              <td>{{ customer.company }}</td>
+              <td>{{ customer.representative.name }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </main>
   </div>
 </div>

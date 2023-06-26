@@ -308,43 +308,50 @@
       <div class="form">
         <h2>Add Curriculum</h2>
         <form>
-          <div class="input-group">
-            <label>Program</label>
-            <input pInputText />
-            <small [style]="{ color: 'var(--red)' }"
-              >Enter your username to reset your password.</small
-            >
+          <div class="form-group">
+            <div class="input-group">
+              <label>Term</label>
+              <p-dropdown
+                [options]="terms"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Year Level</label>
+              <p-dropdown
+                [options]="levels"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
           </div>
-          <div class="input-group">
-            <label>Subject</label>
-            <input pInputText />
-            <small [style]="{ color: 'var(--red)' }"
-              >Enter your username to reset your password.</small
-            >
+          <div class="form-group">
+            <div class="input-group">
+              <label>Program</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Subject</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter your username to reset your password.</small
+              >
+            </div>
           </div>
-          <div class="input-group">
-            <label>Term</label>
-            <p-dropdown
-              [options]="terms"
-              optionLabel="name"
-              [style]="{ width: '100%' }"
-            ></p-dropdown>
-            <small [style]="{ color: 'var(--red)' }"
-              >Enter your username to reset your password.</small
-            >
+          <div class="button-group">
+            <button type="submit">Add</button>
+            <button type="button" id="clear">Clear</button>
           </div>
-          <div class="input-group">
-            <label>Year Level</label>
-            <p-dropdown
-              [options]="levels"
-              optionLabel="name"
-              [style]="{ width: '100%' }"
-            ></p-dropdown>
-            <small [style]="{ color: 'var(--red)' }"
-              >Enter your username to reset your password.</small
-            >
-          </div>
-          <button type="submit">Submit</button>
         </form>
       </div>
       <div class="table">

@@ -18,6 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
   declarations: [

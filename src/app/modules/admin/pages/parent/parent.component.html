@@ -304,6 +304,117 @@
     </header>
 
     <!-- CODE HERE -->
-    <main></main>
+    <main>
+      <div class="form">
+        <h2>Add Guardian</h2>
+        <form>
+          <div class="form-group">
+            <div class="input-group">
+              <label>Relationship to student</label>
+              <p-dropdown
+                [options]="relationship"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }"
+                >Select relationship of student.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Occupation</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }">Enter occupation.</small>
+            </div>
+            <div class="input-group">
+              <label>Email</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <label>First name</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }">Enter first name.</small>
+            </div>
+            <div class="input-group">
+              <label>Middle name</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter middle name.</small
+              >
+            </div>
+            <div class="input-group">
+              <label>Last name</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }">Enter last name.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <label>Suffix</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+            </div>
+            <div class="input-group">
+              <label>Telephone</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter telephone number.</small
+              >
+            </div>
+
+            <div class="input-group">
+              <label>Mobile number</label>
+              <input pInputText />
+              <small [style]="{ color: 'var(--red)' }"
+                >Enter mobile number.</small
+              >
+            </div>
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="table">
+        <div class="table-header">
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+            />
+          </span>
+        </div>
+        <p-table
+          [value]="parent"
+          [paginator]="true"
+          [rows]="5"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 25, 50]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 25%">Name</th>
+              <th style="width: 25%">Email</th>
+              <th style="width: 25%">Mobile Number</th>
+              <th style="width: 25%">Relationship</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer>
+            <tr>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.email }}</td>
+              <td>{{ customer.mobile }}</td>
+              <td>{{ customer.relationship }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </main>
   </div>
 </div>

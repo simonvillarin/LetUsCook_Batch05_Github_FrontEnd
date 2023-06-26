@@ -4,13 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./modules/admin/admin.module').then((m) => m.AdminModule),
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
     path: 'home',
     loadChildren: () =>
       import('./modules/landing/landing.module').then((m) => m.LandingModule),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
 ];
 
