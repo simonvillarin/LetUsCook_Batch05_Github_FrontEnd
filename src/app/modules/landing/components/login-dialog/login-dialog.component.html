@@ -7,10 +7,10 @@
     <div class="title">Sign-in</div>
     <form [formGroup]="loginForm" (ngSubmit)="onClickLogin()">
       <div>
-        <label>Email</label>
+        <label>Username</label>
         <div class="input-container">
           <mat-icon class="material-icons-outlined input-icon">person</mat-icon>
-          <input type="email" formControlName="email" required />
+          <input type="text" formControlName="username" required />
         </div>
       </div>
       <div>

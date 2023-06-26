@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [],
   imports: [
@@ -17,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     InputTextModule,
     MatDialogModule,
+    HttpClientModule,
   ],
   exports: [
     MatIconModule,
