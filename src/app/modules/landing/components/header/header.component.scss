@@ -1,0 +1,108 @@
+@import "../../../../../variables.scss";
+
+.container {
+  width: 100%;
+  max-width: 1140px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.menu-icon {
+  display: none;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+.links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+.link:hover {
+  cursor: pointer;
+}
+.nav-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
+.line {
+  display: none;
+}
+#apply {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+}
+#apply:hover {
+  cursor: pointer;
+}
+#login {
+  border: none;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 700;
+}
+#login:hover {
+  cursor: pointer;
+}
+/* ========== MEDIA QUERIES ========== */
+@media screen and (max-width: 860px) {
+  .container {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem 0;
+  }
+  // .line {
+  //   width: 100%;
+  //   display: inline;
+  //   height: 0.5rem;
+  //   background-color: var(--primary);
+  //   position: relative;
+  //   // border-top: 1px solid var(--primary);
+  //   animation: borderLoad 5s infinite;
+  // }
+  .links {
+    padding: 1rem 0 0;
+    position: absolute;
+    border-top: 3px solid var(--primary);
+    top: 4rem;
+    left: 0;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    transition: height 300ms ease-in;
+    z-index: 10;
+    background-color: var(--white);
+    overflow: hidden;
+  }
+  .menu-icon {
+    display: block;
+  }
+  .mobile-nav-show {
+    display: flex;
+  }
+}
+// ========== Animations ============
+@keyframes borderLoad {
+  from {
+    left: 0px;
+  }
+  to {
+    right: 1140px;
+  }
+}
