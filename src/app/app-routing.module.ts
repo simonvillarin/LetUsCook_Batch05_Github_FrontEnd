@@ -17,6 +17,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./modules/parent/parent.module').then((m) => m.ParentModule),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./modules/professor/professor.module').then(
+        (m) => m.ProfessorModule
+      ),
+  },
 ];
 
 @NgModule({

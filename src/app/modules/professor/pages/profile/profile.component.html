@@ -1,0 +1,559 @@
+<div class="container">
+  <div class="sidebar">
+    <div class="logo">
+      <mat-icon class="material-icons-outlined">school</mat-icon
+      ><span>SMA University</span>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/professor/home"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">home</mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/grade"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+          <span>Grades</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/schedule"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_available</mat-icon>
+          <span>Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/profile"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+          <span>Profile</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
+    <div class="close-icon" (click)="closeMobileNav()">
+      <mat-icon fontIcon="close"></mat-icon>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/professor/home"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">home</mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/grade"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+          <span>Grades</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/schedule"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_available</mat-icon>
+          <span>Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/profile"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+          <span>Profile</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="main-container">
+    <header>
+      <div class="left-nav">
+        <div class="menu-icon" (click)="openMobileNav()">
+          <mat-icon fontIcon="menu"></mat-icon>
+        </div>
+        <div class="location">
+          <mat-icon class="material-icons-outlined">account_circle</mat-icon
+          >Profile
+        </div>
+      </div>
+      <div class="right-nav">
+        <div class="notif">
+          <div (click)="toggleShowNotifications()">
+            <mat-icon class="material-icons-outlined">notifications</mat-icon>
+          </div>
+          <div
+            class="notification-container"
+            [class.notification-active]="isShowNotifications"
+          >
+            <div class="border"></div>
+            <div class="notifs">
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile">
+          <div class="avatar" (click)="toggleShowDropdown()">
+            <div class="img">
+              <img
+                src="../../../../assets/images/itachi.jpg"
+                alt="Profile Image"
+              />
+            </div>
+          </div>
+          <div class="name">
+            <div class="type">
+              <span>Simon James Villarin</span>
+              <div class="role">Parent</div>
+            </div>
+            <div (click)="toggleShowDropdown()">
+              <mat-icon
+                fontIcon="expand_more"
+                class="arrow-down"
+                [class.arrow-down-active]="isShowDropdown"
+              ></mat-icon>
+            </div>
+          </div>
+
+          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+            <div class="border"></div>
+            <div class="dropdown-links">
+              <div class="dropdown-link">
+                <mat-icon class="material-icons-outlined">person</mat-icon>
+                <span>Profile</span>
+              </div>
+              <div class="dropdown-link">
+                <mat-icon class="material-icons-outlined">logout</mat-icon
+                ><span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="box box-profile">
+        <div class="box-upper">
+          <div class="box-title"><h2>Your Profile</h2></div>
+          <div class="circle">
+            <img src="../../../../../assets/images/itachi.jpg" alt="" />
+          </div>
+          <div class="box-content">
+            <div class="prof-name">
+              <h3>Mark Denver Perez</h3>
+              <mat-icon
+                class="material-icons-outlined"
+                pTooltip="Edit profile picture"
+                tooltipPosition="top"
+                >edit</mat-icon
+              >
+            </div>
+            <h3>987546225</h3>
+          </div>
+        </div>
+        <div class="box-lower">
+          <h2>Educate University</h2>
+        </div>
+      </div>
+      <div class="form-groups">
+        <!-- Form Group for Personal Information -->
+        <form>
+          <div class="form">
+            <div class="form-header">
+              <h2>Personal information</h2>
+              <div class="form-header-action" (click)="onEnablePersonalForm()">
+                <mat-icon
+                  class="material-icons-outlined {{
+                    isFormPersonalActive ? 'show' : 'hide'
+                  }}"
+                  pTooltip="Edit fields"
+                  tooltipPosition="top"
+                  >edit</mat-icon
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>First name</label>
+                <input
+                  pInputText
+                  value="Mark"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter first name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Middle name</label>
+                <input
+                  pInputText
+                  value="Denver"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter middle name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Last name</label>
+                <input
+                  pInputText
+                  value="Perez"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter last name.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Suffix</label>
+                <input
+                  pInputText
+                  value="N/A"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+              </div>
+              <div class="input-group">
+                <label>Gender</label>
+                <input
+                  pInputText
+                  value="Male"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter gender.</small>
+              </div>
+              <div class="input-group">
+                <label>Civil status</label>
+                <input
+                  pInputText
+                  value="Single"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter civil status.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Birthday</label>
+                <input
+                  pInputText
+                  type="date"
+                  value="2013-01-08"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter birthday.</small>
+              </div>
+              <div class="input-group">
+                <label>Birthplace</label>
+                <input
+                  pInputText
+                  value="Tagudin, Ilocos Sur"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter birthplace.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Citizenship</label>
+                <input
+                  pInputText
+                  value="Filipino"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter citizenship.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Religion</label>
+                <input
+                  pInputText
+                  value="Catholic"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter religion.</small>
+              </div>
+              <div class="input-group">
+                <label>Work</label>
+                <input
+                  pInputText
+                  value="English Teacher"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter work.</small>
+              </div>
+              <div class="input-group">
+                <label>Status</label>
+                <input
+                  pInputText
+                  value="Part-Time"
+                  [disabled]="isFormPersonalActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter status.</small>
+              </div>
+            </div>
+          </div>
+          <div class="{{ isFormPersonalActive ? 'hide' : 'show' }}">
+            <button type="submit" (click)="onEnablePersonalForm()">Save</button>
+          </div>
+        </form>
+        <!-- Form Group for Address Information -->
+        <form>
+          <div class="form">
+            <div class="form-header">
+              <h2>Address information</h2>
+              <div class="form-header-action" (click)="onEnableAddressForm()">
+                <mat-icon
+                  class="material-icons-outlined {{
+                    isFormAddressActive ? 'show' : 'hide'
+                  }}"
+                  pTooltip="Edit fields"
+                  tooltipPosition="top"
+                  >edit</mat-icon
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Unit</label>
+                <input pInputText value="A" [disabled]="isFormAddressActive" />
+                <small [style]="{ color: 'var(--red)' }">Enter unit.</small>
+              </div>
+              <div class="input-group">
+                <label>Street</label>
+                <input
+                  pInputText
+                  value="Gold"
+                  [disabled]="isFormAddressActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter street.</small>
+              </div>
+              <div class="input-group">
+                <label>Subdivision</label>
+                <input
+                  pInputText
+                  value="William Golden Village"
+                  [disabled]="isFormAddressActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter subdivision.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Barangay</label>
+                <input
+                  pInputText
+                  value="Sto. Cristo"
+                  [disabled]="isFormAddressActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter barangay.</small>
+              </div>
+              <div class="input-group">
+                <label>City</label>
+                <input
+                  pInputText
+                  value="Malolos"
+                  [disabled]="isFormAddressActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter city.</small>
+              </div>
+              <div class="input-group">
+                <label>Province</label>
+                <input
+                  pInputText
+                  value="Bulacan"
+                  [disabled]="isFormAddressActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter province.</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Zipcode</label>
+                <input
+                  pInputText
+                  value="3000"
+                  [disabled]="isFormAddressActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter zipcode.</small>
+              </div>
+            </div>
+          </div>
+          <div class="{{ isFormAddressActive ? 'hide' : 'show' }}">
+            <button type="submit" (click)="onEnableAddressForm()">Save</button>
+          </div>
+        </form>
+        <!-- Form Group for Contact Information -->
+        <form>
+          <div class="form">
+            <div class="form-header">
+              <h2>Contact information</h2>
+              <div class="form-header-action" (click)="onEnableContactForm()">
+                <mat-icon
+                  class="material-icons-outlined {{
+                    isFormContactActive ? 'show' : 'hide'
+                  }}"
+                  pTooltip="Edit fields"
+                  tooltipPosition="top"
+                  >edit</mat-icon
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Telephone</label>
+                <input
+                  pInputText
+                  value="7895544"
+                  [disabled]="isFormContactActive"
+                />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter telephone.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Mobile</label>
+                <input
+                  pInputText
+                  value="09354458787"
+                  [disabled]="isFormContactActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
+              </div>
+              <div class="input-group">
+                <label>Email</label>
+                <input
+                  pInputText
+                  value="mark@email.com"
+                  [disabled]="isFormContactActive"
+                />
+                <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+              </div>
+            </div>
+          </div>
+          <div class="{{ isFormContactActive ? 'hide' : 'show' }}">
+            <button type="submit" (click)="onEnableContactForm()">Save</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
