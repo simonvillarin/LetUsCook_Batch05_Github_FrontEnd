@@ -10,6 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [],
@@ -26,6 +29,9 @@ import { MessagesModule } from 'primeng/messages';
     FileUploadModule,
     ToastModule,
     MessagesModule,
+    TableModule,
+    DropdownModule,
+    TooltipModule,
   ],
   exports: [
     MatIconModule,
@@ -37,6 +43,9 @@ import { MessagesModule } from 'primeng/messages';
     MatDialogModule,
     FileUploadModule,
     ToastModule,
+    TableModule,
+    DropdownModule,
+    TooltipModule,
   ],
 })
 export class SharedModule {}

@@ -1,1 +1,286 @@
-<p>grades works!</p>
+<div class="container">
+  <div class="sidebar">
+    <div class="logo">
+      <mat-icon class="material-icons-outlined">school</mat-icon
+      ><span>SMA University</span>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/parent/home"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">home</mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/parent/grades"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+          <span>Grades</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/parent/attendance"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_available</mat-icon>
+          <span>Attendance</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
+    <div class="close-icon" (click)="closeMobileNav()">
+      <mat-icon fontIcon="close"></mat-icon>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/parent/home"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">home</mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/parent/grades"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+          <span>Grades</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/parent/attendance"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_available</mat-icon>
+          <span>Attendance</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="main-container">
+    <header>
+      <div class="left-nav">
+        <div class="menu-icon" (click)="openMobileNav()">
+          <mat-icon fontIcon="menu"></mat-icon>
+        </div>
+        <div class="location">
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>Grades
+        </div>
+      </div>
+      <div class="right-nav">
+        <div class="notif">
+          <div (click)="toggleShowNotifications()">
+            <mat-icon class="material-icons-outlined">notifications</mat-icon>
+          </div>
+          <div
+            class="notification-container"
+            [class.notification-active]="isShowNotifications"
+          >
+            <div class="border"></div>
+            <div class="notifs">
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile">
+          <div class="avatar" (click)="toggleShowDropdown()">
+            <div class="img">
+              <img
+                src="../../../../assets/images/itachi.jpg"
+                alt="Profile Image"
+              />
+            </div>
+          </div>
+          <div class="name">
+            <div class="type">
+              <span>Simon James Villarin</span>
+              <div class="role">Parent</div>
+            </div>
+            <div (click)="toggleShowDropdown()">
+              <mat-icon
+                fontIcon="expand_more"
+                class="arrow-down"
+                [class.arrow-down-active]="isShowDropdown"
+              ></mat-icon>
+            </div>
+          </div>
+
+          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+            <div class="border"></div>
+            <div class="dropdown-links">
+              <div class="dropdown-link">
+                <mat-icon class="material-icons-outlined">person</mat-icon>
+                <span>Profile</span>
+              </div>
+              <div class="dropdown-link">
+                <mat-icon class="material-icons-outlined">logout</mat-icon
+                ><span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="box">
+        <div class="header">
+          <div class="title">
+            <div class="subject">Grades of student</div>
+            <div class="header-action">
+              <form [formGroup]="termSelected">
+                <p-dropdown
+                  (ngModelChange)="onTermChange($event)"
+                  formControlName="term"
+                  [options]="terms"
+                  optionLabel="name"
+                  [style]="{ width: '11rem' }"
+                ></p-dropdown>
+                <p-dropdown
+                  (ngModelChange)="onPeriodChange($event)"
+                  formControlName="period"
+                  [options]="period"
+                  optionLabel="name"
+                  [style]="{ width: '11rem' }"
+                ></p-dropdown>
+              </form>
+            </div>
+          </div>
+          <!-- change information according to what the user selected in the dropdown -->
+          <div class="subtitle">
+            S.Y. 2023-2024 {{ termsSelected }}: {{ periodSelected }}
+          </div>
+        </div>
+        <div class="content">
+          <div class="table">
+            <p-table
+              [value]="grades"
+              [paginator]="true"
+              [rows]="5"
+              [showCurrentPageReport]="true"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10, 25, 50]"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 25%">Subject</th>
+                  <th style="width: 25%">Grade</th>
+                  <th style="width: 25%">Remarks</th>
+                  <th style="width: 25%">Upload Date</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-grade>
+                <tr>
+                  <td>{{ grade.subject }}</td>
+                  <td>{{ grade.grade }}</td>
+                  <td>{{ grade.remarks }}</td>
+                  <td>{{ grade.uploadDate }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
