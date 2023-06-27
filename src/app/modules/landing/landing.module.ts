@@ -6,9 +6,15 @@ import { LandingRoutingModule } from './landing-routing.module';
 import { HeaderComponent } from './components/header/header.component';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { ApplyComponent } from './pages/apply/apply.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [LandingComponent, HeaderComponent, LoginDialogComponent, ApplyComponent],
-  imports: [LandingRoutingModule, CommonModule, SharedModule],
+  declarations: [
+    LandingComponent,
+    HeaderComponent,
+    LoginDialogComponent,
+    ApplyComponent,
+  ],
+  imports: [LandingRoutingModule, CommonModule, SharedModule, MatDialogModule],
 })
 export class LandingModule {}

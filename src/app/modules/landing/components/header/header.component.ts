@@ -12,15 +12,12 @@ export class HeaderComponent {
   constructor(private loginDialog: MatDialog) {}
 
   isMobileNavOpen = () => {
-    console.log('clicked');
-
     this.showMobileNav = !this.showMobileNav;
   };
 
   showLoginDialog = () => {
     this.loginDialog.open(LoginDialogComponent, {
-      width: '480px',
-      height: '480px',
+      width: '500px',
     });
   };
 }

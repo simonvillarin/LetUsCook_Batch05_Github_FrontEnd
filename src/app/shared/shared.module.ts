@@ -9,6 +9,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -23,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
     HttpClientModule,
     FileUploadModule,
     ToastModule,
+    MessagesModule,
   ],
   exports: [
     MatIconModule,

@@ -1,23 +1,26 @@
-<div class="container">
-  <div class="menu-icon" (click)="isMobileNavOpen()">
-    <mat-icon fontIcon="menu" *ngIf="!showMobileNav"></mat-icon>
-    <mat-icon fontIcon="close" *ngIf="showMobileNav"></mat-icon>
-  </div>
-  <div class="logo">
-    <mat-icon class="material-icons-outlined">school</mat-icon>
-    SMA University
-  </div>
+<header>
+  <div class="container">
+    <div class="menu-icon" (click)="isMobileNavOpen()">
+      <mat-icon fontIcon="menu" *ngIf="!showMobileNav"></mat-icon>
+      <mat-icon fontIcon="close" *ngIf="showMobileNav"></mat-icon>
+    </div>
+    <div class="logo">
+      <mat-icon class="material-icons-outlined">school</mat-icon>
+      <div>Edu<span>cate</span></div>
+    </div>
 
-  <div class="links" [class.mobile-nav-show]="showMobileNav">
-    <div class="line"></div>
-    <div class="link">Home</div>
-    <div class="link">About SMA</div>
-    <div class="link">Life at SMA</div>
-    <div class="link">Courses</div>
-    <div class="link">Contact Us</div>
+    <div class="links" [class.links-active]="showMobileNav">
+      <div class="line"></div>
+      <div class="link">Home</div>
+      <div class="link">About Educate</div>
+      <div class="link">Courses</div>
+      <div class="link">Contact Us</div>
+      <div class="link">Life at Educate</div>
+      <button id="apply-mobile" *ngIf="showMobileNav">Apply now</button>
+    </div>
+    <div class="nav-actions">
+      <button id="apply">Apply now</button>
+      <div id="login" (click)="showLoginDialog()">Login</div>
+    </div>
   </div>
-  <div class="nav-actions">
-    <button id="apply">Apply now</button>
-    <button id="login" (click)="showLoginDialog()">Login</button>
-  </div>
-</div>
+</header>

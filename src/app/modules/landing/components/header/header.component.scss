@@ -1,15 +1,25 @@
 @import "../../../../../variables.scss";
 
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  color: var(--white);
+  background-color: var(--primary);
+}
+
 .container {
+  position: relative;
   width: 100%;
   max-width: 1140px;
+  height: 4rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0 1.5rem;
 }
+
 .menu-icon {
   display: none;
 }
@@ -19,90 +29,137 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 700;
-}
-.links {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 2rem;
-}
-.link:hover {
+  letter-spacing: 1px;
   cursor: pointer;
 }
+
+mat-icon {
+  color: var(--white);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.link {
+  position: relative;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.link::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: 49%;
+  width: 0;
+  height: 3px;
+  background-color: var(--white);
+  transition: width 300ms ease-in;
+  border-radius: 0.25rem;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 49%;
+  width: 0;
+  height: 3px;
+  background-color: var(--white);
+  transition: width 300ms ease-in;
+  border-radius: 0.25rem;
+}
+
+.link:hover::before,
+.link:hover::after {
+  width: 51%;
+}
+
 .nav-actions {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .line {
   display: none;
 }
+
 #apply {
   border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  background-color: var(--primary);
-  color: white;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--white);
+  cursor: pointer;
 }
+
 #apply:hover {
-  cursor: pointer;
+  color: var(--primary);
 }
+
 #login {
-  border: none;
-  background-color: white;
-  font-size: 1rem;
-  font-weight: 700;
-}
-#login:hover {
+  font-size: 0.875rem;
   cursor: pointer;
 }
+
+#login:hover {
+  text-decoration: underline;
+}
+
 /* ========== MEDIA QUERIES ========== */
 @media screen and (max-width: 860px) {
-  .container {
-    display: flex;
-    align-items: center;
-    padding: 1rem 2rem 0;
-  }
-  // .line {
-  //   width: 100%;
-  //   display: inline;
-  //   height: 0.5rem;
-  //   background-color: var(--primary);
-  //   position: relative;
-  //   // border-top: 1px solid var(--primary);
-  //   animation: borderLoad 5s infinite;
-  // }
   .links {
-    padding: 1rem 0 0;
     position: absolute;
-    border-top: 3px solid var(--primary);
     top: 4rem;
     left: 0;
     width: 100%;
+    height: 100vh;
     display: none;
     flex-direction: column;
-    align-items: center;
-    transition: height 300ms ease-in;
-    z-index: 10;
+    gap: 1rem;
+    padding: 1rem;
+    color: var(--primary);
     background-color: var(--white);
-    overflow: hidden;
+    transform: translateX(-120%);
+    transition: transform 300ms ease-in;
   }
+
+  .link::before,
+  .link::after {
+    background-color: var(--primary);
+  }
+
+  .links-active {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  .link {
+    padding: 0.25rem 1rem;
+  }
+
+  #apply {
+    display: none;
+  }
+
+  #apply-mobile {
+    width: 100%;
+    padding: 0.875rem;
+    color: var(--white);
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  #apply-mobile:hover {
+    background-color: var(--darker-primary);
+  }
+
   .menu-icon {
     display: block;
-  }
-  .mobile-nav-show {
-    display: flex;
-  }
-}
-// ========== Animations ============
-@keyframes borderLoad {
-  from {
-    left: 0px;
-  }
-  to {
-    right: 1140px;
   }
 }
