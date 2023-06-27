@@ -9,6 +9,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [],
   imports: [
@@ -23,6 +25,8 @@ import { ToastModule } from 'primeng/toast';
     HttpClientModule,
     FileUploadModule,
     ToastModule,
+    TableModule,
+    DropdownModule,
   ],
   exports: [
     MatIconModule,
@@ -34,6 +38,8 @@ import { ToastModule } from 'primeng/toast';
     MatDialogModule,
     FileUploadModule,
     ToastModule,
+    TableModule,
+    DropdownModule,
   ],
 })
 export class SharedModule {}
