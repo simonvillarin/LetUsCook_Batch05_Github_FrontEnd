@@ -14,6 +14,7 @@ import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     FullCalendarModule,
     CardModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
 })
 export class StudentModule {}
