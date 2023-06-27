@@ -63,6 +63,7 @@ export class AttendanceComponent {
   closeMobileNav = () => {
     this.isShowMobileNav = false;
   };
+
   onTermChange = (term: any) => {
     this.termsSelected = term.name;
   };

@@ -11,6 +11,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
   declarations: [],
   imports: [
@@ -27,6 +28,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ToastModule,
     TableModule,
     DropdownModule,
+    TooltipModule,
   ],
   exports: [
     MatIconModule,
@@ -40,6 +42,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ToastModule,
     TableModule,
     DropdownModule,
+    TooltipModule,
   ],
 })
 export class SharedModule {}
