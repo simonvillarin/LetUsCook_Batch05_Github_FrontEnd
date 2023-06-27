@@ -1,1 +1,287 @@
-<p>home works!</p>
+<div class="container">
+  <div class="sidebar">
+    <div class="logo">
+      <mat-icon class="material-icons-outlined">school</mat-icon
+      ><span>SMA University</span>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/student/home"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">home</mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/student/schedule"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_available</mat-icon>
+          <span>Class Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/student/course"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+          <span>Course</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/student/curriculum"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_note</mat-icon>
+          <span>Curriculum</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
+    <div class="close-icon" (click)="closeMobileNav()">
+      <mat-icon fontIcon="close"></mat-icon>
+    </div>
+    <nav>
+      <div class="links">
+        <div
+          class="link"
+          routerLink="/student/home"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">home</mat-icon>
+          <span>Home</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/student/schedule"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_available</mat-icon>
+          <span>Class Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/student/course"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+          <span>Course</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/student/curriculum"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">event_note</mat-icon>
+          <span>Curriculum</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="main-container">
+    <header>
+      <div class="left-nav">
+        <div class="menu-icon" (click)="openMobileNav()">
+          <mat-icon fontIcon="menu"></mat-icon>
+        </div>
+        <div class="location">
+          <mat-icon class="material-icons-outlined">home</mat-icon>Home
+        </div>
+      </div>
+      <div class="right-nav">
+        <div class="notif">
+          <div (click)="toggleShowNotifications()">
+            <mat-icon class="material-icons-outlined">notifications</mat-icon>
+          </div>
+          <div
+            class="notification-container"
+            [class.notification-active]="isShowNotifications"
+          >
+            <div class="border"></div>
+            <div class="notifs">
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+              <div class="notification">
+                <mat-icon class="material-icons-outlined"
+                  >notifications</mat-icon
+                >
+                <div class="message">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Maiores odio autem libero consequuntur enim culpa temporibus
+                  voluptatibus, dicta nesciunt consequatur.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile">
+          <div class="avatar" (click)="toggleShowDropdown()">
+            <div class="img">
+              <img
+                src="../../../../assets/images/itachi.jpg"
+                alt="Profile Image"
+              />
+            </div>
+          </div>
+          <div class="name">
+            <div class="type">
+              <span>Simon James Villarin</span>
+              <div class="role">Student</div>
+            </div>
+            <div (click)="toggleShowDropdown()">
+              <mat-icon
+                fontIcon="expand_more"
+                class="arrow-down"
+                [class.arrow-down-active]="isShowDropdown"
+              ></mat-icon>
+            </div>
+          </div>
+
+          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+            <div class="border"></div>
+            <div class="dropdown-links">
+              <div class="dropdown-link">
+                <mat-icon class="material-icons-outlined">person</mat-icon>
+                <span>Profile</span>
+              </div>
+              <div class="dropdown-link">
+                <mat-icon class="material-icons-outlined">logout</mat-icon
+                ><span>Logout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CODE HERE -->
+    <main>
+      <div class="home-container">
+        <div class="title-container">
+          WELCOME TO EDUCATE LEARNING MANAGEMENT SYSTEM
+        </div>
+
+        <img src="../../../../../assets/images/students.jpg" class="image" />
+
+        <div class="title-container">
+          ABOUT EDUCATE LEARNING MANAGEMENT SYSTEM
+        </div>
+        <div class="about-container">
+          Educate Learning Management System (LMS) is a comprehensive and
+          innovative platform designed to revolutionize the way educational
+          institutions manage and deliver their courses. With a focus on
+          enhancing the learning experience for both educators and students,
+          Educate LMS offers a wide range of features and tools that streamline
+          administrative tasks, facilitate engaging and interactive learning,
+          and empower educators with valuable insights into student progress.
+        </div>
+        <div class="about-container">
+          At its core, Educate LMS provides a user-friendly interface that
+          enables educators to effortlessly create and organize courses, upload
+          learning materials, and design interactive assessments. The platform
+          offers flexibility in content delivery, supporting various formats
+          such as videos, presentations, documents, and quizzes, fostering a
+          dynamic and enriched learning environment.
+        </div>
+        <div class="about-container">
+          For students, Educate LMS offers a personalized learning experience,
+          allowing them to access course materials at their own pace and
+          convenience. With integrated collaboration tools, students can engage
+          in discussions, submit assignments, and receive feedback from their
+          instructors, promoting active participation and knowledge retention.
+        </div>
+        <div class="about-container">
+          Educators benefit from a range of administrative features offered by
+          Educate LMS, such as gradebook management, attendance tracking, and
+          progress monitoring. These features provide valuable insights into
+          student performance, enabling instructors to identify areas for
+          improvement and tailor their teaching strategies accordingly.
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

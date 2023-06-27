@@ -4,18 +4,36 @@ import { HomeComponent } from './pages/home/home.component';
 import { CourseComponent } from './pages/course/course.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { CurriculumComponent } from './pages/curriculum/curriculum.component';
-
-
+import { StudentRoutingModule } from './student-routing.module';
+import { MatIconModule } from '@angular/material/icon';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { ChartModule } from 'primeng/chart';
+import { CardModule } from 'primeng/card';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CourseComponent,
     ScheduleComponent,
-    CurriculumComponent
+    CurriculumComponent,
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    StudentRoutingModule,
+    MatIconModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    ChartModule,
+    FullCalendarModule,
+    CardModule,
+    ReactiveFormsModule,
+  ],
 })
-export class StudentModule { }
+export class StudentModule {}
