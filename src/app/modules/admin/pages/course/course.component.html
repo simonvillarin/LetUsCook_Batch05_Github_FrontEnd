@@ -346,7 +346,7 @@
               >
             </div>
             <div class="input-group">
-              <label>Year Level</label>
+              <label>Type</label>
               <p-dropdown
                 [options]="types"
                 optionLabel="name"
@@ -357,7 +357,7 @@
               >
             </div>
           </div>
-          <div class="form-group" *ngIf="isUpdating">
+          <div class="form-group">
             <div class="input-group">
               <label>Activate</label>
               <p-dropdown
@@ -386,7 +386,7 @@
           </span>
         </div>
         <p-table
-          [value]="customers"
+          [value]="subjects"
           [paginator]="true"
           [rows]="5"
           [showCurrentPageReport]="true"
@@ -396,18 +396,22 @@
         >
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 25%">Name</th>
-              <th style="width: 25%">Country</th>
-              <th style="width: 25%">Company</th>
-              <th style="width: 25%">Representative</th>
+              <th style="width: 16%">Program</th>
+              <th style="width: 16%">Subject Code</th>
+              <th style="width: 16%">Subject Title</th>
+              <th style="width: 16%">Units</th>
+              <th style="width: 16%">Type</th>
+              <th style="width: 16%">Pre-Requisites</th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-customer>
+          <ng-template pTemplate="body" let-subject>
             <tr>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.country.name }}</td>
-              <td>{{ customer.company }}</td>
-              <td>{{ customer.representative.name }}</td>
+              <td>{{ subject.program }}</td>
+              <td>{{ subject.subjectCode }}</td>
+              <td>{{ subject.subjectTitle }}</td>
+              <td>{{ subject.units }}</td>
+              <td>{{ subject.type }}</td>
+              <td>{{ subject.preReqs }}</td>
             </tr>
           </ng-template>
         </p-table>
