@@ -304,8 +304,142 @@ img {
 
 /* ========== MAIN ========== */
 main {
-  height: calc(100vh - 4rem);
+  min-height: calc(100vh - 4rem);
   background-color: var(--light-grayish-blue);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+.form-groups {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+.form,
+.table {
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--white);
+  height: max-content;
+}
+
+tr th {
+  font-weight: 400;
+  text-align: center;
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+tr td {
+  text-align: center;
+}
+
+h2 {
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.75rem;
+}
+.form-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+label {
+  font-size: 0.875rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+button {
+  width: 9rem;
+  margin-top: 0.5rem;
+  padding: 0.875rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary);
+  border-radius: 0.25rem;
+}
+
+#clear {
+  background-color: var(--red);
+}
+
+button:hover,
+button:focus {
+  background-color: var(--darker-primary);
+}
+
+.table-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pi-search {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+/* ========== MEDIA QUERIES ========== */
+@media screen and (max-width: 768px) {
+  .name {
+    display: none;
+  }
+
+  .notification-container {
+    left: -820%;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .location {
+    font-size: 1.35rem;
+  }
+
+  .link {
+    padding: 0.75rem 2rem;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .form-group {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 /* ========== MEDIA QUERIES ========== */

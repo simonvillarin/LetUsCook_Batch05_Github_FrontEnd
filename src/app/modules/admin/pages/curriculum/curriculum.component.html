@@ -316,9 +316,7 @@
                 optionLabel="name"
                 [style]="{ width: '100%' }"
               ></p-dropdown>
-              <small [style]="{ color: 'var(--red)' }"
-                >Enter your username to reset your password.</small
-              >
+              <small [style]="{ color: 'var(--red)' }">Choose Term.</small>
             </div>
             <div class="input-group">
               <label>Year Level</label>
@@ -328,7 +326,7 @@
                 [style]="{ width: '100%' }"
               ></p-dropdown>
               <small [style]="{ color: 'var(--red)' }"
-                >Enter your username to reset your password.</small
+                >Choose Year Level.</small
               >
             </div>
           </div>
@@ -336,16 +334,12 @@
             <div class="input-group">
               <label>Program</label>
               <input pInputText />
-              <small [style]="{ color: 'var(--red)' }"
-                >Enter your username to reset your password.</small
-              >
+              <small [style]="{ color: 'var(--red)' }">Enter Program.</small>
             </div>
             <div class="input-group">
               <label>Subject</label>
               <input pInputText />
-              <small [style]="{ color: 'var(--red)' }"
-                >Enter your username to reset your password.</small
-              >
+              <small [style]="{ color: 'var(--red)' }">Enter Subject.</small>
             </div>
           </div>
           <div class="button-group">
@@ -367,7 +361,7 @@
           </span>
         </div>
         <p-table
-          [value]="customers"
+          [value]="curriculums"
           [paginator]="true"
           [rows]="5"
           [showCurrentPageReport]="true"
@@ -377,18 +371,18 @@
         >
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 25%">Name</th>
-              <th style="width: 25%">Country</th>
-              <th style="width: 25%">Company</th>
-              <th style="width: 25%">Representative</th>
+              <th style="width: 25%">Term</th>
+              <th style="width: 25%">Year Level</th>
+              <th style="width: 25%">Program</th>
+              <th style="width: 25%">Subject</th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-customer>
+          <ng-template pTemplate="body" let-curriculum>
             <tr>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.country.name }}</td>
-              <td>{{ customer.company }}</td>
-              <td>{{ customer.representative.name }}</td>
+              <td>{{ curriculum.term }}</td>
+              <td>{{ curriculum.yearLevel }}</td>
+              <td>{{ curriculum.program }}</td>
+              <td>{{ curriculum.subject }}</td>
             </tr>
           </ng-template>
         </p-table>

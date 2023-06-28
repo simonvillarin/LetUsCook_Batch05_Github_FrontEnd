@@ -304,13 +304,21 @@ img {
 
 /* ========== MAIN ========== */
 main {
-  height: calc(100vh - 4rem);
+  min-height: calc(100vh - 4rem);
   background-color: var(--light-grayish-blue);
+  padding: 2rem;
+}
+
+.calendar-container {
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--white);
+  height: max-content;
 }
 
 full-calendar {
-  width: 91.6rem;
-  height: 51rem;
+  width: 84rem;
+  height: 44rem;
 }
 
 /* ========== MEDIA QUERIES ========== */
