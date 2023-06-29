@@ -316,14 +316,45 @@ main {
   gap: 0.5rem;
 }
 
-.box {
+.box-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-title p {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.box-content {
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.25rem;
   background-color: var(--white);
   height: max-content;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem;
+  padding-left: 2rem;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+}
 /* ========== MEDIA QUERIES ========== */
 @media screen and (max-width: 768px) {
   .name {

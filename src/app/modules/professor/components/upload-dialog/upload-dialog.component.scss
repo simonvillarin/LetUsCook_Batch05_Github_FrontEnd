@@ -1,0 +1,84 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  gap: 1rem;
+  color: var(--darker-primary);
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.card-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.card-info {
+  padding-left: 3rem;
+}
+
+.warning {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.warning mat-icon {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+.card-action {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.card-action button {
+  width: 7rem;
+  text-align: center;
+}
+
+.save {
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.save:hover {
+  cursor: pointer;
+  background-color: var(--darker-primary);
+}
+
+.cancel {
+  background-color: none;
+  color: var(--very-dark-saturated-blue);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.cancel:hover {
+  cursor: pointer;
+  border-bottom: 3px solid var(--darker-primary);
+}

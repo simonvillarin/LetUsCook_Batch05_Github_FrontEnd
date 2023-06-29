@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { GradeComponent } from './pages/grade/grade.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { StudentEvaluationComponent } from './pages/student-evaluation/student-evaluation.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'professor/profile',
     component: ProfileComponent,
+  },
+  {
+    path: 'professor/evaluation',
+    component: StudentEvaluationComponent,
   },
 ];
 

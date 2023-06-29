@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectItemGroup } from 'primeng/api';
-import { EditDialogComponent } from '../../components/edit-dialog/edit-dialog.component';
-import { UploadDialogComponent } from '../../components/upload-dialog/upload-dialog.component';
-
+import { EvaluationDialogComponent } from '../../components/evaluation-dialog/evaluation-dialog.component';
+import { EvaluationFormDialogComponent } from '../../components/evaluation-form-dialog/evaluation-form-dialog.component';
 @Component({
-  selector: 'app-grade',
-  templateUrl: './grade.component.html',
-  styleUrls: ['./grade.component.scss'],
+  selector: 'app-student-evaluation',
+  templateUrl: './student-evaluation.component.html',
+  styleUrls: ['./student-evaluation.component.scss'],
 })
-export class GradeComponent {
+export class StudentEvaluationComponent {
   students = [
     {
       name: 'Mark Denver Perez',
@@ -42,8 +41,7 @@ export class GradeComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
-
-  constructor(private editDialog: MatDialog, private uploadDialog: MatDialog) {
+  constructor(private evaluationFormDialog: MatDialog) {
     // Populate this with Programs where the professor teach
     this.groupedSections = [
       {
@@ -76,7 +74,6 @@ export class GradeComponent {
       },
     ];
   }
-
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
     this.isShowMobileNav = false;
@@ -96,23 +93,14 @@ export class GradeComponent {
   closeMobileNav = () => {
     this.isShowMobileNav = false;
   };
-
   onProgChange = (): void => {
     console.log(this.selectedSection);
     console.log(this.selectedSubject);
   };
-
-  onClickEdit = () => {
-    this.editDialog.open(EditDialogComponent, {
-      width: '500px',
-      height: '550px',
-    });
-  };
-
-  onClickUpload = () => {
-    this.uploadDialog.open(UploadDialogComponent, {
-      width: '450px',
-      height: '300px',
+  onClickEvaluate = () => {
+    this.evaluationFormDialog.open(EvaluationFormDialogComponent, {
+      width: '550px',
+      height: '420px',
     });
   };
 }

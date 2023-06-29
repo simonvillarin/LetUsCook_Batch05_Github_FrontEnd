@@ -107,7 +107,7 @@
           <mat-icon fontIcon="menu"></mat-icon>
         </div>
         <div class="location">
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>Grades
+          <mat-icon class="material-icons-outlined">home</mat-icon>Home
         </div>
       </div>
       <div class="right-nav">
@@ -257,7 +257,7 @@
       <div class="box">
         <div class="header">
           <div class="title">
-            <div class="subject">Students</div>
+            <div class="subject">Student's Evaluation</div>
             <div class="header-action">
               <p-dropdown
                 [options]="groupedSections"
@@ -308,21 +308,7 @@
                 <td>{{ student.remarks }}</td>
                 <td>
                   <div class="table-actions">
-                    <button (click)="onClickEdit()">
-                      <mat-icon
-                        class="material-icons-outlined"
-                        pTooltip="Edit grades and remarks"
-                        >edit</mat-icon
-                      >
-                    </button>
-                    <button (click)="onClickUpload()">
-                      <mat-icon
-                        class="material-icons-outlined"
-                        pTooltip="Upload to school portal"
-                        tooltipPosition="top"
-                        >upload</mat-icon
-                      >
-                    </button>
+                    <button (click)="onClickEvaluate()">Add Evaluation</button>
                   </div>
                 </td>
               </tr>
