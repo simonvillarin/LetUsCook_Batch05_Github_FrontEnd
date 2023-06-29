@@ -6,29 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent {
-  customers = [
+  subjects = [
     {
       id: 1000,
-      name: 'James Butt',
-      country: {
-        name: 'Algeria',
-        code: 'dz',
-      },
-      company: 'Benton, John B Jr',
-      date: '2015-09-13',
-      status: 'unqualified',
-      verified: true,
-      activity: 17,
-      representative: {
-        name: 'Ioni Bowcher',
-        image: 'ionibowcher.png',
-      },
-      balance: 70663,
+      program: 'BSIT',
+      subjectCode: 'IT 101',
+      subjectTitle: 'Advanced Programming',
+      units: '3.0',
+      type: 'Major',
+      preReqs: ['Basic Programming', 'Intro to Programming'],
     },
   ];
   types = [{ name: 'Major' }, { name: 'Minor' }, { name: 'Elective' }];
   activeDeactive = [{ name: 'Activate' }, { name: 'Deactivate' }];
-  isUpdating = false;
 
   isShowDropdown = false;
   isShowMobileNav = false;

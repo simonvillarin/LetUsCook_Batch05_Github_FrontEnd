@@ -313,14 +313,14 @@
               <label>Program Code</label>
               <input pInputText />
               <small [style]="{ color: 'var(--red)' }"
-                >Enter your username to reset your password.</small
+                >Enter Program Code.</small
               >
             </div>
             <div class="input-group">
               <label>Program Title</label>
               <input pInputText />
               <small [style]="{ color: 'var(--red)' }"
-                >Enter your username to reset your password.</small
+                >Enter Program Title.</small
               >
             </div>
           </div>
@@ -346,7 +346,7 @@
           </span>
         </div>
         <p-table
-          [value]="customers"
+          [value]="programs"
           [paginator]="true"
           [rows]="5"
           [showCurrentPageReport]="true"
@@ -356,18 +356,14 @@
         >
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 25%">Name</th>
-              <th style="width: 25%">Country</th>
-              <th style="width: 25%">Company</th>
-              <th style="width: 25%">Representative</th>
+              <th style="width: 25%">Program Code</th>
+              <th style="width: 25%">Program Title</th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-customer>
+          <ng-template pTemplate="body" let-program>
             <tr>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.country.name }}</td>
-              <td>{{ customer.company }}</td>
-              <td>{{ customer.representative.name }}</td>
+              <td>{{ program.progCode }}</td>
+              <td>{{ program.progTitle }}</td>
             </tr>
           </ng-template>
         </p-table>

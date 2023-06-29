@@ -304,6 +304,119 @@
     </header>
 
     <!-- CODE HERE -->
-    <main></main>
+    <main>
+      <div class="form">
+        <h2>Add Schedule</h2>
+        <form>
+          <div class="form-group">
+            <div class="input-group">
+              <label>Professor</label>
+              <p-dropdown
+                [options]="professors"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }">Choose Professor.</small>
+            </div>
+            <div class="input-group">
+              <label>Subject</label>
+              <p-dropdown
+                [options]="subjects"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }">Choose Subject.</small>
+            </div>
+            <div class="input-group">
+              <label>Day</label>
+              <p-dropdown
+                [options]="days"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+              <small [style]="{ color: 'var(--red)' }">Choose Day.</small>
+            </div>
+            <div class="input-group">
+              <label>Start Time</label>
+              <p-dropdown
+                [options]="startTime"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>End Time</label>
+              <p-dropdown
+                [options]="endTime"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>Section</label>
+              <p-dropdown
+                [options]="sections"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </div>
+            <div class="input-group">
+              <label>Room</label>
+              <p-dropdown
+                [options]="rooms"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="submit">Add</button>
+          </div>
+        </form>
+      </div>
+      <div class="table">
+        <div class="table-header">
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+            />
+          </span>
+        </div>
+        <p-table
+          [value]="professorList"
+          [paginator]="true"
+          [rows]="5"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 25, 50]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 16%">Professor</th>
+              <th style="width: 16%">Subject</th>
+              <th style="width: 16%">Day</th>
+              <th style="width: 16%">Time</th>
+              <th style="width: 16%">Section</th>
+              <th style="width: 16%">Room</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-professor>
+            <tr>
+              <td>{{ professor.name }}</td>
+              <td>{{ professor.subject }}</td>
+              <td>{{ professor.day }}</td>
+              <td>{{ professor.time }}</td>
+              <td>{{ professor.section }}</td>
+              <td>{{ professor.room }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </main>
   </div>
 </div>

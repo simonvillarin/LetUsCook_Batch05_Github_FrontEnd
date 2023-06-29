@@ -303,6 +303,421 @@
     </header>
 
     <!-- CODE HERE -->
-    <main></main>
+    <main>
+      <h2>Add Student</h2>
+      <form>
+        <div class="form-groups">
+          <div class="form">
+            <h2>Personal information</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>First name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter first name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Middle name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter middle name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Last name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter last name.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Suffix</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+              </div>
+              <div class="input-group">
+                <label>Gender</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter gender.</small>
+              </div>
+              <div class="input-group">
+                <label>Civil status</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter civil status.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Birthday</label>
+                <input pInputText type="date" />
+                <small [style]="{ color: 'var(--red)' }">Enter birthday.</small>
+              </div>
+              <div class="input-group">
+                <label>Birthplace</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter birthplace.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Citizenship</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter citizenship.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Religion</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter religion.</small>
+              </div>
+              <div class="input-group">
+                <label>Status</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter status.</small>
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Address information</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Unit</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter unit.</small>
+              </div>
+              <div class="input-group">
+                <label>Street</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter street.</small>
+              </div>
+              <div class="input-group">
+                <label>Subdivision</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter subdivision.</small
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Barangay</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter barangay.</small>
+              </div>
+              <div class="input-group">
+                <label>City</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter city.</small>
+              </div>
+              <div class="input-group">
+                <label>Province</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter province.</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Zipcode</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter zipcode.</small>
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Contact Information</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>Telephone</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter telephone.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Mobile</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
+              </div>
+              <div class="input-group">
+                <label>Email</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Current or Last School Attended</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>School Name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter school name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Program</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter program.</small>
+              </div>
+              <div class="input-group">
+                <label>Level</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter level.</small>
+              </div>
+              <div class="input-group">
+                <label>Term</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter term.</small>
+              </div>
+              <div class="input-group">
+                <label>School Year</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter school year.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Date of Graduation</label>
+                <input pInputText type="date" />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter date of graduation.</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Father information</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>First name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter first name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Middle name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter middle name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Last name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter last name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Suffix</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+              </div>
+              <div class="input-group">
+                <label>Telephone</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter telephone.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Mobile</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
+              </div>
+              <div class="input-group">
+                <label>Email</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+              </div>
+              <div class="input-group">
+                <label>Occupation</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter occupation.</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Mother information</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>First name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter first name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Middle name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter middle name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Last name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter last name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Suffix</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+              </div>
+              <div class="input-group">
+                <label>Telephone</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter telephone.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Mobile</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
+              </div>
+              <div class="input-group">
+                <label>Email</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+              </div>
+              <div class="input-group">
+                <label>Occupation</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter occupation.</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Guardian information</h2>
+            <div class="form-group">
+              <div class="input-group">
+                <label>First name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter first name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Middle name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter middle name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Last name</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter last name.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Suffix</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+              </div>
+              <div class="input-group">
+                <label>Telephone</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter telephone.</small
+                >
+              </div>
+              <div class="input-group">
+                <label>Mobile</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
+              </div>
+              <div class="input-group">
+                <label>Email</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+              </div>
+              <div class="input-group">
+                <label>Occupation</label>
+                <input pInputText />
+                <small [style]="{ color: 'var(--red)' }"
+                  >Enter occupation.</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="form">
+            <h2>Upload a personal picture</h2>
+            <p-toast></p-toast>
+            <p-fileUpload
+              mode="basic"
+              name="demo[]"
+              url="https://www.primefaces.org/cdn/api/upload.php"
+              accept="image/*"
+              [maxFileSize]="1000000000"
+              (onUpload)="onBasicUploadAuto($event)"
+              [auto]="true"
+              chooseLabel="Browse"
+            ></p-fileUpload>
+          </div>
+        </div>
+        <div class="button-group">
+          <button type="submit">Add</button>
+          <button type="button" id="clear">Clear</button>
+        </div>
+      </form>
+      <div class="table">
+        <div class="table-header">
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+            />
+          </span>
+        </div>
+        <p-table
+          [value]="students"
+          [paginator]="true"
+          [rows]="5"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 25, 50]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 25%">Student No.</th>
+              <th style="width: 25%">Name</th>
+              <th style="width: 25%">Program</th>
+              <th style="width: 25%">Year Level</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-prof>
+            <tr>
+              <td>{{ prof.studentNo }}</td>
+              <td>{{ prof.name }}</td>
+              <td>{{ prof.program }}</td>
+              <td>{{ prof.yearLevel }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </main>
   </div>
 </div>
