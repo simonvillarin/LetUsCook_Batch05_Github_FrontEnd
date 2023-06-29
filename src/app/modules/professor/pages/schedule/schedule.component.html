@@ -32,6 +32,14 @@
         </div>
         <div
           class="link"
+          routerLink="/professor/evaluation"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">local_library</mat-icon>
+          <span>Student Evaluation</span>
+        </div>
+        <div
+          class="link"
           routerLink="/professor/profile"
           routerLinkActive="link-active"
         >
@@ -71,6 +79,14 @@
         >
           <mat-icon class="material-icons-outlined">event_available</mat-icon>
           <span>Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/evaluation"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">local_library</mat-icon>
+          <span>Student Evaluation</span>
         </div>
         <div
           class="link"
@@ -240,7 +256,20 @@
     </header>
     <main>
       <div class="box-container">
-        <div class="box"></div>
+        <div class="box">
+          <div class="box-header">
+            <p>My Upcomming Class</p>
+          </div>
+          <div class="box-content">
+            <p>Time: 8:00AM - 11:00AM</p>
+            <p>Section: BSIT-11A</p>
+            <p>Subject: Intro to Programming</p>
+            <p>Room: 403A</p>
+          </div>
+        </div>
+        <div class="calendar-container">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
       </div>
     </main>
   </div>

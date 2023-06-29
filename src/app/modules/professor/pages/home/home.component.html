@@ -32,6 +32,14 @@
         </div>
         <div
           class="link"
+          routerLink="/professor/evaluation"
+          routerLinkActive="link-active"
+        >
+          <mat-icon class="material-icons-outlined">local_library</mat-icon>
+          <span>Student Evaluation</span>
+        </div>
+        <div
+          class="link"
           routerLink="/professor/profile"
           routerLinkActive="link-active"
         >
@@ -71,6 +79,14 @@
         >
           <mat-icon class="material-icons-outlined">event_available</mat-icon>
           <span>Schedule</span>
+        </div>
+        <div
+          class="link"
+          routerLink="/professor/evaluation"
+          routerLinkActive="mobile-link-active"
+        >
+          <mat-icon class="material-icons-outlined">local_library</mat-icon>
+          <span>Student Evaluation</span>
         </div>
         <div
           class="link"
@@ -239,7 +255,106 @@
     </header>
     <main>
       <div class="box-container">
-        <div class="box"></div>
+        <div class="box-header">
+          <div class="header-title"><p>My Subjects</p></div>
+          <div class="search-container">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                [style]="{ width: '18rem' }"
+                placeholder="Search for subject"
+              />
+            </span>
+          </div>
+        </div>
+        <div class="box-content">
+          <p-card
+            header="Introduction to Prog"
+            subheader="MWF 11:30AM - 1:00PM"
+            [style]="{ width: '340px' }"
+          >
+            <ng-template pTemplate="header">
+              <img
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/usercard.png"
+              />
+            </ng-template>
+            <p>Section: BSIT-11A</p>
+            <p>Room: 403A</p>
+          </p-card>
+          <p-card
+            header="Introduction to Prog"
+            subheader="MWF 11:30AM - 1:00PM"
+            [style]="{ width: '340px' }"
+          >
+            <ng-template pTemplate="header">
+              <img
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/usercard.png"
+              />
+            </ng-template>
+            <p>Section: BSIT-11A</p>
+            <p>Room: 403A</p>
+          </p-card>
+          <p-card
+            header="Introduction to Prog"
+            subheader="MWF 11:30AM - 1:00PM"
+            [style]="{ width: '340px' }"
+          >
+            <ng-template pTemplate="header">
+              <img
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/usercard.png"
+              />
+            </ng-template>
+            <p>Section: BSIT-11A</p>
+            <p>Room: 403A</p>
+          </p-card>
+          <p-card
+            header="Introduction to Prog"
+            subheader="MWF 11:30AM - 1:00PM"
+            [style]="{ width: '340px' }"
+          >
+            <ng-template pTemplate="header">
+              <img
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/usercard.png"
+              />
+            </ng-template>
+            <p>Section: BSIT-11A</p>
+            <p>Room: 403A</p>
+          </p-card>
+          <p-card
+            header="Introduction to Prog"
+            subheader="MWF 11:30AM - 1:00PM"
+            [style]="{ width: '340px' }"
+          >
+            <ng-template pTemplate="header">
+              <img
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/usercard.png"
+              />
+            </ng-template>
+            <p>Section: BSIT-11A</p>
+            <p>Room: 403A</p>
+          </p-card>
+          <p-card
+            header="Introduction to Prog"
+            subheader="MWF 11:30AM - 1:00PM"
+            [style]="{ width: '340px' }"
+          >
+            <ng-template pTemplate="header">
+              <img
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/usercard.png"
+              />
+            </ng-template>
+            <p>Section: BSIT-11A</p>
+            <p>Room: 403A</p>
+          </p-card>
+        </div>
       </div>
     </main>
   </div>
