@@ -309,7 +309,6 @@ main {
   background-color: var(--light-grayish-blue);
   padding: 2rem;
 }
-
 .box,
 table {
   width: 100%;
@@ -338,18 +337,18 @@ tr td {
 }
 
 .table-actions button {
+  width: 7rem;
+  height: 3rem;
   border: none;
-  background-color: var(--white);
+  border-radius: 0.5rem;
+  background-color: var(--primary);
+  color: var(--white);
+  font-size: 0.9rem;
 }
 
 .table-actions button:hover {
   cursor: pointer;
-}
-
-.table-actions mat-icon {
-  color: var(--very-dark-saturated-blue);
-  // color: var(--darker-primary);
-  font-size: 2rem;
+  background-color: var(--darker-primary);
 }
 
 .header {
@@ -377,7 +376,6 @@ tr td {
   flex-direction: row;
   gap: 0.5rem;
 }
-
 /* ========== MEDIA QUERIES ========== */
 @media screen and (max-width: 768px) {
   .name {

@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="card-header">
+    <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+    <p>Edit Student Grade and Remark</p>
+  </div>
+  <div class="card-content">
+    <div class="student">
+      <div class="student-icon">
+        <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+      </div>
+      <div class="student-info">
+        <p>Mark Denver Perez</p>
+        <p>0200355444</p>
+        <p>BSIT41A</p>
+      </div>
+    </div>
+    <form>
+      <div class="form-group">
+        <p-dropdown
+          [(ngModel)]="selectedGrade"
+          (ngModelChange)="onGradeChange()"
+          [options]="grades"
+          optionLabel="name"
+          placeholder="Select grade"
+          [style]="{ width: '28.5rem' }"
+        ></p-dropdown>
+        <p-dropdown
+          [(ngModel)]="selectedRemark"
+          (ngModelChange)="onRemarkChange()"
+          [options]="remarks"
+          optionLabel="value"
+          placeholder="Select remarks"
+          [style]="{ width: '28.5rem' }"
+        ></p-dropdown>
+      </div>
+      <div class="form-action">
+        <button class="save" mat-dialog-close type="submit">Save</button>
+        <button class="cancel" mat-dialog-close type="button">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer"></div>
+</div>
