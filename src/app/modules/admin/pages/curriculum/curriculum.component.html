@@ -1,392 +1,82 @@
-<div class="container">
-  <div class="sidebar">
-    <div class="logo">
-      <mat-icon class="material-icons-outlined">school</mat-icon
-      ><span>SMA University</span>
+<main>
+  <div class="form">
+    <h2>Add Curriculum</h2>
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <label>Term</label>
+          <p-dropdown
+            [options]="terms"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }">Choose Term.</small>
+        </div>
+        <div class="input-group">
+          <label>Year Level</label>
+          <p-dropdown
+            [options]="levels"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }">Choose Year Level.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <label>Program</label>
+          <input pInputText />
+          <small [style]="{ color: 'var(--red)' }">Enter Program.</small>
+        </div>
+        <div class="input-group">
+          <label>Subject</label>
+          <input pInputText />
+          <small [style]="{ color: 'var(--red)' }">Enter Subject.</small>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="submit">Add</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+    </form>
+  </div>
+  <div class="table">
+    <div class="table-header">
+      <span [style]="{ position: 'relative' }">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+        />
+      </span>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/admin/home"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/schedule"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Class Schedule</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/course"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Course</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/curriculum"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_note</mat-icon>
-          <span>Curriculum</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/program"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">description</mat-icon>
-          <span>Program</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/parent"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
-          <span>Parent</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/professor"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>
-          <span>Professor</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/student"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">man</mat-icon>
-          <span>Student</span>
-        </div>
-      </div>
-    </nav>
+    <p-table
+      [value]="curriculums"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%">Term</th>
+          <th style="width: 25%">Year Level</th>
+          <th style="width: 25%">Program</th>
+          <th style="width: 25%">Subject</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-curriculum>
+        <tr>
+          <td>{{ curriculum.term }}</td>
+          <td>{{ curriculum.yearLevel }}</td>
+          <td>{{ curriculum.program }}</td>
+          <td>{{ curriculum.subject }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-
-  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
-    <div class="close-icon" (click)="closeMobileNav()">
-      <mat-icon fontIcon="close"></mat-icon>
-    </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/admin/home"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/schedule"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Class Schedule</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/course"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Course</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/curriculum"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_note</mat-icon>
-          <span>Curriculum</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/program"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">description</mat-icon>
-          <span>Program</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/parent"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
-          <span>Parent</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/professor"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>
-          <span>Professor</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/student"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">man</mat-icon>
-          <span>Student</span>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <div class="main-container">
-    <header>
-      <div class="left-nav">
-        <div class="menu-icon" (click)="openMobileNav()">
-          <mat-icon fontIcon="menu"></mat-icon>
-        </div>
-        <div class="location">
-          <mat-icon class="material-icons-outlined">event_note</mat-icon
-          >Curriculum
-        </div>
-      </div>
-      <div class="right-nav">
-        <div class="notif">
-          <div (click)="toggleShowNotifications()">
-            <mat-icon class="material-icons-outlined">notifications</mat-icon>
-          </div>
-          <div
-            class="notification-container"
-            [class.notification-active]="isShowNotifications"
-          >
-            <div class="border"></div>
-            <div class="notifs">
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="profile">
-          <div class="avatar" (click)="toggleShowDropdown()">
-            <div class="img">
-              <img
-                src="../../../../assets/images/itachi.jpg"
-                alt="Profile Image"
-              />
-            </div>
-          </div>
-          <div class="name">
-            <div class="type">
-              <span>Simon James Villarin</span>
-              <div class="role">Admin</div>
-            </div>
-            <div (click)="toggleShowDropdown()">
-              <mat-icon
-                fontIcon="expand_more"
-                class="arrow-down"
-                [class.arrow-down-active]="isShowDropdown"
-              ></mat-icon>
-            </div>
-          </div>
-
-          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
-            <div class="border"></div>
-            <div class="dropdown-links">
-              <div class="dropdown-link">
-                <mat-icon class="material-icons-outlined">person</mat-icon
-                ><span>Profile</span>
-              </div>
-              <div class="dropdown-link">
-                <mat-icon class="material-icons-outlined">logout</mat-icon
-                ><span>Logout</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- CODE HERE -->
-    <main>
-      <div class="form">
-        <h2>Add Curriculum</h2>
-        <form>
-          <div class="form-group">
-            <div class="input-group">
-              <label>Term</label>
-              <p-dropdown
-                [options]="terms"
-                optionLabel="name"
-                [style]="{ width: '100%' }"
-              ></p-dropdown>
-              <small [style]="{ color: 'var(--red)' }">Choose Term.</small>
-            </div>
-            <div class="input-group">
-              <label>Year Level</label>
-              <p-dropdown
-                [options]="levels"
-                optionLabel="name"
-                [style]="{ width: '100%' }"
-              ></p-dropdown>
-              <small [style]="{ color: 'var(--red)' }"
-                >Choose Year Level.</small
-              >
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="input-group">
-              <label>Program</label>
-              <input pInputText />
-              <small [style]="{ color: 'var(--red)' }">Enter Program.</small>
-            </div>
-            <div class="input-group">
-              <label>Subject</label>
-              <input pInputText />
-              <small [style]="{ color: 'var(--red)' }">Enter Subject.</small>
-            </div>
-          </div>
-          <div class="button-group">
-            <button type="submit">Add</button>
-            <button type="button" id="clear">Clear</button>
-          </div>
-        </form>
-      </div>
-      <div class="table">
-        <div class="table-header">
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-            />
-          </span>
-        </div>
-        <p-table
-          [value]="curriculums"
-          [paginator]="true"
-          [rows]="5"
-          [showCurrentPageReport]="true"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [rowsPerPageOptions]="[10, 25, 50]"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 25%">Term</th>
-              <th style="width: 25%">Year Level</th>
-              <th style="width: 25%">Program</th>
-              <th style="width: 25%">Subject</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-curriculum>
-            <tr>
-              <td>{{ curriculum.term }}</td>
-              <td>{{ curriculum.yearLevel }}</td>
-              <td>{{ curriculum.program }}</td>
-              <td>{{ curriculum.subject }}</td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </main>
-  </div>
-</div>
+</main>

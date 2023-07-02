@@ -9,39 +9,46 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ParentComponent } from './pages/parent/parent.component';
 import { ProfessorComponent } from './pages/professor/professor.component';
 import { StudentComponent } from './pages/student/student.component';
+import { MainComponent } from './pages/main/main.component';
 
 const routes: Routes = [
   {
-    path: 'admin/home',
-    component: HomeComponent,
-  },
-  {
-    path: 'admin/course',
-    component: CourseComponent,
-  },
-  {
-    path: 'admin/curriculum',
-    component: CurriculumComponent,
-  },
-  {
-    path: 'admin/program',
-    component: ProgramComponent,
-  },
-  {
-    path: 'admin/schedule',
-    component: ScheduleComponent,
-  },
-  {
-    path: 'admin/parent',
-    component: ParentComponent,
-  },
-  {
-    path: 'admin/professor',
-    component: ProfessorComponent,
-  },
-  {
-    path: 'admin/student',
-    component: StudentComponent,
+    path: '',
+    component: MainComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'course',
+        component: CourseComponent,
+      },
+      {
+        path: 'curriculum',
+        component: CurriculumComponent,
+      },
+      {
+        path: 'program',
+        component: ProgramComponent,
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
+      {
+        path: 'parent',
+        component: ParentComponent,
+      },
+      {
+        path: 'professor',
+        component: ProfessorComponent,
+      },
+      {
+        path: 'student',
+        component: StudentComponent,
+      },
+    ],
   },
 ];
 

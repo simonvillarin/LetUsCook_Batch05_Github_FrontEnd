@@ -1,522 +1,199 @@
-<div class="container">
-  <div class="sidebar">
-    <div class="logo">
-      <mat-icon class="material-icons-outlined">school</mat-icon
-      ><span>SMA University</span>
+<main>
+  <h2>Add Professor</h2>
+  <form>
+    <div class="form-groups">
+      <div class="form">
+        <h2>Personal information</h2>
+        <div class="form-group">
+          <div class="input-group">
+            <label>First name</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter first name.</small>
+          </div>
+          <div class="input-group">
+            <label>Middle name</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter middle name.</small>
+          </div>
+          <div class="input-group">
+            <label>Last name</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter last name.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Suffix</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
+          </div>
+          <div class="input-group">
+            <label>Gender</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter gender.</small>
+          </div>
+          <div class="input-group">
+            <label>Civil status</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter civil status.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Birthday</label>
+            <input pInputText type="date" />
+            <small [style]="{ color: 'var(--red)' }">Enter birthday.</small>
+          </div>
+          <div class="input-group">
+            <label>Birthplace</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter birthplace.</small>
+          </div>
+          <div class="input-group">
+            <label>Citizenship</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter citizenship.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Religion</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter religion.</small>
+          </div>
+          <div class="input-group">
+            <label>Work</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter work.</small>
+          </div>
+          <div class="input-group">
+            <label>Status</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter status.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form">
+        <h2>Address information</h2>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Unit</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter unit.</small>
+          </div>
+          <div class="input-group">
+            <label>Street</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter street.</small>
+          </div>
+          <div class="input-group">
+            <label>Subdivision</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter subdivision.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Barangay</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter barangay.</small>
+          </div>
+          <div class="input-group">
+            <label>City</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter city.</small>
+          </div>
+          <div class="input-group">
+            <label>Province</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter province.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Zipcode</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter zipcode.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form">
+        <h2>Contact Information</h2>
+        <div class="form-group">
+          <div class="input-group">
+            <label>Telephone</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter telephone.</small>
+          </div>
+          <div class="input-group">
+            <label>Mobile</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
+          </div>
+          <div class="input-group">
+            <label>Email</label>
+            <input pInputText />
+            <small [style]="{ color: 'var(--red)' }">Enter email.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form">
+        <h2>Upload a personal picture</h2>
+        <p-toast></p-toast>
+        <p-fileUpload
+          mode="basic"
+          name="demo[]"
+          url="https://www.primefaces.org/cdn/api/upload.php"
+          accept="image/*"
+          [maxFileSize]="1000000000"
+          (onUpload)="onBasicUploadAuto($event)"
+          [auto]="true"
+          chooseLabel="Browse"
+        ></p-fileUpload>
+      </div>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/admin/home"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/schedule"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Class Schedule</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/course"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Course</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/curriculum"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_note</mat-icon>
-          <span>Curriculum</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/program"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">description</mat-icon>
-          <span>Program</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/parent"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
-          <span>Parent</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/professor"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>
-          <span>Professor</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/student"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">man</mat-icon>
-          <span>Student</span>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
-    <div class="close-icon" (click)="closeMobileNav()">
-      <mat-icon fontIcon="close"></mat-icon>
+    <div class="button-group">
+      <button type="submit">Add</button>
+      <button type="button" id="clear">Clear</button>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/admin/home"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/schedule"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Class Schedule</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/course"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Course</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/curriculum"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_note</mat-icon>
-          <span>Curriculum</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/program"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">description</mat-icon>
-          <span>Program</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/parent"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
-          <span>Parent</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/professor"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>
-          <span>Professor</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/student"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">man</mat-icon>
-          <span>Student</span>
-        </div>
-      </div>
-    </nav>
+  </form>
+  <div class="table">
+    <div class="table-header">
+      <span [style]="{ position: 'relative' }">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+        />
+      </span>
+    </div>
+    <p-table
+      [value]="professors"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%">Name</th>
+          <th style="width: 25%">Email</th>
+          <th style="width: 25%">Mobile no.</th>
+          <th style="width: 25%">Status of employment</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-prof>
+        <tr>
+          <td>{{ prof.name }}</td>
+          <td>{{ prof.email }}</td>
+          <td>{{ prof.mobile }}</td>
+          <td>{{ prof.status }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-
-  <div class="main-container">
-    <header>
-      <div class="left-nav">
-        <div class="menu-icon" (click)="openMobileNav()">
-          <mat-icon fontIcon="menu"></mat-icon>
-        </div>
-        <div class="location">
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>Professor
-        </div>
-      </div>
-      <div class="right-nav">
-        <div class="notif">
-          <div (click)="toggleShowNotifications()">
-            <mat-icon class="material-icons-outlined">notifications</mat-icon>
-          </div>
-          <div
-            class="notification-container"
-            [class.notification-active]="isShowNotifications"
-          >
-            <div class="border"></div>
-            <div class="notifs">
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="profile">
-          <div class="avatar" (click)="toggleShowDropdown()">
-            <div class="img">
-              <img
-                src="../../../../assets/images/itachi.jpg"
-                alt="Profile Image"
-              />
-            </div>
-          </div>
-          <div class="name">
-            <div class="type">
-              <span>Simon James Villarin</span>
-              <div class="role">Admin</div>
-            </div>
-            <div (click)="toggleShowDropdown()">
-              <mat-icon
-                fontIcon="expand_more"
-                class="arrow-down"
-                [class.arrow-down-active]="isShowDropdown"
-              ></mat-icon>
-            </div>
-          </div>
-
-          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
-            <div class="border"></div>
-            <div class="dropdown-links">
-              <div class="dropdown-link">
-                <mat-icon class="material-icons-outlined">person</mat-icon
-                ><span>Profile</span>
-              </div>
-              <div class="dropdown-link">
-                <mat-icon class="material-icons-outlined">logout</mat-icon
-                ><span>Logout</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- CODE HERE -->
-    <main>
-      <h2>Add Professor</h2>
-      <form>
-        <div class="form-groups">
-          <div class="form">
-            <h2>Personal information</h2>
-            <div class="form-group">
-              <div class="input-group">
-                <label>First name</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter first name.</small
-                >
-              </div>
-              <div class="input-group">
-                <label>Middle name</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter middle name.</small
-                >
-              </div>
-              <div class="input-group">
-                <label>Last name</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter last name.</small
-                >
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Suffix</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter suffix.</small>
-              </div>
-              <div class="input-group">
-                <label>Gender</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter gender.</small>
-              </div>
-              <div class="input-group">
-                <label>Civil status</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter civil status.</small
-                >
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Birthday</label>
-                <input pInputText type="date" />
-                <small [style]="{ color: 'var(--red)' }">Enter birthday.</small>
-              </div>
-              <div class="input-group">
-                <label>Birthplace</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter birthplace.</small
-                >
-              </div>
-              <div class="input-group">
-                <label>Citizenship</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter citizenship.</small
-                >
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Religion</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter religion.</small>
-              </div>
-              <div class="input-group">
-                <label>Work</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter work.</small>
-              </div>
-              <div class="input-group">
-                <label>Status</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter status.</small>
-              </div>
-            </div>
-          </div>
-          <div class="form">
-            <h2>Address information</h2>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Unit</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter unit.</small>
-              </div>
-              <div class="input-group">
-                <label>Street</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter street.</small>
-              </div>
-              <div class="input-group">
-                <label>Subdivision</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter subdivision.</small
-                >
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Barangay</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter barangay.</small>
-              </div>
-              <div class="input-group">
-                <label>City</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter city.</small>
-              </div>
-              <div class="input-group">
-                <label>Province</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter province.</small>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Zipcode</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter zipcode.</small>
-              </div>
-            </div>
-          </div>
-          <div class="form">
-            <h2>Contact Information</h2>
-            <div class="form-group">
-              <div class="input-group">
-                <label>Telephone</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }"
-                  >Enter telephone.</small
-                >
-              </div>
-              <div class="input-group">
-                <label>Mobile</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter mobile.</small>
-              </div>
-              <div class="input-group">
-                <label>Email</label>
-                <input pInputText />
-                <small [style]="{ color: 'var(--red)' }">Enter email.</small>
-              </div>
-            </div>
-          </div>
-          <div class="form">
-            <h2>Upload a personal picture</h2>
-            <p-toast></p-toast>
-            <p-fileUpload
-              mode="basic"
-              name="demo[]"
-              url="https://www.primefaces.org/cdn/api/upload.php"
-              accept="image/*"
-              [maxFileSize]="1000000000"
-              (onUpload)="onBasicUploadAuto($event)"
-              [auto]="true"
-              chooseLabel="Browse"
-            ></p-fileUpload>
-          </div>
-        </div>
-        <div class="button-group">
-          <button type="submit">Add</button>
-          <button type="button" id="clear">Clear</button>
-        </div>
-      </form>
-      <div class="table">
-        <div class="table-header">
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-            />
-          </span>
-        </div>
-        <p-table
-          [value]="professors"
-          [paginator]="true"
-          [rows]="5"
-          [showCurrentPageReport]="true"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [rowsPerPageOptions]="[10, 25, 50]"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 25%">Name</th>
-              <th style="width: 25%">Email</th>
-              <th style="width: 25%">Mobile no.</th>
-              <th style="width: 25%">Status of employment</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-prof>
-            <tr>
-              <td>{{ prof.name }}</td>
-              <td>{{ prof.email }}</td>
-              <td>{{ prof.mobile }}</td>
-              <td>{{ prof.status }}</td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </main>
-  </div>
-</div>
+</main>

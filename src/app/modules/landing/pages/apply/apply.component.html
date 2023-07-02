@@ -1,1 +1,271 @@
-<p>apply works!</p>
+<app-header></app-header>
+
+<div
+  class="stepper"
+  data-aos="fade-right"
+  data-aos-duration="800"
+  data-aos-delay="300"
+>
+  <div class="container stepper-container">
+    <div class="circle-container step-1" (click)="onStepOne()">
+      <div class="circle" [class.circle-active]="stepOne">
+        <div *ngIf="!stepOneDone">1</div>
+        <mat-icon
+          class="material-icons-outlined"
+          *ngIf="stepOneDone"
+          class="done"
+          >done</mat-icon
+        >
+      </div>
+      <div class="label">Program</div>
+    </div>
+    <div class="circle-container step-2" (click)="onStepTwo()">
+      <div class="circle" [class.circle-active]="stepTwo" *ngIf="!stepTwoDone">
+        <div *ngIf="!stepTwoDone">2</div>
+        <mat-icon
+          class="material-icons-outlined"
+          *ngIf="stepTwoDone"
+          class="done"
+          >done</mat-icon
+        >
+      </div>
+      <div class="label">Personal Information</div>
+    </div>
+    <div class="circle-container step-3" (click)="onStepThree()">
+      <div
+        class="circle"
+        [class.circle-active]="stepThree"
+        *ngIf="!stepThreeDone"
+      >
+        <div *ngIf="!stepThreeDone">3</div>
+        <mat-icon
+          class="material-icons-outlined"
+          *ngIf="stepThreeDone"
+          class="done"
+          >done</mat-icon
+        >
+      </div>
+      <div class="label">Validate Details</div>
+    </div>
+    <div class="circle-container" (click)="onStepFour()">
+      <div class="circle" [class.circle-active]="stepFour">4</div>
+      <div class="label">Finish</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="stepper-1" *ngIf="stepperNumber == 1">
+    <h2>Online Application</h2>
+    <p>
+      Kindly fill-out the online application form for a fast and efficient
+      admission procedure.
+    </p>
+    <div class="box-container">
+      <div class="box">
+        <h3>What type of student are you?</h3>
+        <div class="type-container">
+          <div class="type">
+            <input
+              type="radio"
+              value="New Student"
+              name="type"
+              class="radio"
+              [(ngModel)]="typeOfStudent"
+              (ngModelChange)="onChangeTypeOfStudent($event)"
+            />
+            <label>New Student</label>
+          </div>
+          <div class="type">
+            <input
+              type="radio"
+              value="Existing Student"
+              name="type"
+              class="radio"
+              [(ngModel)]="typeOfStudent"
+              (ngModelChange)="onChangeTypeOfStudent($event)"
+            />
+            <label>Existing Student</label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="box box-program"
+        [class.box-active]="typeOfStudent == 'New Student'"
+        [class.error]="programError"
+      >
+        <h3>Programs:</h3>
+        <div class="program-container">
+          <div class="program">
+            <input
+              type="radio"
+              value="BSCS"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Science in Computer Science (BSCS)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BSIT"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Science in Information Technology (BSIT)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BSCpE"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Science in Computer Engineering (BSCpE)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BSBA"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Science in Business Administration (BSBA)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BSAIS"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label
+              >Bachelor of Science in Accounting Information System
+              (BSAIS)</label
+            >
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BSHM"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Science in Hospitality Management (BSHM)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BMMA"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Multimedia Arts (BMMA)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BACOMM"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Arts in Communication (BACOMM)</label>
+          </div>
+          <div class="program">
+            <input
+              type="radio"
+              value="BSTM"
+              name="program"
+              class="radio"
+              [(ngModel)]="program"
+              (ngModelChange)="onChangeProgram($event)"
+            />
+            <label>Bachelor of Science in Tourism Management (BSTM)</label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="box box-student-number"
+        [class.box-active]="typeOfStudent == 'Existing Student'"
+      >
+        <h3>Student Number</h3>
+        <input
+          pInputText
+          placeholder="Enter Student #"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="studentNo"
+          (ngModelChange)="onChangeStudentNo($event)"
+          [class.error]="studentNoError"
+        />
+      </div>
+      <button *ngIf="typeOfStudent != ''" (click)="onSubmitStepOne()">
+        Next Step
+      </button>
+    </div>
+  </div>
+
+  <div class="stepper-2" *ngIf="stepperNumber == 2">
+    <div class="choosen">
+      You have choosen <span>{{ program }}</span>
+    </div>
+    <div class="level">
+      <div class="input-group">
+        <label class="level-label">Year Level:</label>
+        <div class="dropdown">
+          <p-dropdown
+            [options]="levels"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >Please select a year Level.</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="level-label">School Year:</label>
+        <div class="dropdown">
+          <p-dropdown
+            [options]="schoolYear"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >Please select a school Level.</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="level-label">Term:</label>
+        <div class="dropdown">
+          <p-dropdown
+            [options]="terms"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }">Please select a term.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stepper-3" *ngIf="stepperNumber == 3">Stepper 3</div>
+  <div class="stepper-4" *ngIf="stepperNumber == 4">Stepper 4</div>
+</div>
+
+<app-footer></app-footer>

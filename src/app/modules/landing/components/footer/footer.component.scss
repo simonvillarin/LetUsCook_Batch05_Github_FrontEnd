@@ -1,0 +1,87 @@
+footer {
+  color: var(--white);
+  background-color: var(--primary);
+  font-size: 0.875rem;
+}
+
+.footer-container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.logo {
+  font-size: clamp(1.25rem, 1.0549rem + 0.9756vw, 1.75rem);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.socials {
+  display: flex;
+  gap: 1rem;
+}
+
+.social {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--white);
+  cursor: pointer;
+  margin: 0.5rem 0;
+}
+
+i {
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.title {
+  font-size: clamp(0.9375rem, 0.8643rem + 0.3659vw, 1rem);
+}
+
+.link {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link > * {
+  cursor: pointer;
+}
+
+.link > *:hover {
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 576px) {
+  .links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .links {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

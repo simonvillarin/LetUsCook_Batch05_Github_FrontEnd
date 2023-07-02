@@ -18,7 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
-import { ChipsModule } from 'primeng/chips';
+import { MainComponent } from './pages/main/main.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { ChipsModule } from 'primeng/chips';
     ParentComponent,
     ProfessorComponent,
     StudentComponent,
+    MainComponent,
   ],
   imports: [
     CommonModule,
