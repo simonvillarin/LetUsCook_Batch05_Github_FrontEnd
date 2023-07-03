@@ -20,6 +20,8 @@ export class ApplyComponent implements OnInit {
   typeOfStudent: string = '';
   program: string = '';
   studentNo: string = '';
+  applyForm: FormGroup;
+  buttonClicked: boolean = false;
 
   terms = [
     { term: 'Please select term' },
@@ -52,7 +54,56 @@ export class ApplyComponent implements OnInit {
     { status: 'Widowed' },
   ];
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private fb: FormBuilder
+  ) {
+    this.applyForm = fb.group({
+      yearLevel: ['', [Validators.required]],
+      term: ['', [Validators.required]],
+      schoolYear: ['', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      civilStatus: ['', [Validators.required]],
+      citizenship: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
+      birthPlace: ['', [Validators.required]],
+      religion: ['', [Validators.required]],
+      unit: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      subdivision: ['', [Validators.required]],
+      barangay: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      province: ['', [Validators.required]],
+      zipcode: ['', [Validators.required]],
+      telephone: ['', [Validators.required]],
+      mobile: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      schoolName: ['', [Validators.required]],
+      program: ['', [Validators.required]],
+      graduationDate: ['', [Validators.required]],
+      lastSchoolYear: ['', [Validators.required]],
+      lastYearLevel: ['', [Validators.required]],
+      emergencyFirstName: ['', [Validators.required]],
+      emergencyLastName: ['', [Validators.required]],
+      emergencyAddress: ['', [Validators.required]],
+      emergencyContact: ['', [Validators.required]],
+      emergencyRelationship: ['', [Validators.required]],
+    });
+  }
+
+  onSubmit = () => {
+    if (this.applyForm.valid) {
+      console.log(this.applyForm.value);
+
+      //this.interestFormArray.push(this.sampleArray);
+    } else {
+      this.buttonClicked = true;
+      this.applyForm.markAllAsTouched();
+    }
+  };
 
   ngOnInit(): void {
     const date = new Date();

@@ -6,9 +6,11 @@ import { ApplyComponent } from './pages/apply/apply.component';
 
 import { CourseListComponent } from './pages/course-list/course-list.component';
 import { EducateLifeComponent } from './pages/educate-life/educate-life.component';
+import { AboutComponent } from './pages/about/about.component';
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'apply', component: ApplyComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'courses', component: CourseListComponent },
   { path: 'educatelife', component: EducateLifeComponent },
 ];
