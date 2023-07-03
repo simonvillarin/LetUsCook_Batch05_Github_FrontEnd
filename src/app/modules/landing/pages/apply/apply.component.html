@@ -101,7 +101,7 @@
               type="radio"
               value="BSCS"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -112,7 +112,7 @@
               type="radio"
               value="BSIT"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -123,7 +123,7 @@
               type="radio"
               value="BSCpE"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -134,7 +134,7 @@
               type="radio"
               value="BSBA"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -145,7 +145,7 @@
               type="radio"
               value="BSAIS"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -159,7 +159,7 @@
               type="radio"
               value="BSHM"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -170,7 +170,7 @@
               type="radio"
               value="BMMA"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -181,7 +181,7 @@
               type="radio"
               value="BACOMM"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -192,7 +192,7 @@
               type="radio"
               value="BSTM"
               name="program"
-              class="radio"
+              class="radio radio1"
               [(ngModel)]="program"
               (ngModelChange)="onChangeProgram($event)"
             />
@@ -225,46 +225,508 @@
       You have choosen <span>{{ program }}</span>
     </div>
     <div class="level">
-      <div class="input-group">
+      <div class="select-group">
         <label class="level-label">Year Level:</label>
         <div class="dropdown">
           <p-dropdown
             [options]="levels"
-            optionLabel="name"
+            optionLabel="level"
             [style]="{ width: '100%' }"
           ></p-dropdown>
           <small [style]="{ color: 'var(--red)' }"
-            >Please select a year Level.</small
+            >Please select year Level</small
           >
         </div>
       </div>
-      <div class="input-group">
-        <label class="level-label">School Year:</label>
-        <div class="dropdown">
-          <p-dropdown
-            [options]="schoolYear"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }"
-            >Please select a school Level.</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
+      <div class="select-group">
         <label class="level-label">Term:</label>
         <div class="dropdown">
           <p-dropdown
             [options]="terms"
-            optionLabel="name"
+            optionLabel="term"
             [style]="{ width: '100%' }"
           ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }">Please select a term.</small>
+          <small [style]="{ color: 'var(--red)' }">Please select term</small>
+        </div>
+      </div>
+      <div class="select-group">
+        <label class="level-label">School Year:</label>
+        <div class="dropdown">
+          <p-dropdown
+            [options]="schoolYear"
+            optionLabel="schoolYear"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >Please select school level</small
+          >
         </div>
       </div>
     </div>
+
+    <div class="personal-container">
+      <h3 class="title">Student's Information</h3>
+
+      <div class="personal-1">
+        <div class="input-group">
+          <label class="input-label">First Name:</label>
+          <input pInputText placeholder="First Name" />
+          <small [style]="{ color: 'var(--red)' }"
+            >First name is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Middle Name:</label>
+          <input pInputText placeholder="Middle Name" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Last Name:</label>
+          <input pInputText placeholder="Last Name" />
+          <small [style]="{ color: 'var(--red)' }">Last name is required</small>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Suffix:</label>
+          <input pInputText placeholder="(e.g. Jr.)" />
+        </div>
+      </div>
+
+      <div class="personal-2">
+        <div class="input-group">
+          <label class="input-label">Gender:</label>
+          <p-dropdown
+            [options]="genders"
+            optionLabel="gender"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >Please select a gender</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Civil Status:</label>
+          <p-dropdown
+            [options]="civilStatus"
+            optionLabel="status"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >Please select a civil status</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Citizenship:</label>
+          <input pInputText placeholder="Citizenship" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Citizenship is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Date of Birth:</label>
+          <input pInputText type="date" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Date of birth is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Birthplace:</label>
+          <input pInputText placeholder="Birthplace" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Birthplace is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Religion:</label>
+          <input pInputText placeholder="Religion" />
+          <small [style]="{ color: 'var(--red)' }">Religion is required</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="address-container">
+      <h3 class="title">Address Information</h3>
+      <div class="address-1">
+        <div class="input-group">
+          <label class="input-label">Unit #:</label>
+          <input pInputText placeholder="Unit #" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Unit number is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Street:</label>
+          <input pInputText placeholder="Street name" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Street name is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Subdivision / Village / Bldg:</label>
+          <input pInputText placeholder="Subdivision / Village / Bldg." />
+          <small [style]="{ color: 'var(--red)' }"
+            >Subdivision / Village / Bldg. is required</small
+          >
+        </div>
+      </div>
+      <div class="address-2">
+        <div class="input-group">
+          <label class="input-label">Barangay:</label>
+          <input pInputText placeholder="Barangay" />
+          <small [style]="{ color: 'var(--red)' }">Barangay is required</small>
+        </div>
+        <div class="input-group">
+          <label class="input-label">City / Municipality:</label>
+          <input pInputText placeholder="City" />
+          <small [style]="{ color: 'var(--red)' }"
+            >City / Municipality is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Province:</label>
+          <input pInputText placeholder="Province" />
+          <small [style]="{ color: 'var(--red)' }">Province is required</small>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Zipcode:</label>
+          <input pInputText type="number" placeholder="xxxx" />
+          <small [style]="{ color: 'var(--red)' }">Zipcode is required</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-container">
+      <h3 class="title">Contact Details</h3>
+      <div class="contact">
+        <div class="input-group">
+          <label class="input-label">Telephone No:</label>
+          <input pInputText type="number" placeholder="Telephone No." />
+          <small [style]="{ color: 'var(--red)' }"
+            >Telephone no. is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Mobile No:</label>
+          <input pInputText type="number" placeholder="09XXxxxxxxx" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Mobile no. is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Email Address:</label>
+          <input pInputText placeholder="example@domain.com" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Email adddress is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="school-container">
+      <h3 class="title">Last School Attended</h3>
+      <div class="school-1">
+        <div class="input-group">
+          <label class="input-label">Name of School:</label>
+          <input pInputText placeholder="Name of School" />
+          <small [style]="{ color: 'var(--red)' }"
+            >School name is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label"
+            >Program / Track & Strand / Specialization:</label
+          >
+          <input pInputText placeholder="Program or Track" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Program or track is required</small
+          >
+        </div>
+      </div>
+      <div class="school-2">
+        <div class="input-group">
+          <label class="input-label">Date of Graduation:</label>
+          <input pInputText type="date" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Date of Graduation is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">School Year:</label>
+          <p-dropdown
+            [options]="schoolYears"
+            optionLabel="year"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >School year is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Year Level:</label>
+          <p-dropdown
+            [options]="yearLevels"
+            optionLabel="level"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <small [style]="{ color: 'var(--red)' }"
+            >Year level is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Term:</label>
+          <p-dropdown
+            [options]="terms"
+            optionLabel="term"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="emergency-container">
+      <h3 class="title">Emergency Contact</h3>
+      <div class="emergency-1">
+        <div class="input-group">
+          <label class="input-label">First Name:</label>
+          <input pInputText placeholder="First Name" />
+          <small [style]="{ color: 'var(--red)' }"
+            >First name is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Middle Name:</label>
+          <input pInputText placeholder="Middle Name" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Last Name:</label>
+          <input pInputText placeholder="Last Name" />
+          <small [style]="{ color: 'var(--red)' }">Last name is required</small>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Suffix:</label>
+          <input pInputText placeholder="(e.g. Jr.)" />
+        </div>
+      </div>
+      <div class="emergency-2">
+        <div class="input-group">
+          <label class="input-label">Complete Address:</label>
+          <input pInputText placeholder="Complete Address" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Complete Address is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Contact No:</label>
+          <input pInputText type="number" placeholder="Contact No." />
+          <small [style]="{ color: 'var(--red)' }"
+            >Contact no. is required</small
+          >
+        </div>
+        <div class="input-group">
+          <label class="input-label">Relationship:</label>
+          <input pInputText placeholder="Relationship" />
+          <small [style]="{ color: 'var(--red)' }"
+            >Relationship is required</small
+          >
+        </div>
+      </div>
+    </div>
+    <button>Next Step</button>
   </div>
-  <div class="stepper-3" *ngIf="stepperNumber == 3">Stepper 3</div>
+
+  <div class="stepper-3" *ngIf="stepperNumber == 3">
+    <div class="level">
+      <div class="select-group">
+        <label class="level-label">Year Level:</label>
+        <div class="dropdown">
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+      <div class="select-group">
+        <label class="level-label">Term:</label>
+        <div class="dropdown">
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+      <div class="select-group">
+        <label class="level-label">School Year:</label>
+        <div class="dropdown">
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="personal-container">
+      <h3 class="title">Student's Information</h3>
+
+      <div class="personal-1">
+        <div class="input-group">
+          <label class="input-label">First Name:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Middle Name:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Last Name:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Suffix:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+
+      <div class="personal-2">
+        <div class="input-group">
+          <label class="input-label">Gender:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Civil Status:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Citizenship:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Date of Birth:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Birthplace:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Religion:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="address-container">
+      <h3 class="title">Address Information</h3>
+      <div class="address-1">
+        <div class="input-group">
+          <label class="input-label">Unit #:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Street:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Subdivision / Village / Bldg:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+      <div class="address-2">
+        <div class="input-group">
+          <label class="input-label">Barangay:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">City / Municipality:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Province:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Zipcode:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-container">
+      <h3 class="title">Contact Details</h3>
+      <div class="contact">
+        <div class="input-group">
+          <label class="input-label">Telephone No:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Mobile No:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Email Address:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="school-container">
+      <h3 class="title">Last School Attended</h3>
+      <div class="school-1">
+        <div class="input-group">
+          <label class="input-label">Name of School:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label"
+            >Program / Track & Strand / Specialization:</label
+          >
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+      <div class="school-2">
+        <div class="input-group">
+          <label class="input-label">Date of Graduation:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">School Year:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Year Level:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Term:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+    </div>
+    <div class="emergency-container">
+      <h3 class="title">Emergency Contact</h3>
+      <div class="emergency-1">
+        <div class="input-group">
+          <label class="input-label">First Name:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Middle Name:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Last Name:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Suffix:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+      <div class="emergency-2">
+        <div class="input-group">
+          <label class="input-label">Complete Address:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Contact No:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">Relationship:</label>
+          <input pInputText [disabled]="true" />
+        </div>
+      </div>
+    </div>
+    <button>Next Step</button>
+  </div>
   <div class="stepper-4" *ngIf="stepperNumber == 4">Stepper 4</div>
 </div>
 

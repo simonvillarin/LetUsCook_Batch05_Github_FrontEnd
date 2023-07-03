@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './apply.component.html',
   styleUrls: ['./apply.component.scss'],
 })
-export class ApplyComponent {
+export class ApplyComponent implements OnInit {
   stepOne: boolean = true;
   stepTwo: boolean = false;
   stepThree: boolean = false;
@@ -22,20 +22,55 @@ export class ApplyComponent {
   studentNo: string = '';
 
   terms = [
-    { name: 'Please select term' },
-    { name: 'First Term' },
-    { name: 'Second Term' },
+    { term: 'Please select term' },
+    { term: 'First Term' },
+    { term: 'Second Term' },
   ];
   levels = [
-    { name: 'Please select year level' },
-    { name: 'First Year' },
-    { name: 'Second Year' },
-    { name: 'Third Year' },
-    { name: 'Fourth Year' },
+    { level: 'Please select year level' },
+    { level: 'First Year' },
+    { level: 'Second Year' },
+    { level: 'Third Year' },
+    { level: 'Fourth Year' },
   ];
-  schoolYear = [{ name: 'Please select school year' }, { name: '2023-2024' }];
+  yearLevels = [
+    { level: 'Select year level' },
+    { level: 'Grade 12' },
+    { level: 'First Year' },
+    { level: 'Second Year' },
+    { level: 'Third Year' },
+    { level: 'Fourth Year' },
+  ];
+  schoolYear = [{ schoolYear: 'Please select school year' }];
+  schoolYears = [{ year: 'Select school year' }];
+  genders = [{ gender: 'Gender' }, { gender: 'Male' }, { gender: 'Female' }];
+  civilStatus = [
+    { status: 'Civil Status' },
+    { status: 'Single' },
+    { status: 'Married' },
+    { status: 'Divorced' },
+    { status: 'Widowed' },
+  ];
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+
+  ngOnInit(): void {
+    const date = new Date();
+    let currentYear = date.getFullYear();
+    const nextYear = date.getFullYear() + 1;
+    const schoolYear = {
+      schoolYear: String(currentYear) + ' - ' + String(nextYear),
+    };
+    this.schoolYear = [...this.schoolYear, schoolYear];
+    for (let i = 0; i < 28; i++) {
+      let previousYear = currentYear - 1;
+      let year = {
+        year: String(previousYear) + ' - ' + String(currentYear),
+      };
+      this.schoolYears = [...this.schoolYears, year];
+      currentYear = currentYear - 1;
+    }
+  }
 
   onStepOne = () => {
     // if (this.stepperNumber == 2) {
@@ -88,7 +123,7 @@ export class ApplyComponent {
       this.studentNoError = false;
       this.program = '';
       const radioButtons =
-        this.elementRef.nativeElement.querySelectorAll('.radio');
+        this.elementRef.nativeElement.querySelectorAll('.radio1');
       radioButtons.forEach((radio: any) => {
         this.renderer.setProperty(radio, 'checked', false);
       });

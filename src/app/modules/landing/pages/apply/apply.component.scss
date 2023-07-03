@@ -233,7 +233,7 @@ span {
   padding-top: 1rem;
 }
 
-.input-group {
+.select-group {
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: 1rem;
@@ -251,6 +251,89 @@ span {
 
 .input-label {
   font-size: 0.875rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.personal-container,
+.address-container,
+.contact-container,
+.school-container,
+.emergency-container {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: transform 300ms ease-in;
+}
+
+.personal-container:hover,
+.address-container:hover,
+.contact-container:hover,
+.school-container:hover,
+.emergency-container:hover {
+  transform: translateY(-8px);
+}
+
+.personal-1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 8rem;
+  gap: 0.25rem 1rem;
+}
+
+.personal-2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+}
+
+.address-1,
+.contact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem 1rem;
+}
+
+.address-2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.school-1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.25rem 1rem;
+}
+
+.school-2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.emergency-1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 8rem;
+  gap: 0.25rem 1rem;
+}
+
+.emergency-2 {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr;
+  gap: 0.25rem 1rem;
+  margin-top: 0.25rem;
 }
 
 @media screen and (min-width: 576px) {
