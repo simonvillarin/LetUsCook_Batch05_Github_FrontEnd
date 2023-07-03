@@ -225,42 +225,36 @@
       You have choosen <span>{{ program }}</span>
     </div>
     <div class="level">
-      <div class="select-group">
-        <label class="level-label">Year Level:</label>
-        <div class="dropdown">
-          <p-dropdown
-            [options]="levels"
-            optionLabel="level"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }"
-            >Please select year Level</small
-          >
-        </div>
+      <div class="input-group">
+        <label class="input-label">Year Level:</label>
+        <p-dropdown
+          [options]="levels"
+          optionLabel="level"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }"
+          >Please select year Level</small
+        >
       </div>
-      <div class="select-group">
-        <label class="level-label">Term:</label>
-        <div class="dropdown">
-          <p-dropdown
-            [options]="terms"
-            optionLabel="term"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }">Please select term</small>
-        </div>
+      <div class="input-group">
+        <label class="input-label">Term:</label>
+        <p-dropdown
+          [options]="terms"
+          optionLabel="term"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Please select term</small>
       </div>
-      <div class="select-group">
-        <label class="level-label">School Year:</label>
-        <div class="dropdown">
-          <p-dropdown
-            [options]="schoolYear"
-            optionLabel="schoolYear"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }"
-            >Please select school level</small
-          >
-        </div>
+      <div class="input-group">
+        <label class="input-label">School Year:</label>
+        <p-dropdown
+          [options]="schoolYear"
+          optionLabel="schoolYear"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }"
+          >Please select school level</small
+        >
       </div>
     </div>
 
