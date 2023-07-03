@@ -13,7 +13,7 @@ import { MessagesModule } from 'primeng/messages';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { TooltipModule } from 'primeng/tooltip';
-
+import { AccordionModule } from 'primeng/accordion';
 @NgModule({
   declarations: [],
   imports: [
@@ -32,6 +32,7 @@ import { TooltipModule } from 'primeng/tooltip';
     TableModule,
     DropdownModule,
     TooltipModule,
+    AccordionModule,
   ],
   exports: [
     MatIconModule,
@@ -46,6 +47,7 @@ import { TooltipModule } from 'primeng/tooltip';
     TableModule,
     DropdownModule,
     TooltipModule,
+    AccordionModule,
   ],
 })
 export class SharedModule {}
