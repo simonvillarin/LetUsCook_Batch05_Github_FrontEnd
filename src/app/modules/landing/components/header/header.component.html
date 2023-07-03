@@ -11,15 +11,15 @@
 
     <div class="links" [class.links-active]="showMobileNav">
       <div class="line"></div>
-      <div class="link">Home</div>
+      <div class="link" routerLink="">Home</div>
       <div class="link">About Educate</div>
-      <div class="link">Courses</div>
+      <div class="link" routerLink="/courses">Courses</div>
       <div class="link">Contact Us</div>
-      <div class="link">Life at Educate</div>
+      <div class="link" routerLink="/educatelife">Life at Educate</div>
       <button id="apply-mobile" *ngIf="showMobileNav">Apply now</button>
     </div>
     <div class="nav-actions">
-      <button id="apply">Apply now</button>
+      <button id="apply" routerLink="/apply">Apply now</button>
       <div id="login" (click)="showLoginDialog()">Login</div>
     </div>
   </div>
