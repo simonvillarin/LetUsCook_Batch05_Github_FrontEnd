@@ -4,23 +4,16 @@ main {
   min-height: calc(100vh - 4rem);
   background-color: var(--light-grayish-blue);
   padding: 2rem;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
 }
 
-.form-groups {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
+mat-icon {
+  color: var(--white);
 }
 
-.form,
 .table {
-  padding: 1.5rem;
-  border-radius: 0.25rem;
   background-color: var(--white);
   height: max-content;
+  overflow-x: auto;
 }
 
 tr th {
@@ -34,22 +27,12 @@ tr td {
   text-align: center;
 }
 
-h2 {
-  font-weight: 400;
-  margin-bottom: 0.5rem;
-}
-
-form {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.75rem;
-}
 .form-group {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 1rem;
 }
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -60,23 +43,18 @@ label {
   font-size: 0.875rem;
 }
 
-.button-group {
-  display: flex;
-  gap: 0.5rem;
-}
-
 button {
-  width: 9rem;
-  margin-top: 0.5rem;
-  padding: 0.875rem;
-  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2.75rem;
   color: var(--white);
   background-color: var(--primary);
+  font-size: 1rem;
   border-radius: 0.25rem;
-}
-
-#clear {
-  background-color: var(--red);
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
 }
 
 button:hover,
@@ -86,8 +64,9 @@ button:focus {
 
 .table-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -96,6 +75,11 @@ button:focus {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
+}
+
+.modal-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
+  font-weight: 400;
 }
 
 /* ========== MEDIA QUERIES ========== */

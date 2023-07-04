@@ -11,6 +11,7 @@ import { EducateLifeComponent } from './pages/educate-life/educate-life.componen
 import { StepsModule } from 'primeng/steps';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AboutComponent } from './pages/about/about.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     CourseListComponent,
     EducateLifeComponent,
+    AboutComponent,
   ],
   imports: [
     LandingRoutingModule,

@@ -20,6 +20,7 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainComponent } from './pages/main/main.component';
+import { DialogModule } from 'primeng/dialog';
 import { CurriculumDialogComponent } from './components/curriculum-dialog/curriculum-dialog.component';
 import { ProgramDialogComponent } from './components/program-dialog/program-dialog.component';
 
@@ -49,7 +50,6 @@ import { ProgramDialogComponent } from './components/program-dialog/program-dial
     FileUploadModule,
     MessagesModule,
     ToastModule,
-    MatDialogModule,
   ],
 })
 export class AdminModule {}

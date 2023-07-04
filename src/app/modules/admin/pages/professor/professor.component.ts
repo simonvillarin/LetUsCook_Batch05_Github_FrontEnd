@@ -13,6 +13,20 @@ interface UploadEvent {
   providers: [MessageService],
 })
 export class ProfessorComponent {
+  visible: boolean = false;
+  genders = [{ gender: 'Gender' }, { gender: 'Male' }, { gender: 'Female' }];
+  civilStatus = [
+    { status: 'Civil Status' },
+    { status: 'Single' },
+    { status: 'Married' },
+    { status: 'Divorced' },
+    { status: 'Widowed' },
+  ];
+  status = [
+    { status: 'Employement Status' },
+    { status: 'Part Time' },
+    { status: 'Full Time' },
+  ];
   professors = [
     {
       id: '1',
@@ -37,6 +51,10 @@ export class ProfessorComponent {
     },
   ];
   constructor(private messageService: MessageService) {}
+
+  showDialog() {
+    this.visible = true;
+  }
 
   onBasicUploadAuto(event: UploadEvent) {
     this.messageService.add({
