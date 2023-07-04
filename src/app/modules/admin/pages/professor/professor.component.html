@@ -1,6 +1,6 @@
 <main>
   <div class="table-header">
-    <button (click)="showDialog()">Add</button>
+    <button (click)="showDialog()" class="add">Add</button>
     <span [style]="{ position: 'relative' }">
       <i class="pi pi-search"></i>
       <input
@@ -50,155 +50,169 @@
   <p-header>
     <div class="modal-title">Add Professor</div>
   </p-header>
-  <div class="form-group">
-    <div class="input-group">
-      <label>First name</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">First name is required</small>
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <label>First name</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">First name is required</small>
+      </div>
+      <div class="input-group">
+        <label>Middle name</label>
+        <input pInputText />
+      </div>
+      <div class="input-group">
+        <label>Last name</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Last name is required</small>
+      </div>
+      <div class="input-group">
+        <label>Suffix</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Suffix is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Gender:</label>
+        <p-dropdown
+          [options]="genders"
+          optionLabel="gender"
+          [style]="{ width: '100%' }"
+          formControlName="gender"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Gender is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Civil Status:</label>
+        <p-dropdown
+          [options]="civilStatus"
+          optionLabel="status"
+          [style]="{ width: '100%' }"
+          formControlName="civilStatus"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }"
+          >Civil Status is required</small
+        >
+      </div>
+      <div class="input-group">
+        <label>Birthday</label>
+        <input pInputText type="date" />
+        <small [style]="{ color: 'var(--red)' }">Birthday is required</small>
+      </div>
+      <div class="input-group">
+        <label>Birthplace</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Birthplace is required</small>
+      </div>
+      <div class="input-group">
+        <label>Citizenship</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Citizenship is required</small>
+      </div>
+      <div class="input-group">
+        <label>Religion</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Religion is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Unit #:</label>
+        <input pInputText placeholder="Unit #" formControlName="unit" />
+        <small [style]="{ color: 'var(--red)' }">Unit number is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Street:</label>
+        <input pInputText placeholder="Street name" formControlName="street" />
+        <small [style]="{ color: 'var(--red)' }">Street name is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Subdivision / Village / Bldg:</label>
+        <input
+          pInputText
+          placeholder="Subdivision / Village / Bldg."
+          formControlName="subdivision"
+        />
+        <small [style]="{ color: 'var(--red)' }"
+          >Subdivision / Village / Bldg. is required</small
+        >
+      </div>
+      <div class="input-group">
+        <label class="input-label">Barangay:</label>
+        <input pInputText placeholder="Barangay" formControlName="barangay" />
+        <small [style]="{ color: 'var(--red)' }">Barangay is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">City / Municipality:</label>
+        <input pInputText placeholder="City" formControlName="city" />
+        <small [style]="{ color: 'var(--red)' }">City is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Province:</label>
+        <input pInputText placeholder="Province" formControlName="province" />
+        <small [style]="{ color: 'var(--red)' }">Province is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Zipcode:</label>
+        <input
+          pInputText
+          type="number"
+          placeholder="xxxx"
+          formControlName="zipcode"
+        />
+        <small [style]="{ color: 'var(--red)' }">Zipcode is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Telephone No:</label>
+        <input
+          pInputText
+          type="number"
+          placeholder="Telephone No."
+          formControlName="telephone"
+        />
+        <small [style]="{ color: 'var(--red)' }"
+          >Telephone no. is required</small
+        >
+      </div>
+      <div class="input-group">
+        <label class="input-label">Mobile No:</label>
+        <input
+          pInputText
+          type="number"
+          placeholder="09XXxxxxxxx"
+          formControlName="mobile"
+        />
+        <small [style]="{ color: 'var(--red)' }">Mobile no. is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Email Address:</label>
+        <input
+          pInputText
+          placeholder="example@domain.com"
+          formControlName="email"
+        />
+        <small [style]="{ color: 'var(--red)' }"
+          >Email address is required</small
+        >
+      </div>
+      <div class="input-group">
+        <label>Work</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Work is required</small>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Employement Status:</label>
+        <p-dropdown
+          [options]="status"
+          optionLabel="status"
+          [style]="{ width: '100%' }"
+          formControlName="civilStatus"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Work is required</small>
+      </div>
     </div>
-    <div class="input-group">
-      <label>Middle name</label>
-      <input pInputText />
+    <div class="actions">
+      <button class="action-btn cancel" type="button" (click)="closeDialog()">
+        Cancel
+      </button>
+      <button class="action-btn submit" type="submit">Submit</button>
     </div>
-    <div class="input-group">
-      <label>Last name</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">Last name is required</small>
-    </div>
-    <div class="input-group">
-      <label>Suffix</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">Suffix is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Gender:</label>
-      <p-dropdown
-        [options]="genders"
-        optionLabel="gender"
-        [style]="{ width: '100%' }"
-        formControlName="gender"
-      ></p-dropdown>
-      <small [style]="{ color: 'var(--red)' }">Gender is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Civil Status:</label>
-      <p-dropdown
-        [options]="civilStatus"
-        optionLabel="status"
-        [style]="{ width: '100%' }"
-        formControlName="civilStatus"
-      ></p-dropdown>
-      <small [style]="{ color: 'var(--red)' }">Civil Status is required</small>
-    </div>
-    <div class="input-group">
-      <label>Birthday</label>
-      <input pInputText type="date" />
-      <small [style]="{ color: 'var(--red)' }">Birthday is required</small>
-    </div>
-    <div class="input-group">
-      <label>Birthplace</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">Birthplace is required</small>
-    </div>
-    <div class="input-group">
-      <label>Citizenship</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">Citizenship is required</small>
-    </div>
-    <div class="input-group">
-      <label>Religion</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">Religion is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Unit #:</label>
-      <input pInputText placeholder="Unit #" formControlName="unit" />
-      <small [style]="{ color: 'var(--red)' }">Unit number is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Street:</label>
-      <input pInputText placeholder="Street name" formControlName="street" />
-      <small [style]="{ color: 'var(--red)' }">Street name is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Subdivision / Village / Bldg:</label>
-      <input
-        pInputText
-        placeholder="Subdivision / Village / Bldg."
-        formControlName="subdivision"
-      />
-      <small [style]="{ color: 'var(--red)' }"
-        >Subdivision / Village / Bldg. is required</small
-      >
-    </div>
-    <div class="input-group">
-      <label class="input-label">Barangay:</label>
-      <input pInputText placeholder="Barangay" formControlName="barangay" />
-      <small [style]="{ color: 'var(--red)' }">Barangay is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">City / Municipality:</label>
-      <input pInputText placeholder="City" formControlName="city" />
-      <small [style]="{ color: 'var(--red)' }">City is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Province:</label>
-      <input pInputText placeholder="Province" formControlName="province" />
-      <small [style]="{ color: 'var(--red)' }">Province is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Zipcode:</label>
-      <input
-        pInputText
-        type="number"
-        placeholder="xxxx"
-        formControlName="zipcode"
-      />
-      <small [style]="{ color: 'var(--red)' }">Zipcode is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Telephone No:</label>
-      <input
-        pInputText
-        type="number"
-        placeholder="Telephone No."
-        formControlName="telephone"
-      />
-      <small [style]="{ color: 'var(--red)' }">Telephone no. is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Mobile No:</label>
-      <input
-        pInputText
-        type="number"
-        placeholder="09XXxxxxxxx"
-        formControlName="mobile"
-      />
-      <small [style]="{ color: 'var(--red)' }">Mobile no. is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Email Address:</label>
-      <input
-        pInputText
-        placeholder="example@domain.com"
-        formControlName="email"
-      />
-      <small [style]="{ color: 'var(--red)' }">Email address is required</small>
-    </div>
-    <div class="input-group">
-      <label>Work</label>
-      <input pInputText />
-      <small [style]="{ color: 'var(--red)' }">Work is required</small>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Employement Status:</label>
-      <p-dropdown
-        [options]="status"
-        optionLabel="status"
-        [style]="{ width: '100%' }"
-        formControlName="civilStatus"
-      ></p-dropdown>
-      <small [style]="{ color: 'var(--red)' }">Work is required</small>
-    </div>
-  </div>
+  </form>
 </p-dialog>

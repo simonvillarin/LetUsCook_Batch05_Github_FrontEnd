@@ -1,16 +1,11 @@
 import { HttpEvent } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-interface UploadEvent {
-  originalEvent: HttpEvent<any>;
-  files: File[];
-}
 @Component({
   selector: 'app-professor',
   templateUrl: './professor.component.html',
   styleUrls: ['./professor.component.scss'],
-  providers: [MessageService],
 })
 export class ProfessorComponent {
   visible: boolean = false;
@@ -50,18 +45,9 @@ export class ProfessorComponent {
       status: 'OJT',
     },
   ];
-  constructor(private messageService: MessageService) {}
 
   showDialog() {
     this.visible = true;
-  }
-
-  onBasicUploadAuto(event: UploadEvent) {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'File Uploaded successfully',
-    });
   }
 
   isShowDropdown = false;
@@ -86,5 +72,9 @@ export class ProfessorComponent {
 
   closeMobileNav = () => {
     this.isShowMobileNav = false;
+  };
+
+  closeDialog = () => {
+    this.visible = false;
   };
 }

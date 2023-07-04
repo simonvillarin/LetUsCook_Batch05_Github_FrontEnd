@@ -29,7 +29,7 @@ tr td {
 
 .form-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 0.5rem 1rem;
 }
 
@@ -43,7 +43,7 @@ label {
   font-size: 0.875rem;
 }
 
-button {
+.add {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,9 +57,45 @@ button {
   cursor: pointer;
 }
 
-button:hover,
-button:focus {
+.add:hover,
+.add:focus {
   background-color: var(--darker-primary);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  width: 7.5rem;
+  margin-top: 1rem;
+  padding: 0.625rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary);
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+}
+
+.submit:hover,
+.submit:focus {
+  background-color: var(--darker-primary);
+}
+
+.cancel {
+  color: var(--red);
+  background-color: var(--white);
+  border: 1px solid var(--red);
+}
+
+.cancel:hover,
+.cancel:focus {
+  color: var(--white);
+  background-color: var(--red);
 }
 
 .table-header {
@@ -83,12 +119,14 @@ button:focus {
 }
 
 /* ========== MEDIA QUERIES ========== */
+@media screen and (min-width: 768px) {
+  .form-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media screen and (max-width: 992px) {
   button {
     width: 100%;
-  }
-
-  .form-group {
-    grid-template-columns: repeat(1, 1fr);
   }
 }
