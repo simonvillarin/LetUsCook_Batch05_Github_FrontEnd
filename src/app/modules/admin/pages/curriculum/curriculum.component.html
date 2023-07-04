@@ -1,9 +1,7 @@
 <main>
   <div class="table">
     <div class="table-header">
-      <button class="btn-border" (click)="onClickAdd()">
-        <mat-icon class="material-icons-outlined">add</mat-icon>ADD
-      </button>
+      <button class="btn-border" (click)="onClickAdd()">ADD</button>
 
       <span [style]="{ position: 'relative' }">
         <i class="pi pi-search"></i>
@@ -43,3 +41,67 @@
     </p-table>
   </div>
 </main>
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Add Curriculum</div>
+  </p-header>
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <label>Term</label>
+        <p-dropdown
+          [options]="terms"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Term.</small>
+      </div>
+      <div class="input-group">
+        <label>Year Level</label>
+        <p-dropdown
+          [options]="levels"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Year Level.</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <label>Program</label>
+        <p-dropdown
+          [options]="programs"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Program.</small>
+      </div>
+      <div class="input-group">
+        <label>Subject</label>
+        <p-dropdown
+          [options]="subjects"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Subject.</small>
+      </div>
+    </div>
+    <div class="button-group">
+      <button type="button" class="cancel" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="save">Save</button>
+    </div>
+  </form>
+</p-dialog>

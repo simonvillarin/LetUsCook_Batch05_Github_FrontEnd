@@ -50,6 +50,8 @@ import { ProgramDialogComponent } from './components/program-dialog/program-dial
     FileUploadModule,
     MessagesModule,
     ToastModule,
+    DialogModule,
+    MatDialogModule,
   ],
 })
 export class AdminModule {}

@@ -20,6 +20,7 @@ export class ProgramComponent implements OnInit {
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
+  isDialogOpen: boolean = false;
 
   constructor(
     private programService: ProgramService,
@@ -56,9 +57,10 @@ export class ProgramComponent implements OnInit {
   };
 
   onClickAdd = () => {
-    this.addDialog.open(ProgramDialogComponent, {
-      width: '750px',
-      height: '550px',
-    });
+    this.isDialogOpen = true;
+  };
+
+  onClickCancel = () => {
+    this.isDialogOpen = false;
   };
 }

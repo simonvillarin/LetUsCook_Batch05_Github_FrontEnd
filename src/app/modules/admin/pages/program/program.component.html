@@ -1,9 +1,7 @@
 <main>
   <div class="table">
     <div class="table-header">
-      <button class="btn-border" (click)="onClickAdd()">
-        <mat-icon class="material-icons-outlined">add</mat-icon>ADD
-      </button>
+      <button class="btn-border" (click)="onClickAdd()">ADD</button>
       <span [style]="{ position: 'relative' }">
         <i class="pi pi-search"></i>
         <input
@@ -41,3 +39,35 @@
     </p-table>
   </div>
 </main>
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Add Program</div>
+  </p-header>
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <label>Program Code</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Enter Program Code.</small>
+      </div>
+      <div class="input-group">
+        <label>Program Title</label>
+        <input pInputText />
+        <small [style]="{ color: 'var(--red)' }">Enter Program Title.</small>
+      </div>
+    </div>
+    <div class="button-group">
+      <button type="button" class="cancel" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="save">Save</button>
+    </div>
+  </form>
+</p-dialog>

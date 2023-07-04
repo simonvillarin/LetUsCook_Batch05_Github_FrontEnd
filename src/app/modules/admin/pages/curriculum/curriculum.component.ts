@@ -24,10 +24,22 @@ export class CurriculumComponent {
     { name: 'Third Year' },
     { name: 'Fourth Year' },
   ];
-
+  programs = [
+    { name: 'BSIT' },
+    { name: 'BSBA' },
+    { name: 'BSHM' },
+    { name: 'BSTM' },
+  ];
+  subjects = [
+    { name: 'Introduction to Programming' },
+    { name: 'Data Structures' },
+    { name: 'Database I' },
+    { name: 'Web Development I' },
+  ];
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
+  isDialogOpen: boolean = false;
 
   constructor(private addDialog: MatDialog) {}
 
@@ -53,9 +65,10 @@ export class CurriculumComponent {
   };
 
   onClickAdd = () => {
-    this.addDialog.open(CurriculumDialogComponent, {
-      width: '750px',
-      height: '550px',
-    });
+    this.isDialogOpen = true;
+  };
+
+  onClickCancel = () => {
+    this.isDialogOpen = false;
   };
 }

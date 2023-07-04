@@ -45,7 +45,7 @@ form {
 
 .form-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
 }
 
@@ -60,28 +60,62 @@ label {
 }
 
 .button-group {
+  width: 100%;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.save {
+  width: 6rem;
+  height: 3rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary);
+  padding: 0.5rem;
+}
+
+.save:hover,
+.save:focus {
+  background-color: var(--darker-primary);
+  cursor: pointer;
+}
+
+.cancel {
+  border: 2px solid var(--primary);
+  background-color: transparent;
+  width: 6rem;
+  height: 3rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: var(--very-dark-saturated-blue);
+  padding: 0.5rem;
+}
+
+.cancel:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
 }
 
 .btn-border {
-  width: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid var(--primary);
-  background-color: transparent;
+  padding: 0.75rem 2.75rem;
+  color: var(--white);
+  background-color: var(--primary);
   font-size: 1rem;
   border-radius: 0.25rem;
-  padding: 0.75rem;
-  cursor: pointer;
   transition: background-color 300ms ease-in;
+  cursor: pointer;
 }
 
-button:hover {
+.btn-border:hover,
+.btn-border:focus {
   background-color: var(--darker-primary);
-  color: var(--white);
 }
 
 #clear {
@@ -100,6 +134,11 @@ button:hover {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
+}
+
+.modal-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
+  font-weight: 400;
 }
 /* ========== MEDIA QUERIES ========== */
 @media screen and (max-width: 768px) {
