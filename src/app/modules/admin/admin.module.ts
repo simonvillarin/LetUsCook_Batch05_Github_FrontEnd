@@ -20,6 +20,7 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MainComponent } from './pages/main/main.component';
 import { DialogModule } from 'primeng/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,8 @@ import { DialogModule } from 'primeng/dialog';
     MessagesModule,
     ToastModule,
     DialogModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class AdminModule {}

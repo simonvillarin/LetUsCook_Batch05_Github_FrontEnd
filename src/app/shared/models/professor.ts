@@ -1,5 +1,6 @@
 export interface Professor {
   professorId?: number;
+  professorNo?: string;
   firstname?: string;
   middlename?: string;
   lastname?: string;
@@ -10,7 +11,6 @@ export interface Professor {
   birthplace?: string;
   citizenship?: string;
   religion?: string;
-  image?: string;
   unit?: string;
   street?: string;
   subdivision?: string;
@@ -23,5 +23,6 @@ export interface Professor {
   email?: string;
   work?: string;
   status?: string;
+  image?: string;
   activeDeactive?: boolean;
 }

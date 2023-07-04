@@ -1,42 +1,53 @@
 <main>
-  <div class="table-header">
-    <button (click)="showDialog()" class="add">Add</button>
-    <span [style]="{ position: 'relative' }">
-      <i class="pi pi-search"></i>
-      <input
-        type="text"
-        pInputText
-        placeholder="Search"
-        [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-      />
-    </span>
+  <div class="table">
+    <div class="table-header">
+      <button (click)="showDialog()" class="add">Add</button>
+      <span [style]="{ position: 'relative' }">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          placeholder="Search"
+          [(ngModel)]="search"
+          (ngModelChange)="searchChange($event)"
+          [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+        />
+      </span>
+    </div>
+    <p-table
+      [value]="professors"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%">First Name</th>
+          <th style="width: 20%">Middle Name</th>
+          <th style="width: 20%">Last Name</th>
+          <th style="width: 20%">Suffix</th>
+          <th style="width: 20%">Image</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-prof>
+        <tr>
+          <td>{{ prof.firstname }}</td>
+          <td>{{ prof.middlename }}</td>
+          <td>{{ prof.lastname }}</td>
+          <td>{{ prof.suffix }}</td>
+          <td>
+            <div class="avatar-container">
+              <div class="avatar">
+                <img src="{{ prof.image }}" alt="{{ prof.image }}" />
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-  <p-table
-    [value]="professors"
-    [paginator]="true"
-    [rows]="5"
-    [showCurrentPageReport]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10, 25, 50]"
-  >
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 25%">Name</th>
-        <th style="width: 25%">Email</th>
-        <th style="width: 25%">Mobile no.</th>
-        <th style="width: 25%">Status of employment</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-prof>
-      <tr>
-        <td>{{ prof.name }}</td>
-        <td>{{ prof.email }}</td>
-        <td>{{ prof.mobile }}</td>
-        <td>{{ prof.status }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
 </main>
 
 <p-dialog
@@ -50,78 +61,167 @@
   <p-header>
     <div class="modal-title">Add Professor</div>
   </p-header>
-  <form>
+  <form [formGroup]="professorForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <div class="input-group">
         <label>First name</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">First name is required</small>
+        <input
+          pInputText
+          placeholder="First name"
+          formControlName="firstname"
+        />
+        <div
+          *ngIf="firstname?.invalid && (firstname?.dirty || firstname?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="firstname?.errors?.['required']"
+            >First name is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Middle name</label>
-        <input pInputText />
+        <input
+          pInputText
+          placeholder="Middle name"
+          formControlName="middlename"
+        />
       </div>
       <div class="input-group">
         <label>Last name</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Last name is required</small>
+        <input pInputText placeholder="Last name" formControlName="lastname" />
+        <div
+          *ngIf="lastname?.invalid && (lastname?.dirty || lastname?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="lastname?.errors?.['required']"
+            >Last name is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Suffix</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Suffix is required</small>
+        <input pInputText placeholder="Suffix" formControlName="suffix" />
       </div>
       <div class="input-group">
         <label class="input-label">Gender:</label>
         <p-dropdown
           [options]="genders"
-          optionLabel="gender"
           [style]="{ width: '100%' }"
           formControlName="gender"
         ></p-dropdown>
-        <small [style]="{ color: 'var(--red)' }">Gender is required</small>
+        <div *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="gender?.errors?.['required']"
+            >Gender is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Civil Status:</label>
         <p-dropdown
-          [options]="civilStatus"
-          optionLabel="status"
+          [options]="civil"
           [style]="{ width: '100%' }"
           formControlName="civilStatus"
         ></p-dropdown>
-        <small [style]="{ color: 'var(--red)' }"
-          >Civil Status is required</small
+        <div
+          *ngIf="
+            civilStatus?.invalid && (civilStatus?.dirty || civilStatus?.touched)
+          "
         >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="civilStatus?.errors?.['required']"
+            >Civil Status is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Birthday</label>
-        <input pInputText type="date" />
-        <small [style]="{ color: 'var(--red)' }">Birthday is required</small>
+        <input pInputText type="date" formControlName="birthdate" />
+        <div
+          *ngIf="birthdate.invalid && (birthdate?.dirty || birthdate?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthdate?.errors?.['required']"
+            >Birthdate is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Birthplace</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Birthplace is required</small>
+        <input
+          pInputText
+          placeholder="Birthplace"
+          formControlName="birthplace"
+        />
+        <div
+          *ngIf="
+            birthplace.invalid && (birthplace?.dirty || birthplace?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthplace?.errors?.['required']"
+            >Birthplace is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Citizenship</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Citizenship is required</small>
+        <input
+          pInputText
+          placeholder="Citizenship"
+          formControlName="citizenship"
+        />
+        <div
+          *ngIf="
+            citizenship.invalid && (citizenship?.dirty || citizenship?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="citizenship?.errors?.['required']"
+            >Citizenship is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Religion</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Religion is required</small>
+        <input pInputText placeholder="Religion" formControlName="religion" />
+        <div *ngIf="religion.invalid && (religion?.dirty || religion?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="religion?.errors?.['required']"
+            >Religion is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Unit #:</label>
         <input pInputText placeholder="Unit #" formControlName="unit" />
-        <small [style]="{ color: 'var(--red)' }">Unit number is required</small>
+        <div *ngIf="unit.invalid && (unit?.dirty || unit?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="unit?.errors?.['required']"
+            >Unit is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Street:</label>
         <input pInputText placeholder="Street name" formControlName="street" />
-        <small [style]="{ color: 'var(--red)' }">Street name is required</small>
+        <div *ngIf="street.invalid && (street?.dirty || street?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="street?.errors?.['required']"
+            >Street name is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Subdivision / Village / Bldg:</label>
@@ -130,24 +230,50 @@
           placeholder="Subdivision / Village / Bldg."
           formControlName="subdivision"
         />
-        <small [style]="{ color: 'var(--red)' }"
-          >Subdivision / Village / Bldg. is required</small
+        <div
+          *ngIf="
+            subdivision.invalid && (subdivision?.dirty || subdivision?.touched)
+          "
         >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="subdivision?.errors?.['required']"
+            >Subdivision / Village / Bldg. is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Barangay:</label>
         <input pInputText placeholder="Barangay" formControlName="barangay" />
-        <small [style]="{ color: 'var(--red)' }">Barangay is required</small>
+        <div *ngIf="barangay.invalid && (barangay?.dirty || barangay?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="barangay?.errors?.['required']"
+            >Barangay is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">City / Municipality:</label>
         <input pInputText placeholder="City" formControlName="city" />
-        <small [style]="{ color: 'var(--red)' }">City is required</small>
+        <div *ngIf="city.invalid && (city?.dirty || city?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="city?.errors?.['required']"
+            >City is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Province:</label>
         <input pInputText placeholder="Province" formControlName="province" />
-        <small [style]="{ color: 'var(--red)' }">Province is required</small>
+        <div *ngIf="province.invalid && (province?.dirty || province?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="province?.errors?.['required']"
+            >Province is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Zipcode:</label>
@@ -157,7 +283,13 @@
           placeholder="xxxx"
           formControlName="zipcode"
         />
-        <small [style]="{ color: 'var(--red)' }">Zipcode is required</small>
+        <div *ngIf="zipcode.invalid && (zipcode?.dirty || zipcode?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="zipcode?.errors?.['required']"
+            >Zipcode is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Telephone No:</label>
@@ -167,9 +299,6 @@
           placeholder="Telephone No."
           formControlName="telephone"
         />
-        <small [style]="{ color: 'var(--red)' }"
-          >Telephone no. is required</small
-        >
       </div>
       <div class="input-group">
         <label class="input-label">Mobile No:</label>
@@ -179,7 +308,13 @@
           placeholder="09XXxxxxxxx"
           formControlName="mobile"
         />
-        <small [style]="{ color: 'var(--red)' }">Mobile no. is required</small>
+        <div *ngIf="mobile.invalid && (mobile?.dirty || mobile?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="mobile?.errors?.['required']"
+            >Mobile no. is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Email Address:</label>
@@ -188,31 +323,69 @@
           placeholder="example@domain.com"
           formControlName="email"
         />
-        <small [style]="{ color: 'var(--red)' }"
-          >Email address is required</small
-        >
+        <div *ngIf="email.invalid && (email?.dirty || email?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="email?.errors?.['required']"
+            >Email Address is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Work</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Work is required</small>
+        <label>Type of Work</label>
+        <input pInputText formControlName="work" />
+        <div *ngIf="work.invalid && (work?.dirty || work?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="work?.errors?.['required']"
+            >Type of work is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Employement Status:</label>
         <p-dropdown
-          [options]="status"
-          optionLabel="status"
+          [options]="employementStatus"
           [style]="{ width: '100%' }"
-          formControlName="civilStatus"
+          formControlName="status"
         ></p-dropdown>
-        <small [style]="{ color: 'var(--red)' }">Work is required</small>
+        <div *ngIf="status.invalid && (status?.dirty || status?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="status?.errors?.['required']"
+            >Employement status is required</small
+          >
+        </div>
       </div>
     </div>
-    <div class="actions">
-      <button class="action-btn cancel" type="button" (click)="closeDialog()">
-        Cancel
-      </button>
-      <button class="action-btn submit" type="submit">Submit</button>
+    <div class="last-row">
+      <div class="input-group">
+        <label>Image:</label>
+        <div class="pic">
+          <mat-icon class="material-icons-outlined">add</mat-icon>
+          <input pInputText type="file" (change)="onFileSelected($event)" />
+          <img
+            [src]="imagePreview"
+            alt="Preview"
+            id="preview"
+            class="img"
+            [class.img-active]="isShowImage"
+          />
+          <div (click)="removeImagePreview()">
+            <mat-icon
+              class="material-icons-outlined close-icon"
+              *ngIf="isShowImage"
+              >close</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn cancel" type="button" (click)="closeDialog()">
+          Cancel
+        </button>
+        <button class="action-btn submit" type="submit">Save</button>
+      </div>
     </div>
   </form>
 </p-dialog>

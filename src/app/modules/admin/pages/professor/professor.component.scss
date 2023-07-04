@@ -7,13 +7,13 @@ main {
 }
 
 mat-icon {
-  color: var(--white);
+  color: var(--primary);
 }
 
 .table {
+  padding: 1.5rem;
+  border-radius: 0.25rem;
   background-color: var(--white);
-  height: max-content;
-  overflow-x: auto;
 }
 
 tr th {
@@ -30,7 +30,7 @@ tr td {
 .form-group {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 1rem;
 }
 
 .input-group {
@@ -44,10 +44,6 @@ label {
 }
 
 .add {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
   padding: 0.75rem 2.75rem;
   color: var(--white);
   background-color: var(--primary);
@@ -65,12 +61,15 @@ label {
 .actions {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
   gap: 0.5rem;
 }
 
 .action-btn {
   width: 7.5rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 1rem;
   padding: 0.625rem;
   font-size: 1rem;
@@ -118,15 +117,79 @@ label {
   font-weight: 400;
 }
 
+.last-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pic {
+  position: relative;
+  width: 14rem;
+  height: 14rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.25rem;
+}
+
+input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 10;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.close-icon {
+  position: absolute;
+  top: 0;
+  right: -1.625rem;
+  font-size: 1.25rem;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.img-active {
+  display: block;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
 /* ========== MEDIA QUERIES ========== */
 @media screen and (min-width: 768px) {
   .form-group {
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media screen and (max-width: 992px) {
-  button {
-    width: 100%;
   }
 }
