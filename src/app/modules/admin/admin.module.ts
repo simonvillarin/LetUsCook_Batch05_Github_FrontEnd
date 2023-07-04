@@ -21,8 +21,6 @@ import { ToastModule } from 'primeng/toast';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainComponent } from './pages/main/main.component';
 import { DialogModule } from 'primeng/dialog';
-import { CurriculumDialogComponent } from './components/curriculum-dialog/curriculum-dialog.component';
-import { ProgramDialogComponent } from './components/program-dialog/program-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +33,6 @@ import { ProgramDialogComponent } from './components/program-dialog/program-dial
     ProfessorComponent,
     StudentComponent,
     MainComponent,
-    CurriculumDialogComponent,
-    ProgramDialogComponent,
   ],
   imports: [
     CommonModule,

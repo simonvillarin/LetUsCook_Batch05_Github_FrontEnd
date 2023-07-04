@@ -1,4 +1,3 @@
-import { CurriculumDialogComponent } from './../../components/curriculum-dialog/curriculum-dialog.component';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -40,8 +39,6 @@ export class CurriculumComponent {
   isShowMobileNav = false;
   isShowNotifications = false;
   isDialogOpen: boolean = false;
-
-  constructor(private addDialog: MatDialog) {}
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
