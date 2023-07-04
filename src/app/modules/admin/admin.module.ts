@@ -19,6 +19,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MainComponent } from './pages/main/main.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MainComponent } from './pages/main/main.component';
     FileUploadModule,
     MessagesModule,
     ToastModule,
+    DialogModule,
   ],
 })
 export class AdminModule {}
