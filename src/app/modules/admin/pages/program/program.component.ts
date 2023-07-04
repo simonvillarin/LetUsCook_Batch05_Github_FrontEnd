@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { ProgramDialogComponent } from '../../components/program-dialog/program-dialog.component';
 
 @Component({
   selector: 'app-program',
@@ -19,7 +21,10 @@ export class ProgramComponent implements OnInit {
   isShowMobileNav = false;
   isShowNotifications = false;
 
-  constructor(private programService: ProgramService) {}
+  constructor(
+    private programService: ProgramService,
+    private addDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getAllPrograms();
@@ -48,5 +53,12 @@ export class ProgramComponent implements OnInit {
 
   getAllPrograms = () => {
     this.programService.getAllPrograms().subscribe((data) => console.log(data));
+  };
+
+  onClickAdd = () => {
+    this.addDialog.open(ProgramDialogComponent, {
+      width: '750px',
+      height: '550px',
+    });
   };
 }

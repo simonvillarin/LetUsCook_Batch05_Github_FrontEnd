@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectItemGroup } from 'primeng/api';
-import { EvaluationDialogComponent } from '../../components/evaluation-dialog/evaluation-dialog.component';
 import { EvaluationFormDialogComponent } from '../../components/evaluation-form-dialog/evaluation-form-dialog.component';
 @Component({
   selector: 'app-student-evaluation',

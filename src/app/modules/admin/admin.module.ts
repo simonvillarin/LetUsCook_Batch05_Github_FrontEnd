@@ -18,7 +18,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MainComponent } from './pages/main/main.component';
+import { CurriculumDialogComponent } from './components/curriculum-dialog/curriculum-dialog.component';
+import { ProgramDialogComponent } from './components/program-dialog/program-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,8 @@ import { MainComponent } from './pages/main/main.component';
     ProfessorComponent,
     StudentComponent,
     MainComponent,
+    CurriculumDialogComponent,
+    ProgramDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +49,7 @@ import { MainComponent } from './pages/main/main.component';
     FileUploadModule,
     MessagesModule,
     ToastModule,
+    MatDialogModule,
   ],
 })
 export class AdminModule {}

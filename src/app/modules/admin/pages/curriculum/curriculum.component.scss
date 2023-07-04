@@ -64,29 +64,33 @@ label {
   gap: 0.5rem;
 }
 
-button {
-  width: 9rem;
-  margin-top: 0.5rem;
-  padding: 0.875rem;
+.btn-border {
+  width: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--primary);
+  background-color: transparent;
   font-size: 1rem;
-  color: var(--white);
-  background-color: var(--primary);
   border-radius: 0.25rem;
+  padding: 0.75rem;
   cursor: pointer;
+  transition: background-color 300ms ease-in;
 }
 
 #clear {
   background-color: var(--red);
 }
 
-button:hover,
-button:focus {
+button:hover {
   background-color: var(--darker-primary);
+  color: var(--white);
 }
 
 .table-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
