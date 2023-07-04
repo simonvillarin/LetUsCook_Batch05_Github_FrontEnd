@@ -1,39 +1,66 @@
 <main>
   <div class="table">
-    <div class="table-header">
-      <button class="btn-border" (click)="onClickAdd()">ADD</button>
-      <span [style]="{ position: 'relative' }">
-        <i class="pi pi-search"></i>
-        <input
-          type="text"
-          pInputText
-          placeholder="Search"
-          [style]="{
-            width: '18rem',
-            paddingLeft: '2.5rem'
-          }"
-        />
-      </span>
-    </div>
     <p-table
+      #dt
       [value]="programs"
       [paginator]="true"
-      [rows]="5"
+      [rows]="3"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 25, 50]"
+      [rowsPerPageOptions]="[3, 6, 9]"
+      [globalFilterFields]="['programCode', 'programTitle']"
     >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          <button class="btn-border" (click)="onClickAdd()">ADD</button>
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '18rem',
+                paddingLeft: '2.5rem'
+              }"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 25%">Program Code</th>
-          <th style="width: 25%">Program Title</th>
+          <th style="width: 20%">Program Code</th>
+          <th style="width: 40%">Program Title</th>
+          <th style="width: 20%">Status</th>
+          <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-program>
         <tr>
-          <td>{{ program.progCode }}</td>
-          <td>{{ program.progTitle }}</td>
+          <td>{{ program.programCode }}</td>
+          <td>{{ program.programTitle }}</td>
+          <td>{{ program.status ? "Active" : "Inactive" }}</td>
+          <td>
+            <div class="table-actions">
+              <div class="edit" (click)="onClickEdit(program)">
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Edit program"
+                  >edit</mat-icon
+                >
+              </div>
+              <div class="remove" (click)="onClickRemove(program)">
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Remove program"
+                  >block</mat-icon
+                >
+              </div>
+            </div>
+          </td>
         </tr>
       </ng-template>
     </p-table>
@@ -48,19 +75,40 @@
   [resizable]="false"
 >
   <p-header>
-    <div class="modal-title">Add Program</div>
+    <div class="modal-title">{{ title }}</div>
   </p-header>
-  <form>
+  <form [formGroup]="programForm" (ngSubmit)="onClickSave()">
     <div class="form-group">
       <div class="input-group">
         <label>Program Code</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Enter Program Code.</small>
+        <input pInputText formControlName="programCode" />
+        <div
+          *ngIf="
+            programCode.invalid && (programCode?.dirty || programCode?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="programCode?.errors?.['required']"
+            >Program Code is required</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Program Title</label>
-        <input pInputText />
-        <small [style]="{ color: 'var(--red)' }">Enter Program Title.</small>
+        <input pInputText formControlName="programTitle" />
+        <div
+          *ngIf="
+            programTitle.invalid &&
+            (programTitle?.dirty || programTitle?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="programTitle?.errors?.['required']"
+            >Program Title is required</small
+          >
+        </div>
       </div>
     </div>
     <div class="button-group">
@@ -70,4 +118,21 @@
       <button type="submit" class="save">Save</button>
     </div>
   </form>
+</p-dialog>
+<p-dialog
+  [(visible)]="isDeleteDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  Are you sure you want to delete this programCode?
+  <div class="button-group">
+    <button class="cancel">Cancel</button>
+    <button class="save" (click)="onDeleteProgram()">Yes</button>
+  </div>
 </p-dialog>

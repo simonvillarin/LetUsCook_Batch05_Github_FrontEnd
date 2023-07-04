@@ -21,7 +21,8 @@ import { ToastModule } from 'primeng/toast';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainComponent } from './pages/main/main.component';
 import { DialogModule } from 'primeng/dialog';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
   declarations: [
     ProgramComponent,
@@ -48,6 +49,9 @@ import { DialogModule } from 'primeng/dialog';
     ToastModule,
     DialogModule,
     MatDialogModule,
+    ReactiveFormsModule,
+    TooltipModule,
+    FormsModule,
   ],
 })
 export class AdminModule {}

@@ -9,16 +9,10 @@ main {
   padding: 2rem;
 }
 
-.form,
 .table {
   padding: 1.5rem;
   border-radius: 0.25rem;
   background-color: var(--white);
-  height: min-content;
-}
-
-.table {
-  overflow-x: auto;
 }
 
 tr th {
@@ -35,6 +29,29 @@ tr td {
 h2 {
   font-weight: 400;
   margin-bottom: 0.5rem;
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.edit mat-icon {
+  color: var(--very-dark-saturated-blue);
+}
+
+.edit:hover {
+  cursor: pointer;
+}
+
+.remove mat-icon {
+  color: red;
+}
+
+.remove:hover {
+  cursor: pointer;
 }
 
 form {
