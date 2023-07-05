@@ -20,7 +20,7 @@
       <div class="label">Program</div>
     </div>
     <div class="circle-container step-2" (click)="onStepTwo()">
-      <div class="circle" [class.circle-active]="stepTwo" *ngIf="!stepTwoDone">
+      <div class="circle" [class.circle-active]="stepTwo">
         <div *ngIf="!stepTwoDone">2</div>
         <mat-icon
           class="material-icons-outlined"
@@ -32,11 +32,7 @@
       <div class="label">Personal Information</div>
     </div>
     <div class="circle-container step-3" (click)="onStepThree()">
-      <div
-        class="circle"
-        [class.circle-active]="stepThree"
-        *ngIf="!stepThreeDone"
-      >
+      <div class="circle" [class.circle-active]="stepThree">
         <div *ngIf="!stepThreeDone">3</div>
         <mat-icon
           class="material-icons-outlined"
@@ -224,12 +220,13 @@
     <div class="choosen">
       You have chosen <span>{{ program }}</span>
     </div>
-    <form [formGroup]="applyForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepTwo()">
       <div class="level">
         <div class="input-group">
           <label class="input-label">Year Level:</label>
           <p-dropdown
             [options]="levels"
+            placeholder="Please select year level"
             [style]="{ width: '100%' }"
             formControlName="yearLevel"
           ></p-dropdown>
@@ -250,6 +247,7 @@
           <label class="input-label">Term:</label>
           <p-dropdown
             [options]="terms"
+            placeholder="Please select term"
             [style]="{ width: '100%' }"
             formControlName="term"
           ></p-dropdown>
@@ -270,6 +268,7 @@
           <label class="input-label">School Year:</label>
           <p-dropdown
             [options]="schoolYear"
+            placeholder="Please select school year"
             [style]="{ width: '100%' }"
             formControlName="schoolYear"
           ></p-dropdown>
@@ -357,6 +356,7 @@
             <label class="input-label">Gender:</label>
             <p-dropdown
               [options]="genders"
+              placeholder="Gender"
               [style]="{ width: '100%' }"
               formControlName="gender"
             ></p-dropdown>
@@ -377,6 +377,7 @@
             <label class="input-label">Civil Status:</label>
             <p-dropdown
               [options]="civilStatus"
+              placeholder="Civil Status"
               [style]="{ width: '100%' }"
               formControlName="civilStatus"
             ></p-dropdown>
@@ -754,6 +755,7 @@
             <label class="input-label">School Year:</label>
             <p-dropdown
               [options]="schoolYears"
+              placeholder="Please select school level"
               [style]="{ width: '100%' }"
               formControlName="lastSchoolYear"
             ></p-dropdown>
@@ -774,6 +776,7 @@
             <label class="input-label">Year Level:</label>
             <p-dropdown
               [options]="yearLevels"
+              placeholder="Please select year level"
               [style]="{ width: '100%' }"
               formControlName="lastYearLevel"
             ></p-dropdown>
@@ -794,6 +797,7 @@
             <label class="input-label">Term:</label>
             <p-dropdown
               [options]="terms"
+              placeholder="Please select term"
               [style]="{ width: '100%' }"
               formControlName="lastYearTerm"
             ></p-dropdown>
@@ -932,39 +936,24 @@
   </div>
 
   <div class="stepper-3" *ngIf="stepperNumber == 3">
-    <form [formGroup]="applyForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepThree()">
       <div class="level">
         <div class="input-group">
           <label class="input-label">Year Level:</label>
           <div class="dropdown">
-            <input
-              pInputText
-              [disabled]="true"
-              [style]="{ width: '100%' }"
-              formControlName="yearLevel"
-            />
+            <div class="input">{{ studentInfo.yearLevel }}</div>
           </div>
         </div>
         <div class="input-group">
           <label class="input-label">Term:</label>
           <div class="dropdown">
-            <input
-              pInputText
-              [disabled]="true"
-              [style]="{ width: '100%' }"
-              formControlName="term"
-            />
+            <div class="input">{{ studentInfo.term }}</div>
           </div>
         </div>
         <div class="input-group">
           <label class="input-label">School Year:</label>
           <div class="dropdown">
-            <input
-              pInputText
-              [disabled]="true"
-              [style]="{ width: '100%' }"
-              formControlName="schoolYear"
-            />
+            <div class="input">{{ studentInfo.schoolYear }}</div>
           </div>
         </div>
       </div>
@@ -975,46 +964,46 @@
         <div class="personal-1">
           <div class="input-group">
             <label class="input-label">First Name:</label>
-            <input pInputText [disabled]="true" formControlName="firstName" />
+            <div class="input">{{ studentInfo.firstname }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Middle Name:</label>
-            <input pInputText [disabled]="true" formControlName="middleName" />
+            <div class="input">{{ studentInfo.middlename }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Last Name:</label>
-            <input pInputText [disabled]="true" formControlName="lastName" />
+            <div class="input">{{ studentInfo.lastname }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Suffix:</label>
-            <input pInputText [disabled]="true" formControlName="suffix" />
+            <div class="input">{{ studentInfo.suffix }}</div>
           </div>
         </div>
 
         <div class="personal-2">
           <div class="input-group">
             <label class="input-label">Gender:</label>
-            <input pInputText [disabled]="true" formControlName="gender" />
+            <div class="input">{{ studentInfo.gender }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Civil Status:</label>
-            <input pInputText [disabled]="true" formControlName="civilStatus" />
+            <div class="input">{{ studentInfo.civilStatus }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Citizenship:</label>
-            <input pInputText [disabled]="true" formControlName="citizenship" />
+            <div class="input">{{ studentInfo.citizenship }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Date of Birth:</label>
-            <input pInputText [disabled]="true" formControlName="birthDate" />
+            <div class="input">{{ studentInfo.birthdate }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Birthplace:</label>
-            <input pInputText [disabled]="true" formControlName="birthPlace" />
+            <div class="input">{{ studentInfo.birthplace }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Religion:</label>
-            <input pInputText [disabled]="true" formControlName="religion" />
+            <div class="input">{{ studentInfo.religion }}</div>
           </div>
         </div>
       </div>
@@ -1024,33 +1013,33 @@
         <div class="address-1">
           <div class="input-group">
             <label class="input-label">Unit #:</label>
-            <input pInputText [disabled]="true" formControlName="unit" />
+            <div class="input">{{ studentInfo.unit }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Street:</label>
-            <input pInputText [disabled]="true" formControlName="street" />
+            <div class="input">{{ studentInfo.street }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Subdivision / Village / Bldg:</label>
-            <input pInputText [disabled]="true" formControlName="subdivision" />
+            <div class="input">{{ studentInfo.subdivision }}</div>
           </div>
         </div>
         <div class="address-2">
           <div class="input-group">
             <label class="input-label">Barangay:</label>
-            <input pInputText [disabled]="true" formControlName="barangay" />
+            <div class="input">{{ studentInfo.barangay }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">City / Municipality:</label>
-            <input pInputText [disabled]="true" formControlName="city" />
+            <div class="input">{{ studentInfo.city }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Province:</label>
-            <input pInputText [disabled]="true" formControlName="province" />
+            <div class="input">{{ studentInfo.province }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Zipcode:</label>
-            <input pInputText [disabled]="true" formControlName="zipcode" />
+            <div class="input">{{ studentInfo.zipcode }}</div>
           </div>
         </div>
       </div>
@@ -1060,15 +1049,15 @@
         <div class="contact">
           <div class="input-group">
             <label class="input-label">Telephone No:</label>
-            <input pInputText [disabled]="true" formControlName="telephone" />
+            <div class="input">{{ studentInfo.telephone }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Mobile No:</label>
-            <input pInputText [disabled]="true" formControlName="mobile" />
+            <div class="input">{{ studentInfo.mobile }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Email Address:</label>
-            <input pInputText [disabled]="true" formControlName="email" />
+            <div class="input">{{ studentInfo.email }}</div>
           </div>
         </div>
       </div>
@@ -1078,47 +1067,31 @@
         <div class="school-1">
           <div class="input-group">
             <label class="input-label">Name of School:</label>
-            <input pInputText [disabled]="true" formControlName="schoolName" />
+            <div class="input">{{ studentInfo.lastSchoolAttended }}</div>
           </div>
           <div class="input-group">
             <label class="input-label"
               >Program / Track & Strand / Specialization:</label
             >
-            <input pInputText [disabled]="true" formControlName="program" />
+            <div class="input">{{ studentInfo.programTaken }}</div>
           </div>
         </div>
         <div class="school-2">
           <div class="input-group">
             <label class="input-label">Date of Graduation:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="graduationDate"
-            />
+            <div class="input">{{ studentInfo.dateOfGraduation }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">School Year:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="lastSchoolYear"
-            />
+            <div class="input">{{ studentInfo.lastSchoolYear }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Year Level:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="lastYearLevel"
-            />
+            <div class="input">{{ studentInfo.lastYearLevel }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Term:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="lastYearTerm"
-            />
+            <div class="input">{{ studentInfo.lastSem }}</div>
           </div>
         </div>
       </div>
@@ -1127,68 +1100,49 @@
         <div class="emergency-1">
           <div class="input-group">
             <label class="input-label">First Name:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencyFirstName"
-            />
+            <div class="input">{{ studentInfo.parentFirstName }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Middle Name:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencyMiddleName"
-            />
+            <div class="input">{{ studentInfo.parentMiddleName }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Last Name:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencyLastName"
-            />
+            <div class="input">{{ studentInfo.parentLastName }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Suffix:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencySuffix"
-            />
+            <div class="input">{{ studentInfo.parentSuffix }}</div>
           </div>
         </div>
         <div class="emergency-2">
           <div class="input-group">
             <label class="input-label">Complete Address:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencyAddress"
-            />
+            <div class="input">{{ studentInfo.parentAddress }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Contact No:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencyContact"
-            />
+            <div class="input">{{ studentInfo.parentContact }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Relationship:</label>
-            <input
-              pInputText
-              [disabled]="true"
-              formControlName="emergencyRelationship"
-            />
+            <div class="input">{{ studentInfo.parentRelationship }}</div>
           </div>
         </div>
       </div>
-      <button (click)="buttonClicked = true">Next Step</button>
+      <button (click)="onSubmitStepThree()">Next Step</button>
     </form>
   </div>
-  <div class="stepper-4" *ngIf="stepperNumber == 4">Stepper 4</div>
+  <div class="stepper-4" *ngIf="stepperNumber == 4">
+    <div>
+      <div class="sentence">
+        Thank you for submitting your application form. We have received your
+        application and will review it shortly. You will be notified via email
+        regarding the status of your application.
+      </div>
+      <button class="btn-homepage" routerLink="/">Back to homepage</button>
+    </div>
+  </div>
 </div>
 
 <app-footer></app-footer>

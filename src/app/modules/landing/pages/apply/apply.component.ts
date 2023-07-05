@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StudentService } from 'src/app/shared/services/student/student.service';
 
 @Component({
   selector: 'app-apply',
@@ -22,32 +23,27 @@ export class ApplyComponent implements OnInit {
   studentNo: string = '';
   applyForm: FormGroup;
   buttonClicked: boolean = false;
+  studentInfo: any;
 
-  terms = ['Please select term', 'First Term', 'Second Term'];
-  levels = [
-    'Please select year level',
-    'First Year',
-    'Second Year',
-    'Third Year',
-    'Fourth Year',
-  ];
+  terms = ['First Term', 'Second Term'];
+  levels = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
   yearLevels = [
-    'Select year level',
     'Grade 12',
     'First Year',
     'Second Year',
     'Third Year',
     'Fourth Year',
   ];
-  schoolYear = ['Please select school year'];
-  schoolYears = ['Select school year'];
-  genders = ['Gender', 'Male', 'Female'];
-  civilStatus = ['Civil Status', 'Single', 'Married', 'Divorced', 'Widowed'];
+  schoolYear: string[] = [];
+  schoolYears: string[] = [];
+  genders = ['Male', 'Female'];
+  civilStatus = ['Single', 'Married', 'Divorced', 'Widowed'];
 
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private studentService: StudentService
   ) {
     this.applyForm = fb.group({
       yearLevel: ['', [Validators.required]],
@@ -89,145 +85,61 @@ export class ApplyComponent implements OnInit {
     });
   }
 
-  onSubmit = () => {
-    if (this.applyForm.valid) {
-      const {
-        yearLevel,
-        term,
-        schoolYear,
-        firstName,
-        middleName,
-        lastName,
-        suffix,
-        gender,
-        civilStatus,
-        citizenship,
-        birthDate,
-        birthPlace,
-        religion,
-        unit,
-        street,
-        subdivision,
-        barangay,
-        city,
-        province,
-        zipcode,
-        telephone,
-        mobile,
-        email,
-        schoolName,
-        program,
-        graduationDate,
-        lastSchoolYear,
-        lastYearLevel,
-        lastYearTerm,
-        emergencyFirstName,
-        emergencyMiddleName,
-        emergencyLastName,
-        emergencySuffix,
-        emergencyAddress,
-        emergencyContact,
-        emergencyRelationship,
-      } = this.applyForm.value;
-      this.applyForm.patchValue({
-        yearLevel,
-        term,
-        schoolYear,
-        firstName,
-        middleName,
-        lastName,
-        suffix,
-        gender,
-        civilStatus,
-        citizenship,
-        birthDate,
-        birthPlace,
-        religion,
-        unit,
-        street,
-        subdivision,
-        barangay,
-        city,
-        province,
-        zipcode,
-        telephone,
-        mobile,
-        email,
-        schoolName,
-        program,
-        graduationDate,
-        lastSchoolYear,
-        lastYearLevel,
-        lastYearTerm,
-        emergencyFirstName,
-        emergencyMiddleName,
-        emergencyLastName,
-        emergencySuffix,
-        emergencyAddress,
-        emergencyContact,
-        emergencyRelationship,
-      });
-    } else {
-      this.buttonClicked = true;
-      this.applyForm.markAllAsTouched();
-    }
-  };
-
   ngOnInit(): void {
     const date = new Date();
     let currentYear = date.getFullYear();
     const nextYear = date.getFullYear() + 1;
     const schoolYear = String(currentYear) + ' - ' + String(nextYear);
-    this.schoolYear = [...this.schoolYear, schoolYear];
+    this.schoolYear.push;
     for (let i = 0; i < 28; i++) {
       let previousYear = currentYear - 1;
       let year = String(previousYear) + ' - ' + String(currentYear);
-      this.schoolYears = [...this.schoolYears, year];
+      this.schoolYears.push(year);
       currentYear = currentYear - 1;
     }
   }
 
   onStepOne = () => {
-    // if (this.stepperNumber == 2) {
-    this.stepOne = true;
-    this.stepTwo = false;
-    this.stepThree = false;
-    this.stepFour = false;
-    this.stepperNumber = 1;
-    this.stepOneDone = false;
-    // }
+    if (this.stepperNumber == 2) {
+      this.stepOne = true;
+      this.stepTwo = false;
+      this.stepThree = false;
+      this.stepFour = false;
+      this.stepperNumber = 1;
+      this.stepOneDone = false;
+    }
   };
 
   onStepTwo = () => {
-    // if (this.stepperNumber == 3) {
-    this.stepTwo = true;
-    this.stepThree = false;
-    this.stepFour = false;
-    this.stepOne = false;
-    this.stepperNumber = 2;
-    this.stepTwoDone = false;
-    // }
+    if (this.stepperNumber == 3) {
+      this.stepTwo = true;
+      this.stepThree = false;
+      this.stepFour = false;
+      this.stepOne = false;
+      this.stepperNumber = 2;
+      this.stepTwoDone = false;
+    }
   };
 
   onStepThree = () => {
-    // if (this.stepperNumber == 4) {
-    this.stepThree = true;
-    this.stepFour = false;
-    this.stepOne = false;
-    this.stepTwo = false;
-    this.stepperNumber = 3;
-    this.stepThreeDone = false;
-    // }
+    if (this.stepperNumber == 4) {
+      this.stepThree = true;
+      this.stepFour = false;
+      this.stepOne = false;
+      this.stepTwo = false;
+      this.stepperNumber = 3;
+      this.stepThreeDone = false;
+    }
   };
 
   onStepFour = () => {
-    // if (this.stepperNumber == 3) {
-    this.stepFour = true;
-    this.stepOne = false;
-    this.stepTwo = false;
-    this.stepThree = false;
-    this.stepperNumber = 4;
-    //}
+    if (this.stepperNumber == 3) {
+      this.stepFour = true;
+      this.stepOne = false;
+      this.stepTwo = false;
+      this.stepThree = false;
+      this.stepperNumber = 4;
+    }
   };
 
   onChangeTypeOfStudent = (typeOfStudent: any) => {
@@ -274,5 +186,120 @@ export class ApplyComponent implements OnInit {
         this.studentNoError = true;
       }
     }
+  };
+
+  onSubmitStepTwo = () => {
+    if (this.applyForm.valid) {
+      const yearLevel = this.applyForm.get('yearLevel')?.value;
+      const term = this.applyForm.get('term')?.value;
+      const schoolYear = this.applyForm.get('schoolYear')?.value;
+      const firstname = this.applyForm.get('firstName')?.value;
+      const middlename = this.applyForm.get('middleName')?.value;
+      const lastname = this.applyForm.get('lastName')?.value;
+      const suffix = this.applyForm.get('suffix')?.value;
+      const gender = this.applyForm.get('gender')?.value;
+      const civilStatus = this.applyForm.get('civilStatus')?.value;
+      const birthdate = this.applyForm.get('birthDate')?.value;
+      const birthplace = this.applyForm.get('birthPlace')?.value;
+      const citizenship = this.applyForm.get('citizenship')?.value;
+      const religion = this.applyForm.get('religion')?.value;
+      const unit = this.applyForm.get('unit')?.value;
+      const street = this.applyForm.get('street')?.value;
+      const subdivision = this.applyForm.get('subdivision')?.value;
+      const barangay = this.applyForm.get('barangay')?.value;
+      const city = this.applyForm.get('city')?.value;
+      const province = this.applyForm.get('province')?.value;
+      const zipcode = this.applyForm.get('zipcode')?.value;
+      const telephone = this.applyForm.get('telephone')?.value;
+      const mobile = this.applyForm.get('mobile')?.value;
+      const email = this.applyForm.get('email')?.value;
+      const lastSchoolAttended = this.applyForm.get('schoolName')?.value;
+      const programTaken = this.applyForm.get('program')?.value;
+      const lastYearLevel = this.applyForm.get('lastYearLevel')?.value;
+      const lastSchoolYear = this.applyForm.get('lastSchoolYear')?.value;
+      const lastSem = this.applyForm.get('lastYearTerm')?.value;
+      const dateOfGraduation = this.applyForm.get('graduationDate')?.value;
+      const parentFirstName = this.applyForm.get('emergencyFirstName')?.value;
+      const parentMiddleName = this.applyForm.get('emergencyMiddleName')?.value;
+      const parentLastName = this.applyForm.get('emergencyLastName')?.value;
+      const parentSuffix = this.applyForm.get('emergencySuffix')?.value;
+      const parentAddress = this.applyForm.get('emergencyAddress')?.value;
+      const parentContact = this.applyForm.get('emergencyContact')?.value;
+      const parentRelationship = this.applyForm.get(
+        'emergencyRelationship'
+      )?.value;
+
+      this.studentInfo = {
+        programCode: this.program,
+        subjectId: [],
+        yearLevel: yearLevel,
+        term: term,
+        schoolYear: schoolYear,
+        firstname: firstname,
+        middlename: middlename,
+        lastname: lastname,
+        suffix: suffix,
+        gender: gender,
+        civilStatus: civilStatus,
+        birthdate: birthdate,
+        birthplace: birthplace,
+        citizenship: citizenship,
+        religion: religion,
+        unit: unit,
+        street: street,
+        subdivision: subdivision,
+        barangay: barangay,
+        city: city,
+        province: province,
+        zipcode: zipcode,
+        telephone: telephone,
+        mobile: mobile,
+        email: email,
+        lastSchoolAttended: lastSchoolAttended,
+        programTaken: programTaken,
+        lastSem: lastSem,
+        lastYearLevel: lastYearLevel,
+        lastSchoolYear: lastSchoolYear,
+        dateOfGraduation: dateOfGraduation,
+        parentFirstName: parentFirstName,
+        parentMiddleName: parentMiddleName,
+        parentLastName: parentLastName,
+        parentSuffix: parentSuffix,
+        parentAddress: parentAddress,
+        parentContact: parentContact,
+        parentRelationship: parentRelationship,
+        image: '',
+        status: 'Regular',
+        enrollmentStatus: 'Pending',
+        activeDeactive: true,
+      };
+
+      console.log('hello');
+
+      this.stepThree = true;
+      this.stepFour = false;
+      this.stepOne = false;
+      this.stepTwo = false;
+      this.stepperNumber = 3;
+      this.stepTwoDone = true;
+      scroll(0, 0);
+    } else {
+      this.buttonClicked = true;
+      this.applyForm.markAllAsTouched();
+    }
+  };
+
+  onSubmitStepThree = () => {
+    this.studentService.addStudent(this.studentInfo).subscribe(() => {
+      console.log('Student added successfully');
+    });
+    this.stepFour = true;
+    this.stepOne = false;
+    this.stepTwo = false;
+    this.stepThree = false;
+    this.stepperNumber = 4;
+    this.stepThreeDone = true;
+    scroll(0, 0);
+    this.applyForm.reset();
   };
 }

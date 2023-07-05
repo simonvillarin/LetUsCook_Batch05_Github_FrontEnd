@@ -92,12 +92,14 @@ mat-icon {
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem;
+  color: var(--primary);
   background-color: var(--white);
+  transition: transform 200ms ease-in;
   cursor: pointer;
 }
 
 #apply:hover {
-  color: var(--primary);
+  transform: scale(0.98);
 }
 
 #login {
