@@ -23,36 +23,26 @@ export class ApplyComponent implements OnInit {
   applyForm: FormGroup;
   buttonClicked: boolean = false;
 
-  terms = [
-    { term: 'Please select term' },
-    { term: 'First Term' },
-    { term: 'Second Term' },
-  ];
+  terms = ['Please select term', 'First Term', 'Second Term'];
   levels = [
-    { level: 'Please select year level' },
-    { level: 'First Year' },
-    { level: 'Second Year' },
-    { level: 'Third Year' },
-    { level: 'Fourth Year' },
+    'Please select year level',
+    'First Year',
+    'Second Year',
+    'Third Year',
+    'Fourth Year',
   ];
   yearLevels = [
-    { level: 'Select year level' },
-    { level: 'Grade 12' },
-    { level: 'First Year' },
-    { level: 'Second Year' },
-    { level: 'Third Year' },
-    { level: 'Fourth Year' },
+    'Select year level',
+    'Grade 12',
+    'First Year',
+    'Second Year',
+    'Third Year',
+    'Fourth Year',
   ];
-  schoolYear = [{ schoolYear: 'Please select school year' }];
-  schoolYears = [{ year: 'Select school year' }];
-  genders = [{ gender: 'Gender' }, { gender: 'Male' }, { gender: 'Female' }];
-  civilStatus = [
-    { status: 'Civil Status' },
-    { status: 'Single' },
-    { status: 'Married' },
-    { status: 'Divorced' },
-    { status: 'Widowed' },
-  ];
+  schoolYear = ['Please select school year'];
+  schoolYears = ['Select school year'];
+  genders = ['Gender', 'Male', 'Female'];
+  civilStatus = ['Civil Status', 'Single', 'Married', 'Divorced', 'Widowed'];
 
   constructor(
     private elementRef: ElementRef,
@@ -64,7 +54,9 @@ export class ApplyComponent implements OnInit {
       term: ['', [Validators.required]],
       schoolYear: ['', [Validators.required]],
       firstName: ['', [Validators.required]],
+      middleName: [''],
       lastName: ['', [Validators.required]],
+      suffix: [''],
       gender: ['', [Validators.required]],
       civilStatus: ['', [Validators.required]],
       citizenship: ['', [Validators.required]],
@@ -80,14 +72,17 @@ export class ApplyComponent implements OnInit {
       zipcode: ['', [Validators.required]],
       telephone: ['', [Validators.required]],
       mobile: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       schoolName: ['', [Validators.required]],
       program: ['', [Validators.required]],
       graduationDate: ['', [Validators.required]],
       lastSchoolYear: ['', [Validators.required]],
       lastYearLevel: ['', [Validators.required]],
+      lastYearTerm: [''],
       emergencyFirstName: ['', [Validators.required]],
+      emergencyMiddleName: [''],
       emergencyLastName: ['', [Validators.required]],
+      emergencySuffix: ['', [Validators.required]],
       emergencyAddress: ['', [Validators.required]],
       emergencyContact: ['', [Validators.required]],
       emergencyRelationship: ['', [Validators.required]],
@@ -96,9 +91,82 @@ export class ApplyComponent implements OnInit {
 
   onSubmit = () => {
     if (this.applyForm.valid) {
-      console.log(this.applyForm.value);
-
-      //this.interestFormArray.push(this.sampleArray);
+      const {
+        yearLevel,
+        term,
+        schoolYear,
+        firstName,
+        middleName,
+        lastName,
+        suffix,
+        gender,
+        civilStatus,
+        citizenship,
+        birthDate,
+        birthPlace,
+        religion,
+        unit,
+        street,
+        subdivision,
+        barangay,
+        city,
+        province,
+        zipcode,
+        telephone,
+        mobile,
+        email,
+        schoolName,
+        program,
+        graduationDate,
+        lastSchoolYear,
+        lastYearLevel,
+        lastYearTerm,
+        emergencyFirstName,
+        emergencyMiddleName,
+        emergencyLastName,
+        emergencySuffix,
+        emergencyAddress,
+        emergencyContact,
+        emergencyRelationship,
+      } = this.applyForm.value;
+      this.applyForm.patchValue({
+        yearLevel,
+        term,
+        schoolYear,
+        firstName,
+        middleName,
+        lastName,
+        suffix,
+        gender,
+        civilStatus,
+        citizenship,
+        birthDate,
+        birthPlace,
+        religion,
+        unit,
+        street,
+        subdivision,
+        barangay,
+        city,
+        province,
+        zipcode,
+        telephone,
+        mobile,
+        email,
+        schoolName,
+        program,
+        graduationDate,
+        lastSchoolYear,
+        lastYearLevel,
+        lastYearTerm,
+        emergencyFirstName,
+        emergencyMiddleName,
+        emergencyLastName,
+        emergencySuffix,
+        emergencyAddress,
+        emergencyContact,
+        emergencyRelationship,
+      });
     } else {
       this.buttonClicked = true;
       this.applyForm.markAllAsTouched();
@@ -109,15 +177,11 @@ export class ApplyComponent implements OnInit {
     const date = new Date();
     let currentYear = date.getFullYear();
     const nextYear = date.getFullYear() + 1;
-    const schoolYear = {
-      schoolYear: String(currentYear) + ' - ' + String(nextYear),
-    };
+    const schoolYear = String(currentYear) + ' - ' + String(nextYear);
     this.schoolYear = [...this.schoolYear, schoolYear];
     for (let i = 0; i < 28; i++) {
       let previousYear = currentYear - 1;
-      let year = {
-        year: String(previousYear) + ' - ' + String(currentYear),
-      };
+      let year = String(previousYear) + ' - ' + String(currentYear);
       this.schoolYears = [...this.schoolYears, year];
       currentYear = currentYear - 1;
     }

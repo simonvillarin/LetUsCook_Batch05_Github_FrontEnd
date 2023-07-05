@@ -230,7 +230,6 @@
           <label class="input-label">Year Level:</label>
           <p-dropdown
             [options]="levels"
-            optionLabel="level"
             [style]="{ width: '100%' }"
             formControlName="yearLevel"
           ></p-dropdown>
@@ -251,7 +250,6 @@
           <label class="input-label">Term:</label>
           <p-dropdown
             [options]="terms"
-            optionLabel="term"
             [style]="{ width: '100%' }"
             formControlName="term"
           ></p-dropdown>
@@ -272,7 +270,6 @@
           <label class="input-label">School Year:</label>
           <p-dropdown
             [options]="schoolYear"
-            optionLabel="schoolYear"
             [style]="{ width: '100%' }"
             formControlName="schoolYear"
           ></p-dropdown>
@@ -318,7 +315,11 @@
           </div>
           <div class="input-group">
             <label class="input-label">Middle Name:</label>
-            <input pInputText placeholder="Middle Name" />
+            <input
+              pInputText
+              placeholder="Middle Name"
+              formControlName="middleName"
+            />
           </div>
           <div class="input-group">
             <label class="input-label">Last Name:</label>
@@ -343,7 +344,11 @@
           </div>
           <div class="input-group">
             <label class="input-label">Suffix:</label>
-            <input pInputText placeholder="(e.g. Jr.)" />
+            <input
+              pInputText
+              placeholder="(e.g. Jr.)"
+              formControlName="suffix"
+            />
           </div>
         </div>
 
@@ -352,7 +357,6 @@
             <label class="input-label">Gender:</label>
             <p-dropdown
               [options]="genders"
-              optionLabel="gender"
               [style]="{ width: '100%' }"
               formControlName="gender"
             ></p-dropdown>
@@ -373,7 +377,6 @@
             <label class="input-label">Civil Status:</label>
             <p-dropdown
               [options]="civilStatus"
-              optionLabel="status"
               [style]="{ width: '100%' }"
               formControlName="civilStatus"
             ></p-dropdown>
@@ -674,6 +677,11 @@
                 *ngIf="applyForm.get('email')?.errors?.['required']"
                 >Email adddress is required</small
               >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="applyForm.get('email')?.errors?.['email']"
+                >Incorrect email format</small
+              >
             </div>
           </div>
         </div>
@@ -746,7 +754,6 @@
             <label class="input-label">School Year:</label>
             <p-dropdown
               [options]="schoolYears"
-              optionLabel="year"
               [style]="{ width: '100%' }"
               formControlName="lastSchoolYear"
             ></p-dropdown>
@@ -767,7 +774,6 @@
             <label class="input-label">Year Level:</label>
             <p-dropdown
               [options]="yearLevels"
-              optionLabel="level"
               [style]="{ width: '100%' }"
               formControlName="lastYearLevel"
             ></p-dropdown>
@@ -788,8 +794,8 @@
             <label class="input-label">Term:</label>
             <p-dropdown
               [options]="terms"
-              optionLabel="term"
               [style]="{ width: '100%' }"
+              formControlName="lastYearTerm"
             ></p-dropdown>
           </div>
         </div>
@@ -820,7 +826,11 @@
           </div>
           <div class="input-group">
             <label class="input-label">Middle Name:</label>
-            <input pInputText placeholder="Middle Name" />
+            <input
+              pInputText
+              placeholder="Middle Name"
+              formControlName="emergencyMiddleName"
+            />
           </div>
           <div class="input-group">
             <label class="input-label">Last Name:</label>
@@ -845,7 +855,11 @@
           </div>
           <div class="input-group">
             <label class="input-label">Suffix:</label>
-            <input pInputText placeholder="(e.g. Jr.)" />
+            <input
+              pInputText
+              placeholder="(e.g. Jr.)"
+              formControlName="emergencySuffix"
+            />
           </div>
         </div>
         <div class="emergency-2">
@@ -918,200 +932,261 @@
   </div>
 
   <div class="stepper-3" *ngIf="stepperNumber == 3">
-    <div class="level">
-      <div class="input-group">
-        <label class="input-label">Year Level:</label>
-        <div class="dropdown">
-          <input pInputText [disabled]="true" [style]="{ width: '100%' }" />
-        </div>
-      </div>
-      <div class="input-group">
-        <label class="input-label">Term:</label>
-        <div class="dropdown">
-          <input pInputText [disabled]="true" [style]="{ width: '100%' }" />
-        </div>
-      </div>
-      <div class="input-group">
-        <label class="input-label">School Year:</label>
-        <div class="dropdown">
-          <input pInputText [disabled]="true" [style]="{ width: '100%' }" />
-        </div>
-      </div>
-    </div>
-
-    <div class="personal-container">
-      <h3 class="title">Student's Information</h3>
-
-      <div class="personal-1">
-        <div class="input-group">
-          <label class="input-label">First Name:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Middle Name:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Last Name:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Suffix:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-      </div>
-
-      <div class="personal-2">
-        <div class="input-group">
-          <label class="input-label">Gender:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Civil Status:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Citizenship:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Date of Birth:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Birthplace:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Religion:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-      </div>
-    </div>
-
-    <div class="address-container">
-      <h3 class="title">Address Information</h3>
-      <div class="address-1">
-        <div class="input-group">
-          <label class="input-label">Unit #:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Street:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Subdivision / Village / Bldg:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-      </div>
-      <div class="address-2">
-        <div class="input-group">
-          <label class="input-label">Barangay:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">City / Municipality:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Province:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Zipcode:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-      </div>
-    </div>
-
-    <div class="contact-container">
-      <h3 class="title">Contact Details</h3>
-      <div class="contact">
-        <div class="input-group">
-          <label class="input-label">Telephone No:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Mobile No:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Email Address:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-      </div>
-    </div>
-
-    <div class="school-container">
-      <h3 class="title">Last School Attended</h3>
-      <div class="school-1">
-        <div class="input-group">
-          <label class="input-label">Name of School:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label"
-            >Program / Track & Strand / Specialization:</label
-          >
-          <input pInputText [disabled]="true" />
-        </div>
-      </div>
-      <div class="school-2">
-        <div class="input-group">
-          <label class="input-label">Date of Graduation:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">School Year:</label>
-          <input pInputText [disabled]="true" />
-        </div>
+    <form [formGroup]="applyForm" (ngSubmit)="onSubmit()">
+      <div class="level">
         <div class="input-group">
           <label class="input-label">Year Level:</label>
-          <input pInputText [disabled]="true" />
+          <div class="dropdown">
+            <input
+              pInputText
+              [disabled]="true"
+              [style]="{ width: '100%' }"
+              formControlName="yearLevel"
+            />
+          </div>
         </div>
         <div class="input-group">
           <label class="input-label">Term:</label>
-          <input pInputText [disabled]="true" />
+          <div class="dropdown">
+            <input
+              pInputText
+              [disabled]="true"
+              [style]="{ width: '100%' }"
+              formControlName="term"
+            />
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">School Year:</label>
+          <div class="dropdown">
+            <input
+              pInputText
+              [disabled]="true"
+              [style]="{ width: '100%' }"
+              formControlName="schoolYear"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="emergency-container">
-      <h3 class="title">Emergency Contact</h3>
-      <div class="emergency-1">
-        <div class="input-group">
-          <label class="input-label">First Name:</label>
-          <input pInputText [disabled]="true" />
+
+      <div class="personal-container">
+        <h3 class="title">Student's Information</h3>
+
+        <div class="personal-1">
+          <div class="input-group">
+            <label class="input-label">First Name:</label>
+            <input pInputText [disabled]="true" formControlName="firstName" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Middle Name:</label>
+            <input pInputText [disabled]="true" formControlName="middleName" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Last Name:</label>
+            <input pInputText [disabled]="true" formControlName="lastName" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Suffix:</label>
+            <input pInputText [disabled]="true" formControlName="suffix" />
+          </div>
         </div>
-        <div class="input-group">
-          <label class="input-label">Middle Name:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Last Name:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Suffix:</label>
-          <input pInputText [disabled]="true" />
+
+        <div class="personal-2">
+          <div class="input-group">
+            <label class="input-label">Gender:</label>
+            <input pInputText [disabled]="true" formControlName="gender" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Civil Status:</label>
+            <input pInputText [disabled]="true" formControlName="civilStatus" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Citizenship:</label>
+            <input pInputText [disabled]="true" formControlName="citizenship" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Date of Birth:</label>
+            <input pInputText [disabled]="true" formControlName="birthDate" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Birthplace:</label>
+            <input pInputText [disabled]="true" formControlName="birthPlace" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Religion:</label>
+            <input pInputText [disabled]="true" formControlName="religion" />
+          </div>
         </div>
       </div>
-      <div class="emergency-2">
-        <div class="input-group">
-          <label class="input-label">Complete Address:</label>
-          <input pInputText [disabled]="true" />
+
+      <div class="address-container">
+        <h3 class="title">Address Information</h3>
+        <div class="address-1">
+          <div class="input-group">
+            <label class="input-label">Unit #:</label>
+            <input pInputText [disabled]="true" formControlName="unit" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Street:</label>
+            <input pInputText [disabled]="true" formControlName="street" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Subdivision / Village / Bldg:</label>
+            <input pInputText [disabled]="true" formControlName="subdivision" />
+          </div>
         </div>
-        <div class="input-group">
-          <label class="input-label">Contact No:</label>
-          <input pInputText [disabled]="true" />
-        </div>
-        <div class="input-group">
-          <label class="input-label">Relationship:</label>
-          <input pInputText [disabled]="true" />
+        <div class="address-2">
+          <div class="input-group">
+            <label class="input-label">Barangay:</label>
+            <input pInputText [disabled]="true" formControlName="barangay" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">City / Municipality:</label>
+            <input pInputText [disabled]="true" formControlName="city" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Province:</label>
+            <input pInputText [disabled]="true" formControlName="province" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Zipcode:</label>
+            <input pInputText [disabled]="true" formControlName="zipcode" />
+          </div>
         </div>
       </div>
-    </div>
-    <button (click)="buttonClicked = true">Next Step</button>
+
+      <div class="contact-container">
+        <h3 class="title">Contact Details</h3>
+        <div class="contact">
+          <div class="input-group">
+            <label class="input-label">Telephone No:</label>
+            <input pInputText [disabled]="true" formControlName="telephone" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Mobile No:</label>
+            <input pInputText [disabled]="true" formControlName="mobile" />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Email Address:</label>
+            <input pInputText [disabled]="true" formControlName="email" />
+          </div>
+        </div>
+      </div>
+
+      <div class="school-container">
+        <h3 class="title">Last School Attended</h3>
+        <div class="school-1">
+          <div class="input-group">
+            <label class="input-label">Name of School:</label>
+            <input pInputText [disabled]="true" formControlName="schoolName" />
+          </div>
+          <div class="input-group">
+            <label class="input-label"
+              >Program / Track & Strand / Specialization:</label
+            >
+            <input pInputText [disabled]="true" formControlName="program" />
+          </div>
+        </div>
+        <div class="school-2">
+          <div class="input-group">
+            <label class="input-label">Date of Graduation:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="graduationDate"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">School Year:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="lastSchoolYear"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Year Level:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="lastYearLevel"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Term:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="lastYearTerm"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="emergency-container">
+        <h3 class="title">Emergency Contact</h3>
+        <div class="emergency-1">
+          <div class="input-group">
+            <label class="input-label">First Name:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencyFirstName"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Middle Name:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencyMiddleName"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Last Name:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencyLastName"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Suffix:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencySuffix"
+            />
+          </div>
+        </div>
+        <div class="emergency-2">
+          <div class="input-group">
+            <label class="input-label">Complete Address:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencyAddress"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Contact No:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencyContact"
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label">Relationship:</label>
+            <input
+              pInputText
+              [disabled]="true"
+              formControlName="emergencyRelationship"
+            />
+          </div>
+        </div>
+      </div>
+      <button (click)="buttonClicked = true">Next Step</button>
+    </form>
   </div>
   <div class="stepper-4" *ngIf="stepperNumber == 4">Stepper 4</div>
 </div>
