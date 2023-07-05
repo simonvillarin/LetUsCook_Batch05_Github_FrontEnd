@@ -13,10 +13,18 @@ import { ProgramService } from 'src/app/shared/services/program/program.service'
   styleUrls: ['./program.component.scss'],
 })
 export class ProgramComponent implements OnInit {
+  constructor(private programService: ProgramService, private fb: FormBuilder) {
+    this.programForm = fb.group({
+      programCode: ['', [Validators.required]],
+      programTitle: ['', [Validators.required]],
+    });
+  }
+  ngOnInit(): void {
+    this.getAllPrograms();
+  }
   programForm: FormGroup;
   programs: any[] = [];
   program: any;
-  search: string = '';
 
   isShowDropdown = false;
   isShowMobileNav = false;
@@ -26,23 +34,13 @@ export class ProgramComponent implements OnInit {
   isUpdating: boolean = false;
 
   title: string = '';
-
-  constructor(private programService: ProgramService, private fb: FormBuilder) {
-    this.programForm = fb.group({
-      programCode: ['', [Validators.required]],
-      programTitle: ['', [Validators.required]],
-    });
-  }
+  search: string = '';
 
   get programCode() {
     return this.programForm.get('programCode') as FormControl;
   }
   get programTitle() {
     return this.programForm.get('programTitle') as FormControl;
-  }
-
-  ngOnInit(): void {
-    this.getAllPrograms();
   }
 
   toggleShowDropdown = () => {
@@ -88,6 +86,7 @@ export class ProgramComponent implements OnInit {
   onClickAdd = () => {
     this.title = 'Add Program';
     this.isDialogOpen = true;
+    this.programForm.reset();
     this.programForm.markAsUntouched();
   };
 
