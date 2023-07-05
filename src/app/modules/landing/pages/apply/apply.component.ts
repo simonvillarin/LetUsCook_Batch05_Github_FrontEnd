@@ -90,7 +90,7 @@ export class ApplyComponent implements OnInit {
     let currentYear = date.getFullYear();
     const nextYear = date.getFullYear() + 1;
     const schoolYear = String(currentYear) + ' - ' + String(nextYear);
-    this.schoolYear.push;
+    this.schoolYear.push(schoolYear);
     for (let i = 0; i < 28; i++) {
       let previousYear = currentYear - 1;
       let year = String(previousYear) + ' - ' + String(currentYear);
@@ -100,7 +100,7 @@ export class ApplyComponent implements OnInit {
   }
 
   onStepOne = () => {
-    if (this.stepperNumber == 2) {
+    if (this.stepperNumber == 2 || this.stepperNumber == 4) {
       this.stepOne = true;
       this.stepTwo = false;
       this.stepThree = false;
@@ -111,7 +111,7 @@ export class ApplyComponent implements OnInit {
   };
 
   onStepTwo = () => {
-    if (this.stepperNumber == 3) {
+    if (this.stepperNumber == 3 || this.stepperNumber == 4) {
       this.stepTwo = true;
       this.stepThree = false;
       this.stepFour = false;
@@ -122,7 +122,7 @@ export class ApplyComponent implements OnInit {
   };
 
   onStepThree = () => {
-    if (this.stepperNumber == 4) {
+    if (this.stepperNumber == 3) {
       this.stepThree = true;
       this.stepFour = false;
       this.stepOne = false;
@@ -171,6 +171,14 @@ export class ApplyComponent implements OnInit {
 
   onSubmitStepOne = () => {
     if (this.program != '' || this.studentNo != '') {
+      if (this.studentNo != '') {
+        this.studentService
+          .getStudentByStudentNo(this.studentNo)
+          .subscribe((data) => console.log(data));
+      } else {
+        console.log('New Student');
+      }
+
       this.stepTwo = true;
       this.stepThree = false;
       this.stepFour = false;

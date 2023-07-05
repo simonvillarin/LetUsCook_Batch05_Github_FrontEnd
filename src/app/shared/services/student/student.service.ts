@@ -20,7 +20,7 @@ export class StudentService {
   };
 
   getStudentByStudentNo = (studentNo: string): Observable<Student> => {
-    return this.http.get<Student>(`${this.BASE_URL}/student/${studentNo}`);
+    return this.http.get<Student>(`${this.BASE_URL}/studentNo/${studentNo}`);
   };
 
   getAllSections = () => {
