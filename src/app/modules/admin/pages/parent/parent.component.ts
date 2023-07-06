@@ -1,34 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ParentService } from 'src/app/shared/services/parent/parent.service';
 
 @Component({
   selector: 'app-parent',
   templateUrl: './parent.component.html',
   styleUrls: ['./parent.component.scss'],
 })
-export class ParentComponent {
-  parent = [
-    {
-      id: 1,
-      name: 'Mark Perez',
-      email: 'mark123@gmail.com',
-      mobile: '09090989988',
-      relationship: 'Father',
-    },
-    {
-      id: 2,
-      name: 'Simon Villarin',
-      email: 'simon123@gmail.com',
-      mobile: '09090989911',
-      relationship: 'Father',
-    },
-    {
-      id: 3,
-      name: 'Ember San Miguel',
-      email: 'ember123@gmail.com',
-      mobile: '09090989943',
-      relationship: 'Father',
-    },
-  ];
+export class ParentComponent implements OnInit {
+  constructor(private parentService: ParentService) {}
+  ngOnInit(): void {
+    this.getAllParents();
+    console.log(this.parents);
+  }
+  parents = [];
   relationship = [{ name: 'Father' }, { name: 'Mother' }, { name: 'Other' }];
 
   isShowDropdown = false;
@@ -53,5 +37,9 @@ export class ParentComponent {
 
   closeMobileNav = () => {
     this.isShowMobileNav = false;
+  };
+
+  getAllParents = () => {
+    this.parentService.getAllParent().subscribe((parent) => this.parents);
   };
 }
