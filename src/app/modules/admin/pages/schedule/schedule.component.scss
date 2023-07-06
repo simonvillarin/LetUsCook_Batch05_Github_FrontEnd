@@ -37,6 +37,29 @@ h2 {
   margin-bottom: 0.5rem;
 }
 
+.table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.edit mat-icon {
+  color: var(--very-dark-saturated-blue);
+}
+
+.edit:hover {
+  cursor: pointer;
+}
+
+.remove mat-icon {
+  color: red;
+}
+
+.remove:hover {
+  cursor: pointer;
+}
+
 form {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -60,8 +83,11 @@ label {
 }
 
 .button-group {
+  width: 100%;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 button {
@@ -76,7 +102,15 @@ button {
 }
 
 #clear {
-  background-color: var(--red);
+  width: 9rem;
+  margin-top: 0.5rem;
+  padding: 0.875rem;
+  border: 1px solid var(--primary);
+  font-size: 1rem;
+  color: var(--very-dark-saturated-blue);
+  background-color: transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 
 button:hover,
@@ -86,7 +120,7 @@ button:focus {
 
 .table-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
@@ -96,4 +130,9 @@ button:focus {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
+}
+
+.modal-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
+  font-weight: 400;
 }

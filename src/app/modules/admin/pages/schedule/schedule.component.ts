@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-schedule',
@@ -6,6 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./schedule.component.scss'],
 })
 export class ScheduleComponent {
+  scheduleForm: FormGroup;
+
+  schedules: any[] = [];
+  schedule: any;
+
   professorList = [
     {
       id: 1000,
@@ -18,11 +24,7 @@ export class ScheduleComponent {
     },
   ];
 
-  professors = [
-    { name: 'Lebron James' },
-    { name: 'Stephen Curry' },
-    { name: 'Michael Jordan' },
-  ];
+  professors = ['Select a professor'];
 
   subjects = [
     { name: 'Introduction to Breaking Scoring Records' },
@@ -78,6 +80,16 @@ export class ScheduleComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
+  isDialogOpen: boolean = false;
+  isDeleteDialogOpen: boolean = false;
+  isUpdating: boolean = false;
+  buttonClicked: boolean = false;
+
+  title: string = '';
+
+  constructor(private fb: FormBuilder) {
+    this.scheduleForm = fb.group({});
+  }
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
@@ -97,5 +109,11 @@ export class ScheduleComponent {
 
   closeMobileNav = () => {
     this.isShowMobileNav = false;
+  };
+
+  onClickAdd = () => {
+    this.title = 'Add Schedule';
+    this.isDialogOpen = true;
+    this.scheduleForm.markAsUntouched();
   };
 }

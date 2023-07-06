@@ -1,72 +1,15 @@
 <main>
-  <div class="form">
-    <h2>Add Schedule</h2>
-    <form>
-      <div class="form-group">
-        <div class="input-group">
-          <label>Professor</label>
-          <p-dropdown
-            [options]="professors"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }">Choose Professor.</small>
-        </div>
-        <div class="input-group">
-          <label>Subject</label>
-          <p-dropdown
-            [options]="subjects"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }">Choose Subject.</small>
-        </div>
-        <div class="input-group">
-          <label>Day</label>
-          <p-dropdown
-            [options]="days"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-          <small [style]="{ color: 'var(--red)' }">Choose Day.</small>
-        </div>
-        <div class="input-group">
-          <label>Start Time</label>
-          <p-dropdown
-            [options]="startTime"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-        </div>
-        <div class="input-group">
-          <label>End Time</label>
-          <p-dropdown
-            [options]="endTime"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-        </div>
-        <div class="input-group">
-          <label>Section</label>
-          <p-dropdown
-            [options]="sections"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-        </div>
-        <div class="input-group">
-          <label>Room</label>
-          <p-dropdown
-            [options]="rooms"
-            optionLabel="name"
-            [style]="{ width: '100%' }"
-          ></p-dropdown>
-        </div>
-      </div>
-      <div class="button-group">
-        <button type="submit">Add</button>
-      </div>
-    </form>
+  <div class="table-header">
+    <button class="btn-border" (click)="onClickAdd()">ADD</button>
+    <span [style]="{ position: 'relative' }">
+      <i class="pi pi-search"></i>
+      <input
+        type="text"
+        pInputText
+        placeholder="Search"
+        [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+      />
+    </span>
   </div>
   <div class="table">
     <div class="table-header">
@@ -112,3 +55,74 @@
     </p-table>
   </div>
 </main>
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">{{ title }}</div>
+  </p-header>
+
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <label>Professor</label>
+        <p-dropdown
+          [options]="professors"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Professor.</small>
+      </div>
+      <div class="input-group">
+        <label>Subject</label>
+        <p-dropdown
+          [options]="subjects"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Subject.</small>
+      </div>
+      <div class="input-group">
+        <label>Day</label>
+        <p-dropdown
+          [options]="days"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <small [style]="{ color: 'var(--red)' }">Choose Day.</small>
+      </div>
+      <div class="input-group">
+        <label>Start Time</label>
+        <input type="time" pInputText />
+      </div>
+      <div class="input-group">
+        <label>End Time</label>
+        <input type="time" pInputText />
+      </div>
+      <div class="input-group">
+        <label>Section</label>
+        <p-dropdown
+          [options]="sections"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Room</label>
+        <p-dropdown
+          [options]="rooms"
+          optionLabel="name"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="button-group">
+      <button type="submit">Add</button>
+    </div>
+  </form>
+</p-dialog>
