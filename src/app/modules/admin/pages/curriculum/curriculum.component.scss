@@ -37,6 +37,46 @@ h2 {
   margin-bottom: 0.5rem;
 }
 
+.table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.active,
+.inactive {
+  width: 6.5rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 100vmax;
+  color: var(--white);
+}
+
+.active {
+  background-color: var(--green);
+}
+
+.inactive {
+  background-color: var(--red);
+}
+
+.edit mat-icon {
+  color: var(--very-dark-saturated-blue);
+}
+
+.edit:hover {
+  cursor: pointer;
+}
+
+.remove mat-icon {
+  color: red;
+}
+
+.remove:hover {
+  cursor: pointer;
+}
+
 form {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -60,18 +100,56 @@ label {
 }
 
 .button-group {
+  width: 100%;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
-button {
-  width: 9rem;
-  margin-top: 0.5rem;
-  padding: 0.875rem;
+.save {
+  width: 6rem;
+  height: 3rem;
+  border-radius: 0.25rem;
   font-size: 1rem;
   color: var(--white);
   background-color: var(--primary);
+  padding: 0.5rem;
+}
+
+.save:hover,
+.save:focus {
+  background-color: var(--darker-primary);
+  cursor: pointer;
+}
+
+.cancel {
+  border: 2px solid var(--primary);
+  background-color: transparent;
+  width: 6rem;
+  height: 3rem;
   border-radius: 0.25rem;
+  font-size: 1rem;
+  color: var(--very-dark-saturated-blue);
+  padding: 0.5rem;
+}
+
+.cancel:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
+}
+
+.btn-border {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2.75rem;
+  color: var(--white);
+  background-color: var(--primary);
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
   cursor: pointer;
 }
 
@@ -79,14 +157,14 @@ button {
   background-color: var(--red);
 }
 
-button:hover,
-button:focus {
+.btn-border:hover,
+.btn-border:focus {
   background-color: var(--darker-primary);
 }
 
 .table-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
@@ -98,6 +176,10 @@ button:focus {
   transform: translateY(-50%);
 }
 
+.modal-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
+  font-weight: 400;
+}
 /* ========== MEDIA QUERIES ========== */
 @media screen and (max-width: 768px) {
   button {

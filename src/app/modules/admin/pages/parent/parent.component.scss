@@ -28,6 +28,29 @@ tr td {
   text-align: center;
 }
 
+.table-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.remove mat-icon {
+  color: red;
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.remove:hover {
+  cursor: pointer;
+}
+
 h2 {
   font-weight: 400;
   margin-bottom: 0.5rem;

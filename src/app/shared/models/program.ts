@@ -5,4 +5,5 @@ export interface Program {
   major?: number[];
   minor?: number[];
   electives?: number[];
+  status?: boolean;
 }
