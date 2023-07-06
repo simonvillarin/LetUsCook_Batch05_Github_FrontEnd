@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
 
@@ -18,10 +19,17 @@ export class ProfileComponent implements OnInit {
   imagePreview: string | ArrayBuffer | null = null;
   bannerPreview: string | ArrayBuffer | null = null;
 
+  profileForm: FormGroup;
+
   constructor(
     private adminService: AdminService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private fb: FormBuilder
+  ) {
+    this.profileForm = fb.group({
+      sample: ['Hello'],
+    });
+  }
 
   ngOnInit(): void {
     this.getAdminById();

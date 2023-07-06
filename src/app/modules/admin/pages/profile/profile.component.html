@@ -70,5 +70,14 @@
         User Authentication Information
       </div>
     </div>
+    <div class="tab-body">
+      <div class="tab-1" *ngIf="personalInfo">
+        Tab 1 <br />
+        <form [formGroup]="profileForm"></form>
+      </div>
+      <div class="tab-2" *ngIf="addressInfo">Tab 2</div>
+      <div class="tab-3" *ngIf="contactInfo">Tab 3</div>
+      <div class="tab-4" *ngIf="userInfo">Tab 4</div>
+    </div>
   </div>
 </main>
