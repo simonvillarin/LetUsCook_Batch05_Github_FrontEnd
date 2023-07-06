@@ -3,6 +3,8 @@
 main {
   min-height: calc(100vh - 4rem);
   background-color: var(--light-grayish-blue);
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
   padding: 2rem;
 }
 
@@ -14,6 +16,7 @@ mat-icon {
   padding: 1.5rem;
   border-radius: 0.25rem;
   background-color: var(--white);
+  overflow-x: auto;
 }
 
 tr th {

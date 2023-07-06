@@ -109,6 +109,7 @@
         <label class="input-label">Gender:</label>
         <p-dropdown
           [options]="genders"
+          placeholder="Gender"
           [style]="{ width: '100%' }"
           formControlName="gender"
         ></p-dropdown>
@@ -124,6 +125,7 @@
         <label class="input-label">Civil Status:</label>
         <p-dropdown
           [options]="civil"
+          placeholder="Civil Status"
           [style]="{ width: '100%' }"
           formControlName="civilStatus"
         ></p-dropdown>
@@ -346,6 +348,7 @@
         <label class="input-label">Employement Status:</label>
         <p-dropdown
           [options]="employementStatus"
+          placeholder="Employement Status"
           [style]="{ width: '100%' }"
           formControlName="status"
         ></p-dropdown>
@@ -363,7 +366,12 @@
         <label>Image:</label>
         <div class="pic">
           <mat-icon class="material-icons-outlined">add</mat-icon>
-          <input pInputText type="file" (change)="onFileSelected($event)" />
+          <input
+            pInputText
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
           <img
             [src]="imagePreview"
             alt="Preview"
