@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { MainComponent } from './pages/main/main.component';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProfessorComponent,
     StudentComponent,
     MainComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

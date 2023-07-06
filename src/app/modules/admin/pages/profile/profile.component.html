@@ -1,0 +1,74 @@
+<main>
+  <div class="profile-header">
+    <div class="profile-upper">
+      <img
+        src="{{
+          bannerPreview ||
+            '../../../../../../../assets/images/profile-banner.jpg'
+        }}"
+        alt="Banner Image"
+        class="banner"
+      />
+      <div class="edit-banner-icon">
+        <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
+        <span>Edit cover photo</span>
+        <input
+          type="file"
+          class="file"
+          accept="image/*"
+          (change)="onBannerChange($event)"
+        />
+      </div>
+      <div class="backdrop"></div>
+      <div class="profile-img-container">
+        <div class="profile-img">
+          <img src="{{ imagePreview }}" alt="Profile Image" />
+        </div>
+        <div class="edit-image-icon">
+          <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
+          <input
+            type="file"
+            class="file"
+            accept="image/*"
+            (change)="onImageChange($event)"
+          />
+        </div>
+      </div>
+      <div class="name">
+        <h3>Simon James Villarin</h3>
+        <span>@simonvillarin</span>
+      </div>
+    </div>
+    <div class="profile-lower">
+      <span>Educate University</span>
+    </div>
+  </div>
+  <div class="profile-body">
+    <div class="tabs">
+      <div
+        class="tab1"
+        (click)="onPersonalInfo()"
+        [class.tab-active]="personalInfo"
+      >
+        Personal Information
+      </div>
+      <div
+        class="tab2"
+        (click)="onAddressInfo()"
+        [class.tab-active]="addressInfo"
+      >
+        Address Information
+      </div>
+      <div
+        class="tab3"
+        (click)="onContactInfo()"
+        [class.tab-active]="contactInfo"
+      >
+        Contact Information
+      </div>
+      <div class="tab4" (click)="onUserInfo()" [class.tab-active]="userInfo">
+        User Authentication Information
+      </div>
+    </div>
+  </div>
+</main>
