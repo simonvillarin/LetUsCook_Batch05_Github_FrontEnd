@@ -4,6 +4,6 @@ export interface Account {
   username?: string;
   password?: string;
   pass?: string;
-  isUpdated?: boolean;
   type?: string;
+  activeDeactive?: boolean;
 }

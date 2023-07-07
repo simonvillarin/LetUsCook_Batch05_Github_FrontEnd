@@ -78,7 +78,7 @@ export class ApplyComponent implements OnInit {
       emergencyFirstName: ['', [Validators.required]],
       emergencyMiddleName: [''],
       emergencyLastName: ['', [Validators.required]],
-      emergencySuffix: ['', [Validators.required]],
+      emergencySuffix: [''],
       emergencyAddress: ['', [Validators.required]],
       emergencyContact: ['', [Validators.required]],
       emergencyRelationship: ['', [Validators.required]],

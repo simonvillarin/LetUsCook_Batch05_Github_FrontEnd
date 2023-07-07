@@ -189,7 +189,7 @@ label {
 }
 
 .program > label {
-  font-size: clamp(0.9375rem, 0.9375rem + 0vw, 0.9375rem);
+  font-size: 0.9375rem;
 }
 
 button {
@@ -224,7 +224,7 @@ span {
 .level {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 1rem;
   padding-top: 1rem;
 }
 
@@ -235,7 +235,7 @@ span {
 }
 
 .input-label {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
 }
 
 .input-group {
@@ -259,14 +259,14 @@ span {
 .personal-1 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 1rem;
 }
 
 .personal-2 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .title {
@@ -277,44 +277,46 @@ span {
 .contact {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 1rem;
 }
 
 .address-2 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .school-1 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 1rem;
 }
 
 .school-2 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .emergency-1 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 1rem;
 }
 
 .emergency-2 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .input {
-  height: 3.325rem;
+  height: 3.125rem;
+  display: flex;
+  align-items: center;
   padding: 1rem;
   font-size: 1rem;
   border: 1px solid #e5e5e5;

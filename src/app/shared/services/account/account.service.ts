@@ -18,6 +18,10 @@ export class AccountService {
     return this.http.get<Account>(`${this.BASE_URL}/account/${accountId}`);
   };
 
+  getAccountByUserId = (userId: number): Observable<Account> => {
+    return this.http.get<Account>(`${this.BASE_URL}/account/userid/${userId}`);
+  };
+
   login = (account: any) => {
     return this.http.post(`${this.BASE_URL}/auth/login`, account);
   };

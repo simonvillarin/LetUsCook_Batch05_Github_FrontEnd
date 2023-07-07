@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/shared/services/account/account.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -11,16 +16,15 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class LoginDialogComponent {
   isPasswordHidden: boolean = true;
-  isStaffLogin: boolean = false;
   isError: boolean = false;
   isStudentLogin: boolean = true;
   loginForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
     private accService: AccountService,
     private router: Router,
-    private dialogRef: MatDialogRef<LoginDialogComponent>
+    private dialogRef: MatDialogRef<LoginDialogComponent>,
+    private fb: FormBuilder
   ) {
     this.loginForm = fb.group({
       username: ['', [Validators.required]],
@@ -28,13 +32,16 @@ export class LoginDialogComponent {
     });
   }
 
+  get username() {
+    return this.loginForm.get('username') as FormControl;
+  }
+
+  get password() {
+    return this.loginForm.get('password') as FormControl;
+  }
+
   togglePasswordHidden = () => {
     this.isPasswordHidden = !this.isPasswordHidden;
-  };
-
-  toggleStaffLogin = () => {
-    this.isStaffLogin = !this.isStaffLogin;
-    this.isStudentLogin = !this.isStudentLogin;
   };
 
   close = () => {
@@ -45,7 +52,6 @@ export class LoginDialogComponent {
     if (this.loginForm.valid) {
       this.accService.login(this.loginForm.value).subscribe(
         (res: any) => {
-          console.log(res);
           const user = {
             token: res.token,
             id: res.id,
@@ -62,6 +68,8 @@ export class LoginDialogComponent {
           } else if (res.type == 'PARENT') {
             this.router.navigate(['/parent/home']);
           }
+          this.dialogRef.close();
+          this.loginForm.reset();
         },
         (error) => {
           if (error.status === 403) {
@@ -70,8 +78,8 @@ export class LoginDialogComponent {
           }
         }
       );
-      this.dialogRef.close();
+    } else {
+      this.loginForm.markAllAsTouched();
     }
-    this.loginForm.reset();
   };
 }

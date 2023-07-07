@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Professor } from 'src/app/shared/models/professor';
 import { ProfessorService } from 'src/app/shared/services/professor/professor.service';
 
 @Component({
@@ -250,7 +249,9 @@ export class ProfessorComponent implements OnInit {
           .addProfessor(this.professorForm.value)
           .subscribe(() => console.log('Professor added successfully'));
       }
+      this.professorForm.patchValue({ image: this.imagePreview });
       this.professors = [...this.professors, this.professorForm.value];
+
       this.professorForm.reset();
       this.closeDialog();
     } else {
