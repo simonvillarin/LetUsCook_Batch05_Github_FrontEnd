@@ -4,16 +4,16 @@
       #dt
       [value]="programs"
       [paginator]="true"
-      [rows]="3"
+      [rows]="5"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[3, 6, 9]"
+      [rowsPerPageOptions]="[10, 20, 30]"
       [globalFilterFields]="['programCode', 'programTitle']"
     >
       <ng-template pTemplate="caption">
         <div class="table-header">
-          <button class="btn-border" (click)="onClickAdd()">ADD</button>
+          <button class="add" (click)="onClickAdd()">ADD</button>
           <span [style]="{ position: 'relative' }">
             <i class="pi pi-search"></i>
             <input
@@ -49,20 +49,27 @@
           </td>
           <td>
             <div class="table-actions">
-              <div class="edit" (click)="onClickEdit(program)">
+              <button class="table-action edit" (click)="onClickEdit(program)">
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Edit program"
                   >edit</mat-icon
                 >
-              </div>
-              <div class="remove" (click)="onClickRemove(program)">
+                <span>Edit</span>
+              </button>
+              <button
+                class="table-action {{
+                  !program.status ? 'activate' : 'deactive'
+                }}"
+                (click)="onClickRemove(program)"
+              >
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Remove program"
                   >block</mat-icon
                 >
-              </div>
+                <span>{{ !program.status ? "Activate" : "Deactivate" }}</span>
+              </button>
             </div>
           </td>
         </tr>
@@ -115,11 +122,11 @@
         </div>
       </div>
     </div>
-    <div class="button-group">
-      <button type="button" class="cancel" (click)="onClickCancel()">
+    <div class="actions">
+      <button type="button" class="action-btn cancel" (click)="onClickCancel()">
         Cancel
       </button>
-      <button type="submit" class="save">Save</button>
+      <button type="submit" class="action-btn submit">Save</button>
     </div>
   </form>
 </p-dialog>
@@ -134,9 +141,12 @@
   <p-header>
     <div class="modal-title">Confirmation</div>
   </p-header>
-  Are you sure you want to delete this programCode?
-  <div class="button-group">
-    <button class="cancel">Cancel</button>
-    <button class="save" (click)="onDeleteProgram()">Yes</button>
+  Are you sure you want to
+  {{ !status ? "activate" : "deactivate" }} this program?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDeleteProgram()">Yes</button>
   </div>
 </p-dialog>

@@ -4,69 +4,82 @@
       #dt
       [value]="subjects"
       [paginator]="true"
-      [rows]="3"
+      [rows]="5"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[3, 6, 9]"
-      [globalFilterFields]="[
-        'programCode',
-        'subjectCode',
-        'subjectTitle',
-        'units',
-        'preRequisites',
-        'type'
-      ]"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['subjectTitle', 'subjectCode', 'type']"
     >
-      <ng-template pTemplate="header">
+      <ng-template pTemplate="caption">
         <div class="table-header">
-          <button class="btn-border" (click)="onClickAdd()">ADD</button>
+          <button class="add" (click)="onClickAdd()">ADD</button>
           <span [style]="{ position: 'relative' }">
             <i class="pi pi-search"></i>
             <input
               type="text"
               pInputText
               placeholder="Search"
-              [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
+              [style]="{
+                width: '18rem',
+                paddingLeft: '2.5rem'
+              }"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
               placeholder="Search keyword"
             />
           </span>
         </div>
+      </ng-template>
+      <ng-template pTemplate="header">
         <tr>
           <th style="width: 10%">Program</th>
-          <th style="width: 15%">Subject Code</th>
-          <th style="width: 15%">Subject Title</th>
+          <th style="width: 10%">Subject Code</th>
+          <th style="width: 19%">Subject Title</th>
           <th style="width: 10%">Units</th>
+          <th style="width: 19%">Prerequisites</th>
           <th style="width: 10%">Type</th>
-          <th style="width: 25%">Pre-Requisites</th>
-          <th style="width: 15%">Actions</th>
+          <th style="width: 10%">Status</th>
+          <th style="width: 12%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-subject>
+      <ng-template pTemplate="body" let-sub>
         <tr>
-          <td>{{ subject.programCode }}</td>
-          <td>{{ subject.subjectCode }}</td>
-          <td>{{ subject.subjectTitle }}</td>
-          <td>{{ subject.units }}</td>
-          <td>{{ subject.type }}</td>
-          <td>{{ subject.preRequisites }}</td>
+          <td>{{ sub.programCode }}</td>
+          <td>{{ sub.subjectCode }}</td>
+          <td>{{ sub.subjectTitle }}</td>
+          <td>{{ sub.units }}</td>
+          <td>{{ sub.preRequisites }}</td>
+          <td>{{ sub.type }}</td>
+          <td>
+            <div class="{{ sub.activeDeactive ? 'active' : 'inactive' }}">
+              {{ sub.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
           <td>
             <div class="table-actions">
-              <div class="edit" (click)="onClickEdit(subject)">
+              <button class="table-action edit" (click)="onClickEdit(sub)">
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Edit program"
                   >edit</mat-icon
                 >
-              </div>
-              <div class="remove" (click)="onClickRemove(subject)">
+                <span>Edit</span>
+              </button>
+              <button
+                class="table-action {{
+                  !sub.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onClickRemove(sub)"
+              >
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Remove program"
                   >block</mat-icon
                 >
-              </div>
+                <span>{{
+                  !sub.activeDeactive ? "Activate" : "Deactivate"
+                }}</span>
+              </button>
             </div>
           </td>
         </tr>
@@ -92,24 +105,29 @@
         <p-dropdown
           [options]="programs"
           [style]="{ width: '100%' }"
-          formControlName="programCode"
+          placeholder="Select a program"
+          formControlName="programTitle"
         ></p-dropdown>
         <div
           *ngIf="
-            (buttonClicked && courseForm.get('programCode')?.invalid) ||
-            courseForm.get('programCode')?.dirty
+            (buttonClicked && courseForm.get('programTitle')?.invalid) ||
+            courseForm.get('programTitle')?.dirty
           "
         >
           <small
             [style]="{ color: 'var(--red)' }"
-            *ngIf="courseForm.get('programCode')?.errors?.['required']"
-            >Choose Program</small
+            *ngIf="courseForm.get('programTitle')?.errors?.['required']"
+            >Please choose a program</small
           >
         </div>
       </div>
       <div class="input-group">
         <label>Subject Code</label>
-        <input pInputText formControlName="subjectCode" required />
+        <input
+          pInputText
+          formControlName="subjectCode"
+          placeholder="Subject Code"
+        />
         <div
           *ngIf="
             (buttonClicked && courseForm.get('subjectCode')?.invalid) ||
@@ -119,13 +137,17 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="courseForm.get('subjectCode')?.errors?.['required']"
-            >Enter subject code</small
+            >Subject code is required</small
           >
         </div>
       </div>
       <div class="input-group">
         <label>Subject Title</label>
-        <input pInputText formControlName="subjectTitle" required />
+        <input
+          pInputText
+          formControlName="subjectTitle"
+          placeholder="Subject Title"
+        />
         <div
           *ngIf="
             (buttonClicked && courseForm.get('subjectTitle')?.invalid) ||
@@ -135,15 +157,18 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="courseForm.get('subjectTitle')?.errors?.['required']"
-            >Enter subject title</small
+            >Subject title is required</small
           >
         </div>
       </div>
-    </div>
-    <div class="form-group">
       <div class="input-group">
         <label>Units</label>
-        <input pInputText type="number" formControlName="units" required />
+        <input
+          pInputText
+          type="number"
+          formControlName="units"
+          placeholder="Units"
+        />
         <div
           *ngIf="
             (buttonClicked && courseForm.get('units')?.invalid) ||
@@ -153,18 +178,23 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="courseForm.get('units')?.errors?.['required']"
-            >Enter units</small
+            >Units is required</small
           >
         </div>
       </div>
       <div class="input-group">
         <label>Pre Requisites</label>
-        <p-chips pInputText formControlName="preRequisites"></p-chips>
+        <p-chips
+          formControlName="preRequisites"
+          placeholder="Prerequisites"
+        ></p-chips>
       </div>
       <div class="input-group">
         <label>Type</label>
         <p-dropdown
           [options]="types"
+          placeholder="Select a type"
+          appendTo="body"
           [style]="{ width: '100%' }"
           formControlName="type"
         ></p-dropdown>
@@ -177,14 +207,16 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="courseForm.get('type')?.errors?.['required']"
-            >Choose type</small
+            >Type is required</small
           >
         </div>
       </div>
     </div>
-    <div class="button-group">
-      <button type="button" id="clear" (click)="clearForm()">Clear</button>
-      <button type="submit">Save</button>
+    <div class="actions">
+      <button type="button" class="action-btn cancel" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="action-btn submit">Save</button>
     </div>
   </form>
 </p-dialog>
@@ -200,9 +232,10 @@
   <p-header>
     <div class="modal-title">Confirmation</div>
   </p-header>
-  Are you sure you want to delete this subject?
-  <div class="button-group">
-    <button class="cancel">Cancel</button>
-    <button class="save" (click)="onDeleteSubject()">Yes</button>
+  Are you sure you want to
+  {{ !status ? "activate" : "deactivate" }} this subject?
+  <div class="actions">
+    <button class="action-btn cancel">Cancel</button>
+    <button class="action-btn submit" (click)="onDeleteSubject()">Yes</button>
   </div>
 </p-dialog>

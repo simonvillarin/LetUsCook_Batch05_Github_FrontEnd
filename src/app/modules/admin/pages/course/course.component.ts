@@ -20,8 +20,8 @@ export class CourseComponent implements OnInit {
 
   subjects: any[] = [];
   subject: any;
-  programs = ['Select a program'];
-  types = ['Select a type', 'Major', 'Minor', 'Elective'];
+  programs: string[] = [];
+  types = ['Major', 'Minor', 'Elective'];
 
   isShowDropdown = false;
   isShowMobileNav = false;
@@ -32,6 +32,7 @@ export class CourseComponent implements OnInit {
   buttonClicked: boolean = false;
 
   title: string = '';
+  status: boolean = false;
 
   constructor(
     private courseService: CourseService,
@@ -39,16 +40,16 @@ export class CourseComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.courseForm = fb.group({
-      programCode: ['', [Validators.required]],
+      programTitle: ['', [Validators.required]],
       subjectCode: ['', [Validators.required]],
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
       preRequisites: new FormControl<string[] | null>(null),
       type: ['', [Validators.required]],
     });
-    this.preRequisiteFormArray = this.courseForm.controls[
+    this.preRequisiteFormArray = this.courseForm.get(
       'preRequisites'
-    ] as FormArray;
+    ) as FormArray;
   }
 
   ngOnInit(): void {
@@ -59,7 +60,7 @@ export class CourseComponent implements OnInit {
   getAllProgramCodes = () => {
     this.programService.getAllPrograms().subscribe((data: any) => {
       data.map((d: any) => {
-        this.programs = [...this.programs, d.programCode];
+        this.programs.push(d.programTitle);
       });
     });
   };
@@ -88,7 +89,10 @@ export class CourseComponent implements OnInit {
   onClickAdd = () => {
     this.title = 'Add Course';
     this.isDialogOpen = true;
+    this.preRequisiteFormArray.reset();
+    this.courseForm.reset();
     this.courseForm.markAsUntouched();
+    this.isUpdating = false;
   };
 
   onClickCancel = () => {
@@ -108,7 +112,7 @@ export class CourseComponent implements OnInit {
     if (this.isUpdating) {
       this.title = 'Edit Subject';
       if (this.courseForm.valid) {
-        const programCode = this.courseForm.get('programCode')?.value;
+        const programTitle = this.courseForm.get('programTitle')?.value;
         const subjectCode = this.courseForm.get('subjectCode')?.value;
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
@@ -116,8 +120,8 @@ export class CourseComponent implements OnInit {
         const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
-        if (this.subject.programCode != programCode) {
-          payload.programCode = programCode;
+        if (this.subject.programTitle != programTitle) {
+          payload.programTitle = programTitle;
         }
         if (this.subject.subjectCode != subjectCode) {
           payload.subjectCode = subjectCode;
@@ -135,10 +139,12 @@ export class CourseComponent implements OnInit {
           payload.type = type;
         }
 
-        console.log(this.subject.subjectId);
         this.courseService
           .updateSubject(this.subject.subjectId, payload)
           .subscribe((res: any) => {
+            console.log(res);
+            console.log(this.courseForm.value);
+
             if (res.message == 'Subject code already exist') {
               alert('Subject code already exist');
             } else if (res.message == 'Subject title already exist') {
@@ -148,7 +154,7 @@ export class CourseComponent implements OnInit {
                 (subject: any) => subject.subjectId == this.subject.subjectId
               );
 
-              this.subjects[index].programCode = programCode;
+              this.subjects[index].programTitle = programTitle;
               this.subjects[index].subjectCode = subjectCode;
               this.subjects[index].subjectTitle = subjectTitle;
               this.subjects[index].unit = unit;
@@ -165,27 +171,21 @@ export class CourseComponent implements OnInit {
     } else {
       this.title = 'Add Subject';
       if (this.courseForm.valid) {
-        const payload = {
-          programCode: this.courseForm.get('programCode')?.value,
-          subjectCode: this.courseForm.get('subjectCode')?.value,
-          subjectTitle: this.courseForm.get('subjectTitle')?.value,
-          units: this.courseForm.get('units')?.value,
-          preRequisites: this.courseForm.get('preRequisites')?.value,
-          type: this.courseForm.get('type')?.value,
-        };
-        this.courseService.addSubject(payload).subscribe((res: any) => {
-          console.log(res);
+        this.courseService
+          .addSubject(this.courseForm.value)
+          .subscribe((res: any) => {
+            console.log(res);
 
-          if (res.message == 'Subject code already exist') {
-            alert('Subject code already exist');
-          } else if (res.message == 'Subject title already exist') {
-            alert('Subject title already exist');
-          } else {
-            this.getAllSubjects();
-            this.isDialogOpen = false;
-            this.courseForm.reset();
-          }
-        });
+            if (res.message == 'Subject code already exist') {
+              alert('Subject code already exist');
+            } else if (res.message == 'Subject title already exist') {
+              alert('Subject title already exist');
+            } else {
+              this.getAllSubjects();
+              this.isDialogOpen = false;
+              this.courseForm.reset();
+            }
+          });
       } else {
         this.courseForm.markAllAsTouched();
       }
@@ -193,14 +193,13 @@ export class CourseComponent implements OnInit {
   };
 
   onClickEdit = (subject: any) => {
-    this.subject = null;
-    this.isUpdating = true;
-    this.title = 'Edit Course';
     this.subject = subject;
-    console.log(this.subject);
+    this.isUpdating = true;
+    this.courseForm.reset();
+    this.title = 'Edit Course';
 
     this.courseForm.patchValue({
-      programCode: subject.programCode,
+      programTitle: subject.programTitle,
       subjectCode: subject.subjectCode,
       subjectTitle: subject.subjectTitle,
       units: subject.units,
@@ -212,21 +211,26 @@ export class CourseComponent implements OnInit {
   };
 
   onClickRemove = (subject: any) => {
-    this.subject = null;
-    this.isDeleteDialogOpen = true;
     this.subject = subject;
+    this.isDeleteDialogOpen = true;
+    this.status = subject.activeDeactive;
+  };
+
+  onCloseDeleteDialog = () => {
+    this.isDeleteDialogOpen = false;
   };
 
   onDeleteSubject = () => {
     this.isDeleteDialogOpen = false;
-    let payload = { activeDeactive: !this.subject.status };
+    let payload = { activeDeactive: !this.subject.activeDeactive };
     this.courseService
       .updateSubject(this.subject.subjectId, payload)
-      .subscribe(() => {});
+      .subscribe();
     const index = this.subjects.findIndex(
       (subject: any) => subject.subjectId == this.subject.subjectId
     );
-    this.subjects[index].status = payload.activeDeactive;
+    this.subjects[index].activeDeactive = !this.subject.activeDeactive;
+    this.status = !this.subject.activeDeactive;
   };
 
   clearForm = () => {

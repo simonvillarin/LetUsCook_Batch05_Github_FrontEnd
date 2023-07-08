@@ -22,6 +22,7 @@ import { MainComponent } from './pages/main/main.component';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
     DialogModule,
     ReactiveFormsModule,
     FormsModule,
+    ChipsModule,
   ],
 })
 export class AdminModule {}

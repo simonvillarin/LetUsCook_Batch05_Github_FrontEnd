@@ -34,7 +34,7 @@ export class ProgramComponent implements OnInit {
   isUpdating: boolean = false;
 
   title: string = '';
-  search: string = '';
+  status: boolean = false;
 
   get programCode() {
     return this.programForm.get('programCode') as FormControl;
@@ -70,19 +70,6 @@ export class ProgramComponent implements OnInit {
       .subscribe((program) => (this.programs = program));
   };
 
-  searchChange = (search: string) => {
-    if (search != '') {
-      const filteredPrograms = this.programs.filter(
-        (program) =>
-          program.programCode.toLowerCase().includes(search.toLowerCase()) ||
-          program.programTitle.toLowerCase().includes(search.toLowerCase())
-      );
-      this.programs = filteredPrograms;
-    } else {
-      this.getAllPrograms();
-    }
-  };
-
   onClickAdd = () => {
     this.title = 'Add Program';
     this.isDialogOpen = true;
@@ -92,12 +79,10 @@ export class ProgramComponent implements OnInit {
 
   onClickCancel = () => {
     this.isDialogOpen = false;
-    this.programForm.reset();
   };
 
   onClickSave = () => {
     if (this.isUpdating) {
-      // for update
       if (this.programForm.valid) {
         const programCode = this.programForm.get('programCode')?.value;
         const programTitle = this.programForm.get('programTitle')?.value;
@@ -131,7 +116,6 @@ export class ProgramComponent implements OnInit {
         this.programForm.markAllAsTouched();
       }
     } else {
-      // for adding
       this.title = 'Add Program';
       if (this.programForm.valid) {
         const payload = {
@@ -168,14 +152,18 @@ export class ProgramComponent implements OnInit {
       programCode: program.programCode,
       programTitle: program.programTitle,
     });
-
     this.isDialogOpen = true;
   };
 
   onClickRemove = (program: any) => {
     this.program = null;
-    this.isDeleteDialogOpen = true;
     this.program = program;
+    this.isDeleteDialogOpen = true;
+    this.status = program.status;
+  };
+
+  onCloseDeleteDialog = () => {
+    this.isDeleteDialogOpen = false;
   };
 
   onDeleteProgram = () => {
@@ -188,5 +176,6 @@ export class ProgramComponent implements OnInit {
       (program: any) => program.programId == this.program.programId
     );
     this.programs[index].status = payload.status;
+    this.status = !this.program.status;
   };
 }
