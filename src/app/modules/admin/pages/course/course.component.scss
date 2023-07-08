@@ -120,7 +120,7 @@ label {
 }
 
 .add {
-  padding: 0.75rem 2.75rem;
+  padding: 0.75rem 2.5rem;
   color: var(--white);
   background-color: var(--primary);
   font-size: 1rem;
@@ -180,6 +180,6 @@ label {
 /* ========== MEDIA QUERIES ========== */
 @media screen and (min-width: 992px) {
   main {
-    padding: 2rem;
+    padding: 1.5rem;
   }
 }

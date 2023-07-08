@@ -1,47 +1,95 @@
 <main>
   <div class="table">
-    <div class="table-header">
-      <button (click)="showDialog()" class="add">Add</button>
-      <span [style]="{ position: 'relative' }">
-        <i class="pi pi-search"></i>
-        <input
-          pInputText
-          placeholder="Search"
-          [(ngModel)]="search"
-          (ngModelChange)="searchChange($event)"
-          [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-        />
-      </span>
-    </div>
     <p-table
+      #dt
       [value]="professors"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 25, 50]"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['firstname', 'middlename', 'lastname', 'suffix']"
     >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          <button class="add" (click)="onClickAdd()">ADD</button>
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 20%">First Name</th>
-          <th style="width: 20%">Middle Name</th>
-          <th style="width: 20%">Last Name</th>
-          <th style="width: 20%">Suffix</th>
-          <th style="width: 20%">Image</th>
+          <th style="width: 10%">Image</th>
+          <th style="width: 18%">First Name</th>
+          <th style="width: 17%">Middle Name</th>
+          <th style="width: 17%">Last Name</th>
+          <th style="width: 10%">Suffix</th>
+          <th style="width: 14%">Status</th>
+          <th style="width: 14%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-prof>
         <tr>
+          <td>
+            <div class="avatar-container">
+              <div class="avatar">
+                <img
+                  src="{{
+                    prof.image ||
+                      '../../../../../../../assets/images/blank-profile.jpg'
+                  }}"
+                  alt="Prof Image"
+                />
+              </div>
+            </div>
+          </td>
           <td>{{ prof.firstname }}</td>
           <td>{{ prof.middlename }}</td>
           <td>{{ prof.lastname }}</td>
           <td>{{ prof.suffix }}</td>
           <td>
-            <div class="avatar-container">
-              <div class="avatar">
-                <img src="{{ prof.image }}" alt="{{ prof.image }}" />
-              </div>
+            <div class="{{ prof.activeDeactive ? 'active' : 'inactive' }}">
+              {{ prof.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="table-action edit" (click)="onClickEdit(prof)">
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Edit program"
+                  >edit</mat-icon
+                >
+                <span>Edit</span>
+              </button>
+              <button
+                class="table-action {{
+                  !prof.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onClickRemove(prof)"
+              >
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Remove program"
+                  >block</mat-icon
+                >
+                <span>{{
+                  !prof.activeDeactive ? "Activate" : "Deactivate"
+                }}</span>
+              </button>
             </div>
           </td>
         </tr>
@@ -59,9 +107,23 @@
   [resizable]="false"
 >
   <p-header>
-    <div class="modal-title">Add Professor</div>
+    <div class="modal-title">{{ title }}</div>
   </p-header>
   <form [formGroup]="professorForm" (ngSubmit)="onSubmit()">
+    <div
+      class="alert {{
+        alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+      }}"
+      *ngIf="alert"
+    >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Error'"
+        >error</mat-icon
+      >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Success'"
+        >check</mat-icon
+      >
+      {{ alertMessage }}
+    </div>
     <div class="form-group">
       <div class="input-group">
         <label>First name</label>
@@ -151,6 +213,11 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="birthdate?.errors?.['required']"
             >Birthdate is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthdate?.errors?.['futureDate']"
+            >You cannot select a future date</small
           >
         </div>
       </div>
@@ -281,7 +348,7 @@
         <label class="input-label">Zipcode:</label>
         <input
           pInputText
-          type="number"
+          pKeyFilter="int"
           placeholder="xxxx"
           formControlName="zipcode"
         />
@@ -291,31 +358,50 @@
             *ngIf="zipcode?.errors?.['required']"
             >Zipcode is required</small
           >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="zipcode?.errors?.['maxLength']"
+            >Zipcode must be 4 digits</small
+          >
         </div>
       </div>
       <div class="input-group">
         <label class="input-label">Telephone No:</label>
         <input
           pInputText
-          type="number"
+          pKeyFilter="int"
           placeholder="Telephone No."
           formControlName="telephone"
         />
+        <div
+          *ngIf="telephone?.invalid && (telephone?.dirty || telephone?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="telephone?.errors?.['numberRange']"
+            >Incorrect telephone no. format</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label class="input-label">Mobile No:</label>
         <input
           pInputText
-          type="number"
+          pKeyFilter="int"
           placeholder="09XXxxxxxxx"
           formControlName="mobile"
         />
-        <div *ngIf="mobile.invalid && (mobile?.dirty || mobile?.touched)">
+        <div *ngIf="mobile?.invalid && (mobile?.dirty || mobile?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="mobile?.errors?.['required']"
             >Mobile no. is required</small
           >
+          <!-- <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="mobile?.errors?.['mobileNoIsValid']"
+            >Incorrect mobile no. format</small
+          > -->
         </div>
       </div>
       <div class="input-group">
@@ -325,17 +411,22 @@
           placeholder="example@domain.com"
           formControlName="email"
         />
-        <div *ngIf="email.invalid && (email?.dirty || email?.touched)">
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="email?.errors?.['required']"
-            >Email Address is required</small
+            >Email adddress is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="email?.errors?.['email']"
+            >Incorrect email format</small
           >
         </div>
       </div>
       <div class="input-group">
         <label>Type of Work</label>
-        <input pInputText formControlName="work" />
+        <input pInputText formControlName="work" placeholder="Type of Work" />
         <div *ngIf="work.invalid && (work?.dirty || work?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
@@ -396,4 +487,25 @@
       </div>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="isDeleteDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  Are you sure you want to
+  {{ stat ? "activate" : "deactivate" }} this program?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDeleteProfessor()">Yes</button>
+  </div>
 </p-dialog>

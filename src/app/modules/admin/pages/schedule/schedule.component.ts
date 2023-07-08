@@ -116,4 +116,8 @@ export class ScheduleComponent {
     this.isDialogOpen = true;
     this.scheduleForm.markAsUntouched();
   };
+
+  onClickEdit = (sched: any) => {};
+
+  onClickRemove = (sched: any) => {};
 }

@@ -1,55 +1,83 @@
 <main>
-  <div class="table-header">
-    <button class="btn-border" (click)="onClickAdd()">ADD</button>
-    <span [style]="{ position: 'relative' }">
-      <i class="pi pi-search"></i>
-      <input
-        type="text"
-        pInputText
-        placeholder="Search"
-        [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-      />
-    </span>
-  </div>
   <div class="table">
-    <div class="table-header">
-      <span [style]="{ position: 'relative' }">
-        <i class="pi pi-search"></i>
-        <input
-          type="text"
-          pInputText
-          placeholder="Search"
-          [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-        />
-      </span>
-    </div>
     <p-table
-      [value]="professorList"
+      #dt
+      [value]="schedules"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 25, 50]"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['program', 'subject']"
     >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          <button class="add" (click)="onClickAdd()">ADD</button>
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 16%">Professor</th>
-          <th style="width: 16%">Subject</th>
-          <th style="width: 16%">Day</th>
-          <th style="width: 16%">Time</th>
-          <th style="width: 16%">Section</th>
-          <th style="width: 16%">Room</th>
+          <th style="width: 15%">Program</th>
+          <th style="width: 25%">Subject</th>
+          <th style="width: 15%">Year Level</th>
+          <th style="width: 15%">Term</th>
+          <th style="width: 15%">Status</th>
+          <th style="width: 15%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-professor>
+      <ng-template pTemplate="body" let-sched>
         <tr>
-          <td>{{ professor.name }}</td>
-          <td>{{ professor.subject }}</td>
-          <td>{{ professor.day }}</td>
-          <td>{{ professor.time }}</td>
-          <td>{{ professor.section }}</td>
-          <td>{{ professor.room }}</td>
+          <td>{{ sched.program }}</td>
+          <td>{{ sched.subject }}</td>
+          <td>{{ sched.yearLevel }}</td>
+          <td>{{ sched.sem }}</td>
+          <td>
+            <div class="{{ sched.activeDeactive ? 'active' : 'inactive' }}">
+              {{ sched.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="table-action edit" (click)="onClickEdit(sched)">
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Edit program"
+                  >edit</mat-icon
+                >
+                <span>Edit</span>
+              </button>
+              <button
+                class="table-action {{
+                  !sched.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onClickRemove(sched)"
+              >
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Remove program"
+                  >block</mat-icon
+                >
+                <span>{{
+                  !sched.activeDeactive ? "Activate" : "Deactivate"
+                }}</span>
+              </button>
+            </div>
+          </td>
         </tr>
       </ng-template>
     </p-table>

@@ -1,41 +1,204 @@
-<main>
+<!-- <main>
   <div class="table">
-    <div class="table-header">
-      <span [style]="{ position: 'relative' }">
-        <i class="pi pi-search"></i>
-        <input
-          type="text"
-          pInputText
-          placeholder="Search"
-          [style]="{ width: '18rem', paddingLeft: '2.5rem' }"
-        />
-      </span>
-    </div>
     <p-table
-      [value]="students"
+      #dt
+      [value]="curriculums"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 25, 50]"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['program', 'subject']"
     >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          <button class="add" (click)="onClickAdd()">ADD</button>
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 25%">Student No.</th>
-          <th style="width: 25%">Name</th>
-          <th style="width: 25%">Program</th>
-          <th style="width: 25%">Year Level</th>
+          <th style="width: 15%">Program</th>
+          <th style="width: 25%">Subject</th>
+          <th style="width: 15%">Year Level</th>
+          <th style="width: 15%">Term</th>
+          <th style="width: 15%">Status</th>
+          <th style="width: 15%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-prof>
+      <ng-template pTemplate="body" let-curriculum>
         <tr>
-          <td>{{ prof.studentNo }}</td>
-          <td>{{ prof.name }}</td>
-          <td>{{ prof.program }}</td>
-          <td>{{ prof.yearLevel }}</td>
+          <td>{{ curriculum.program }}</td>
+          <td>{{ curriculum.subject }}</td>
+          <td>{{ curriculum.yearLevel }}</td>
+          <td>{{ curriculum.sem }}</td>
+          <td>
+            <div
+              class="{{ curriculum.activeDeactive ? 'active' : 'inactive' }}"
+            >
+              {{ curriculum.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button
+                class="table-action edit"
+                (click)="onClickEdit(curriculum)"
+              >
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Edit program"
+                  >edit</mat-icon
+                >
+                <span>Edit</span>
+              </button>
+              <button
+                class="table-action {{
+                  !curriculum.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onClickRemove(curriculum)"
+              >
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Remove program"
+                  >block</mat-icon
+                >
+                <span>{{
+                  !curriculum.activeDeactive ? "Activate" : "Deactivate"
+                }}</span>
+              </button>
+            </div>
+          </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 </main>
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">{{ title }}</div>
+  </p-header>
+  <form [formGroup]="curriculumForm" (ngSubmit)="onClickSave()">
+    <div class="form-group">
+      <div class="input-group">
+        <label>Program:</label>
+        <p-dropdown
+          [options]="programs"
+          placeholder="Select a program"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="program"
+        ></p-dropdown>
+        <div *ngIf="program.invalid && (program?.dirty || program?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="program?.errors?.['required']"
+            >Please select a program</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Subject:</label>
+        <p-dropdown
+          [options]="subjects"
+          placeholder="Select a subject"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="subject"
+        ></p-dropdown>
+        <div *ngIf="subject.invalid && (subject?.dirty || subject?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="subject?.errors?.['required']"
+            >Please select a subject</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Year Level:</label>
+        <p-dropdown
+          [options]="levels"
+          placeholder="Select a year level"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="yearLevel"
+        ></p-dropdown>
+        <div
+          *ngIf="yearLevel.invalid && (yearLevel?.dirty || yearLevel?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="yearLevel?.errors?.['required']"
+            >Please select a year level</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Term:</label>
+        <p-dropdown
+          [options]="terms"
+          placeholder="Select a term"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="sem"
+        ></p-dropdown>
+        <div *ngIf="term.invalid && (term?.dirty || term?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="term?.errors?.['required']"
+            >Please select a term</small
+          >
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="action-btn cancel" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="action-btn submit">Save</button>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog
+  [(visible)]="isDeleteDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  Are you sure you want to
+  {{ status ? "activate" : "deactivate" }} this program?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDeleteCurriculum()">
+      Yes
+    </button>
+  </div>
+</p-dialog> -->

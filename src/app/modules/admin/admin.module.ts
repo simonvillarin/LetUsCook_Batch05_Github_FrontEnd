@@ -23,6 +23,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ChipsModule } from 'primeng/chips';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ChipsModule } from 'primeng/chips';
     ReactiveFormsModule,
     FormsModule,
     ChipsModule,
+    KeyFilterModule,
   ],
 })
 export class AdminModule {}
