@@ -24,6 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ChipsModule } from 'primeng/chips';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { SectionComponent } from './pages/section/section.component';
+import { RoomComponent } from './pages/room/room.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     StudentComponent,
     MainComponent,
     ProfileComponent,
+    SectionComponent,
+    RoomComponent,
   ],
   imports: [
     CommonModule,

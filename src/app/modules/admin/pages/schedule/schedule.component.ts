@@ -141,7 +141,6 @@ export class ScheduleComponent implements OnInit {
   getAllSections = () => {
     this.sectionService.getAllSections().subscribe((data: any) => {
       this.sections = data.sort((a: any, b: any) => a.sectionId - b.sectionId);
-      console.log(data);
     });
   };
 
