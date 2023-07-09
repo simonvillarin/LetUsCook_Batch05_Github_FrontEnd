@@ -11,6 +11,8 @@ import { ProfessorComponent } from './pages/professor/professor.component';
 import { StudentComponent } from './pages/student/student.component';
 import { MainComponent } from './pages/main/main.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { SectionComponent } from './pages/section/section.component';
+import { RoomComponent } from './pages/room/room.component';
 
 const routes: Routes = [
   {
@@ -52,6 +54,14 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'section',
+        component: SectionComponent,
+      },
+      {
+        path: 'room',
+        component: RoomComponent,
       },
     ],
   },
