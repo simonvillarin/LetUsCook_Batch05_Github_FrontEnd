@@ -95,62 +95,316 @@
     <div class="modal-title">{{ title }}</div>
   </p-header>
 
-  <form>
+  <form [formGroup]="scheduleForm">
     <div class="form-group">
       <div class="input-group">
-        <label>Professor</label>
+        <label>Program:</label>
         <p-dropdown
-          [options]="professors"
-          optionLabel="name"
+          [options]="programs"
+          placeholder="Select a program"
+          formControlName="program"
+          appendTo="body"
           [style]="{ width: '100%' }"
         ></p-dropdown>
-        <small [style]="{ color: 'var(--red)' }">Choose Professor.</small>
+        <div *ngIf="program?.invalid && (program?.dirty || program?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="program?.errors?.['required']"
+            >Please select a program</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Subject</label>
+        <label>Subject:</label>
         <p-dropdown
           [options]="subjects"
-          optionLabel="name"
+          placeholder="Select a subject"
+          formControlName="subject"
+          appendTo="body"
           [style]="{ width: '100%' }"
         ></p-dropdown>
-        <small [style]="{ color: 'var(--red)' }">Choose Subject.</small>
+        <div *ngIf="subject?.invalid && (subject?.dirty || subject?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="subject?.errors?.['required']"
+            >Please select a subject</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Day</label>
+        <label>Day:</label>
         <p-dropdown
           [options]="days"
-          optionLabel="name"
+          placeholder="Select a day"
+          formControlName="day"
+          appendTo="body"
           [style]="{ width: '100%' }"
         ></p-dropdown>
-        <small [style]="{ color: 'var(--red)' }">Choose Day.</small>
+        <div *ngIf="day?.invalid && (day?.dirty || day?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="day?.errors?.['required']"
+            >Please select a day</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Start Time</label>
-        <input type="time" pInputText />
+        <label>Start Time:</label>
+        <input
+          type="time"
+          pInputText
+          placeholder="Select a start time"
+          appendTo="body"
+          formControlName="startTime"
+        />
+        <div
+          *ngIf="startTime?.invalid && (startTime?.dirty || startTime?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="startTime?.errors?.['required']"
+            >Please select a start time</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>End Time</label>
-        <input type="time" pInputText />
+        <label>End Time:</label>
+        <input
+          type="time"
+          pInputText
+          placeholder="Select an end time"
+          appendTo="body"
+          formControlName="endTime"
+        />
+        <div *ngIf="endTime?.invalid && (endTime?.dirty || endTime?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="endTime?.errors?.['required']"
+            >Please select an end time</small
+          >
+        </div>
       </div>
       <div class="input-group">
-        <label>Section</label>
+        <label>Section:</label>
+        <div>
+          <p-dropdown
+            [options]="sections"
+            placeholder="Select a section"
+            formControlName="section"
+            appendTo="body"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <button (click)="onClickSectionDialog()">
+            <mat-icon class="material-icons-outlined" pTooltip="Remove program"
+              >add</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Room:</label>
+        <div>
+          <p-dropdown
+            [options]="rooms"
+            placeholder="Select a room"
+            formControlName="room"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+          <button (click)="onClickRoomDialog()">
+            <mat-icon class="material-icons-outlined" pTooltip="Remove program"
+              >add</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Professor:</label>
         <p-dropdown
-          [options]="sections"
-          optionLabel="name"
+          [options]="professors"
+          placeholder="Select a professor"
+          formControlName="professor"
           [style]="{ width: '100%' }"
         ></p-dropdown>
-      </div>
-      <div class="input-group">
-        <label>Room</label>
-        <p-dropdown
-          [options]="rooms"
-          optionLabel="name"
-          [style]="{ width: '100%' }"
-        ></p-dropdown>
+        <div
+          *ngIf="professor?.invalid && (professor?.dirty || professor?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="professor?.errors?.['required']"
+            >Please select a professor</small
+          >
+        </div>
       </div>
     </div>
-    <div class="button-group">
-      <button type="submit">Add</button>
+    <div class="actions">
+      <button type="button" class="action-btn cancel" (click)="onClickCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="action-btn submit">Save</button>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="isSectionDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Section List</div>
+  </p-header>
+  <form class="form" [formGroup]="sectionForm" (ngSubmit)="onSubmitSection()">
+    <div
+      class="alert {{
+        alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+      }}"
+      *ngIf="alert"
+    >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Error'"
+        >error</mat-icon
+      >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Success'"
+        >check</mat-icon
+      >
+      {{ alertMessage }}
+    </div>
+    <div class="form-group fg">
+      <div class="input-group">
+        <label>Section Name:</label>
+        <input
+          pInputText
+          placeholder="Section name"
+          formControlName="sectionName"
+        />
+        <div
+          *ngIf="
+            sectionName?.invalid && (sectionName?.dirty || sectionName?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="sectionName?.errors?.['required']"
+            >Section name is required</small
+          >
+        </div>
+      </div>
+      <button type="submit" class="action-btn submit sb">Save</button>
+    </div>
+  </form>
+  <p-table
+    #dt
+    [value]="sections"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5, 10, 15]"
+    paginatorDropdownAppendTo="body"
+    [globalFilterFields]="['sectionName', 'activeDeactive']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="table-header th">
+        <span [style]="{ position: 'relative' }">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [style]="{
+              width: '16rem',
+              paddingLeft: '2.5rem'
+            }"
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 40%">Section Name</th>
+        <th style="width: 20%">Status</th>
+        <th style="width: 40%">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-sec>
+      <tr>
+        <td>{{ sec.sectionName }}</td>
+        <td>
+          <div class="{{ sec.activeDeactive ? 'active' : 'inactive' }}">
+            {{ sec.activeDeactive ? "Active" : "Inactive" }}
+          </div>
+        </td>
+        <td>
+          <div class="table-actions">
+            <button class="table-action edit" (click)="onEditSection(sec)">
+              <mat-icon class="material-icons-outlined" pTooltip="Edit program"
+                >edit</mat-icon
+              >
+              <span>Edit</span>
+            </button>
+            <button
+              class="table-action {{
+                !sec.activeDeactive ? 'activate' : 'deactive'
+              }}"
+              (click)="onRemoveSection(sec)"
+            >
+              <mat-icon
+                class="material-icons-outlined"
+                pTooltip="Remove program"
+                >block</mat-icon
+              >
+              <span>{{ !sec.activeDeactive ? "Activate" : "Deactivate" }}</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="isRoomDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  Are you sure you want to
+  {{ status ? "activate" : "deactivate" }} this program?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDelete()">Yes</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="isDeleteDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  Are you sure you want to
+  {{ !status ? "activate" : "deactivate" }} this {{ confirm }}?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDelete()">Yes</button>
+  </div>
 </p-dialog>

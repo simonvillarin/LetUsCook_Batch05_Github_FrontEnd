@@ -115,6 +115,24 @@ form {
   gap: 0.25rem;
 }
 
+.input-group > div {
+  display: grid;
+  grid-template-columns: 1fr 4rem;
+  gap: 0.5rem;
+}
+
+.input-group > div > button {
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  color: var(--white);
+  background-color: var(--primary);
+  cursor: pointer;
+}
+.input-group > div > button:hover,
+.input-group > div > button:focus {
+  background-color: var(--darker-primary);
+}
+
 label {
   font-size: 0.935rem;
 }
@@ -177,6 +195,44 @@ label {
   font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
   font-weight: 400;
 }
+
+.form {
+  margin-bottom: 1.5rem;
+}
+
+.fg {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.sb {
+  margin-top: 1.625rem;
+}
+
+.th {
+  justify-content: flex-end;
+}
+
+.alert {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--white);
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  background-color: var(--green);
+}
+
+.alert-error {
+  background-color: var(--red);
+}
+
 /* ========== MEDIA QUERIES ========== */
 @media screen and (min-width: 992px) {
   main {

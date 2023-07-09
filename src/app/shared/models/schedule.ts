@@ -1,10 +1,11 @@
 export interface Schedule {
   schedId?: number;
-  professorId?: number;
-  studentId?: number;
+  program: any;
+  subject: any;
   day?: string;
   startTime?: string;
   endTime?: string;
-  room?: string;
   section?: string;
+  room?: string;
+  professorId?: number;
 }
