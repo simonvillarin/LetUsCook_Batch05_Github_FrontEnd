@@ -9,10 +9,10 @@
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 25, 50]"
+      [globalFilterFields]="['firstname', 'lastname', 'contact']"
     >
-      <ng-template pTemplate="header">
+      <ng-template pTemplate="caption">
         <div class="table-header">
-          <button class="btn-border">ADD</button>
           <span [style]="{ position: 'relative' }">
             <i class="pi pi-search"></i>
             <input
@@ -20,7 +20,7 @@
               pInputText
               placeholder="Search"
               [style]="{
-                width: '18rem',
+                width: '16rem',
                 paddingLeft: '2.5rem'
               }"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
@@ -28,29 +28,45 @@
             />
           </span>
         </div>
+      </ng-template>
+      <ng-template pTemplate="header">
         <tr>
-          <th style="width: 25%">Name</th>
-          <th style="width: 25%">Email</th>
-          <th style="width: 25%">Mobile Number</th>
-          <th style="width: 25%">Actions</th>
+          <th style="width: 20%">Name</th>
+          <th style="width: 20%">Mobile Number</th>
+          <th style="width: 20%">Relationship</th>
+          <th style="width: 20%">Status</th>
+          <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-parent>
         <tr>
           <td>
-            {{ parent.firstName }} {{ parent.middleName }} {{ parent.lastName }}
+            {{ parent.firstname }} {{ parent.middlename }} {{ parent.lastname }}
           </td>
-          <td>{{ parent.mobileNumber }}</td>
-          <td>{{ parent.address }}</td>
+          <td>{{ parent.contact }}</td>
+          <td>{{ parent.relationship }}</td>
+          <td>
+            <div class="{{ parent.activeDeactive ? 'active' : 'inactive' }}">
+              {{ parent.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
           <td>
             <div class="table-actions">
-              <div class="remove">
+              <button
+                class="table-action {{
+                  !parent.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onClickRemove(parent)"
+              >
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Remove program"
                   >block</mat-icon
                 >
-              </div>
+                <span>{{
+                  !parent.activeDeactive ? "Activate" : "Deactivate"
+                }}</span>
+              </button>
             </div>
           </td>
         </tr>
@@ -58,3 +74,23 @@
     </p-table>
   </div>
 </main>
+<p-dialog
+  [(visible)]="isDeleteDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  Are you sure you want to
+  {{ status ? "activate" : "deactivate" }} this section?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDeleteParent()">Yes</button>
+  </div>
+</p-dialog>

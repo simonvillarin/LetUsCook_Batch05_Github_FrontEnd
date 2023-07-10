@@ -17,7 +17,7 @@ main {
 
 .table-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
 }
@@ -176,6 +176,25 @@ label {
 .modal-title {
   font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
   font-weight: 400;
+}
+
+.alert {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--white);
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  background-color: var(--green);
+}
+
+.alert-error {
+  background-color: var(--red);
 }
 /* ========== MEDIA QUERIES ========== */
 @media screen and (min-width: 992px) {

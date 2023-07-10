@@ -23,7 +23,7 @@ export class ParentService {
     return this.http.post<Response>(`${this.BASE_URL}/parent`, parent);
   }
 
-  updateParent(parentId: number, parent: Parent) {
+  updateParent(parentId: number, parent: any) {
     return this.http.put<Response>(
       `${this.BASE_URL}/parent/${parentId}`,
       parent
