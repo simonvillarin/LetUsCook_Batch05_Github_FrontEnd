@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { StudentService } from './../../../../shared/services/student/student.service';
+import { Component, OnInit } from '@angular/core';
 import { HttpEvent } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SectionService } from 'src/app/shared/services/section/section.service';
 
 interface UploadEvent {
   originalEvent: HttpEvent<any>;
@@ -13,32 +16,34 @@ interface UploadEvent {
   styleUrls: ['./student.component.scss'],
   providers: [MessageService],
 })
-export class StudentComponent {
-  students = [
-    {
-      id: '1',
-      studentNo: '202312345',
-      name: 'Mark Perez',
-      program: 'BSIT',
-      yearLevel: 'First Year',
-    },
-    {
-      id: '2',
-      studentNo: '202342345',
-      name: 'Simon Villarin',
-      program: 'BSIT',
-      yearLevel: 'First Year',
-    },
-    {
-      id: '3',
-      studentNo: '202312345',
-      name: 'Ember San Miguel',
-      program: 'BSIT',
-      yearLevel: 'First Year',
-    },
-  ];
+export class StudentComponent implements OnInit {
+  constructor(
+    private studentService: StudentService,
+    private sectionService: SectionService,
+    private fb: FormBuilder,
+    private messageService: MessageService
+  ) {
+    this.sectionForm = this.fb.group({
+      studentName: ['', [Validators.required]],
+      program: ['', [Validators.required]],
+      sectionName: ['', [Validators.required]],
+    });
+  }
 
-  constructor(private messageService: MessageService) {}
+  ngOnInit(): void {
+    this.getAllStudents();
+  }
+
+  sectionForm: FormGroup;
+
+  students: any = [];
+  student: any = [];
+  sections: any = [];
+
+  isInputDisabled: boolean = true;
+  isDialogOpen: boolean = false;
+  isDeleteDialogOpen: boolean = false;
+  status: boolean = false;
 
   onBasicUploadAuto(event: UploadEvent) {
     this.messageService.add({
@@ -48,27 +53,82 @@ export class StudentComponent {
     });
   }
 
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
-
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
+  getAllStudents = () => {
+    this.studentService.getAllStudents().subscribe((data: any) => {
+      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+      console.log(this.students);
+    });
   };
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
+  getAllSections() {
+    this.sectionService.getAllSections().subscribe((data: any) => {
+      this.sections = data;
+      this.sections = this.sections.map(
+        (section: any) => (this.sections = section.sectionName)
+      );
+      console.log(this.sections);
+    });
+  }
+
+  onClickRemove = (student: any) => {
+    this.student = student;
+    this.status = this.student.activeDeactive;
+    this.isDeleteDialogOpen = true;
   };
 
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
+  onCloseDeleteDialog = () => {
+    this.isDeleteDialogOpen = false;
+    this.student = null;
   };
 
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+  onDeleteStudent = () => {
+    if (this.student) {
+      const payload = {
+        activeDeactive: !this.student.activeDeactive,
+      };
+      this.studentService
+        .updateStudent(this.student.studentId, payload)
+        .subscribe(() => this.getAllStudents());
+      this.isDeleteDialogOpen = false;
+      this.student = null;
+    }
+  };
+
+  onEditStudent = (student: any) => {
+    this.student = student;
+    this.isDialogOpen = true;
+    const studentName =
+      this.student.firstname +
+      ' ' +
+      this.student.middlename +
+      ' ' +
+      this.student.lastname;
+    if (this.student) {
+      this.sectionForm.patchValue({
+        studentName: studentName,
+        program: this.student.program.programCode,
+      });
+      this.sectionForm.get('studentName')?.disable();
+      this.sectionForm.get('program')?.disable();
+      this.getAllSections();
+    }
+  };
+
+  onEnrollStudent = () => {
+    if (this.sectionForm.valid) {
+      const payload: any = {};
+      if (this.student.section != this.sectionForm.get('sectionName')?.value) {
+        payload.section = this.sectionForm.get('sectionName')?.value;
+        payload.enrollmentStatus = 'Enrolled';
+      }
+      this.studentService
+        .updateStudent(this.student.studentId, payload)
+        .subscribe(() => {
+          this.getAllStudents();
+          this.isDialogOpen = false;
+        });
+    } else {
+      console.log('form invalid');
+    }
   };
 }

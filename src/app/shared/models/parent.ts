@@ -8,4 +8,5 @@ export interface Parent {
   addres: string;
   contactNumber: string;
   image: string;
+  activeDeactive: boolean;
 }

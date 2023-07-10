@@ -1,19 +1,24 @@
-<!-- <main>
+<main>
   <div class="table">
     <p-table
       #dt
-      [value]="curriculums"
+      [value]="students"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 20, 30]"
-      [globalFilterFields]="['program', 'subject']"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [globalFilterFields]="[
+        'firstname',
+        'middlename',
+        'lastname',
+        'program.programCode',
+        'section'
+      ]"
     >
       <ng-template pTemplate="caption">
         <div class="table-header">
-          <button class="add" (click)="onClickAdd()">ADD</button>
           <span [style]="{ position: 'relative' }">
             <i class="pi pi-search"></i>
             <input
@@ -32,45 +37,48 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 15%">Program</th>
-          <th style="width: 25%">Subject</th>
+          <th style="width: 20%">Name</th>
+          <th style="width: 10%">Program</th>
           <th style="width: 15%">Year Level</th>
-          <th style="width: 15%">Term</th>
-          <th style="width: 15%">Status</th>
-          <th style="width: 15%">Actions</th>
+          <th style="width: 15%">Enrollment Status</th>
+          <th style="width: 10%">Section</th>
+          <th style="width: 10%">Status</th>
+          <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-curriculum>
+      <ng-template pTemplate="body" let-student>
         <tr>
-          <td>{{ curriculum.program }}</td>
-          <td>{{ curriculum.subject }}</td>
-          <td>{{ curriculum.yearLevel }}</td>
-          <td>{{ curriculum.sem }}</td>
           <td>
-            <div
-              class="{{ curriculum.activeDeactive ? 'active' : 'inactive' }}"
-            >
-              {{ curriculum.activeDeactive ? "Active" : "Inactive" }}
+            {{ student.firstname }} {{ student.middlename }}
+            {{ student.lastname }}
+          </td>
+          <td>{{ student.program.programCode }}</td>
+          <td>{{ student.yearLevel }}</td>
+          <td>{{ student.enrollmentStatus }}</td>
+          <td>{{ student.section == "" ? "Unassigned" : student.section }}</td>
+          <td>
+            <div class="{{ student.activeDeactive ? 'active' : 'inactive' }}">
+              {{ student.activeDeactive ? "Active" : "Inactive" }}
             </div>
           </td>
           <td>
             <div class="table-actions">
               <button
                 class="table-action edit"
-                (click)="onClickEdit(curriculum)"
+                (click)="onEditStudent(student)"
               >
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Edit program"
                   >edit</mat-icon
                 >
-                <span>Edit</span>
+                <span>Enroll</span>
               </button>
               <button
                 class="table-action {{
-                  !curriculum.activeDeactive ? 'activate' : 'deactive'
+                  !student.activeDeactive ? 'activate' : 'deactive'
                 }}"
-                (click)="onClickRemove(curriculum)"
+                (click)="onClickRemove(student)"
               >
                 <mat-icon
                   class="material-icons-outlined"
@@ -78,7 +86,7 @@
                   >block</mat-icon
                 >
                 <span>{{
-                  !curriculum.activeDeactive ? "Activate" : "Deactivate"
+                  !student.activeDeactive ? "Activate" : "Deactivate"
                 }}</span>
               </button>
             </div>
@@ -97,86 +105,32 @@
   [resizable]="false"
 >
   <p-header>
-    <div class="modal-title">{{ title }}</div>
+    <div class="modal-title">Edit Student</div>
   </p-header>
-  <form [formGroup]="curriculumForm" (ngSubmit)="onClickSave()">
+  <form [formGroup]="sectionForm" (ngSubmit)="onEnrollStudent()">
     <div class="form-group">
       <div class="input-group">
-        <label>Program:</label>
-        <p-dropdown
-          [options]="programs"
-          placeholder="Select a program"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="program"
-        ></p-dropdown>
-        <div *ngIf="program.invalid && (program?.dirty || program?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="program?.errors?.['required']"
-            >Please select a program</small
-          >
-        </div>
+        <label>Student Name</label>
+        <input pInputText formControlName="studentName" />
       </div>
       <div class="input-group">
-        <label>Subject:</label>
-        <p-dropdown
-          [options]="subjects"
-          placeholder="Select a subject"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="subject"
-        ></p-dropdown>
-        <div *ngIf="subject.invalid && (subject?.dirty || subject?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="subject?.errors?.['required']"
-            >Please select a subject</small
-          >
-        </div>
+        <label>Program</label>
+        <input pInputText formControlName="program" />
       </div>
-      <div class="input-group">
-        <label>Year Level:</label>
-        <p-dropdown
-          [options]="levels"
-          placeholder="Select a year level"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="yearLevel"
-        ></p-dropdown>
-        <div
-          *ngIf="yearLevel.invalid && (yearLevel?.dirty || yearLevel?.touched)"
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="yearLevel?.errors?.['required']"
-            >Please select a year level</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Term:</label>
-        <p-dropdown
-          [options]="terms"
-          placeholder="Select a term"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="sem"
-        ></p-dropdown>
-        <div *ngIf="term.invalid && (term?.dirty || term?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="term?.errors?.['required']"
-            >Please select a term</small
-          >
-        </div>
-      </div>
+      <label>Section</label>
+      <p-dropdown
+        [options]="sections"
+        [style]="{ width: '100%' }"
+        placeholder="Select a section"
+        formControlName="sectionName"
+        appendTo="body"
+      ></p-dropdown>
     </div>
     <div class="actions">
-      <button type="button" class="action-btn cancel" (click)="onClickCancel()">
+      <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
         Cancel
       </button>
-      <button type="submit" class="action-btn submit">Save</button>
+      <button class="action-btn submit" type="submit">Save</button>
     </div>
   </form>
 </p-dialog>
@@ -192,13 +146,11 @@
     <div class="modal-title">Confirmation</div>
   </p-header>
   Are you sure you want to
-  {{ status ? "activate" : "deactivate" }} this program?
+  {{ status ? "activate" : "deactivate" }} this section?
   <div class="actions">
     <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
       Cancel
     </button>
-    <button class="action-btn submit" (click)="onDeleteCurriculum()">
-      Yes
-    </button>
+    <button class="action-btn submit" (click)="onDeleteStudent()">Yes</button>
   </div>
-</p-dialog> -->
+</p-dialog>

@@ -48,13 +48,6 @@ export class CurriculumComponent implements OnInit {
       yearLevel: ['', [Validators.required]],
       sem: ['', [Validators.required]],
     });
-
-    // this.curriculumForm.patchValue({
-    //   program: 'Bachelor of Science in Information Technology',
-    //   subject: 'Intro to Programming',
-    //   yearLevel: 'First Year',
-    //   sem: 'First Term',
-    // });
   }
 
   ngOnInit(): void {
@@ -71,13 +64,17 @@ export class CurriculumComponent implements OnInit {
 
   getAllPrograms = () => {
     this.programService.getAllPrograms().subscribe((data: any) => {
-      data.map((d: any) => this.programs.push(d.programTitle));
+      const sortData = data.sort((a: any, b: any) => b.programId - a.programId);
+      let programs: any = [];
+      sortData.map((program: any) => programs.push(program.programTitle));
+      this.programs = programs;
     });
   };
 
   getAllSubjects = () => {
     this.subjectService.getAllSubjects().subscribe((data: any) => {
       data.map((d: any) => this.subjects.push(d.subjectTitle));
+      this.subjects.sort();
     });
   };
 
@@ -132,6 +129,38 @@ export class CurriculumComponent implements OnInit {
   onClickSave = () => {
     if (this.isUpdating) {
       if (this.curriculumForm.valid) {
+        const programTitle = this.curriculumForm.get('program')?.value;
+        const subjectTitle = this.curriculumForm.get('subject')?.value;
+        const yearLevel = this.curriculumForm.get('yearLevel')?.value;
+        const sem = this.curriculumForm.get('sem')?.value;
+        let payload: any = {};
+        if (this.curriculum.program != programTitle) {
+          payload.program = programTitle;
+        }
+        if (this.curriculum.subject != subjectTitle) {
+          payload.subject = subjectTitle;
+        }
+        if (this.curriculum.yearLevel != yearLevel) {
+          payload.yearLevel = yearLevel;
+        }
+        if (this.curriculum.sem != sem) {
+          payload.sem = sem;
+        }
+        this.curriculumService
+          .updateCurriculum(this.curriculum.curriculumId, payload)
+          .subscribe(() => {
+            const index = this.curriculums.findIndex(
+              (curriculum) =>
+                curriculum.curriculumId == this.curriculum.curriculumId
+            );
+            this.curriculums[index].program = programTitle;
+            this.curriculums[index].subject = subjectTitle;
+            this.curriculums[index].yearLevel = yearLevel;
+            this.curriculums[index].sem = sem;
+            this.isDialogOpen = false;
+            this.curriculumForm.reset();
+            this.isUpdating = false;
+          });
       } else {
         this.curriculumForm.markAllAsTouched();
       }
@@ -139,18 +168,8 @@ export class CurriculumComponent implements OnInit {
       if (this.curriculumForm.valid) {
         this.curriculumService
           .addCurriculum(this.curriculumForm.value)
-          .subscribe();
+          .subscribe(() => this.getAllCurriculums());
         this.isDialogOpen = false;
-        this.curriculums = [
-          ...this.curriculums,
-          {
-            program: this.curriculumForm.get('program')?.value,
-            subject: this.curriculumForm.get('subject')?.value,
-            yearLevel: this.curriculumForm.get('yearLevel')?.value,
-            sem: this.curriculumForm.get('sem')?.value,
-            activeDeactive: true,
-          },
-        ];
         console.log(this.curriculums);
         this.curriculumForm.reset();
       } else {
@@ -160,9 +179,9 @@ export class CurriculumComponent implements OnInit {
   };
 
   onClickEdit = (curriculum: any) => {
+    this.isUpdating = true;
     this.title = 'Edit Curriculum';
-    this.isDialogOpen = true;
-
+    this.curriculum = curriculum;
     this.curriculumForm.patchValue({
       program: curriculum.program,
       subject: curriculum.subject,
@@ -170,11 +189,13 @@ export class CurriculumComponent implements OnInit {
       sem: curriculum.sem,
     });
     console.log(this.curriculumForm.value);
-    this.curriculumForm.reset();
+    this.isDialogOpen = true;
   };
 
   onClickRemove = (curriculum: any) => {
     this.curriculum = curriculum;
+    console.log(this.curriculum);
+
     this.status = curriculum.activeDeactive;
     this.isDeleteDialogOpen = true;
   };

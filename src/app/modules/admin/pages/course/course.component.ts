@@ -20,6 +20,7 @@ export class CourseComponent implements OnInit {
 
   subjects: any[] = [];
   subject: any;
+  programs: string[] = [];
   types = ['Major', 'Minor', 'Elective'];
 
   isShowDropdown = false;
@@ -39,7 +40,6 @@ export class CourseComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.courseForm = fb.group({
-      programTitle: ['', [Validators.required]],
       subjectCode: ['', [Validators.required]],
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
@@ -53,7 +53,16 @@ export class CourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllSubjects();
+    this.getAllProgramCodes();
   }
+
+  getAllProgramCodes = () => {
+    this.programService.getAllPrograms().subscribe((data: any) => {
+      data.map((d: any) => {
+        this.programs.push(d.programTitle);
+      });
+    });
+  };
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
@@ -79,6 +88,7 @@ export class CourseComponent implements OnInit {
   onClickAdd = () => {
     this.title = 'Add Course';
     this.isDialogOpen = true;
+    this.preRequisiteFormArray.reset();
     this.courseForm.reset();
     this.courseForm.markAsUntouched();
     this.isUpdating = false;
@@ -90,8 +100,8 @@ export class CourseComponent implements OnInit {
   };
 
   getAllSubjects = () => {
-    this.courseService.getAllSubjects().subscribe((data: any) => {
-      this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+    this.courseService.getAllSubjects().subscribe((subject) => {
+      this.subjects = subject;
     });
   };
 
@@ -99,7 +109,6 @@ export class CourseComponent implements OnInit {
     if (this.isUpdating) {
       this.title = 'Edit Subject';
       if (this.courseForm.valid) {
-        const programTitle = this.courseForm.get('programTitle')?.value;
         const subjectCode = this.courseForm.get('subjectCode')?.value;
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
@@ -107,9 +116,6 @@ export class CourseComponent implements OnInit {
         const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
-        if (this.subject.programTitle != programTitle) {
-          payload.programTitle = programTitle;
-        }
         if (this.subject.subjectCode != subjectCode) {
           payload.subjectCode = subjectCode;
         }
@@ -134,7 +140,15 @@ export class CourseComponent implements OnInit {
             } else if (res.message == 'Subject title already exist') {
               alert('Subject title already exist');
             } else {
-              this.getAllSubjects();
+              const index = this.subjects.findIndex(
+                (subject: any) => subject.subjectId == this.subject.subjectId
+              );
+
+              this.subjects[index].subjectCode = subjectCode;
+              this.subjects[index].subjectTitle = subjectTitle;
+              this.subjects[index].unit = unit;
+              this.subjects[index].preRequisite = preRequisite;
+              this.subjects[index].type = type;
               this.isDialogOpen = false;
               this.courseForm.reset();
               this.isUpdating = false;
@@ -145,12 +159,12 @@ export class CourseComponent implements OnInit {
       }
     } else {
       this.title = 'Add Subject';
+      console.log(this.courseForm.value);
+
       if (this.courseForm.valid) {
         this.courseService
           .addSubject(this.courseForm.value)
           .subscribe((res: any) => {
-            console.log(res);
-
             if (res.message == 'Subject code already exist') {
               alert('Subject code already exist');
             } else if (res.message == 'Subject title already exist') {
@@ -199,7 +213,11 @@ export class CourseComponent implements OnInit {
     let payload = { activeDeactive: !this.subject.activeDeactive };
     this.courseService
       .updateSubject(this.subject.subjectId, payload)
-      .subscribe(() => this.getAllSubjects());
+      .subscribe();
+    const index = this.subjects.findIndex(
+      (subject: any) => subject.subjectId == this.subject.subjectId
+    );
+    this.subjects[index].activeDeactive = !this.subject.activeDeactive;
     this.status = !this.subject.activeDeactive;
   };
 
