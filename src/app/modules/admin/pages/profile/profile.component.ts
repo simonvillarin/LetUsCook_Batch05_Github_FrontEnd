@@ -29,13 +29,17 @@ export class ProfileComponent implements OnInit {
 
   admin: any;
   username: string = '';
+  password: string = '';
 
   editPersonal: boolean = false;
   editAddress: boolean = false;
   editContact: boolean = false;
   editPassword: boolean = false;
 
-  alert: boolean = false;
+  alertPersonal: boolean = false;
+  alertAddress: boolean = false;
+  alertContact: boolean = false;
+  alertPassword: boolean = false;
   alertStatus: string = 'Success';
   alertMessage: string = 'Professor successfully added';
 
@@ -116,6 +120,7 @@ export class ProfileComponent implements OnInit {
       .getAccountByUserId(this.authService.getUserId())
       .subscribe((data: any) => {
         this.username = data.username;
+        this.password = data.pass;
       });
   };
 
@@ -291,15 +296,88 @@ export class ProfileComponent implements OnInit {
       this.adminService
         .updateAdmin(this.admin.adminId, this.personalForm.value)
         .subscribe(() => this.getAdminById());
+      this.alertPersonal = true;
+      setTimeout(() => {
+        this.alertPersonal = false;
+      }, 3000);
+      this.alertStatus = 'Success';
+      this.alertMessage = 'Personal information successfully updated';
       this.editPersonal = false;
     } else {
       this.personalForm.markAllAsTouched();
     }
   };
 
-  onSubmitAddress = () => {};
+  onSubmitAddress = () => {
+    if (this.addressForm.valid) {
+      this.adminService
+        .updateAdmin(this.admin.adminId, this.addressForm.value)
+        .subscribe(() => this.getAdminById());
+      this.alertAddress = true;
+      setTimeout(() => {
+        this.alertAddress = false;
+      }, 3000);
+      this.alertStatus = 'Success';
+      this.alertMessage = 'Address information successfully updated';
+      this.editAddress = false;
+    } else {
+      this.addressForm.markAllAsTouched();
+    }
+  };
 
-  onSubmitContact = () => {};
+  onSubmitContact = () => {
+    if (this.contactForm.valid) {
+      this.adminService
+        .updateAdmin(this.admin.adminId, this.contactForm.value)
+        .subscribe((res: any) => {
+          if (res.message == 'Email already exist') {
+            this.alertContact = true;
+            setTimeout(() => {
+              this.alertContact = false;
+            }, 3000);
+            this.alertStatus = 'Error';
+            this.alertMessage = 'Email address already exists';
+            this.editContact = false;
+          } else {
+            this.getAdminById();
+            this.alertContact = true;
+            setTimeout(() => {
+              this.alertContact = false;
+            }, 3000);
+            this.alertStatus = 'Success';
+            this.alertMessage = 'Contact details successfully updated';
+            this.editContact = false;
+          }
+        });
+    } else {
+      this.contactForm.markAllAsTouched();
+    }
+  };
 
-  onSubmitPassword = () => {};
+  onSubmitPassword = () => {
+    if (this.passwordForm.valid) {
+      if (this.password != this.passwordForm.get('password')?.value) {
+        this.alertPassword = true;
+        setTimeout(() => {
+          this.alertPassword = false;
+        }, 3000);
+        this.alertStatus = 'Error';
+        this.alertMessage =
+          'Current password you entered does not match your current password';
+      } else {
+        this.adminService
+          .updateAdmin(this.admin.adminId, this.passwordForm.value)
+          .subscribe(() => this.getAdminById());
+        this.alertPassword = true;
+        setTimeout(() => {
+          this.alertPassword = false;
+        }, 3000);
+        this.alertStatus = 'Success';
+        this.alertMessage = 'Password successfully updated';
+        this.editPassword = false;
+      }
+    } else {
+      this.passwordForm.markAllAsTouched();
+    }
+  };
 }

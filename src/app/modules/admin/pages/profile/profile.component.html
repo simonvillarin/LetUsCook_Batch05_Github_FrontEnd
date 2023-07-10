@@ -54,12 +54,12 @@
   </div>
   <div class="profile-body">
     <div class="pb">
-      <div class="form-header" [class.alert-false]="!alert">
+      <div class="form-header" [class.alert-false]="!alertPersonal">
         <div
           class="alert {{
             alertStatus == 'Success' ? 'alert-success' : 'alert-error'
           }}"
-          *ngIf="alert"
+          *ngIf="alertPersonal"
         >
           <mat-icon
             class="material-icons-outlined"
@@ -282,12 +282,12 @@
       </form>
     </div>
     <div class="pb">
-      <div class="form-header" [class.alert-false]="!alert">
+      <div class="form-header" [class.alert-false]="!alertAddress">
         <div
           class="alert {{
             alertStatus == 'Success' ? 'alert-success' : 'alert-error'
           }}"
-          *ngIf="alert"
+          *ngIf="alertAddress"
         >
           <mat-icon
             class="material-icons-outlined"
@@ -455,12 +455,12 @@
       </form>
     </div>
     <div class="pb">
-      <div class="form-header" [class.alert-false]="!alert">
+      <div class="form-header" [class.alert-false]="!alertContact">
         <div
           class="alert {{
             alertStatus == 'Success' ? 'alert-success' : 'alert-error'
           }}"
-          *ngIf="alert"
+          *ngIf="alertContact"
         >
           <mat-icon
             class="material-icons-outlined"
@@ -560,12 +560,12 @@
       </form>
     </div>
     <div class="pb">
-      <div class="form-header" [class.alert-false]="!alert">
+      <div class="form-header" [class.alert-false]="!alertPassword">
         <div
           class="alert {{
             alertStatus == 'Success' ? 'alert-success' : 'alert-error'
           }}"
-          *ngIf="alert"
+          *ngIf="alertPassword"
         >
           <mat-icon
             class="material-icons-outlined"
@@ -590,7 +590,7 @@
             <label>Current Password:</label>
             <input
               pInputText
-              placeholder="Password"
+              placeholder="Current Password"
               formControlName="currentPassword"
               *ngIf="editPassword"
             />
@@ -612,7 +612,7 @@
             <label>New Password:</label>
             <input
               pInputText
-              placeholder="Password"
+              placeholder="New Password"
               formControlName="newPassword"
               *ngIf="editPassword"
             />
