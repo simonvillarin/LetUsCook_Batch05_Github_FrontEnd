@@ -4,7 +4,7 @@
       #dt
       [value]="subjects"
       [paginator]="true"
-      [rows]="5"
+      [rows]="10"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -32,7 +32,6 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 10%">Program</th>
           <th style="width: 10%">Subject Code</th>
           <th style="width: 19%">Subject Title</th>
           <th style="width: 10%">Units</th>
@@ -44,7 +43,6 @@
       </ng-template>
       <ng-template pTemplate="body" let-sub>
         <tr>
-          <td>{{ sub.programCode }}</td>
           <td>{{ sub.subjectCode }}</td>
           <td>{{ sub.subjectTitle }}</td>
           <td>{{ sub.units }}</td>
@@ -100,27 +98,6 @@
   </p-header>
   <form [formGroup]="courseForm" (ngSubmit)="onClickSave()">
     <div class="form-group">
-      <div class="input-group">
-        <label>Program</label>
-        <p-dropdown
-          [options]="programs"
-          [style]="{ width: '100%' }"
-          placeholder="Select a program"
-          formControlName="programTitle"
-        ></p-dropdown>
-        <div
-          *ngIf="
-            (buttonClicked && courseForm.get('programTitle')?.invalid) ||
-            courseForm.get('programTitle')?.dirty
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="courseForm.get('programTitle')?.errors?.['required']"
-            >Please choose a program</small
-          >
-        </div>
-      </div>
       <div class="input-group">
         <label>Subject Code</label>
         <input

@@ -121,9 +121,6 @@ export class ProgramComponent implements OnInit {
         const payload = {
           programCode: this.programForm.get('programCode')?.value,
           programTitle: this.programForm.get('programTitle')?.value,
-          major: [],
-          minor: [],
-          electives: [],
           status: true,
         };
         this.programService.addProgram(payload).subscribe((res: any) => {

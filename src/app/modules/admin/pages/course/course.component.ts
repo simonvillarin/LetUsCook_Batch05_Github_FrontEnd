@@ -40,7 +40,6 @@ export class CourseComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.courseForm = fb.group({
-      programTitle: ['', [Validators.required]],
       subjectCode: ['', [Validators.required]],
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
@@ -102,8 +101,6 @@ export class CourseComponent implements OnInit {
 
   getAllSubjects = () => {
     this.courseService.getAllSubjects().subscribe((subject) => {
-      console.log(subject);
-
       this.subjects = subject;
     });
   };
@@ -112,7 +109,6 @@ export class CourseComponent implements OnInit {
     if (this.isUpdating) {
       this.title = 'Edit Subject';
       if (this.courseForm.valid) {
-        const programTitle = this.courseForm.get('programTitle')?.value;
         const subjectCode = this.courseForm.get('subjectCode')?.value;
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
@@ -120,9 +116,6 @@ export class CourseComponent implements OnInit {
         const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
-        if (this.subject.programTitle != programTitle) {
-          payload.programTitle = programTitle;
-        }
         if (this.subject.subjectCode != subjectCode) {
           payload.subjectCode = subjectCode;
         }
@@ -142,9 +135,6 @@ export class CourseComponent implements OnInit {
         this.courseService
           .updateSubject(this.subject.subjectId, payload)
           .subscribe((res: any) => {
-            console.log(res);
-            console.log(this.courseForm.value);
-
             if (res.message == 'Subject code already exist') {
               alert('Subject code already exist');
             } else if (res.message == 'Subject title already exist') {
@@ -154,7 +144,6 @@ export class CourseComponent implements OnInit {
                 (subject: any) => subject.subjectId == this.subject.subjectId
               );
 
-              this.subjects[index].programTitle = programTitle;
               this.subjects[index].subjectCode = subjectCode;
               this.subjects[index].subjectTitle = subjectTitle;
               this.subjects[index].unit = unit;
@@ -170,12 +159,12 @@ export class CourseComponent implements OnInit {
       }
     } else {
       this.title = 'Add Subject';
+      console.log(this.courseForm.value);
+
       if (this.courseForm.valid) {
         this.courseService
           .addSubject(this.courseForm.value)
           .subscribe((res: any) => {
-            console.log(res);
-
             if (res.message == 'Subject code already exist') {
               alert('Subject code already exist');
             } else if (res.message == 'Subject title already exist') {
@@ -199,7 +188,6 @@ export class CourseComponent implements OnInit {
     this.title = 'Edit Course';
 
     this.courseForm.patchValue({
-      programTitle: subject.programTitle,
       subjectCode: subject.subjectCode,
       subjectTitle: subject.subjectTitle,
       units: subject.units,
