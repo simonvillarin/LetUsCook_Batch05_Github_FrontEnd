@@ -356,7 +356,7 @@ export class ProfileComponent implements OnInit {
 
   onSubmitPassword = () => {
     if (this.passwordForm.valid) {
-      if (this.password != this.passwordForm.get('password')?.value) {
+      if (this.password != this.passwordForm.get('currentPassword')?.value) {
         this.alertPassword = true;
         setTimeout(() => {
           this.alertPassword = false;
@@ -374,6 +374,7 @@ export class ProfileComponent implements OnInit {
         }, 3000);
         this.alertStatus = 'Success';
         this.alertMessage = 'Password successfully updated';
+        this.passwordForm.reset();
         this.editPassword = false;
       }
     } else {

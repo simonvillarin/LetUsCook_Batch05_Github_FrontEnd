@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { AdminService } from 'src/app/shared/services/admin/admin.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   route: string = 'Home';
+  admin: any;
+  name: string = '';
   curriculums = [
     {
       id: 1000,
@@ -29,7 +32,23 @@ export class MainComponent {
   isShowDropdown = false;
   isShowMobileNav = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private adminService: AdminService
+  ) {}
+
+  ngOnInit(): void {
+    this.getAdminById();
+  }
+
+  getAdminById = () => {
+    this.adminService
+      .getAdminById(this.authService.getUserId())
+      .subscribe((data: any) => {
+        this.admin = data;
+      });
+  };
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
