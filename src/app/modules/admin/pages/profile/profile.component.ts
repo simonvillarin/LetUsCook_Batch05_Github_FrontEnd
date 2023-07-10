@@ -22,22 +22,22 @@ import {
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  @ViewChild('genderDropdown') genderDropdown: Dropdown | undefined;
-
-  personalInfo: boolean = true;
-  addressInfo: boolean = false;
-  contactInfo: boolean = false;
-  userInfo: boolean = false;
-
   fileImage: any;
   fileBanner: any;
   imagePreview: string | ArrayBuffer | null = null;
   bannerPreview: string | ArrayBuffer | null = null;
 
-  fName: string = '';
-  lName: string = '';
+  admin: any;
   username: string = '';
-  genderSelected: string = '';
+
+  editPersonal: boolean = false;
+  editAddress: boolean = false;
+  editContact: boolean = false;
+  editPassword: boolean = false;
+
+  alert: boolean = false;
+  alertStatus: string = 'Success';
+  alertMessage: string = 'Professor successfully added';
 
   genders = ['Male', 'Female'];
   civil = ['Single', 'Married', 'Divorced', 'Widowed'];
@@ -54,15 +54,15 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.personalForm = fb.group({
-      firstName: ['', [Validators.required]],
-      middleName: [''],
-      lastName: ['', [Validators.required]],
+      firstname: ['', [Validators.required]],
+      middlename: [''],
+      lastname: ['', [Validators.required]],
       suffix: [''],
       gender: ['', [Validators.required]],
       civilStatus: ['', [Validators.required]],
       citizenship: ['', [Validators.required]],
-      birthDate: ['', [Validators.required, birthdateValidator()]],
-      birthPlace: ['', [Validators.required]],
+      birthdate: ['', [Validators.required, birthdateValidator()]],
+      birthplace: ['', [Validators.required]],
       religion: ['', [Validators.required]],
     });
     this.addressForm = fb.group({
@@ -94,10 +94,6 @@ export class ProfileComponent implements OnInit {
       ],
       confirmPassword: ['', [Validators.required]],
     });
-    this.personalForm.patchValue({
-      gender: 'Male',
-      civilStatus: 'Single',
-    });
   }
 
   ngOnInit(): void {
@@ -108,11 +104,10 @@ export class ProfileComponent implements OnInit {
   getAdminById = () => {
     this.adminService
       .getAdminById(this.authService.getUserId())
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         this.imagePreview = data.image;
         this.bannerPreview = data.bannerImage;
-        this.fName = data.firstname;
-        this.lName = data.lastname;
+        this.admin = data;
       });
   };
 
@@ -125,15 +120,15 @@ export class ProfileComponent implements OnInit {
   };
 
   get firstName() {
-    return this.personalForm.get('firstName');
+    return this.personalForm.get('firstname');
   }
 
   get middleName() {
-    return this.personalForm.get('middleName');
+    return this.personalForm.get('middlename');
   }
 
   get lastName() {
-    return this.personalForm.get('lastName');
+    return this.personalForm.get('lastname');
   }
 
   get suffix() {
@@ -153,11 +148,11 @@ export class ProfileComponent implements OnInit {
   }
 
   get birthDate() {
-    return this.personalForm.get('birthDate');
+    return this.personalForm.get('birthdate');
   }
 
   get birthPlace() {
-    return this.personalForm.get('birthPlace');
+    return this.personalForm.get('birthplace');
   }
 
   get religion() {
@@ -216,42 +211,6 @@ export class ProfileComponent implements OnInit {
     return this.passwordForm.get('confirmPassword');
   }
 
-  onPersonalInfo = () => {
-    this.personalInfo = true;
-    this.addressInfo = false;
-    this.contactInfo = false;
-    this.userInfo = false;
-    const yOffset = window.innerHeight * 0.4;
-    window.scrollTo(0, yOffset);
-  };
-
-  onAddressInfo = () => {
-    this.personalInfo = false;
-    this.addressInfo = true;
-    this.contactInfo = false;
-    this.userInfo = false;
-    const yOffset = window.innerHeight * 0.8;
-    window.scrollTo(0, 800);
-  };
-
-  onContactInfo = () => {
-    this.personalInfo = false;
-    this.addressInfo = false;
-    this.contactInfo = true;
-    this.userInfo = false;
-    const yOffset = window.innerHeight * 0.4;
-    window.scrollTo(0, yOffset);
-  };
-
-  onUserInfo = () => {
-    this.personalInfo = false;
-    this.addressInfo = false;
-    this.contactInfo = false;
-    this.userInfo = true;
-    const yOffset = window.innerHeight * 0.4;
-    window.scrollTo(0, yOffset);
-  };
-
   onImageChange = (event: any) => {
     this.fileImage = event.target.files[0];
     const reader = new FileReader();
@@ -284,4 +243,63 @@ export class ProfileComponent implements OnInit {
       .updateBanner(this.authService.getUserId(), formData)
       .subscribe((res) => console.log(res));
   };
+
+  onEditPersonal = () => {
+    this.editPersonal = !this.editPersonal;
+    this.personalForm.patchValue({
+      firstname: this.admin.firstname,
+      middlename: this.admin.middlename,
+      lastname: this.admin.lastname,
+      suffix: this.admin.suffix,
+      gender: this.admin.gender,
+      civilStatus: this.admin.civilStatus,
+      birthdate: this.admin.birthdate,
+      birthplace: this.admin.birthplace,
+      citizenship: this.admin.citizenship,
+      religion: this.admin.religion,
+    });
+  };
+
+  onEditAddress = () => {
+    this.editAddress = !this.editAddress;
+    this.addressForm.patchValue({
+      unit: this.admin.unit,
+      street: this.admin.street,
+      subdivision: this.admin.subdivision,
+      barangay: this.admin.barangay,
+      city: this.admin.city,
+      province: this.admin.province,
+      zipcode: this.admin.zipcode,
+    });
+  };
+
+  onEditContact = () => {
+    this.editContact = !this.editContact;
+    this.contactForm.patchValue({
+      telephone: this.admin.telephone,
+      mobile: this.admin.mobile,
+      email: this.admin.email,
+    });
+  };
+
+  onEditPassword = () => {
+    this.editPassword = !this.editPassword;
+  };
+
+  onSubmitPersonal = () => {
+    if (this.personalForm.valid) {
+      this.adminService
+        .updateAdmin(this.admin.adminId, this.personalForm.value)
+        .subscribe(() => this.getAdminById());
+      this.editPersonal = false;
+    } else {
+      this.personalForm.markAllAsTouched();
+    }
+  };
+
+  onSubmitAddress = () => {};
+
+  onSubmitContact = () => {};
+
+  onSubmitPassword = () => {};
 }

@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo">
       <mat-icon class="material-icons-outlined">school</mat-icon
-      ><span>SMA University</span>
+      ><span>Educate</span>
     </div>
     <nav>
       <div class="links">
@@ -10,6 +10,7 @@
           class="link"
           routerLink="/admin/home"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Home')"
         >
           <mat-icon class="material-icons-outlined">home</mat-icon>
           <span>Home</span>
@@ -18,6 +19,7 @@
           class="link"
           routerLink="/admin/program"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Program')"
         >
           <mat-icon class="material-icons-outlined">description</mat-icon>
           <span>Program</span>
@@ -26,6 +28,7 @@
           class="link"
           routerLink="/admin/course"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Course')"
         >
           <mat-icon class="material-icons-outlined">menu_book</mat-icon>
           <span>Course</span>
@@ -34,6 +37,7 @@
           class="link"
           routerLink="/admin/curriculum"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Curriculum')"
         >
           <mat-icon class="material-icons-outlined">event_note</mat-icon>
           <span>Curriculum</span>
@@ -42,6 +46,7 @@
           class="link"
           routerLink="/admin/professor"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Professor')"
         >
           <mat-icon class="material-icons-outlined">man_4</mat-icon>
           <span>Professor</span>
@@ -50,6 +55,7 @@
           class="link"
           routerLink="/admin/section"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Section')"
         >
           <mat-icon class="material-icons-outlined">safety_divider</mat-icon>
           <span>Section</span>
@@ -58,6 +64,7 @@
           class="link"
           routerLink="/admin/room"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Room')"
         >
           <mat-icon class="material-icons-outlined">meeting_room</mat-icon>
           <span>Room</span>
@@ -67,14 +74,16 @@
           class="link"
           routerLink="/admin/schedule"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Schedule')"
         >
           <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Class Schedule</span>
+          <span>Schedule</span>
         </div>
         <div
           class="link"
           routerLink="/admin/student"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Student')"
         >
           <mat-icon class="material-icons-outlined">man</mat-icon>
           <span>Student</span>
@@ -83,6 +92,7 @@
           class="link"
           routerLink="/admin/parent"
           routerLinkActive="link-active"
+          (click)="onChangeRoute('Parent')"
         >
           <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
           <span>Parent</span>
@@ -101,6 +111,7 @@
           class="link"
           routerLink="/admin/home"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Home')"
         >
           <mat-icon class="material-icons-outlined">home</mat-icon>
           <span>Home</span>
@@ -109,6 +120,7 @@
           class="link"
           routerLink="/admin/program"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Program')"
         >
           <mat-icon class="material-icons-outlined">description</mat-icon>
           <span>Program</span>
@@ -117,6 +129,7 @@
           class="link"
           routerLink="/admin/course"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Course')"
         >
           <mat-icon class="material-icons-outlined">menu_book</mat-icon>
           <span>Course</span>
@@ -125,6 +138,7 @@
           class="link"
           routerLink="/admin/curriculum"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Curriculum')"
         >
           <mat-icon class="material-icons-outlined">event_note</mat-icon>
           <span>Curriculum</span>
@@ -133,6 +147,7 @@
           class="link"
           routerLink="/admin/professor"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Professor')"
         >
           <mat-icon class="material-icons-outlined">man_4</mat-icon>
           <span>Professor</span>
@@ -141,6 +156,7 @@
           class="link"
           routerLink="/admin/section"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Section')"
         >
           <mat-icon class="material-icons-outlined">safety_divider</mat-icon>
           <span>Section</span>
@@ -149,6 +165,7 @@
           class="link"
           routerLink="/admin/room"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Room')"
         >
           <mat-icon class="material-icons-outlined">meeting_room</mat-icon>
           <span>Room</span>
@@ -157,14 +174,16 @@
           class="link"
           routerLink="/admin/schedule"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Schedule')"
         >
           <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Class Schedule</span>
+          <span>Schedule</span>
         </div>
         <div
           class="link"
           routerLink="/admin/student"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Student')"
         >
           <mat-icon class="material-icons-outlined">man</mat-icon>
           <span>Student</span>
@@ -173,6 +192,7 @@
           class="link"
           routerLink="/admin/parent"
           routerLinkActive="mobile-link-active"
+          (click)="onChangeRoute('Parent')"
         >
           <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
           <span>Parent</span>
@@ -188,114 +208,41 @@
           <mat-icon fontIcon="menu"></mat-icon>
         </div>
         <div class="location">
-          <mat-icon class="material-icons-outlined">event_note</mat-icon
-          >Curriculum
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Home'"
+            >home</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Program'"
+            >description</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Course'"
+            >menu_book</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="route == 'Curriculum'"
+            >event_note</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Professor'"
+            >man_4</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Section'"
+            >safety_divider</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Room'"
+            >meeting_room</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Schedule'"
+            >event_available</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Student'"
+            >man</mat-icon
+          >
+          <mat-icon class="material-icons-outlined" *ngIf="route == 'Parent'"
+            >escalator_warning</mat-icon
+          ><span>{{ route }}</span>
         </div>
       </div>
       <div class="right-nav">
-        <div class="notif">
-          <div (click)="toggleShowNotifications()">
-            <mat-icon class="material-icons-outlined">notifications</mat-icon>
-          </div>
-          <div
-            class="notification-container"
-            [class.notification-active]="isShowNotifications"
-          >
-            <div class="border"></div>
-            <div class="notifs">
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="profile">
           <div class="avatar" (click)="toggleShowDropdown()">
             <div class="img">
@@ -322,11 +269,11 @@
           <div class="dropdown" [class.dropdown-active]="isShowDropdown">
             <div class="border"></div>
             <div class="dropdown-links">
-              <div class="dropdown-link">
+              <div class="dropdown-link" (click)="profile()">
                 <mat-icon class="material-icons-outlined">person</mat-icon
                 ><span>Profile</span>
               </div>
-              <div class="dropdown-link">
+              <div class="dropdown-link" (click)="logout()">
                 <mat-icon class="material-icons-outlined">logout</mat-icon
                 ><span>Logout</span>
               </div>

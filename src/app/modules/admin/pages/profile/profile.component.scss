@@ -5,7 +5,7 @@ main {
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 1rem;
-  padding: 2rem;
+  padding: 1rem;
   background-color: var(--light-grayish-blue);
 }
 
@@ -23,14 +23,18 @@ main {
 }
 
 .profile-header {
-  min-height: 16rem;
+  min-height: 20rem;
   display: grid;
-  grid-template-rows: 1.7fr 0.3fr;
+  grid-template-rows: 1.75fr 0.25fr;
 }
 
 .profile-upper {
   position: relative;
-  background-color: var(--primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .banner {
@@ -41,74 +45,34 @@ main {
   height: 100%;
 }
 
-.edit-banner-icon {
-  position: absolute;
-  bottom: 0.75rem;
-  right: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 100vmax;
-  color: var(--white);
-  background-color: var(--primary);
-  font-size: 0.875rem;
-  z-index: 10;
-}
-
-.profile-lower {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 1.5rem;
-  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
-  font-style: italic;
-}
-
-.profile-img-container {
-  position: absolute;
-  bottom: -8%;
-  left: 3.5%;
-  transform: translate(-3.5%, 8%);
-  z-index: 10;
-}
-
-.profile-img {
-  position: relative;
-  width: clamp(6.5rem, 4.7439rem + 8.7805vw, 11rem);
-  height: clamp(6.5rem, 4.7439rem + 8.7805vw, 11rem);
-  border-radius: 50%;
-  overflow: hidden;
-}
-
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.edit-image-icon {
-  position: absolute;
-  bottom: 0.75rem;
-  right: 0.75rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.25rem;
-  border-radius: 50%;
-  background-color: var(--primary);
-  color: var(--white);
-}
-
-.backdrop {
+.profile-upper::after {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.edit-banner-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 100vmax;
+  color: var(--white);
+  background-color: var(--primary);
+  font-size: 0.875rem;
+  z-index: 3;
 }
 
 .file {
@@ -121,58 +85,74 @@ img {
   cursor: pointer;
 }
 
-.name {
-  position: absolute;
-  bottom: 2.5%;
-  left: 17%;
-  transform: translate(-17%, -2.5%);
+.profile {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transform: translate(2rem, 2.75rem);
+  z-index: 3;
+}
+
+.profile-img-container {
+  position: relative;
+}
+
+.profile-img {
+  width: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
+  height: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.edit-icon-container {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+}
+
+.edit-icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 50%;
   color: var(--white);
-  z-index: 10;
+  background-color: var(--primary);
+}
+
+.name {
+  transform: translateY(1.5rem);
+  color: var(--white);
 }
 
 .name h3 {
+  font-size: clamp(1.125rem, 1.0139rem + 0.5556vw, 1.5rem);
   font-weight: 400;
-  font-size: clamp(1.125rem, 1.0762rem + 0.2439vw, 1.25rem);
   line-height: 1.2;
 }
 
-.name span {
-  font-size: clamp(0.9375rem, 0.9131rem + 0.122vw, 1rem);
-}
-
-.tabs {
+.profile-lower {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  gap: 0.5rem;
-  color: #aaaaaae8;
+  padding: 0 1.5rem;
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+  font-style: italic;
 }
 
-.tabs > div {
-  padding: 0 1rem 0.5rem;
-  cursor: pointer;
-  user-select: none;
-}
-
-.tab-active {
-  color: var(--primary);
-  border-bottom: 2px solid var(--primary);
-}
-
-.tab-1,
-.tab-2,
-.tab-3,
-.tab-4 {
-  padding: 1rem;
+.profile-body {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
 }
 
 .form-group {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
-  margin-bottom: 1.5rem;
 }
 
 label {
@@ -190,68 +170,93 @@ label {
   flex-direction: column;
 }
 
-// .input {
-//   height: 3.125rem;
-//   display: flex;
-//   align-items: center;
-//   padding: 1rem;
-//   font-size: 1rem;
-//   border: 1px solid #e5e5e5;
-//   border-radius: 0.25rem;
-// }
+.box {
+  width: 100%;
+  height: 3.15rem;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+}
 
 .btn {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
-button {
-  color: var(--white);
-  background-color: var(--primary);
+.submit {
   padding: 0.625rem 1.25rem;
+  margin-top: 1.25rem;
   font-size: 1rem;
   border-radius: 0.25rem;
+  color: var(--white);
+  background-color: var(--primary);
   cursor: pointer;
 }
 
-.button {
-  width: 100%;
-}
-
-button:hover,
-button:focus {
+.submit:hover,
+.submit:focus {
   background-color: var(--darker-primary);
 }
 
-@media screen and (min-width: 768px) {
-  .form-group {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
 
-  .fg {
-    width: 100%;
-    grid-template-columns: repeat(1, 1fr);
-  }
+.edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--primary);
+  background-color: transparent;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.edit:hover,
+.edit:focus {
+  color: var(--darker-primary);
+}
+
+.alert {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--white);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: var(--green);
+}
+
+.alert-error {
+  background-color: var(--red);
+}
+
+.alert-false {
+  justify-content: flex-end;
 }
 
 @media screen and (min-width: 992px) {
-  .tabs {
-    flex-direction: row;
+  main {
+    padding: 1.5rem;
   }
 
   .form-group {
-    width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .fg {
-    width: 50%;
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  .button {
-    width: 50%;
+    grid-template-columns: repeat(3, 1fr);
   }
 }

@@ -5,6 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { CourseService } from 'src/app/shared/services/course/course.service';
+import { ProfessorService } from 'src/app/shared/services/professor/professor.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { SectionService } from 'src/app/shared/services/section/section.service';
@@ -16,9 +18,6 @@ import { SectionService } from 'src/app/shared/services/section/section.service'
 })
 export class ScheduleComponent implements OnInit {
   scheduleForm: FormGroup;
-  sectionForm: FormGroup;
-  roomForm: FormGroup;
-
   schedules: any[] = [];
   programs: any = [];
   subjects: any = [];
@@ -35,28 +34,12 @@ export class ScheduleComponent implements OnInit {
   professors: any = [];
 
   sched: any;
-  sec: any;
-  rm: any;
+  isUpdating: boolean = false;
 
-  isUpdatingSched: boolean = false;
-  isUpdatingSec: boolean = false;
-  isUpdatingRoom: boolean = false;
-
-  isDeletingSched: boolean = false;
-  isDeletingSec: boolean = false;
-  isDeletingRoom: boolean = false;
-
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
   isDialogOpen: boolean = false;
   isDeleteDialogOpen: boolean = false;
-  isSectionDialogOpen: boolean = false;
-  isRoomDialogOpen: boolean = false;
-  buttonClicked: boolean = false;
 
   title: string = '';
-  confirm: string = '';
   status: boolean = false;
 
   alert: boolean = false;
@@ -66,11 +49,12 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private scheduleService: ScheduleService,
+    private courseService: CourseService,
     private sectionService: SectionService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private professorService: ProfessorService
   ) {
     this.scheduleForm = fb.group({
-      program: ['', Validators.required],
       subject: ['', Validators.required],
       day: ['', Validators.required],
       startTime: ['', Validators.required],
@@ -78,13 +62,6 @@ export class ScheduleComponent implements OnInit {
       section: ['', Validators.required],
       room: ['', Validators.required],
       professor: ['', Validators.required],
-    });
-    this.sectionForm = fb.group({
-      sectionName: ['', Validators.required],
-    });
-    this.roomForm = fb.group({
-      roomNumber: ['', Validators.required],
-      roomCapacity: ['', Validators.required],
     });
   }
 
@@ -120,55 +97,71 @@ export class ScheduleComponent implements OnInit {
     return this.scheduleForm.get('professor') as FormControl;
   }
 
-  get sectionName() {
-    return this.sectionForm.get('sectionName') as FormControl;
-  }
-
-  get roomNumber() {
-    return this.roomForm.get('roomNumber') as FormControl;
-  }
-
-  get roomCapacity() {
-    return this.roomForm.get('roomCapacity') as FormControl;
-  }
-
   ngOnInit(): void {
+    this.getAllSchedules();
+    this.getAllSubjects();
     this.getAllSections();
+    this.getAllRooms();
+    this.getAllProfessors();
   }
 
-  getAllSchedules = () => {};
-
-  getAllSections = () => {
-    this.sectionService.getAllSections().subscribe((data: any) => {
-      this.sections = data.sort((a: any, b: any) => a.sectionId - b.sectionId);
+  getAllSchedules = () => {
+    this.scheduleService.getAllSchedules().subscribe((data: any) => {
+      this.schedules = data.sort((a: any, b: any) => b.schedId - a.schedId);
     });
   };
 
-  getAllRooms = () => {};
-
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
+  getAllSubjects = () => {
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      let subjects: any = [];
+      sortData.map((sub: any) => {
+        subjects.push(sub.subjectTitle);
+      });
+      this.subjects = subjects;
+    });
   };
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
+  getAllSections = () => {
+    this.sectionService.getAllSections().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
+      let sections: any = [];
+      sortData.map((sec: any) => {
+        sections.push(sec.sectionName);
+      });
+      this.sections = sections;
+    });
   };
 
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
+  getAllRooms = () => {
+    this.roomService.getAllRooms().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.roomId - a.roomId);
+      let rooms: any = [];
+      sortData.map((room: any) => {
+        rooms.push(room.roomNumber);
+      });
+      this.rooms = rooms;
+    });
   };
 
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+  getAllProfessors = () => {
+    this.professorService.getAllProfessors().subscribe((data: any) => {
+      const sortData = data.sort(
+        (a: any, b: any) => b.professorId - a.professorId
+      );
+      let profs: any = [];
+      sortData.map((prof: any) => {
+        profs.push(prof.fullname);
+      });
+      this.professors = profs;
+    });
   };
 
   onClickAdd = () => {
     this.title = 'Add Schedule';
     this.isDialogOpen = true;
+    this.isUpdating = false;
+    this.scheduleForm.reset();
     this.scheduleForm.markAsUntouched();
   };
 
@@ -176,98 +169,120 @@ export class ScheduleComponent implements OnInit {
     this.isDialogOpen = false;
   };
 
-  onClickSectionDialog = () => {
-    this.isSectionDialogOpen = true;
-    this.sectionForm.markAsUntouched();
-    this.sectionForm.reset();
-  };
-
-  onClickRoomDialog = () => {
-    this.isRoomDialogOpen = true;
-  };
-
-  onClickEdit = (sched: any) => {};
-
-  onClickRemove = (sched: any) => {};
-
-  onCloseDeleteDialog = () => {};
-
-  onEditSection = (sec: any) => {
-    this.isUpdatingSec = true;
-    this.sectionForm.patchValue({
-      sectionName: sec.sectionName,
+  onClickEdit = (sched: any) => {
+    this.title = 'Edit Schedule';
+    this.isDialogOpen = true;
+    this.isUpdating = true;
+    this.sched = sched;
+    this.scheduleForm.patchValue({
+      subject: sched.subject.subjectTitle,
+      day: sched.day,
+      startTime: sched.startTime,
+      endTime: sched.endTime,
+      section: sched.section,
+      room: sched.room,
+      professor: sched.professor.fullname,
     });
-    this.sec = sec;
   };
 
-  onRemoveSection = (sec: any) => {
-    this.sec = sec;
-    this.confirm = 'schedule';
-    this.status = sec.activeDeactive;
+  onClickRemove = (sched: any) => {
     this.isDeleteDialogOpen = true;
-    this.isDeletingSched = false;
-    this.isDeletingSec = true;
-    this.isDeletingRoom = false;
+    this.sched = sched;
+    this.status = !sched.activeDeactive;
   };
 
-  onDelete = () => {
-    if (this.isDeletingSched) {
-    } else if (this.isDeletingSec) {
-      const payload = {
-        activeDeactive: !this.sec.activeDeactive,
-      };
-      this.sectionService
-        .updateSection(this.sec.sectionId, payload)
-        .subscribe(() => this.getAllSections());
-      this.isDeletingSec = false;
-    } else if (this.isDeletingRoom) {
-    }
+  onCloseDeleteDialog = () => {
     this.isDeleteDialogOpen = false;
   };
 
-  onSubmitSection = () => {
-    const sectionName = this.sectionForm.get('sectionName')?.value;
+  onDeleteSchedule = () => {
+    const payload = {
+      activeDeactive: !this.sched.activeDeactive,
+    };
+    this.scheduleService
+      .updateSchedule(this.sched.schedId, payload)
+      .subscribe(() => this.getAllSchedules());
+    this.status = !this.sched.activeDeactive;
+    this.isDeleteDialogOpen = false;
+  };
 
-    if (this.isUpdatingSec) {
-      const payload: any = {};
-      if (this.sec.sectionName != sectionName) {
-        payload.sectionName = sectionName;
-      }
+  onSubmit = () => {
+    if (this.isUpdating) {
+      if (this.scheduleForm.valid) {
+        const subject = this.scheduleForm.get('subject')?.value;
+        const day = this.scheduleForm.get('day')?.value;
+        const startTime = this.scheduleForm.get('startTime')?.value;
+        const endTime = this.scheduleForm.get('endTime')?.value;
+        const section = this.scheduleForm.get('section')?.value;
+        const room = this.scheduleForm.get('room')?.value;
+        const professor = this.scheduleForm.get('professor')?.value;
 
-      this.sectionService
-        .updateSection(this.sec.sectionId, payload)
-        .subscribe((res: any) => {
-          if (res.message == 'Section name already exist') {
-            this.alert = true;
-            setTimeout(() => (this.alert = false), 3000);
-            this.alertStatus = 'Error';
-            this.alertMessage = 'Section name already exists';
-          } else {
-            this.getAllSections();
-            this.alert = true;
-            setTimeout(() => (this.alert = false), 3000);
-            this.alertStatus = 'Success';
-            this.alertMessage = 'Section name successfully updated';
-            this.sectionForm.reset();
-            this.isUpdatingSec = false;
-          }
-        });
-    } else {
-      if (this.sectionForm.valid) {
-        const payload = {
-          sectionName: sectionName,
-          activeDeactive: true,
-        };
-        this.sectionService
-          .addSection(payload)
-          .subscribe(() => this.getAllSections());
-        this.alert = true;
-        setTimeout(() => (this.alert = false), 3000);
-        this.alertStatus = 'Success';
-        this.alertMessage = 'Section name successfully added';
-        this.sectionForm.reset();
+        const payload: any = {};
+        if (subject != this.sched.subject.subjectTitle) {
+          payload.subject = subject;
+        }
+        if (subject != this.sched.day) {
+          payload.day = day;
+        }
+        if (startTime != this.sched.startTime) {
+          payload.startTime = startTime;
+        }
+        if (endTime != this.sched.endTime) {
+          payload.endTime = endTime;
+        }
+        if (section != this.sched.section) {
+          payload.section = section;
+        }
+        if (room != this.sched.room) {
+          payload.room = room;
+        }
+        if (professor != this.sched.professor.fullname) {
+          payload.professor = professor;
+        }
+
+        this.scheduleService
+          .updateSchedule(this.sched.schedId, payload)
+          .subscribe((res: any) => {
+            if (res.message == 'Schedule is already taken') {
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Schedule is already taken';
+            } else {
+              this.getAllSchedules();
+              this.isDialogOpen = false;
+            }
+          });
       } else {
-        this.sectionForm.markAllAsTouched();
+        this.scheduleForm.markAllAsTouched();
+      }
+    } else {
+      if (this.scheduleForm.valid) {
+        this.scheduleService
+          .addSchedule(this.scheduleForm.value)
+          .subscribe((res: any) => {
+            if (res.message == 'Schedule is already taken') {
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Schedule is already taken';
+            } else {
+              this.getAllSchedules();
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Section successfully added';
+              this.scheduleForm.reset();
+            }
+          });
+      } else {
+        this.scheduleForm.markAllAsTouched();
       }
     }
   };

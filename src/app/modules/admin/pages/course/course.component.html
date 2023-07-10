@@ -101,27 +101,6 @@
   <form [formGroup]="courseForm" (ngSubmit)="onClickSave()">
     <div class="form-group">
       <div class="input-group">
-        <label>Program</label>
-        <p-dropdown
-          [options]="programs"
-          [style]="{ width: '100%' }"
-          placeholder="Select a program"
-          formControlName="programTitle"
-        ></p-dropdown>
-        <div
-          *ngIf="
-            (buttonClicked && courseForm.get('programTitle')?.invalid) ||
-            courseForm.get('programTitle')?.dirty
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="courseForm.get('programTitle')?.errors?.['required']"
-            >Please choose a program</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
         <label>Subject Code</label>
         <input
           pInputText

@@ -66,7 +66,7 @@ export class ApplyComponent implements OnInit {
       city: ['', [Validators.required]],
       province: ['', [Validators.required]],
       zipcode: ['', [Validators.required]],
-      telephone: ['', [Validators.required]],
+      telephone: [''],
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       schoolName: ['', [Validators.required]],
@@ -281,8 +281,6 @@ export class ApplyComponent implements OnInit {
         enrollmentStatus: 'Pending',
         activeDeactive: true,
       };
-
-      console.log('hello');
 
       this.stepThree = true;
       this.stepFour = false;

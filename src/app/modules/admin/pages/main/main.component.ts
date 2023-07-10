@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -6,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
+  route: string = 'Home';
   curriculums = [
     {
       id: 1000,
@@ -25,18 +28,12 @@ export class MainComponent {
 
   isShowDropdown = false;
   isShowMobileNav = false;
-  isShowNotifications = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
     this.isShowMobileNav = false;
-    this.isShowNotifications = false;
-  };
-
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
   };
 
   openMobileNav = () => {
@@ -46,5 +43,24 @@ export class MainComponent {
 
   closeMobileNav = () => {
     this.isShowMobileNav = false;
+  };
+
+  onChangeRoute = (route: string) => {
+    this.route = route;
+    this.isShowMobileNav = false;
+    this.isShowDropdown = false;
+  };
+
+  profile = () => {
+    this.router.navigate(['/admin/profile']);
+    this.isShowDropdown = false;
+  };
+
+  logout = () => {
+    if (this.authService.isUserLoggedIn()) {
+      localStorage.removeItem('user');
+    }
+    this.router.navigate(['/']);
+    this.isShowDropdown = false;
   };
 }

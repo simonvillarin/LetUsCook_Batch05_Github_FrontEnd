@@ -626,18 +626,6 @@
               placeholder="Telephone No."
               formControlName="telephone"
             />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('zipcode')?.invalid) ||
-                applyForm.get('zipcode')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('zipcode')?.errors?.['required']"
-                >Telephone no. is required</small
-              >
-            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Mobile No:</label>

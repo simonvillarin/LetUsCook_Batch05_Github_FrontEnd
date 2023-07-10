@@ -65,9 +65,9 @@ export class ProgramComponent implements OnInit {
   };
 
   getAllPrograms = () => {
-    this.programService
-      .getAllPrograms()
-      .subscribe((program) => (this.programs = program));
+    this.programService.getAllPrograms().subscribe((data: any) => {
+      this.programs = data.sort((a: any, b: any) => b.programId - a.programId);
+    });
   };
 
   onClickAdd = () => {
@@ -102,11 +102,7 @@ export class ProgramComponent implements OnInit {
             } else if (res.message == 'Program Title already exist') {
               alert('Program Title already exist');
             } else {
-              const index = this.programs.findIndex(
-                (program: any) => program.programId == this.program.programId
-              );
-              this.programs[index].programCode = programCode;
-              this.programs[index].programTitle = programTitle;
+              this.getAllPrograms();
               this.isDialogOpen = false;
               this.programForm.reset();
               this.isUpdating = false;
@@ -121,9 +117,6 @@ export class ProgramComponent implements OnInit {
         const payload = {
           programCode: this.programForm.get('programCode')?.value,
           programTitle: this.programForm.get('programTitle')?.value,
-          major: [],
-          minor: [],
-          electives: [],
           status: true,
         };
         this.programService.addProgram(payload).subscribe((res: any) => {
@@ -171,11 +164,7 @@ export class ProgramComponent implements OnInit {
     let payload = { status: !this.program.status };
     this.programService
       .updateProgram(this.program.programId, payload)
-      .subscribe(() => {});
-    const index = this.programs.findIndex(
-      (program: any) => program.programId == this.program.programId
-    );
-    this.programs[index].status = payload.status;
+      .subscribe(() => this.getAllPrograms());
     this.status = !this.program.status;
   };
 }

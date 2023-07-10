@@ -9,6 +9,34 @@
         alt="Banner Image"
         class="banner"
       />
+      <div class="profile">
+        <div class="profile-img-container">
+          <div class="profile-img">
+            <img
+              src="{{
+                imagePreview ||
+                  '../../../../../../../assets/images/blank-profile.jpg'
+              }}"
+              alt="Profile Image"
+            />
+          </div>
+          <div class="edit-icon-container">
+            <div class="edit-icon">
+              <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
+              <input
+                type="file"
+                class="file"
+                accept="image/*"
+                (change)="onImageChange($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="name">
+          <h3>{{ admin.firstname }} {{ admin.lastname }}</h3>
+          <span>@{{ username }}</span>
+        </div>
+      </div>
       <div class="edit-banner-icon">
         <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
         <span>Edit cover photo</span>
@@ -19,538 +47,636 @@
           (change)="onBannerChange($event)"
         />
       </div>
-      <div class="backdrop"></div>
-      <div class="profile-img-container">
-        <div class="profile-img">
-          <img src="{{ imagePreview }}" alt="Profile Image" />
-        </div>
-        <div class="edit-image-icon">
-          <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
-          <input
-            type="file"
-            class="file"
-            accept="image/*"
-            (change)="onImageChange($event)"
-          />
-        </div>
-      </div>
-      <div class="name">
-        <h3>{{ fName }} {{ lName }}</h3>
-        <span>@{{ username }}</span>
-      </div>
     </div>
     <div class="profile-lower">
       <span>Educate University</span>
     </div>
   </div>
   <div class="profile-body">
-    <div class="tabs">
-      <div
-        class="tab1"
-        (click)="onPersonalInfo()"
-        [class.tab-active]="personalInfo"
-      >
-        Personal Information
+    <div class="pb">
+      <div class="form-header" [class.alert-false]="!alert">
+        <div
+          class="alert {{
+            alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+          }}"
+          *ngIf="alert"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Error'"
+            >error</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Success'"
+            >check</mat-icon
+          >
+          {{ alertMessage }}
+        </div>
+        <button class="edit" (click)="onEditPersonal()">
+          <mat-icon class="material-icons-outlined">edit</mat-icon>
+          <span>Edit</span>
+        </button>
       </div>
-      <div
-        class="tab2"
-        (click)="onAddressInfo()"
-        [class.tab-active]="addressInfo"
-      >
-        Address Information
-      </div>
-      <div
-        class="tab3"
-        (click)="onContactInfo()"
-        [class.tab-active]="contactInfo"
-      >
-        Contact Information
-      </div>
-      <div class="tab4" (click)="onUserInfo()" [class.tab-active]="userInfo">
-        User Account Information
-      </div>
+      <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()">
+        <div class="form-group">
+          <div class="input-group">
+            <label class="input-label">First Name:</label>
+            <input
+              pInputText
+              placeholder="First Name"
+              formControlName="firstname"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.firstname }}</div>
+            <div
+              *ngIf="
+                firstName?.invalid && (firstName?.dirty || firstName?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="firstName?.errors?.['required']"
+                >First name is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Middle Name:</label>
+            <input
+              pInputText
+              placeholder="Middle Name"
+              formControlName="middlename"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.middlename }}</div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Last Name:</label>
+            <input
+              pInputText
+              placeholder="Last Name"
+              formControlName="lastname"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.lastname }}</div>
+            <div
+              *ngIf="
+                lastName?.invalid && (lastName?.dirty || lastName?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="lastName?.errors?.['required']"
+                >Last name is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Suffix:</label>
+            <input
+              pInputText
+              placeholder="(e.g. Jr.)"
+              formControlName="suffix"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.suffix }}</div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Gender:</label>
+            <p-dropdown
+              [options]="genders"
+              placeholder="Gender"
+              formControlName="gender"
+              [style]="{ width: '100%' }"
+              *ngIf="editPersonal"
+              >p</p-dropdown
+            >
+            <div class="box" *ngIf="!editPersonal">{{ admin.gender }}</div>
+            <div *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="gender?.errors?.['required']"
+                >Please select a gender</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Civil Status:</label>
+            <p-dropdown
+              [options]="civil"
+              placeholder="Civil Status"
+              [style]="{ width: '100%' }"
+              formControlName="civilStatus"
+              *ngIf="editPersonal"
+            ></p-dropdown>
+            <div class="box" *ngIf="!editPersonal">{{ admin.civilStatus }}</div>
+            <div
+              *ngIf="
+                civilStatus?.invalid &&
+                (civilStatus?.dirty || civilStatus?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="civilStatus?.errors?.['required']"
+                >Please select a civil status</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Birthdate:</label>
+            <input
+              pInputText
+              type="date"
+              formControlName="birthdate"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.birthdate }}</div>
+            <div
+              *ngIf="
+                birthDate?.invalid && (birthDate?.dirty || birthDate?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="birthDate?.errors?.['required']"
+                >Date of birth is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="birthDate?.errors?.['futureDate']"
+                >You cannot select a future date</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Birthplace:</label>
+            <input
+              pInputText
+              placeholder="Birthplace"
+              formControlName="birthplace"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.birthplace }}</div>
+            <div
+              *ngIf="
+                birthPlace?.invalid &&
+                (birthPlace?.dirty || birthPlace?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="birthPlace?.errors?.['required']"
+                >Birthplace is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Citizenship:</label>
+            <input
+              pInputText
+              placeholder="Citizenship"
+              formControlName="citizenship"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.citizenship }}</div>
+            <div
+              *ngIf="
+                citizenship?.invalid &&
+                (citizenship?.dirty || citizenship?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="citizenship?.errors?.['required']"
+                >Citizenship is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Religion:</label>
+            <input
+              pInputText
+              placeholder="Religion"
+              formControlName="religion"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ admin.religion }}</div>
+            <div
+              *ngIf="
+                religion?.invalid && (religion?.dirty || religion?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="religion?.errors?.['required']"
+                >Religion is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="btn" *ngIf="editPersonal">
+          <button type="submit" class="submit">Save Changes</button>
+        </div>
+      </form>
     </div>
-    <div class="tab-body">
-      <div class="tab-1" *ngIf="personalInfo">
-        <form [formGroup]="personalForm">
-          <div class="form-group">
-            <div class="input-group">
-              <label class="input-label">First Name:</label>
-              <input
-                pInputText
-                placeholder="First Name"
-                formControlName="firstName"
-                required
-              />
-              <div
-                *ngIf="
-                  firstName?.invalid && (firstName?.dirty || firstName?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="firstName?.errors?.['required']"
-                  >First name is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Middle Name:</label>
-              <input
-                pInputText
-                placeholder="Middle Name"
-                formControlName="middleName"
-              />
-            </div>
-            <div class="input-group">
-              <label class="input-label">Last Name:</label>
-              <input
-                pInputText
-                placeholder="Last Name"
-                formControlName="lastName"
-                required
-              />
-              <div
-                *ngIf="
-                  lastName?.invalid && (lastName?.dirty || lastName?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="lastName?.errors?.['required']"
-                  >Last name is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Suffix:</label>
-              <input
-                pInputText
-                placeholder="(e.g. Jr.)"
-                formControlName="suffix"
-              />
-            </div>
-            <div class="input-group">
-              <label class="input-label">Gender:</label>
-              <p-dropdown
-                [options]="genders"
-                placeholder="Gender"
-                formControlName="gender"
-                [style]="{ width: '100%' }"
-                >p</p-dropdown
-              >
-              <div
-                *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)"
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="gender?.errors?.['required']"
-                  >Please select a gender</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Civil Status:</label>
-              <p-dropdown
-                [options]="civil"
-                placeholder="Civil Status"
-                [style]="{ width: '100%' }"
-                formControlName="civilStatus"
-              ></p-dropdown>
-              <div
-                *ngIf="
-                  civilStatus?.invalid &&
-                  (civilStatus?.dirty || civilStatus?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="civilStatus?.errors?.['required']"
-                  >Please select a civil status</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Birthdate:</label>
-              <input pInputText type="date" formControlName="birthDate" />
-              <div
-                *ngIf="
-                  birthDate?.invalid && (birthDate?.dirty || birthDate?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="birthDate?.errors?.['required']"
-                  >Date of birth is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="birthDate?.errors?.['futureDate']"
-                  >You cannot select a future date</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Birthplace:</label>
-              <input
-                pInputText
-                placeholder="Birthplace"
-                formControlName="birthPlace"
-              />
-              <div
-                *ngIf="
-                  birthPlace?.invalid &&
-                  (birthPlace?.dirty || birthPlace?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="birthPlace?.errors?.['required']"
-                  >Birthplace is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Citizenship:</label>
-              <input
-                pInputText
-                placeholder="Citizenship"
-                formControlName="citizenship"
-                required
-              />
-              <div
-                *ngIf="
-                  citizenship?.invalid &&
-                  (citizenship?.dirty || citizenship?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="citizenship?.errors?.['required']"
-                  >Citizenship is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Religion:</label>
-              <input
-                pInputText
-                placeholder="Religion"
-                formControlName="religion"
-              />
-              <div
-                *ngIf="
-                  religion?.invalid && (religion?.dirty || religion?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="religion?.errors?.['required']"
-                  >Religion is required</small
-                >
-              </div>
-            </div>
-          </div>
-          <div class="btn">
-            <button type="submit">Save Changes</button>
-          </div>
-        </form>
+    <div class="pb">
+      <div class="form-header" [class.alert-false]="!alert">
+        <div
+          class="alert {{
+            alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+          }}"
+          *ngIf="alert"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Error'"
+            >error</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Success'"
+            >check</mat-icon
+          >
+          {{ alertMessage }}
+        </div>
+        <button class="edit" (click)="onEditAddress()">
+          <mat-icon class="material-icons-outlined">edit</mat-icon>
+          <span>Edit</span>
+        </button>
       </div>
-      <div class="tab-2" *ngIf="addressInfo">
-        <form [formGroup]="addressForm">
-          <div class="form-group">
-            <div class="input-group">
-              <label class="input-label">Unit #:</label>
-              <input pInputText placeholder="Unit #" formControlName="unit" />
-              <div *ngIf="unit?.invalid && (unit?.dirty || unit?.touched)">
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="unit?.errors?.['required']"
-                  >Unit number is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Street:</label>
-              <input
-                pInputText
-                placeholder="Street name"
-                formControlName="street"
-              />
-              <div
-                *ngIf="street?.invalid && (street?.dirty || street?.touched)"
+      <form [formGroup]="addressForm" (ngSubmit)="onSubmitAddress()">
+        <div class="form-group">
+          <div class="input-group">
+            <label class="input-label">Unit #:</label>
+            <input
+              pInputText
+              placeholder="Unit #"
+              formControlName="unit"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.unit }}</div>
+            <div *ngIf="unit?.invalid && (unit?.dirty || unit?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="unit?.errors?.['required']"
+                >Unit number is required</small
               >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="street?.errors?.['required']"
-                  >Street name is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Subdivision / Village / Bldg:</label>
-              <input
-                pInputText
-                placeholder="Subdivision / Village / Bldg."
-                formControlName="subdivision"
-              />
-              <div
-                *ngIf="
-                  subdivision?.invalid &&
-                  (subdivision?.dirty || subdivision?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="subdivision?.errors?.['required']"
-                  >Subdivision / Village / Bldg. is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Barangay:</label>
-              <input
-                pInputText
-                placeholder="Barangay"
-                formControlName="barangay"
-              />
-              <div
-                *ngIf="
-                  barangay?.invalid && (barangay?.dirty || barangay?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="barangay?.errors?.['required']"
-                  >Barangay is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">City / Municipality:</label>
-              <input pInputText placeholder="City" formControlName="city" />
-              <div *ngIf="city?.invalid && (city?.dirty || city?.touched)">
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="city?.errors?.['required']"
-                  >City / Municipality is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Province:</label>
-              <input
-                pInputText
-                placeholder="Province"
-                formControlName="province"
-              />
-              <div
-                *ngIf="
-                  province?.invalid && (province?.dirty || province?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="province?.errors?.['required']"
-                  >Province is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Zipcode:</label>
-              <input
-                pInputText
-                type="number"
-                placeholder="xxxx"
-                formControlName="zipcode"
-              />
-              <div
-                *ngIf="zipcode?.invalid && (zipcode?.dirty || zipcode?.touched)"
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="zipcode?.errors?.['required']"
-                  >Zipcode is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="zipcode?.errors?.['maxLength']"
-                  >Zipcode must be 4 digits</small
-                >
-              </div>
             </div>
           </div>
-          <div class="btn">
-            <button type="submit">Save Changes</button>
+          <div class="input-group">
+            <label class="input-label">Street:</label>
+            <input
+              pInputText
+              placeholder="Street name"
+              formControlName="street"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.street }}</div>
+            <div *ngIf="street?.invalid && (street?.dirty || street?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="street?.errors?.['required']"
+                >Street name is required</small
+              >
+            </div>
           </div>
-        </form>
+          <div class="input-group">
+            <label class="input-label">Subdivision / Village / Bldg:</label>
+            <input
+              pInputText
+              placeholder="Subdivision / Village / Bldg."
+              formControlName="subdivision"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.subdivision }}</div>
+            <div
+              *ngIf="
+                subdivision?.invalid &&
+                (subdivision?.dirty || subdivision?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="subdivision?.errors?.['required']"
+                >Subdivision / Village / Bldg. is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Barangay:</label>
+            <input
+              pInputText
+              placeholder="Barangay"
+              formControlName="barangay"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.barangay }}</div>
+            <div
+              *ngIf="
+                barangay?.invalid && (barangay?.dirty || barangay?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="barangay?.errors?.['required']"
+                >Barangay is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">City / Municipality:</label>
+            <input
+              pInputText
+              placeholder="City"
+              formControlName="city"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.city }}</div>
+            <div *ngIf="city?.invalid && (city?.dirty || city?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="city?.errors?.['required']"
+                >City / Municipality is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Province:</label>
+            <input
+              pInputText
+              placeholder="Province"
+              formControlName="province"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.province }}</div>
+            <div
+              *ngIf="
+                province?.invalid && (province?.dirty || province?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="province?.errors?.['required']"
+                >Province is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Zipcode:</label>
+            <input
+              pInputText
+              type="number"
+              placeholder="xxxx"
+              formControlName="zipcode"
+              *ngIf="editAddress"
+            />
+            <div class="box" *ngIf="!editAddress">{{ admin.zipcode }}</div>
+            <div
+              *ngIf="zipcode?.invalid && (zipcode?.dirty || zipcode?.touched)"
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="zipcode?.errors?.['required']"
+                >Zipcode is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="zipcode?.errors?.['maxLength']"
+                >Zipcode must be 4 digits</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="btn" *ngIf="editAddress">
+          <button type="submit" class="submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+    <div class="pb">
+      <div class="form-header" [class.alert-false]="!alert">
+        <div
+          class="alert {{
+            alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+          }}"
+          *ngIf="alert"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Error'"
+            >error</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Success'"
+            >check</mat-icon
+          >
+          {{ alertMessage }}
+        </div>
+        <button class="edit" (click)="onEditContact()">
+          <mat-icon class="material-icons-outlined">edit</mat-icon>
+          <span>Edit</span>
+        </button>
       </div>
-      <div class="tab-3" *ngIf="contactInfo">
-        <form [formGroup]="contactForm">
-          <div class="form-group fg">
-            <div class="input-group">
-              <label class="input-label">Telephone No:</label>
-              <input
-                pInputText
-                type="number"
-                placeholder="Telephone No."
-                formControlName="telephone"
-              />
-              <div
-                *ngIf="
-                  telephone?.invalid && (telephone?.dirty || telephone?.touched)
-                "
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmitContact()">
+        <div class="form-group fg">
+          <div class="input-group">
+            <label class="input-label">Telephone No:</label>
+            <input
+              pInputText
+              type="number"
+              placeholder="Telephone No."
+              formControlName="telephone"
+              *ngIf="editContact"
+            />
+            <div class="box" *ngIf="!editContact">{{ admin.telephone }}</div>
+            <div
+              *ngIf="
+                telephone?.invalid && (telephone?.dirty || telephone?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="telephone?.errors?.['required']"
+                >Telephone no. is required</small
               >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="telephone?.errors?.['required']"
-                  >Telephone no. is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="telephone?.errors?.['numberRange']"
-                  >Incorrect telephone no. format</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Mobile No:</label>
-              <input
-                pInputText
-                type="number"
-                placeholder="09XXxxxxxxx"
-                formControlName="mobile"
-              />
-              <div
-                *ngIf="mobile?.invalid && (mobile?.dirty || mobile?.touched)"
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="telephone?.errors?.['numberRange']"
+                >Incorrect telephone no. format</small
               >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="mobile?.errors?.['required']"
-                  >Mobile no. is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="mobile?.errors?.['mobileNoIsValid']"
-                  >Incorrect mobile no. format</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Email Address:</label>
-              <input
-                pInputText
-                placeholder="example@domain.com"
-                formControlName="email"
-              />
-              <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="email?.errors?.['required']"
-                  >Email adddress is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="email?.errors?.['email']"
-                  >Incorrect email format</small
-                >
-              </div>
             </div>
           </div>
-          <div class="btn button">
-            <button type="submit">Save Changes</button>
+          <div class="input-group">
+            <label class="input-label">Mobile No:</label>
+            <input
+              pInputText
+              type="number"
+              placeholder="09XXxxxxxxx"
+              formControlName="mobile"
+              *ngIf="editContact"
+            />
+            <div class="box" *ngIf="!editContact">{{ admin.mobile }}</div>
+            <div *ngIf="mobile?.invalid && (mobile?.dirty || mobile?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="mobile?.errors?.['required']"
+                >Mobile no. is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="mobile?.errors?.['mobileNoIsValid']"
+                >Incorrect mobile no. format</small
+              >
+            </div>
           </div>
-        </form>
+          <div class="input-group">
+            <label class="input-label">Email Address:</label>
+            <input
+              pInputText
+              placeholder="example@domain.com"
+              formControlName="email"
+              *ngIf="editContact"
+            />
+            <div class="box" *ngIf="!editContact">{{ admin.email }}</div>
+            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="email?.errors?.['required']"
+                >Email adddress is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="email?.errors?.['email']"
+                >Incorrect email format</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="btn button" *ngIf="editContact">
+          <button type="submit" class="submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+    <div class="pb">
+      <div class="form-header" [class.alert-false]="!alert">
+        <div
+          class="alert {{
+            alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+          }}"
+          *ngIf="alert"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Error'"
+            >error</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Success'"
+            >check</mat-icon
+          >
+          {{ alertMessage }}
+        </div>
+        <button class="edit" (click)="onEditPassword()">
+          <mat-icon class="material-icons-outlined">edit</mat-icon>
+          <span>Edit</span>
+        </button>
       </div>
-      <div class="tab-4" *ngIf="userInfo">
-        <form [formGroup]="passwordForm">
-          <div class="form-group fg">
-            <div class="input-group">
-              <label>Current Password:</label>
-              <input
-                pInputText
-                placeholder="Password"
-                formControlName="currentPassword"
-              />
-              <div
-                *ngIf="
-                  currentPassword?.invalid &&
-                  (currentPassword?.dirty || currentPassword?.touched)
-                "
+      <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+        <div class="form-group fg">
+          <div class="input-group">
+            <label>Current Password:</label>
+            <input
+              pInputText
+              placeholder="Password"
+              formControlName="currentPassword"
+              *ngIf="editPassword"
+            />
+            <div class="box" *ngIf="!editPassword"></div>
+            <div
+              *ngIf="
+                currentPassword?.invalid &&
+                (currentPassword?.dirty || currentPassword?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="currentPassword?.errors?.['required']"
+                >Current password is required</small
               >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="currentPassword?.errors?.['required']"
-                  >Current password is required</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>New Password:</label>
-              <input
-                pInputText
-                placeholder="Password"
-                formControlName="newPassword"
-              />
-              <div
-                *ngIf="
-                  newPassword?.invalid &&
-                  (newPassword?.dirty || newPassword?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="newPassword?.errors?.['required']"
-                  >New password is required</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="newPassword?.errors?.['passwordLength']"
-                  >Password should be at least 8 characters long</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="newPassword?.errors?.['hasUppercase']"
-                  >Password should contain at least one uppercase letter</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="newPassword?.errors?.['hasLowercase']"
-                  >Password should contain at least one lowercase letter</small
-                >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="newPassword?.errors?.['hasSymbol']"
-                  >Password should contain at least one special character</small
-                >
-              </div>
-            </div>
-            <div class="input-group">
-              <label>Confirm Password:</label>
-              <input
-                pInputText
-                placeholder="Confirm Password"
-                formControlName="confirmPassword"
-              />
-              <div
-                *ngIf="
-                  confirmPassword?.invalid &&
-                  (confirmPassword?.dirty || confirmPassword?.touched)
-                "
-              >
-                <small
-                  [style]="{ color: 'var(--red)' }"
-                  *ngIf="confirmPassword?.errors?.['required']"
-                  >Confirm password is required</small
-                >
-              </div>
             </div>
           </div>
-          <div class="btn button">
-            <button type="submit">Save Changes</button>
+          <div class="input-group">
+            <label>New Password:</label>
+            <input
+              pInputText
+              placeholder="Password"
+              formControlName="newPassword"
+              *ngIf="editPassword"
+            />
+            <div class="box" *ngIf="!editPassword"></div>
+            <div
+              *ngIf="
+                newPassword?.invalid &&
+                (newPassword?.dirty || newPassword?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['required']"
+                >New password is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['passwordLength']"
+                >Password should be at least 8 characters long</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasUppercase']"
+                >Password should contain at least one uppercase letter</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasLowercase']"
+                >Password should contain at least one lowercase letter</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasSymbol']"
+                >Password should contain at least one special character</small
+              >
+            </div>
           </div>
-        </form>
-      </div>
+          <div class="input-group">
+            <label>Confirm Password:</label>
+            <input
+              pInputText
+              placeholder="Confirm Password"
+              formControlName="confirmPassword"
+              *ngIf="editPassword"
+            />
+            <div class="box" *ngIf="!editPassword"></div>
+            <div
+              *ngIf="
+                confirmPassword?.invalid &&
+                (confirmPassword?.dirty || confirmPassword?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="confirmPassword?.errors?.['required']"
+                >Confirm password is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="btn button" *ngIf="editPassword">
+          <button type="submit" class="submit">Save Changes</button>
+        </div>
+      </form>
     </div>
   </div>
 </main>
