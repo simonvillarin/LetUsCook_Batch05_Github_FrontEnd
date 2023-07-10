@@ -32,14 +32,18 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 33.33%">Room Number</th>
-          <th style="width: 33.33%">Status</th>
-          <th style="width: 33.33%">Actions</th>
+          <th style="width: 20%">Room Number</th>
+          <th style="width: 20%">Room Capacity</th>
+          <th style="width: 20%">Room Occupant</th>
+          <th style="width: 20%">Status</th>
+          <th style="width: 20%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-room>
         <tr>
           <td>{{ room.roomNumber }}</td>
+          <td>{{ room.roomCapacity }}</td>
+          <td>{{ room.numOfStudents }}</td>
           <td>
             <div class="{{ room.activeDeactive ? 'active' : 'inactive' }}">
               {{ room.activeDeactive ? "Active" : "Inactive" }}
@@ -119,7 +123,29 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="roomNumber?.errors?.['required']"
-            >Section name is required</small
+            >Room number is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Room Capacity:</label>
+        <input
+          pInputText
+          placeholder="Room Number"
+          formControlName="roomCapacity"
+          pInputText
+          pKeyFilter="int"
+        />
+        <div
+          *ngIf="
+            roomCapacity?.invalid &&
+            (roomCapacity?.dirty || roomCapacity?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="roomCapacity?.errors?.['required']"
+            >Room capacity is required</small
           >
         </div>
       </div>

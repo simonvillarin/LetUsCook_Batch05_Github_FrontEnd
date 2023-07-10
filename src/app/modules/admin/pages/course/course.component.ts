@@ -21,7 +21,6 @@ export class CourseComponent implements OnInit {
   subjects: any[] = [];
   subject: any;
   programs: string[] = [];
-  types = ['Major', 'Minor', 'Elective'];
 
   isShowDropdown = false;
   isShowMobileNav = false;
@@ -44,7 +43,6 @@ export class CourseComponent implements OnInit {
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
       preRequisites: new FormControl<string[] | null>(null),
-      type: ['', [Validators.required]],
     });
     this.preRequisiteFormArray = this.courseForm.get(
       'preRequisites'
@@ -113,7 +111,6 @@ export class CourseComponent implements OnInit {
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
         const preRequisite = this.courseForm.get('preRequisites')?.value;
-        const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
         if (this.subject.subjectCode != subjectCode) {
@@ -128,10 +125,6 @@ export class CourseComponent implements OnInit {
         if (this.subject.preRequisite != preRequisite) {
           payload.preRequisite = preRequisite;
         }
-        if (this.subject.type != type) {
-          payload.type = type;
-        }
-
         this.courseService
           .updateSubject(this.subject.subjectId, payload)
           .subscribe((res: any) => {
@@ -148,7 +141,6 @@ export class CourseComponent implements OnInit {
               this.subjects[index].subjectTitle = subjectTitle;
               this.subjects[index].unit = unit;
               this.subjects[index].preRequisite = preRequisite;
-              this.subjects[index].type = type;
               this.isDialogOpen = false;
               this.courseForm.reset();
               this.isUpdating = false;

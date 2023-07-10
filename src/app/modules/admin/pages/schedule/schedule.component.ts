@@ -61,7 +61,6 @@ export class ScheduleComponent implements OnInit {
       endTime: ['', Validators.required],
       section: ['', Validators.required],
       room: ['', Validators.required],
-      professor: ['', Validators.required],
     });
   }
 
@@ -91,10 +90,6 @@ export class ScheduleComponent implements OnInit {
 
   get room() {
     return this.scheduleForm.get('room') as FormControl;
-  }
-
-  get professor() {
-    return this.scheduleForm.get('professor') as FormControl;
   }
 
   ngOnInit(): void {
@@ -215,7 +210,6 @@ export class ScheduleComponent implements OnInit {
         const endTime = this.scheduleForm.get('endTime')?.value;
         const section = this.scheduleForm.get('section')?.value;
         const room = this.scheduleForm.get('room')?.value;
-        const professor = this.scheduleForm.get('professor')?.value;
 
         const payload: any = {};
         if (subject != this.sched.subject.subjectTitle) {
@@ -235,9 +229,6 @@ export class ScheduleComponent implements OnInit {
         }
         if (room != this.sched.room) {
           payload.room = room;
-        }
-        if (professor != this.sched.professor.fullname) {
-          payload.professor = professor;
         }
 
         this.scheduleService

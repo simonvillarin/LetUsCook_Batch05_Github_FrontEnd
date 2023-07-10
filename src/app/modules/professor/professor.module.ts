@@ -18,6 +18,7 @@ import { StudentEvaluationComponent } from './pages/student-evaluation/student-e
 import { EvaluationDialogComponent } from './components/evaluation-dialog/evaluation-dialog.component';
 import { EvaluationFormDialogComponent } from './components/evaluation-form-dialog/evaluation-form-dialog.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -29,6 +30,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     StudentEvaluationComponent,
     EvaluationDialogComponent,
     EvaluationFormDialogComponent,
+    ProfMainComponent,
   ],
   imports: [
     ProfessorRoutingModule,

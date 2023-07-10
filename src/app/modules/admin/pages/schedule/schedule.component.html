@@ -32,15 +32,14 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 14.8%">Subject</th>
-          <th style="width: 11%">Day</th>
-          <th style="width: 9%">Start Time</th>
-          <th style="width: 9%">End Time</th>
-          <th style="width: 9%">Section</th>
-          <th style="width: 9%">Room</th>
-          <th style="width: 15%">Professor</th>
-          <th style="width: 9%">Status</th>
-          <th style="width: 11%">Actions</th>
+          <th style="width: 16%">Subject</th>
+          <th style="width: 12%">Day</th>
+          <th style="width: 12%">Start Time</th>
+          <th style="width: 12%">End Time</th>
+          <th style="width: 12%">Section</th>
+          <th style="width: 12%">Room</th>
+          <th style="width: 12%">Status</th>
+          <th style="width: 12%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-sched>
@@ -51,10 +50,9 @@
           <td>{{ sched.endTime }}</td>
           <td>{{ sched.section }}</td>
           <td>{{ sched.room }}</td>
-          <td>{{ sched.professor.fullname }}</td>
           <td>
-            <div class="{{ !sched.activeDeactive ? 'active' : 'inactive' }}">
-              {{ !sched.activeDeactive ? "Active" : "Inactive" }}
+            <div class="{{ sched.activeDeactive ? 'active' : 'inactive' }}">
+              {{ sched.activeDeactive ? "Active" : "Inactive" }}
             </div>
           </td>
           <td>
@@ -69,7 +67,7 @@
               </button>
               <button
                 class="table-action {{
-                  sched.activeDeactive ? 'activate' : 'deactive'
+                  !sched.activeDeactive ? 'activate' : 'deactive'
                 }}"
                 (click)="onClickRemove(sched)"
               >
@@ -79,7 +77,7 @@
                   >block</mat-icon
                 >
                 <span>{{
-                  sched.activeDeactive ? "Activate" : "Deactivate"
+                  !sched.activeDeactive ? "Activate" : "Deactivate"
                 }}</span>
               </button>
             </div>
@@ -205,24 +203,6 @@
           formControlName="room"
           [style]="{ width: '100%' }"
         ></p-dropdown>
-      </div>
-      <div class="input-group">
-        <label>Professor:</label>
-        <p-dropdown
-          [options]="professors"
-          placeholder="Select a professor"
-          formControlName="professor"
-          [style]="{ width: '100%' }"
-        ></p-dropdown>
-        <div
-          *ngIf="professor?.invalid && (professor?.dirty || professor?.touched)"
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="professor?.errors?.['required']"
-            >Please select a professor</small
-          >
-        </div>
       </div>
     </div>
     <div class="actions">

@@ -25,20 +25,19 @@
                 paddingLeft: '2.5rem'
               }"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search keyword"
+              placeholder="Search"
             />
           </span>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 10%">Subject Code</th>
-          <th style="width: 19%">Subject Title</th>
+          <th style="width: 11%">Subject Code</th>
+          <th style="width: 22%">Subject Title</th>
           <th style="width: 10%">Units</th>
-          <th style="width: 19%">Prerequisites</th>
-          <th style="width: 10%">Type</th>
-          <th style="width: 10%">Status</th>
-          <th style="width: 12%">Actions</th>
+          <th style="width: 22%">Prerequisites</th>
+          <th style="width: 12%">Status</th>
+          <th style="width: 13%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-sub>
@@ -47,7 +46,6 @@
           <td>{{ sub.subjectTitle }}</td>
           <td>{{ sub.units }}</td>
           <td>{{ sub.preRequisites }}</td>
-          <td>{{ sub.type }}</td>
           <td>
             <div class="{{ sub.activeDeactive ? 'active' : 'inactive' }}">
               {{ sub.activeDeactive ? "Active" : "Inactive" }}
@@ -165,28 +163,6 @@
           formControlName="preRequisites"
           placeholder="Prerequisites"
         ></p-chips>
-      </div>
-      <div class="input-group">
-        <label>Type</label>
-        <p-dropdown
-          [options]="types"
-          placeholder="Select a type"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="type"
-        ></p-dropdown>
-        <div
-          *ngIf="
-            (buttonClicked && courseForm.get('type')?.invalid) ||
-            courseForm.get('type')?.dirty
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="courseForm.get('type')?.errors?.['required']"
-            >Type is required</small
-          >
-        </div>
       </div>
     </div>
     <div class="actions">

@@ -1,361 +1,104 @@
-<div class="container">
-  <div class="sidebar">
-    <div class="logo">
-      <mat-icon class="material-icons-outlined">school</mat-icon
-      ><span>SMA University</span>
+<main>
+  <div class="box-container">
+    <div class="box-header">
+      <div class="header-title"><p>My Subjects</p></div>
+      <div class="search-container">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            [style]="{ width: '18rem' }"
+            placeholder="Search for subject"
+          />
+        </span>
+      </div>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/professor/home"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/grade"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Grades</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/schedule"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Schedule</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/evaluation"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">local_library</mat-icon>
-          <span>Student Evaluation</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/profile"
-          routerLinkActive="link-active"
-        >
-          <mat-icon class="material-icons-outlined">account_circle</mat-icon>
-          <span>Profile</span>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
-    <div class="close-icon" (click)="closeMobileNav()">
-      <mat-icon fontIcon="close"></mat-icon>
+    <div class="box-content">
+      <p-card
+        header="Introduction to Prog"
+        subheader="MWF 11:30AM - 1:00PM"
+        [style]="{ width: '340px' }"
+      >
+        <ng-template pTemplate="header">
+          <img
+            alt="Card"
+            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+          />
+        </ng-template>
+        <p>Section: BSIT-11A</p>
+        <p>Room: 403A</p>
+      </p-card>
+      <p-card
+        header="Introduction to Prog"
+        subheader="MWF 11:30AM - 1:00PM"
+        [style]="{ width: '340px' }"
+      >
+        <ng-template pTemplate="header">
+          <img
+            alt="Card"
+            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+          />
+        </ng-template>
+        <p>Section: BSIT-11A</p>
+        <p>Room: 403A</p>
+      </p-card>
+      <p-card
+        header="Introduction to Prog"
+        subheader="MWF 11:30AM - 1:00PM"
+        [style]="{ width: '340px' }"
+      >
+        <ng-template pTemplate="header">
+          <img
+            alt="Card"
+            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+          />
+        </ng-template>
+        <p>Section: BSIT-11A</p>
+        <p>Room: 403A</p>
+      </p-card>
+      <p-card
+        header="Introduction to Prog"
+        subheader="MWF 11:30AM - 1:00PM"
+        [style]="{ width: '340px' }"
+      >
+        <ng-template pTemplate="header">
+          <img
+            alt="Card"
+            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+          />
+        </ng-template>
+        <p>Section: BSIT-11A</p>
+        <p>Room: 403A</p>
+      </p-card>
+      <p-card
+        header="Introduction to Prog"
+        subheader="MWF 11:30AM - 1:00PM"
+        [style]="{ width: '340px' }"
+      >
+        <ng-template pTemplate="header">
+          <img
+            alt="Card"
+            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+          />
+        </ng-template>
+        <p>Section: BSIT-11A</p>
+        <p>Room: 403A</p>
+      </p-card>
+      <p-card
+        header="Introduction to Prog"
+        subheader="MWF 11:30AM - 1:00PM"
+        [style]="{ width: '340px' }"
+      >
+        <ng-template pTemplate="header">
+          <img
+            alt="Card"
+            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+          />
+        </ng-template>
+        <p>Section: BSIT-11A</p>
+        <p>Room: 403A</p>
+      </p-card>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/professor/home"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/grade"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Grades</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/schedule"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">event_available</mat-icon>
-          <span>Schedule</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/evaluation"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">local_library</mat-icon>
-          <span>Student Evaluation</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/professor/profile"
-          routerLinkActive="mobile-link-active"
-        >
-          <mat-icon class="material-icons-outlined">account_circle</mat-icon>
-          <span>Profile</span>
-        </div>
-      </div>
-    </nav>
   </div>
-
-  <div class="main-container">
-    <header>
-      <div class="left-nav">
-        <div class="menu-icon" (click)="openMobileNav()">
-          <mat-icon fontIcon="menu"></mat-icon>
-        </div>
-        <div class="location">
-          <mat-icon class="material-icons-outlined">home</mat-icon>Home
-        </div>
-      </div>
-      <div class="right-nav">
-        <div class="notif">
-          <div (click)="toggleShowNotifications()">
-            <mat-icon class="material-icons-outlined">notifications</mat-icon>
-          </div>
-          <div
-            class="notification-container"
-            [class.notification-active]="isShowNotifications"
-          >
-            <div class="border"></div>
-            <div class="notifs">
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-              <div class="notification">
-                <mat-icon class="material-icons-outlined"
-                  >notifications</mat-icon
-                >
-                <div class="message">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Maiores odio autem libero consequuntur enim culpa temporibus
-                  voluptatibus, dicta nesciunt consequatur.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="profile">
-          <div class="avatar" (click)="toggleShowDropdown()">
-            <div class="img">
-              <img
-                src="../../../../assets/images/itachi.jpg"
-                alt="Profile Image"
-              />
-            </div>
-          </div>
-          <div class="name">
-            <div class="type">
-              <span>Simon James Villarin</span>
-              <div class="role">Parent</div>
-            </div>
-            <div (click)="toggleShowDropdown()">
-              <mat-icon
-                fontIcon="expand_more"
-                class="arrow-down"
-                [class.arrow-down-active]="isShowDropdown"
-              ></mat-icon>
-            </div>
-          </div>
-
-          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
-            <div class="border"></div>
-            <div class="dropdown-links">
-              <div class="dropdown-link">
-                <mat-icon class="material-icons-outlined">person</mat-icon>
-                <span>Profile</span>
-              </div>
-              <div class="dropdown-link">
-                <mat-icon class="material-icons-outlined">logout</mat-icon
-                ><span>Logout</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-    <main>
-      <div class="box-container">
-        <div class="box-header">
-          <div class="header-title"><p>My Subjects</p></div>
-          <div class="search-container">
-            <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input
-                type="text"
-                pInputText
-                [style]="{ width: '18rem' }"
-                placeholder="Search for subject"
-              />
-            </span>
-          </div>
-        </div>
-        <div class="box-content">
-          <p-card
-            header="Introduction to Prog"
-            subheader="MWF 11:30AM - 1:00PM"
-            [style]="{ width: '340px' }"
-          >
-            <ng-template pTemplate="header">
-              <img
-                alt="Card"
-                src="https://primefaces.org/cdn/primeng/images/usercard.png"
-              />
-            </ng-template>
-            <p>Section: BSIT-11A</p>
-            <p>Room: 403A</p>
-          </p-card>
-          <p-card
-            header="Introduction to Prog"
-            subheader="MWF 11:30AM - 1:00PM"
-            [style]="{ width: '340px' }"
-          >
-            <ng-template pTemplate="header">
-              <img
-                alt="Card"
-                src="https://primefaces.org/cdn/primeng/images/usercard.png"
-              />
-            </ng-template>
-            <p>Section: BSIT-11A</p>
-            <p>Room: 403A</p>
-          </p-card>
-          <p-card
-            header="Introduction to Prog"
-            subheader="MWF 11:30AM - 1:00PM"
-            [style]="{ width: '340px' }"
-          >
-            <ng-template pTemplate="header">
-              <img
-                alt="Card"
-                src="https://primefaces.org/cdn/primeng/images/usercard.png"
-              />
-            </ng-template>
-            <p>Section: BSIT-11A</p>
-            <p>Room: 403A</p>
-          </p-card>
-          <p-card
-            header="Introduction to Prog"
-            subheader="MWF 11:30AM - 1:00PM"
-            [style]="{ width: '340px' }"
-          >
-            <ng-template pTemplate="header">
-              <img
-                alt="Card"
-                src="https://primefaces.org/cdn/primeng/images/usercard.png"
-              />
-            </ng-template>
-            <p>Section: BSIT-11A</p>
-            <p>Room: 403A</p>
-          </p-card>
-          <p-card
-            header="Introduction to Prog"
-            subheader="MWF 11:30AM - 1:00PM"
-            [style]="{ width: '340px' }"
-          >
-            <ng-template pTemplate="header">
-              <img
-                alt="Card"
-                src="https://primefaces.org/cdn/primeng/images/usercard.png"
-              />
-            </ng-template>
-            <p>Section: BSIT-11A</p>
-            <p>Room: 403A</p>
-          </p-card>
-          <p-card
-            header="Introduction to Prog"
-            subheader="MWF 11:30AM - 1:00PM"
-            [style]="{ width: '340px' }"
-          >
-            <ng-template pTemplate="header">
-              <img
-                alt="Card"
-                src="https://primefaces.org/cdn/primeng/images/usercard.png"
-              />
-            </ng-template>
-            <p>Section: BSIT-11A</p>
-            <p>Room: 403A</p>
-          </p-card>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
+</main>

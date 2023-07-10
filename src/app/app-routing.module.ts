@@ -18,17 +18,17 @@ const routes: Routes = [
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
   {
-    path: '',
+    path: 'student',
     loadChildren: () =>
       import('./modules/student/student.module').then((m) => m.StudentModule),
   },
   {
-    path: '',
+    path: 'parent',
     loadChildren: () =>
       import('./modules/parent/parent.module').then((m) => m.ParentModule),
   },
   {
-    path: '',
+    path: 'professor',
     loadChildren: () =>
       import('./modules/professor/professor.module').then(
         (m) => m.ProfessorModule

@@ -31,11 +31,16 @@ export class RoomComponent implements OnInit {
   constructor(private roomService: RoomService, private fb: FormBuilder) {
     this.roomForm = fb.group({
       roomNumber: ['', [Validators.required]],
+      roomCapacity: ['', [Validators.required]],
     });
   }
 
   get roomNumber() {
     return this.roomForm.get('roomNumber') as FormControl;
+  }
+
+  get roomCapacity() {
+    return this.roomForm.get('capacity') as FormControl;
   }
 
   ngOnInit(): void {
@@ -94,8 +99,18 @@ export class RoomComponent implements OnInit {
   onSubmit = () => {
     if (this.isUpdating) {
       if (this.roomForm.valid) {
+        const roomNumber = this.roomForm.get('roomNumber')?.value;
+        const roomCapacity = this.roomForm.get('roomCapacity')?.value;
+        const payload: any = {};
+        if (this.room != roomNumber) {
+          payload.roomNumber = roomNumber;
+        }
+        if (this.roomCapacity != roomCapacity) {
+          payload.roomCapacity = roomCapacity;
+        }
+
         this.roomService
-          .updateRoom(this.room.roomId, this.roomForm.value)
+          .updateRoom(this.room.roomId, payload)
           .subscribe(() => this.getAllRooms());
         this.isDialogOpen = false;
       } else {

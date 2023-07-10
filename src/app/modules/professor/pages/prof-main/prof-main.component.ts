@@ -1,36 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { AdminService } from 'src/app/shared/services/admin/admin.service';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  selector: 'app-prof-main',
+  templateUrl: './prof-main.component.html',
+  styleUrls: ['./prof-main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class ProfMainComponent {
   route: string = 'Home';
   admin: any;
   isShowDropdown = false;
   isShowMobileNav = false;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private adminService: AdminService
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.getAdminById();
-  }
-
-  getAdminById = () => {
-    this.adminService
-      .getAdminById(this.authService.getUserId())
-      .subscribe((data: any) => {
-        this.admin = data;
-      });
-  };
+  ngOnInit(): void {}
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
@@ -53,7 +38,7 @@ export class MainComponent implements OnInit {
   };
 
   profile = () => {
-    this.router.navigate(['/admin/profile']);
+    this.router.navigate(['/professor/profile']);
     this.isShowDropdown = false;
   };
 

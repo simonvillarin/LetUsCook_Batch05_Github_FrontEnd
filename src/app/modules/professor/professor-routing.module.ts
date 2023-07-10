@@ -6,27 +6,34 @@ import { GradeComponent } from './pages/grade/grade.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StudentEvaluationComponent } from './pages/student-evaluation/student-evaluation.component';
+import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 
 const routes: Routes = [
   {
-    path: 'professor/home',
-    component: HomeComponent,
-  },
-  {
-    path: 'professor/grade',
-    component: GradeComponent,
-  },
-  {
-    path: 'professor/schedule',
-    component: ScheduleComponent,
-  },
-  {
-    path: 'professor/profile',
-    component: ProfileComponent,
-  },
-  {
-    path: 'professor/evaluation',
-    component: StudentEvaluationComponent,
+    path: '',
+    component: ProfMainComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'course',
+        component: GradeComponent,
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      },
+      {
+        path: 'evaluation',
+        component: StudentEvaluationComponent,
+      },
+    ],
   },
 ];
 
