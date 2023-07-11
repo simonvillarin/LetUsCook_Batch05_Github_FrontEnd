@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ProgramService } from 'src/app/shared/services/program/program.service';
 import { SectionService } from 'src/app/shared/services/section/section.service';
 
 @Component({
@@ -13,23 +14,10 @@ import { SectionService } from 'src/app/shared/services/section/section.service'
   styleUrls: ['./section.component.scss'],
 })
 export class SectionComponent implements OnInit {
-  constructor(private sectionService: SectionService, private fb: FormBuilder) {
-    this.sectionForm = this.fb.group({
-      sectionName: ['', [Validators.required]],
-    });
-  }
-
-  get sectionName() {
-    return this.sectionForm.get('sectionName') as FormControl;
-  }
-
-  ngOnInit(): void {
-    this.getAllSections();
-  }
-
   sectionForm: FormGroup;
 
   sections: any = [];
+  programs: any[] = [];
   section: any;
   title: string = '';
   alertStatus: string = '';
@@ -41,11 +29,44 @@ export class SectionComponent implements OnInit {
   isDeleteDialogOpen: boolean = false;
   isUpdating: boolean = false;
 
+  constructor(
+    private sectionService: SectionService,
+    private programService: ProgramService,
+    private fb: FormBuilder
+  ) {
+    this.sectionForm = this.fb.group({
+      programCode: ['', [Validators.required]],
+      sectionName: ['', [Validators.required]],
+    });
+  }
+
+  get programCode() {
+    return this.sectionForm.get('programCode') as FormControl;
+  }
+
+  get sectionName() {
+    return this.sectionForm.get('sectionName') as FormControl;
+  }
+
+  ngOnInit(): void {
+    this.getAllSections();
+    this.getAllPrograms();
+  }
+
   getAllSections() {
     this.sectionService.getAllSections().subscribe((data: any) => {
       this.sections = data.sort((a: any, b: any) => a.sectionId - b.sectionId);
     });
   }
+
+  getAllPrograms = () => {
+    this.programService.getAllPrograms().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
+      const programs: any = [];
+      sortData.map((program: any) => programs.push(program.programCode));
+      this.programs = programs;
+    });
+  };
 
   onClickAdd = () => {
     this.title = 'Add Section';

@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="logo">
       <mat-icon class="material-icons-outlined">school</mat-icon
-      ><span>Educate</span>
+      ><span>Educate University</span>
     </div>
     <nav>
       <div class="links">
@@ -225,6 +225,9 @@
         </div>
       </div>
       <div class="right-nav">
+        <div class="setup-container">
+          <button class="setup" (click)="openDialog()">SETUP</button>
+        </div>
         <div class="profile">
           <div class="avatar" (click)="toggleShowDropdown()">
             <div class="img">
@@ -236,7 +239,7 @@
           </div>
           <div class="name">
             <div class="type">
-              <span>{{ admin.firstname }} {{ admin.lastname }}</span>
+              <span></span>
               <div class="role">Admin</div>
             </div>
             <div (click)="toggleShowDropdown()">
@@ -268,3 +271,141 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">School Calendar</div>
+  </p-header>
+  <div
+    class="alert {{
+      alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+    }}"
+    *ngIf="alert"
+  >
+    <mat-icon
+      class="material-icons-outlined alert-icon"
+      *ngIf="alertStatus == 'Error'"
+      >error</mat-icon
+    >
+    <mat-icon
+      class="material-icons-outlined alert-icon"
+      *ngIf="alertStatus == 'Success'"
+      >check</mat-icon
+    >
+    {{ alertMessage }}
+  </div>
+  <form [formGroup]="setupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="input-group">
+        <label>Start of Enrollment:</label>
+        <input pInputText type="date" formControlName="startEnrollement" />
+        <div
+          *ngIf="
+            enrolmentStart.invalid &&
+            (enrolmentStart?.dirty || enrolmentStart?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="enrolmentStart?.errors?.['required']"
+            >Start of enrollment is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>End of Enrollment:</label>
+        <input pInputText type="date" formControlName="endEnrollment" />
+        <div
+          *ngIf="
+            enrolmentEnd.invalid &&
+            (enrolmentEnd?.dirty || enrolmentEnd?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="enrolmentEnd?.errors?.['required']"
+            >End of enrollment is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Start of Classes:</label>
+        <input pInputText type="date" formControlName="startClass" />
+        <div
+          *ngIf="
+            classStart.invalid && (classStart?.dirty || classStart?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="classStart?.errors?.['required']"
+            >Start of classes is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>End of Classes:</label>
+        <input pInputText type="date" formControlName="endClass" />
+        <div *ngIf="classEnd.invalid && (classEnd?.dirty || classEnd?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="classEnd?.errors?.['required']"
+            >End of classes is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Term:</label>
+        <p-dropdown
+          [options]="terms"
+          placeholder="Select a term"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="sem"
+        ></p-dropdown>
+        <div *ngIf="semester.invalid && (semester?.dirty || semester?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="semester?.errors?.['required']"
+            >Term is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>School Year:</label>
+        <p-dropdown
+          [options]="schoolYear"
+          placeholder="Select a school year"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="academicYear"
+        ></p-dropdown>
+        <div
+          *ngIf="
+            academicYear?.invalid &&
+            (academicYear?.dirty || academicYear?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="academicYear?.errors?.['required']"
+            >School year is required</small
+          >
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="action-btn cancel" type="button" (click)="closeDialog()">
+        Cancel
+      </button>
+      <button class="action-btn submit" type="submit">Save</button>
+    </div>
+  </form>
+</p-dialog>

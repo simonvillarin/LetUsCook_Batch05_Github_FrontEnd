@@ -39,7 +39,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-section>
         <tr>
-          <td>{{ section.sectionName }}</td>
+          <td>{{ section.section }}</td>
           <td>
             <div class="{{ section.activeDeactive ? 'active' : 'inactive' }}">
               {{ section.activeDeactive ? "Active" : "Inactive" }}
@@ -104,6 +104,27 @@
       {{ alertMessage }}
     </div>
     <div class="form-group">
+      <div class="input-group">
+        <label>Program:</label>
+        <p-dropdown
+          [options]="programs"
+          placeholder="Select a program"
+          formControlName="programCode"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <div
+          *ngIf="
+            programCode?.invalid && (programCode?.dirty || programCode?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="programCode?.errors?.['required']"
+            >Please select a program</small
+          >
+        </div>
+      </div>
       <div class="input-group">
         <label>Section Name:</label>
         <input

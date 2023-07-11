@@ -15,6 +15,7 @@ import { CardModule } from 'primeng/card';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { StudentMainComponent } from './pages/student-main/student-main.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CourseComponent,
     ScheduleComponent,
     CurriculumComponent,
+    StudentMainComponent,
   ],
   imports: [
     CommonModule,

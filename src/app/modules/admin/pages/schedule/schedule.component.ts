@@ -234,13 +234,13 @@ export class ScheduleComponent implements OnInit {
         this.scheduleService
           .updateSchedule(this.sched.schedId, payload)
           .subscribe((res: any) => {
-            if (res.message == 'Schedule is already taken') {
+            if (res.message == 'Schedule already exist') {
               this.alert = true;
               setTimeout(() => {
                 this.alert = false;
               }, 3000);
               this.alertStatus = 'Error';
-              this.alertMessage = 'Schedule is already taken';
+              this.alertMessage = 'Schedule already exists';
             } else {
               this.getAllSchedules();
               this.isDialogOpen = false;
@@ -254,13 +254,13 @@ export class ScheduleComponent implements OnInit {
         this.scheduleService
           .addSchedule(this.scheduleForm.value)
           .subscribe((res: any) => {
-            if (res.message == 'Schedule is already taken') {
+            if (res.message == 'Schedule already exist') {
               this.alert = true;
               setTimeout(() => {
                 this.alert = false;
               }, 3000);
               this.alertStatus = 'Error';
-              this.alertMessage = 'Schedule is already taken';
+              this.alertMessage = 'Schedule already exists';
             } else {
               this.getAllSchedules();
               this.alert = true;
