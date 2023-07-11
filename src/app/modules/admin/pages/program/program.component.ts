@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
 
 @Component({
@@ -13,17 +15,33 @@ import { ProgramService } from 'src/app/shared/services/program/program.service'
   styleUrls: ['./program.component.scss'],
 })
 export class ProgramComponent implements OnInit {
-  constructor(private programService: ProgramService, private fb: FormBuilder) {
+  constructor(
+    private programService: ProgramService,
+    private subjectService: CourseService,
+    private fb: FormBuilder
+  ) {
     this.programForm = fb.group({
       programCode: ['', [Validators.required]],
       programTitle: ['', [Validators.required]],
+      majors: new FormControl<any[] | null>(null),
+      minors: new FormControl<any[] | null>(null),
+      electives: new FormControl<any[] | null>(null),
     });
   }
+
   ngOnInit(): void {
     this.getAllPrograms();
+    this.getAllMajors();
+    this.getAllMinors();
+    this.getAllElectives();
   }
+
   programForm: FormGroup;
+
   programs: any[] = [];
+  majorSubjects: any = [];
+  minorSubjects: any = [];
+  electiveSubjects: any = [];
   program: any;
 
   isShowDropdown = false;
@@ -39,8 +57,21 @@ export class ProgramComponent implements OnInit {
   get programCode() {
     return this.programForm.get('programCode') as FormControl;
   }
+
   get programTitle() {
     return this.programForm.get('programTitle') as FormControl;
+  }
+
+  get majors() {
+    return this.programForm.get('majors') as FormControl;
+  }
+
+  get minors() {
+    return this.programForm.get('minors') as FormControl;
+  }
+
+  get electives() {
+    return this.programForm.get('electives') as FormControl;
   }
 
   toggleShowDropdown = () => {
@@ -67,6 +98,40 @@ export class ProgramComponent implements OnInit {
   getAllPrograms = () => {
     this.programService.getAllPrograms().subscribe((data: any) => {
       this.programs = data.sort((a: any, b: any) => b.programId - a.programId);
+      console.log(this.programs);
+    });
+  };
+
+  getAllMajors = () => {
+    this.subjectService.getMajors().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      let subjects: any = [];
+      sortData.map((subj: any) => {
+        subjects.push(subj.subjectTitle);
+      });
+      this.majorSubjects = subjects;
+    });
+  };
+
+  getAllMinors = () => {
+    this.subjectService.getMinors().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      let subjects: any = [];
+      sortData.map((subj: any) => {
+        subjects.push(subj.subjectTitle);
+      });
+      this.minorSubjects = subjects;
+    });
+  };
+
+  getAllElectives = () => {
+    this.subjectService.getElectives().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      let subjects: any = [];
+      sortData.map((subj: any) => {
+        subjects.push(subj.subjectTitle);
+      });
+      this.electiveSubjects = subjects;
     });
   };
 
@@ -86,6 +151,24 @@ export class ProgramComponent implements OnInit {
       if (this.programForm.valid) {
         const programCode = this.programForm.get('programCode')?.value;
         const programTitle = this.programForm.get('programTitle')?.value;
+        const majors = this.programForm.get('majors')?.value;
+        const minors = this.programForm.get('minors')?.value;
+        const electives = this.programForm.get('electives')?.value;
+
+        const subjectMajors: any = [];
+        this.program.majors.map((sub: any) =>
+          subjectMajors.push(sub.subjectTitle)
+        );
+
+        const subjectMinors: any = [];
+        this.program.minors.map((sub: any) =>
+          subjectMinors.push(sub.subjectTitle)
+        );
+
+        const subjectElectives: any = [];
+        this.program.electives.map((sub: any) =>
+          subjectElectives.push(sub.subjectTitle)
+        );
         let payload: any = {};
         if (this.program.programCode != programCode) {
           payload.programCode = programCode;
@@ -93,7 +176,15 @@ export class ProgramComponent implements OnInit {
         if (this.program.programTitle != programTitle) {
           payload.programTitle = programTitle;
         }
-
+        if (subjectMajors != majors) {
+          payload.majors = majors;
+        }
+        if (subjectMinors != minors) {
+          payload.minors = minors;
+        }
+        if (subjectElectives != majors) {
+          payload.electives = electives;
+        }
         this.programService
           .updateProgram(this.program.programId, payload)
           .subscribe((res: any) => {
@@ -113,11 +204,24 @@ export class ProgramComponent implements OnInit {
       }
     } else {
       this.title = 'Add Program';
+      console.log(this.programForm.value);
+
       if (this.programForm.valid) {
         const payload = {
           programCode: this.programForm.get('programCode')?.value,
           programTitle: this.programForm.get('programTitle')?.value,
-          status: true,
+          majors:
+            this.programForm.get('majors')?.value != null
+              ? this.programForm.get('majors')?.value
+              : [],
+          minors:
+            this.programForm.get('minors')?.value != null
+              ? this.programForm.get('minors')?.value
+              : [],
+          electives:
+            this.programForm.get('electives')?.value != null
+              ? this.programForm.get('electives')?.value
+              : [],
         };
         this.programService.addProgram(payload).subscribe((res: any) => {
           if (res.message == 'Program Code already exist') {
@@ -141,9 +245,22 @@ export class ProgramComponent implements OnInit {
     this.isUpdating = true;
     this.title = 'Edit Program';
     this.program = program;
+    const subjectMajors: any = [];
+    program.majors.map((sub: any) => subjectMajors.push(sub.subjectTitle));
+
+    const subjectMinors: any = [];
+    program.minors.map((sub: any) => subjectMinors.push(sub.subjectTitle));
+
+    const subjectElectives: any = [];
+    program.electives.map((sub: any) =>
+      subjectElectives.push(sub.subjectTitle)
+    );
     this.programForm.patchValue({
       programCode: program.programCode,
       programTitle: program.programTitle,
+      majors: subjectMajors,
+      minors: subjectMinors,
+      electives: subjectElectives,
     });
     this.isDialogOpen = true;
   };

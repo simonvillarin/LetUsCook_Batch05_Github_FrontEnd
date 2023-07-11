@@ -25,23 +25,41 @@
                 paddingLeft: '2.5rem'
               }"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search"
+              placeholder="Search keyword"
             />
           </span>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 20%">Program Code</th>
-          <th style="width: 40%">Program Title</th>
-          <th style="width: 20%">Status</th>
-          <th style="width: 20%">Actions</th>
+          <th style="width: 10%">Program Code</th>
+          <th style="width: 15%">Program Title</th>
+          <th style="width: 18%">Majors</th>
+          <th style="width: 18%">Minors</th>
+          <th style="width: 18%">Electives</th>
+          <th style="width: 10%">Status</th>
+          <th style="width: 16%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-program>
         <tr>
           <td>{{ program.programCode }}</td>
           <td>{{ program.programTitle }}</td>
+          <td>
+            <ng-container *ngFor="let item of program.majors"
+              >{{ item.subjectTitle }}<br
+            /></ng-container>
+          </td>
+          <td>
+            <ng-container *ngFor="let item of program.minors"
+              >{{ item.subjectTitle }}<br
+            /></ng-container>
+          </td>
+          <td>
+            <ng-container *ngFor="let item of program.electives"
+              >{{ item.subjectTitle }}<br
+            /></ng-container>
+          </td>
           <td>
             <div class="{{ program.status ? 'active' : 'inactive' }}">
               {{ program.status ? "Active" : "Inactive" }}
@@ -120,6 +138,36 @@
             >Program Title is required</small
           >
         </div>
+      </div>
+      <div class="input-group">
+        <label>Major Subject</label>
+        <p-multiSelect
+          [options]="majorSubjects"
+          placeholder="Select major subject/s"
+          appendTo="body"
+          formControlName="majors"
+          [style]="{ width: '100%' }"
+        ></p-multiSelect>
+      </div>
+      <div class="input-group">
+        <label>Minor Subject</label>
+        <p-multiSelect
+          [options]="minorSubjects"
+          placeholder="Select minor subject/s"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="minors"
+        ></p-multiSelect>
+      </div>
+      <div class="input-group">
+        <label>Elective Subject</label>
+        <p-multiSelect
+          [options]="electiveSubjects"
+          placeholder="Select elective subject/s"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="electives"
+        ></p-multiSelect>
       </div>
     </div>
     <div class="actions">
