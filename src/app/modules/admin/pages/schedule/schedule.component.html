@@ -25,7 +25,7 @@
                 paddingLeft: '2.5rem'
               }"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search keyword"
+              placeholder="Search"
             />
           </span>
         </div>
@@ -48,8 +48,8 @@
           <td>{{ sched.day }}</td>
           <td>{{ sched.startTime }}</td>
           <td>{{ sched.endTime }}</td>
-          <td>{{ sched.section }}</td>
-          <td>{{ sched.room }}</td>
+          <td>{{ sched.section.section }}</td>
+          <td>{{ sched.room.roomNumber }}</td>
           <td>
             <div class="{{ sched.activeDeactive ? 'active' : 'inactive' }}">
               {{ sched.activeDeactive ? "Active" : "Inactive" }}
