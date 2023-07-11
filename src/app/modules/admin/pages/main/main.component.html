@@ -305,7 +305,12 @@
     <div class="form-group">
       <div class="input-group">
         <label>Start of Enrollment:</label>
-        <input pInputText type="date" formControlName="startEnrollement" />
+        <p-calendar
+          formControlName="startEnrollement"
+          placeholder="Select start of enrollment date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
         <div
           *ngIf="
             enrolmentStart.invalid &&
@@ -321,7 +326,12 @@
       </div>
       <div class="input-group">
         <label>End of Enrollment:</label>
-        <input pInputText type="date" formControlName="endEnrollment" />
+        <p-calendar
+          formControlName="endEnrollment"
+          placeholder="Select end of enrollment date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
         <div
           *ngIf="
             enrolmentEnd.invalid &&
@@ -337,7 +347,12 @@
       </div>
       <div class="input-group">
         <label>Start of Classes:</label>
-        <input pInputText type="date" formControlName="startClass" />
+        <p-calendar
+          formControlName="startClass"
+          placeholder="Select start of classes date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
         <div
           *ngIf="
             classStart.invalid && (classStart?.dirty || classStart?.touched)
@@ -352,7 +367,12 @@
       </div>
       <div class="input-group">
         <label>End of Classes:</label>
-        <input pInputText type="date" formControlName="endClass" />
+        <p-calendar
+          formControlName="endClass"
+          placeholder="Select end of classes date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
         <div *ngIf="classEnd.invalid && (classEnd?.dirty || classEnd?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"

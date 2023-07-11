@@ -26,6 +26,7 @@ import { ChipsModule } from 'primeng/chips';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { SectionComponent } from './pages/section/section.component';
 import { RoomComponent } from './pages/room/room.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { RoomComponent } from './pages/room/room.component';
     FormsModule,
     ChipsModule,
     KeyFilterModule,
+    CalendarModule,
   ],
 })
 export class AdminModule {}
