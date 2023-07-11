@@ -21,6 +21,7 @@ export class CourseComponent implements OnInit {
   subjects: any[] = [];
   subject: any;
   programs: string[] = [];
+  types = ['Major', 'Minor', 'Elective'];
 
   isShowDropdown = false;
   isShowMobileNav = false;
@@ -43,6 +44,7 @@ export class CourseComponent implements OnInit {
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
       preRequisites: new FormControl<string[] | null>(null),
+      type: ['', [Validators.required]],
     });
     this.preRequisiteFormArray = this.courseForm.get(
       'preRequisites'
@@ -61,6 +63,26 @@ export class CourseComponent implements OnInit {
       });
     });
   };
+
+  get subjectCode() {
+    return this.courseForm.get('subjectCode') as FormControl;
+  }
+
+  get subjectTitle() {
+    return this.courseForm.get('subjectTitle') as FormControl;
+  }
+
+  get units() {
+    return this.courseForm.get('units') as FormControl;
+  }
+
+  get preRequisites() {
+    return this.courseForm.get('preRequisites') as FormControl;
+  }
+
+  get type() {
+    return this.courseForm.get('type') as FormControl;
+  }
 
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
@@ -84,7 +106,7 @@ export class CourseComponent implements OnInit {
   };
 
   onClickAdd = () => {
-    this.title = 'Add Course';
+    this.title = 'Add Subject';
     this.isDialogOpen = true;
     this.preRequisiteFormArray.reset();
     this.courseForm.reset();
@@ -98,8 +120,8 @@ export class CourseComponent implements OnInit {
   };
 
   getAllSubjects = () => {
-    this.courseService.getAllSubjects().subscribe((subject) => {
-      this.subjects = subject;
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
     });
   };
 
@@ -111,6 +133,7 @@ export class CourseComponent implements OnInit {
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
         const preRequisite = this.courseForm.get('preRequisites')?.value;
+        const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
         if (this.subject.subjectCode != subjectCode) {
@@ -119,11 +142,14 @@ export class CourseComponent implements OnInit {
         if (this.subject.subjectTitle != subjectTitle) {
           payload.subjectTitle = subjectTitle;
         }
-        if (this.subject.unit != unit) {
-          payload.unit = unit;
+        if (this.subject.units != unit) {
+          payload.units = unit;
         }
         if (this.subject.preRequisite != preRequisite) {
           payload.preRequisite = preRequisite;
+        }
+        if (this.subject.type != type) {
+          payload.type = type;
         }
         this.courseService
           .updateSubject(this.subject.subjectId, payload)
@@ -139,8 +165,9 @@ export class CourseComponent implements OnInit {
 
               this.subjects[index].subjectCode = subjectCode;
               this.subjects[index].subjectTitle = subjectTitle;
-              this.subjects[index].unit = unit;
+              this.subjects[index].units = unit;
               this.subjects[index].preRequisite = preRequisite;
+              this.subjects[index].type = type;
               this.isDialogOpen = false;
               this.courseForm.reset();
               this.isUpdating = false;
@@ -151,9 +178,8 @@ export class CourseComponent implements OnInit {
       }
     } else {
       this.title = 'Add Subject';
-      console.log(this.courseForm.value);
-
       if (this.courseForm.valid) {
+        console.log(this.courseForm.value);
         this.courseService
           .addSubject(this.courseForm.value)
           .subscribe((res: any) => {
@@ -177,7 +203,7 @@ export class CourseComponent implements OnInit {
     this.subject = subject;
     this.isUpdating = true;
     this.courseForm.reset();
-    this.title = 'Edit Course';
+    this.title = 'Edit Subject';
 
     this.courseForm.patchValue({
       subjectCode: subject.subjectCode,

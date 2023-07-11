@@ -15,6 +15,18 @@ export class CourseService {
     return this.http.get<Subject[]>(`${this.BASE_URL}/subjects`);
   }
 
+  getMajors(): Observable<Subject[]> {
+    return this.http.get<Subject[]>(`${this.BASE_URL}/majors`);
+  }
+
+  getMinors(): Observable<Subject[]> {
+    return this.http.get<Subject[]>(`${this.BASE_URL}/minors`);
+  }
+
+  getElectives(): Observable<Subject[]> {
+    return this.http.get<Subject[]>(`${this.BASE_URL}/electives`);
+  }
+
   getSubjectById(subjectId: number): Observable<Subject> {
     return this.http.get<Subject>(`${this.BASE_URL}/subject/${subjectId}`);
   }
