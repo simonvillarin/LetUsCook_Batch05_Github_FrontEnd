@@ -6,7 +6,7 @@
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
+      [tableStyle]="{ 'min-width': '85rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 20, 30]"
       [globalFilterFields]="['programCode', 'programTitle']"
@@ -25,27 +25,26 @@
                 paddingLeft: '2.5rem'
               }"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search keyword"
+              placeholder="Search"
             />
           </span>
         </div>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 10%">Program Code</th>
-          <th style="width: 15%">Program Title</th>
-          <th style="width: 18%">Majors</th>
-          <th style="width: 18%">Minors</th>
-          <th style="width: 18%">Electives</th>
-          <th style="width: 10%">Status</th>
-          <th style="width: 16%">Actions</th>
+          <th style="min-width: 10%">Program Code</th>
+          <th style="min-width: 17%">Program Title</th>
+          <th style="min-width: 17%">Years to Complete</th>
+          <th style="min-width: 10%">Status</th>
+          <th style="min-width: 11%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-program>
         <tr>
           <td>{{ program.programCode }}</td>
           <td>{{ program.programTitle }}</td>
-          <td>
+          <td>{{ program.yearsToComplete }}</td>
+          <!-- <td>
             <ng-container *ngFor="let item of program.majors"
               >{{ item.subjectTitle }}<br
             /></ng-container>
@@ -59,7 +58,7 @@
             <ng-container *ngFor="let item of program.electives"
               >{{ item.subjectTitle }}<br
             /></ng-container>
-          </td>
+          </td> -->
           <td>
             <div class="{{ program.status ? 'active' : 'inactive' }}">
               {{ program.status ? "Active" : "Inactive" }}
@@ -67,15 +66,19 @@
           </td>
           <td>
             <div class="table-actions">
-              <button class="table-action edit" (click)="onClickEdit(program)">
+              <button
+                title="Edit"
+                class="table-action edit"
+                (click)="onClickEdit(program)"
+              >
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Edit program"
                   >edit</mat-icon
                 >
-                <span>Edit</span>
               </button>
               <button
+                title="{{ !program.status ? 'Activate' : 'Deactivate' }}"
                 class="table-action {{
                   !program.status ? 'activate' : 'deactive'
                 }}"
@@ -84,9 +87,15 @@
                 <mat-icon
                   class="material-icons-outlined"
                   pTooltip="Remove program"
-                  >block</mat-icon
+                  *ngIf="program.status"
+                  >thumb_down</mat-icon
                 >
-                <span>{{ !program.status ? "Activate" : "Deactivate" }}</span>
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Remove program"
+                  *ngIf="!program.status"
+                  >thumb_up</mat-icon
+                >
               </button>
             </div>
           </td>
@@ -119,7 +128,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="programCode?.errors?.['required']"
-            >Program Code is required</small
+            >Program code is required</small
           >
         </div>
       </div>
@@ -135,9 +144,66 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="programTitle?.errors?.['required']"
-            >Program Title is required</small
+            >Program title is required</small
           >
         </div>
+      </div>
+      <div class="input-group">
+        <label>Years to Complete</label>
+        <p-dropdown
+          [options]="years"
+          placeholder="Select years to complete"
+          formControlName="yearsToComplete"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <div
+          *ngIf="
+            yearsToComplete?.invalid &&
+            (yearsToComplete?.dirty || yearsToComplete?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="yearsToComplete?.errors?.['required']"
+            >Please select years to complete</small
+          >
+        </div>
+      </div>
+      <div
+        class="input-group"
+        formArrayName="units"
+        *ngFor="let unit of units.controls; let i = index"
+      >
+        <label
+          >{{
+            i + 1 == 1
+              ? "First Year"
+              : i + 1 == 2
+              ? "Second Year"
+              : i + 1 == 3
+              ? "Third Year"
+              : i + 1 == 4
+              ? "Fourth Year"
+              : "Fifth Year"
+          }}
+          Units to Complete</label
+        >
+        <input
+          pInputText
+          placeholder="{{
+            i + 1 == 1
+              ? 'First year'
+              : i + 1 == 2
+              ? 'Second year'
+              : i + 1 == 3
+              ? 'Third year'
+              : i + 1 == 4
+              ? 'Fourth year'
+              : 'Fifth year'
+          }} units"
+          [formControlName]="i"
+        />
       </div>
       <div class="input-group">
         <label>Major Subject</label>
@@ -177,24 +243,4 @@
       <button type="submit" class="action-btn submit">Save</button>
     </div>
   </form>
-</p-dialog>
-<p-dialog
-  [(visible)]="isDeleteDialogOpen"
-  [modal]="true"
-  [breakpoints]="{ '960px': '75vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="modal-title">Confirmation</div>
-  </p-header>
-  Are you sure you want to
-  {{ !status ? "activate" : "deactivate" }} this program?
-  <div class="actions">
-    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
-      Cancel
-    </button>
-    <button class="action-btn submit" (click)="onDeleteProgram()">Yes</button>
-  </div>
 </p-dialog>

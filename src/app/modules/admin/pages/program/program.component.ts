@@ -6,8 +6,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-program',
@@ -15,6 +17,25 @@ import { ProgramService } from 'src/app/shared/services/program/program.service'
   styleUrls: ['./program.component.scss'],
 })
 export class ProgramComponent implements OnInit {
+  programForm: FormGroup;
+  yearsToCompleteSubscription: Subscription;
+
+  programs: any[] = [];
+  majorSubjects: any = [];
+  minorSubjects: any = [];
+  electiveSubjects: any = [];
+  program: any;
+  years = [2, 3, 4, 5];
+
+  isShowDropdown = false;
+  isShowMobileNav = false;
+  isShowNotifications = false;
+  isDialogOpen: boolean = false;
+  isUpdating: boolean = false;
+
+  title: string = '';
+  status: boolean = false;
+
   constructor(
     private programService: ProgramService,
     private subjectService: CourseService,
@@ -23,9 +44,17 @@ export class ProgramComponent implements OnInit {
     this.programForm = fb.group({
       programCode: ['', [Validators.required]],
       programTitle: ['', [Validators.required]],
+      yearsToComplete: ['', [Validators.required]],
+      units: this.fb.array([]),
       majors: new FormControl<any[] | null>(null),
       minors: new FormControl<any[] | null>(null),
       electives: new FormControl<any[] | null>(null),
+    });
+
+    this.yearsToCompleteSubscription = this.programForm.controls[
+      'yearsToComplete'
+    ].valueChanges.subscribe((value) => {
+      this.onYearsToCompleteChange(value);
     });
   }
 
@@ -36,30 +65,20 @@ export class ProgramComponent implements OnInit {
     this.getAllElectives();
   }
 
-  programForm: FormGroup;
-
-  programs: any[] = [];
-  majorSubjects: any = [];
-  minorSubjects: any = [];
-  electiveSubjects: any = [];
-  program: any;
-
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
-  isDialogOpen: boolean = false;
-  isDeleteDialogOpen: boolean = false;
-  isUpdating: boolean = false;
-
-  title: string = '';
-  status: boolean = false;
-
   get programCode() {
     return this.programForm.get('programCode') as FormControl;
   }
 
   get programTitle() {
     return this.programForm.get('programTitle') as FormControl;
+  }
+
+  get yearsToComplete() {
+    return this.programForm.get('yearsToComplete') as FormControl;
+  }
+
+  get units(): FormArray {
+    return this.programForm.get('units') as FormArray;
   }
 
   get majors() {
@@ -74,31 +93,9 @@ export class ProgramComponent implements OnInit {
     return this.programForm.get('electives') as FormControl;
   }
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
-  };
-
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
-
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-    scroll(0, 0);
-  };
-
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
-  };
-
   getAllPrograms = () => {
     this.programService.getAllPrograms().subscribe((data: any) => {
       this.programs = data.sort((a: any, b: any) => b.programId - a.programId);
-      console.log(this.programs);
     });
   };
 
@@ -135,9 +132,22 @@ export class ProgramComponent implements OnInit {
     });
   };
 
+  addUnits(): void {
+    this.units.push(this.fb.control(''));
+  }
+
+  onYearsToCompleteChange(value: any) {
+    if (value != null) {
+      for (let i = 0; i < value; i++) {
+        this.addUnits();
+      }
+    }
+  }
+
   onClickAdd = () => {
     this.title = 'Add Program';
     this.isDialogOpen = true;
+    this.units.clear();
     this.programForm.reset();
     this.programForm.markAsUntouched();
   };
@@ -151,6 +161,8 @@ export class ProgramComponent implements OnInit {
       if (this.programForm.valid) {
         const programCode = this.programForm.get('programCode')?.value;
         const programTitle = this.programForm.get('programTitle')?.value;
+        const yearsToComplete = this.programForm.get('yearsToComplete')?.value;
+        const units = this.programForm.get('units')?.value;
         const majors = this.programForm.get('majors')?.value;
         const minors = this.programForm.get('minors')?.value;
         const electives = this.programForm.get('electives')?.value;
@@ -175,6 +187,12 @@ export class ProgramComponent implements OnInit {
         }
         if (this.program.programTitle != programTitle) {
           payload.programTitle = programTitle;
+        }
+        if (this.program.yearsToComplete != yearsToComplete) {
+          payload.yearsToComplete = yearsToComplete;
+        }
+        if (this.program.units != units) {
+          payload.units = units;
         }
         if (subjectMajors != majors) {
           payload.majors = majors;
@@ -204,12 +222,12 @@ export class ProgramComponent implements OnInit {
       }
     } else {
       this.title = 'Add Program';
-      console.log(this.programForm.value);
-
       if (this.programForm.valid) {
         const payload = {
           programCode: this.programForm.get('programCode')?.value,
           programTitle: this.programForm.get('programTitle')?.value,
+          yearsToComplete: this.programForm.get('yearsToComplete')?.value,
+          units: this.programForm.get('units')?.value,
           majors:
             this.programForm.get('majors')?.value != null
               ? this.programForm.get('majors')?.value
@@ -223,6 +241,8 @@ export class ProgramComponent implements OnInit {
               ? this.programForm.get('electives')?.value
               : [],
         };
+        console.log(payload);
+
         this.programService.addProgram(payload).subscribe((res: any) => {
           if (res.message == 'Program Code already exist') {
             alert('Program Code already exist');
@@ -241,9 +261,9 @@ export class ProgramComponent implements OnInit {
   };
 
   onClickEdit = (program: any) => {
-    this.program = null;
-    this.isUpdating = true;
     this.title = 'Edit Program';
+    this.isUpdating = true;
+    this.units.clear();
     this.program = program;
     const subjectMajors: any = [];
     program.majors.map((sub: any) => subjectMajors.push(sub.subjectTitle));
@@ -258,6 +278,8 @@ export class ProgramComponent implements OnInit {
     this.programForm.patchValue({
       programCode: program.programCode,
       programTitle: program.programTitle,
+      yearsToComplete: program.yearsToComplete,
+      units: program.units,
       majors: subjectMajors,
       minors: subjectMinors,
       electives: subjectElectives,
@@ -266,22 +288,27 @@ export class ProgramComponent implements OnInit {
   };
 
   onClickRemove = (program: any) => {
-    this.program = null;
     this.program = program;
-    this.isDeleteDialogOpen = true;
     this.status = program.status;
-  };
 
-  onCloseDeleteDialog = () => {
-    this.isDeleteDialogOpen = false;
-  };
-
-  onDeleteProgram = () => {
-    this.isDeleteDialogOpen = false;
-    let payload = { status: !this.program.status };
-    this.programService
-      .updateProgram(this.program.programId, payload)
-      .subscribe(() => this.getAllPrograms());
-    this.status = !this.program.status;
+    Swal.fire({
+      title: !this.status ? 'Activate' : 'Deactivate',
+      text: `Are you sure to ${
+        !this.status ? 'active' : 'deactive'
+      } this program?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let payload = { status: !this.program.status };
+        this.programService
+          .updateProgram(this.program.programId, payload)
+          .subscribe(() => this.getAllPrograms());
+        this.status = !this.program.status;
+      }
+    });
   };
 }
