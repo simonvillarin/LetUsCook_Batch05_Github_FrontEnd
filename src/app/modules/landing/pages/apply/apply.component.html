@@ -328,7 +328,12 @@
           </div>
           <div class="input-group">
             <label class="input-label">Date of Birth:</label>
-            <input pInputText type="date" formControlName="birthdate" />
+            <p-calendar
+              formControlName="birthdate"
+              placeholder="Select date of birth"
+              [style]="{ width: '100%' }"
+              appendTo="body"
+            ></p-calendar>
             <div
               *ngIf="
                 (buttonClicked && applyForm.get('birthdate')?.invalid) ||
@@ -506,9 +511,9 @@
             <label class="input-label">Zipcode:</label>
             <input
               pInputText
-              type="number"
               placeholder="xxxx"
               formControlName="zipcode"
+              pKeyFilter="int"
             />
             <div
               *ngIf="
@@ -533,18 +538,18 @@
             <label class="input-label">Telephone No:</label>
             <input
               pInputText
-              type="number"
               placeholder="Telephone No."
               formControlName="telephone"
+              pKeyFilter="int"
             />
           </div>
           <div class="input-group">
             <label class="input-label">Mobile No:</label>
             <input
               pInputText
-              type="number"
               placeholder="09XXxxxxxxx"
               formControlName="mobile"
+              pKeyFilter="int"
             />
             <div
               *ngIf="
@@ -637,7 +642,12 @@
         <div class="school-2">
           <div class="input-group">
             <label class="input-label">Date of Graduation:</label>
-            <input pInputText type="date" formControlName="dateOfGraduation" />
+            <p-calendar
+              formControlName="dateOfGraduation"
+              placeholder="Select date of graduation"
+              [style]="{ width: '100%' }"
+              appendTo="body"
+            ></p-calendar>
             <div
               *ngIf="
                 (buttonClicked && applyForm.get('dateOfGraduation')?.invalid) ||
@@ -789,9 +799,9 @@
             <label class="input-label">Contact No:</label>
             <input
               pInputText
-              type="number"
               placeholder="Contact No."
               formControlName="parentContact"
+              pKeyFilter="int"
             />
             <div
               *ngIf="

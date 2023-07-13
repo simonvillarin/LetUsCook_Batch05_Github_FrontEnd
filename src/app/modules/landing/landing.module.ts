@@ -12,6 +12,8 @@ import { StepsModule } from 'primeng/steps';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutComponent } from './pages/about/about.component';
+import { CalendarModule } from 'primeng/calendar';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { AboutComponent } from './pages/about/about.component';
     StepsModule,
     FormsModule,
     ReactiveFormsModule,
+    CalendarModule,
+    KeyFilterModule,
   ],
 })
 export class LandingModule {}
