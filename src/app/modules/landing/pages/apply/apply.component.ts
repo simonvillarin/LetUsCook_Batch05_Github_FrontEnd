@@ -1,6 +1,9 @@
+import { ApplicationService } from './../../../../shared/services/application/application.service';
 import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProgramService } from 'src/app/shared/services/program/program.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-apply',
@@ -23,7 +26,8 @@ export class ApplyComponent implements OnInit {
   studentNo: string = '';
   applyForm: FormGroup;
   buttonClicked: boolean = false;
-  studentInfo: any;
+  studentInfo: any = {};
+  programs: any[] = [];
 
   terms = ['First Term', 'Second Term'];
   levels = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
@@ -43,21 +47,24 @@ export class ApplyComponent implements OnInit {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private appService: ApplicationService,
+    private programService: ProgramService
   ) {
     this.applyForm = fb.group({
+      programCode: [''],
       yearLevel: ['', [Validators.required]],
-      term: ['', [Validators.required]],
-      schoolYear: ['', [Validators.required]],
-      firstName: ['', [Validators.required]],
-      middleName: [''],
-      lastName: ['', [Validators.required]],
+      sem: ['', [Validators.required]],
+      academicYear: ['', [Validators.required]],
+      firstname: ['', [Validators.required]],
+      middlename: [''],
+      lastname: ['', [Validators.required]],
       suffix: [''],
       gender: ['', [Validators.required]],
       civilStatus: ['', [Validators.required]],
       citizenship: ['', [Validators.required]],
-      birthDate: ['', [Validators.required]],
-      birthPlace: ['', [Validators.required]],
+      birthdate: ['', [Validators.required]],
+      birthplace: ['', [Validators.required]],
       religion: ['', [Validators.required]],
       unit: ['', [Validators.required]],
       street: ['', [Validators.required]],
@@ -69,23 +76,24 @@ export class ApplyComponent implements OnInit {
       telephone: [''],
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      schoolName: ['', [Validators.required]],
-      program: ['', [Validators.required]],
-      graduationDate: ['', [Validators.required]],
-      lastSchoolYear: ['', [Validators.required]],
+      lastSchoolAttended: ['', [Validators.required]],
+      programTaken: ['', [Validators.required]],
       lastYearLevel: ['', [Validators.required]],
-      lastYearTerm: [''],
-      emergencyFirstName: ['', [Validators.required]],
-      emergencyMiddleName: [''],
-      emergencyLastName: ['', [Validators.required]],
-      emergencySuffix: [''],
-      emergencyAddress: ['', [Validators.required]],
-      emergencyContact: ['', [Validators.required]],
-      emergencyRelationship: ['', [Validators.required]],
+      lastSchoolYear: ['', [Validators.required]],
+      lastSem: [''],
+      dateOfGraduation: ['', [Validators.required]],
+      parentFirstname: ['', [Validators.required]],
+      parentMiddlename: [''],
+      parentLastname: ['', [Validators.required]],
+      parentSuffix: [''],
+      parentAddress: ['', [Validators.required]],
+      parentContact: ['', [Validators.required]],
+      parentRelationship: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
+    this.getAllPrograms();
     const date = new Date();
     let currentYear = date.getFullYear();
     const nextYear = date.getFullYear() + 1;
@@ -98,6 +106,13 @@ export class ApplyComponent implements OnInit {
       currentYear = currentYear - 1;
     }
   }
+
+  getAllPrograms = () => {
+    this.programService.getAllPrograms().subscribe((data) => {
+      this.programs = data;
+      console.log(data);
+    });
+  };
 
   onStepOne = () => {
     if (this.stepperNumber == 2 || this.stepperNumber == 4) {
@@ -198,90 +213,7 @@ export class ApplyComponent implements OnInit {
 
   onSubmitStepTwo = () => {
     if (this.applyForm.valid) {
-      const yearLevel = this.applyForm.get('yearLevel')?.value;
-      const term = this.applyForm.get('term')?.value;
-      const schoolYear = this.applyForm.get('schoolYear')?.value;
-      const firstname = this.applyForm.get('firstName')?.value;
-      const middlename = this.applyForm.get('middleName')?.value;
-      const lastname = this.applyForm.get('lastName')?.value;
-      const suffix = this.applyForm.get('suffix')?.value;
-      const gender = this.applyForm.get('gender')?.value;
-      const civilStatus = this.applyForm.get('civilStatus')?.value;
-      const birthdate = this.applyForm.get('birthDate')?.value;
-      const birthplace = this.applyForm.get('birthPlace')?.value;
-      const citizenship = this.applyForm.get('citizenship')?.value;
-      const religion = this.applyForm.get('religion')?.value;
-      const unit = this.applyForm.get('unit')?.value;
-      const street = this.applyForm.get('street')?.value;
-      const subdivision = this.applyForm.get('subdivision')?.value;
-      const barangay = this.applyForm.get('barangay')?.value;
-      const city = this.applyForm.get('city')?.value;
-      const province = this.applyForm.get('province')?.value;
-      const zipcode = this.applyForm.get('zipcode')?.value;
-      const telephone = this.applyForm.get('telephone')?.value;
-      const mobile = this.applyForm.get('mobile')?.value;
-      const email = this.applyForm.get('email')?.value;
-      const lastSchoolAttended = this.applyForm.get('schoolName')?.value;
-      const programTaken = this.applyForm.get('program')?.value;
-      const lastYearLevel = this.applyForm.get('lastYearLevel')?.value;
-      const lastSchoolYear = this.applyForm.get('lastSchoolYear')?.value;
-      const lastSem = this.applyForm.get('lastYearTerm')?.value;
-      const dateOfGraduation = this.applyForm.get('graduationDate')?.value;
-      const parentFirstName = this.applyForm.get('emergencyFirstName')?.value;
-      const parentMiddleName = this.applyForm.get('emergencyMiddleName')?.value;
-      const parentLastName = this.applyForm.get('emergencyLastName')?.value;
-      const parentSuffix = this.applyForm.get('emergencySuffix')?.value;
-      const parentAddress = this.applyForm.get('emergencyAddress')?.value;
-      const parentContact = this.applyForm.get('emergencyContact')?.value;
-      const parentRelationship = this.applyForm.get(
-        'emergencyRelationship'
-      )?.value;
-
-      this.studentInfo = {
-        programCode: this.program,
-        subjectId: [],
-        yearLevel: yearLevel,
-        term: term,
-        schoolYear: schoolYear,
-        firstname: firstname,
-        middlename: middlename,
-        lastname: lastname,
-        suffix: suffix,
-        gender: gender,
-        civilStatus: civilStatus,
-        birthdate: birthdate,
-        birthplace: birthplace,
-        citizenship: citizenship,
-        religion: religion,
-        unit: unit,
-        street: street,
-        subdivision: subdivision,
-        barangay: barangay,
-        city: city,
-        province: province,
-        zipcode: zipcode,
-        telephone: telephone,
-        mobile: mobile,
-        email: email,
-        lastSchoolAttended: lastSchoolAttended,
-        programTaken: programTaken,
-        lastSem: lastSem,
-        lastYearLevel: lastYearLevel,
-        lastSchoolYear: lastSchoolYear,
-        dateOfGraduation: dateOfGraduation,
-        parentFirstName: parentFirstName,
-        parentMiddleName: parentMiddleName,
-        parentLastName: parentLastName,
-        parentSuffix: parentSuffix,
-        parentAddress: parentAddress,
-        parentContact: parentContact,
-        parentRelationship: parentRelationship,
-        image: '',
-        status: 'Regular',
-        enrollmentStatus: 'Pending',
-        activeDeactive: true,
-      };
-
+      this.studentInfo = this.applyForm.value;
       this.stepThree = true;
       this.stepFour = false;
       this.stepOne = false;
@@ -296,16 +228,31 @@ export class ApplyComponent implements OnInit {
   };
 
   onSubmitStepThree = () => {
-    this.studentService.addStudent(this.studentInfo).subscribe(() => {
-      console.log('Student added successfully');
+    this.applyForm.patchValue({
+      programCode: this.program,
     });
-    this.stepFour = true;
-    this.stepOne = false;
-    this.stepTwo = false;
-    this.stepThree = false;
-    this.stepperNumber = 4;
-    this.stepThreeDone = true;
-    scroll(0, 0);
-    this.applyForm.reset();
+
+    Swal.fire({
+      title: 'Validate',
+      text: 'Are you sure to send this application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.appService.addApplication(this.applyForm.value).subscribe(() => {
+          this.stepFour = true;
+          this.stepOne = false;
+          this.stepTwo = false;
+          this.stepThree = false;
+          this.stepperNumber = 4;
+          this.stepThreeDone = true;
+          scroll(0, 0);
+          this.applyForm.reset();
+        });
+      }
+    });
   };
 }

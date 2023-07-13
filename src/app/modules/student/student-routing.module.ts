@@ -8,7 +8,7 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 
 const routes: Routes = [
   {
-    path: 'student/home',
+    path: '',
     component: HomeComponent,
   },
   {

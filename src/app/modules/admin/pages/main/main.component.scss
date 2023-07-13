@@ -166,61 +166,6 @@ header {
   color: var(--very-dark-saturated-blue);
 }
 
-.notif,
-.avatar {
-  position: relative;
-}
-
-.notification-container {
-  position: absolute;
-  top: 175%;
-  left: -100%;
-  width: 19rem;
-  max-height: 0;
-  border-radius: 0.25rem;
-  background-color: var(--white);
-  transition: max-height 200ms ease-in;
-  overflow-y: auto;
-  z-index: 999;
-}
-
-.notification-container::-webkit-scrollbar {
-  width: 0.25rem;
-}
-
-.notification-container::-webkit-scrollbar-thumb {
-  background: var(--primary);
-}
-
-.notification-container::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
-
-.notifs {
-  display: flex;
-  flex-direction: column;
-}
-
-.notification {
-  display: grid;
-  grid-template-columns: 1.25rem 1fr;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  overflow: hidden;
-}
-
-.message {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 0.875rem;
-  color: var(--very-dark-blue);
-}
-
-.notification-active {
-  max-height: 380px;
-}
-
 .img {
   width: 2.5rem;
   height: 2.5rem;

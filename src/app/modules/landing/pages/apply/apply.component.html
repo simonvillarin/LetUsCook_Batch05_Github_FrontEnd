@@ -92,108 +92,19 @@
       >
         <h3>Programs:</h3>
         <div class="program-container">
-          <div class="program">
-            <input
-              type="radio"
-              value="BSCS"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Science in Computer Science (BSCS)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BSIT"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Science in Information Technology (BSIT)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BSCpE"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Science in Computer Engineering (BSCpE)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BSBA"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Science in Business Administration (BSBA)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BSAIS"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label
-              >Bachelor of Science in Accounting Information System
-              (BSAIS)</label
-            >
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BSHM"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Science in Hospitality Management (BSHM)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BMMA"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Multimedia Arts (BMMA)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BACOMM"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Arts in Communication (BACOMM)</label>
-          </div>
-          <div class="program">
-            <input
-              type="radio"
-              value="BSTM"
-              name="program"
-              class="radio radio1"
-              [(ngModel)]="program"
-              (ngModelChange)="onChangeProgram($event)"
-            />
-            <label>Bachelor of Science in Tourism Management (BSTM)</label>
-          </div>
+          <ng-container *ngFor="let prog of programs">
+            <div class="program">
+              <input
+                type="radio"
+                value="{{ prog.programCode }}"
+                name="program"
+                class="radio radio1"
+                [(ngModel)]="program"
+                (ngModelChange)="onChangeProgram($event)"
+              />
+              <label>{{ prog.programTitle }} ({{ prog.programCode }})</label>
+            </div>
+          </ng-container>
         </div>
       </div>
       <div
@@ -249,17 +160,17 @@
             [options]="terms"
             placeholder="Please select term"
             [style]="{ width: '100%' }"
-            formControlName="term"
+            formControlName="sem"
           ></p-dropdown>
           <div
             *ngIf="
-              (buttonClicked && applyForm.get('term')?.invalid) ||
-              applyForm.get('term')?.dirty
+              (buttonClicked && applyForm.get('sem')?.invalid) ||
+              applyForm.get('sem')?.dirty
             "
           >
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="applyForm.get('term')?.errors?.['required']"
+              *ngIf="applyForm.get('sem')?.errors?.['required']"
               >Please select term</small
             >
           </div>
@@ -270,17 +181,17 @@
             [options]="schoolYear"
             placeholder="Please select school year"
             [style]="{ width: '100%' }"
-            formControlName="schoolYear"
+            formControlName="academicYear"
           ></p-dropdown>
           <div
             *ngIf="
-              (buttonClicked && applyForm.get('schoolYear')?.invalid) ||
-              applyForm.get('schoolYear')?.dirty
+              (buttonClicked && applyForm.get('academicYear')?.invalid) ||
+              applyForm.get('academicYear')?.dirty
             "
           >
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="applyForm.get('schoolYear')?.errors?.['required']"
+              *ngIf="applyForm.get('academicYear')?.errors?.['required']"
               >Please select school level</small
             >
           </div>
@@ -296,18 +207,18 @@
             <input
               pInputText
               placeholder="First Name"
-              formControlName="firstName"
+              formControlName="firstname"
               required
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('firstName')?.invalid) ||
-                applyForm.get('firstName')?.dirty
+                (buttonClicked && applyForm.get('firstname')?.invalid) ||
+                applyForm.get('firstname')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('firstName')?.errors?.['required']"
+                *ngIf="applyForm.get('firstname')?.errors?.['required']"
                 >First name is required</small
               >
             </div>
@@ -317,7 +228,7 @@
             <input
               pInputText
               placeholder="Middle Name"
-              formControlName="middleName"
+              formControlName="middlename"
             />
           </div>
           <div class="input-group">
@@ -325,18 +236,18 @@
             <input
               pInputText
               placeholder="Last Name"
-              formControlName="lastName"
+              formControlName="lastname"
               required
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('lastName')?.invalid) ||
-                applyForm.get('lastName')?.dirty
+                (buttonClicked && applyForm.get('lastname')?.invalid) ||
+                applyForm.get('lastname')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('lastName')?.errors?.['required']"
+                *ngIf="applyForm.get('lastname')?.errors?.['required']"
                 >Last name is required</small
               >
             </div>
@@ -417,16 +328,16 @@
           </div>
           <div class="input-group">
             <label class="input-label">Date of Birth:</label>
-            <input pInputText type="date" formControlName="birthDate" />
+            <input pInputText type="date" formControlName="birthdate" />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('birthDate')?.invalid) ||
-                applyForm.get('birthDate')?.dirty
+                (buttonClicked && applyForm.get('birthdate')?.invalid) ||
+                applyForm.get('birthdate')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('birthDate')?.errors?.['required']"
+                *ngIf="applyForm.get('birthdate')?.errors?.['required']"
                 >Date of birth is required</small
               >
             </div>
@@ -436,17 +347,17 @@
             <input
               pInputText
               placeholder="Birthplace"
-              formControlName="birthPlace"
+              formControlName="birthplace"
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('birthPlace')?.invalid) ||
-                applyForm.get('birthPlace')?.dirty
+                (buttonClicked && applyForm.get('birthplace')?.invalid) ||
+                applyForm.get('birthplace')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('birthPlace')?.errors?.['required']"
+                *ngIf="applyForm.get('birthplace')?.errors?.['required']"
                 >Birthplace is required</small
               >
             </div>
@@ -684,17 +595,18 @@
             <input
               pInputText
               placeholder="Name of School"
-              formControlName="schoolName"
+              formControlName="lastSchoolAttended"
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('schoolName')?.invalid) ||
-                applyForm.get('schoolName')?.dirty
+                (buttonClicked &&
+                  applyForm.get('lastSchoolAttended')?.invalid) ||
+                applyForm.get('lastSchoolAttended')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('schoolName')?.errors?.['required']"
+                *ngIf="applyForm.get('lastSchoolAttended')?.errors?.['required']"
                 >School name is required</small
               >
             </div>
@@ -706,17 +618,17 @@
             <input
               pInputText
               placeholder="Program or Track"
-              formControlName="program"
+              formControlName="programTaken"
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('program')?.invalid) ||
-                applyForm.get('program')?.dirty
+                (buttonClicked && applyForm.get('programTaken')?.invalid) ||
+                applyForm.get('programTaken')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('program')?.errors?.['required']"
+                *ngIf="applyForm.get('programTaken')?.errors?.['required']"
                 >Program or track is required</small
               >
             </div>
@@ -725,16 +637,16 @@
         <div class="school-2">
           <div class="input-group">
             <label class="input-label">Date of Graduation:</label>
-            <input pInputText type="date" formControlName="graduationDate" />
+            <input pInputText type="date" formControlName="dateOfGraduation" />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('graduationDate')?.invalid) ||
-                applyForm.get('graduationDate')?.dirty
+                (buttonClicked && applyForm.get('dateOfGraduation')?.invalid) ||
+                applyForm.get('dateOfGraduation')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('graduationDate')?.errors?.['required']"
+                *ngIf="applyForm.get('dateOfGraduation')?.errors?.['required']"
                 >Date of Graduation is required</small
               >
             </div>
@@ -787,7 +699,7 @@
               [options]="terms"
               placeholder="Please select term"
               [style]="{ width: '100%' }"
-              formControlName="lastYearTerm"
+              formControlName="lastSem"
             ></p-dropdown>
           </div>
         </div>
@@ -800,18 +712,17 @@
             <input
               pInputText
               placeholder="First Name"
-              formControlName="emergencyFirstName"
+              formControlName="parentFirstname"
             />
             <div
               *ngIf="
-                (buttonClicked &&
-                  applyForm.get('emergencyFirstName')?.invalid) ||
-                applyForm.get('emergencyFirstName')?.dirty
+                (buttonClicked && applyForm.get('parentFirstname')?.invalid) ||
+                applyForm.get('parentFirstname')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('emergencyFirstName')?.errors?.['required']"
+                *ngIf="applyForm.get('parentFirstname')?.errors?.['required']"
                 >First name is required</small
               >
             </div>
@@ -821,7 +732,7 @@
             <input
               pInputText
               placeholder="Middle Name"
-              formControlName="emergencyMiddleName"
+              formControlName="parentMiddlename"
             />
           </div>
           <div class="input-group">
@@ -829,18 +740,17 @@
             <input
               pInputText
               placeholder="Last Name"
-              formControlName="emergencyLastName"
+              formControlName="parentLastname"
             />
             <div
               *ngIf="
-                (buttonClicked &&
-                  applyForm.get('emergencyLastName')?.invalid) ||
-                applyForm.get('emergencyLastName')?.dirty
+                (buttonClicked && applyForm.get('parentLastname')?.invalid) ||
+                applyForm.get('parentLastname')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('emergencyLastName')?.errors?.['required']"
+                *ngIf="applyForm.get('parentLastname')?.errors?.['required']"
                 >Last name is required</small
               >
             </div>
@@ -850,7 +760,7 @@
             <input
               pInputText
               placeholder="(e.g. Jr.)"
-              formControlName="emergencySuffix"
+              formControlName="parentSuffix"
             />
           </div>
         </div>
@@ -860,17 +770,17 @@
             <input
               pInputText
               placeholder="Complete Address"
-              formControlName="emergencyAddress"
+              formControlName="parentAddress"
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('emergencyAddress')?.invalid) ||
-                applyForm.get('emergencyAddress')?.dirty
+                (buttonClicked && applyForm.get('parentAddress')?.invalid) ||
+                applyForm.get('parentAddress')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('emergencyAddress')?.errors?.['required']"
+                *ngIf="applyForm.get('parentAddress')?.errors?.['required']"
                 >Complete Address is required</small
               >
             </div>
@@ -881,17 +791,17 @@
               pInputText
               type="number"
               placeholder="Contact No."
-              formControlName="emergencyContact"
+              formControlName="parentContact"
             />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('emergencyContact')?.invalid) ||
-                applyForm.get('emergencyContact')?.dirty
+                (buttonClicked && applyForm.get('parentContact')?.invalid) ||
+                applyForm.get('parentContact')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('emergencyContact')?.errors?.['required']"
+                *ngIf="applyForm.get('parentContact')?.errors?.['required']"
                 >Contact no. is required</small
               >
             </div>
@@ -901,18 +811,18 @@
             <input
               pInputText
               placeholder="Relationship"
-              formControlName="emergencyRelationship"
+              formControlName="parentRelationship"
             />
             <div
               *ngIf="
                 (buttonClicked &&
-                  applyForm.get('emergencyRelationship')?.invalid) ||
-                applyForm.get('emergencyRelationship')?.dirty
+                  applyForm.get('parentRelationship')?.invalid) ||
+                applyForm.get('parentRelationship')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('emergencyRelationship')?.errors?.['required']"
+                *ngIf="applyForm.get('parentRelationship')?.errors?.['required']"
                 >Relationship is required</small
               >
             </div>
@@ -935,13 +845,13 @@
         <div class="input-group">
           <label class="input-label">Term:</label>
           <div>
-            <div class="input">{{ studentInfo.term }}</div>
+            <div class="input">{{ studentInfo.sem }}</div>
           </div>
         </div>
         <div class="input-group">
           <label class="input-label">School Year:</label>
           <div>
-            <div class="input">{{ studentInfo.schoolYear }}</div>
+            <div class="input">{{ studentInfo.academicYear }}</div>
           </div>
         </div>
       </div>
@@ -1088,15 +998,15 @@
         <div class="emergency-1">
           <div class="input-group">
             <label class="input-label">First Name:</label>
-            <div class="input">{{ studentInfo.parentFirstName }}</div>
+            <div class="input">{{ studentInfo.parentFirstname }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Middle Name:</label>
-            <div class="input">{{ studentInfo.parentMiddleName }}</div>
+            <div class="input">{{ studentInfo.parentMiddlename }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Last Name:</label>
-            <div class="input">{{ studentInfo.parentLastName }}</div>
+            <div class="input">{{ studentInfo.parentLastname }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Suffix:</label>

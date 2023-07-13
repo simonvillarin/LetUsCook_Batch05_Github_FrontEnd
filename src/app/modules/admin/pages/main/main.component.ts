@@ -17,7 +17,7 @@ import { CalendarService } from 'src/app/shared/services/calendar/calendar.servi
 })
 export class MainComponent implements OnInit {
   route: string = 'Home';
-  admin: any;
+  admin: any = {};
   isShowDropdown = false;
   isShowMobileNav = false;
   isDialogOpen = false;
@@ -87,7 +87,6 @@ export class MainComponent implements OnInit {
       .getAdminById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.admin = data;
-        console.log(data);
       });
   };
 

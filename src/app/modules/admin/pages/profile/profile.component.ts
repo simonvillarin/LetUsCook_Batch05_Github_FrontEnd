@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   imagePreview: string | ArrayBuffer | null = null;
   bannerPreview: string | ArrayBuffer | null = null;
 
-  admin: any;
+  admin: any = {};
   username: string = '';
   password: string = '';
 
