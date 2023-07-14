@@ -138,6 +138,7 @@ export class ProgramComponent implements OnInit {
 
   onYearsToCompleteChange(value: any) {
     if (value != null) {
+      this.units.clear();
       for (let i = 0; i < value; i++) {
         this.addUnits();
       }
