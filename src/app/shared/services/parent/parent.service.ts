@@ -29,4 +29,8 @@ export class ParentService {
       parent
     );
   }
+
+  deleteParent(parentId: number) {
+    return this.http.delete(`${this.BASE_URL}/parent/${parentId}`);
+  }
 }

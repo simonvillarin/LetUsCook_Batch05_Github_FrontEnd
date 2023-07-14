@@ -49,10 +49,10 @@ tr td {
 
 .active,
 .inactive {
-  width: 6.5rem;
+  width: 5rem;
   margin: 0 auto;
-  padding: 0.5rem;
-  border-radius: 100vmax;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
   color: var(--white);
 }
 
@@ -61,7 +61,7 @@ tr td {
 }
 
 .inactive {
-  background-color: var(--red);
+  background-color: var(--yellow);
 }
 
 .table-action {
@@ -82,18 +82,14 @@ tr td {
 }
 
 .activate {
-  width: 9rem;
-  padding: 0.5rem 0;
   background-color: var(--green);
 }
 
 .edit {
-  background-color: var(--blue);
+  background-color: var(--yellow);
 }
 
 .deactive {
-  width: 9rem;
-  padding: 0.5rem 0;
   background-color: var(--red);
 }
 

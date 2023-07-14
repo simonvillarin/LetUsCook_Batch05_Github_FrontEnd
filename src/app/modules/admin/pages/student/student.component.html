@@ -1,103 +1,191 @@
 <main>
-  <div class="table">
-    <p-table
-      #dt
-      [value]="students"
-      [paginator]="true"
-      [rows]="5"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 25, 50]"
-      [globalFilterFields]="[
-        'firstname',
-        'middlename',
-        'lastname',
-        'program.programCode',
-        'section'
-      ]"
-    >
-      <ng-template pTemplate="caption">
-        <div class="table-header">
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{
-                width: '16rem',
-                paddingLeft: '2.5rem'
-              }"
-              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search"
-            />
-          </span>
-        </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 20%">Name</th>
-          <th style="width: 10%">Program</th>
-          <th style="width: 15%">Year Level</th>
-          <th style="width: 15%">Enrollment Status</th>
-          <th style="width: 10%">Section</th>
-          <th style="width: 10%">Status</th>
-          <th style="width: 20%">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-student>
-        <tr>
-          <td>
-            {{ student.firstname }} {{ student.middlename }}
-            {{ student.lastname }}
-          </td>
-          <td>{{ student.program.programCode }}</td>
-          <td>{{ student.yearLevel }}</td>
-          <td>{{ student.enrollmentStatus }}</td>
-          <td>{{ student.section == "" ? "Unassigned" : student.section }}</td>
-          <td>
-            <div class="{{ student.activeDeactive ? 'active' : 'inactive' }}">
-              {{ student.activeDeactive ? "Active" : "Inactive" }}
+  <p-tabView>
+    <p-tabPanel header="Pending Applications">
+      <div class="table">
+        <p-table
+          #dt
+          [value]="applications"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [globalFilterFields]="['firstname', 'middlename', 'lastname']"
+        >
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+              <span [style]="{ position: 'relative' }">
+                <i class="pi pi-search"></i>
+                <input
+                  type="text"
+                  pInputText
+                  placeholder="Search"
+                  [style]="{
+                    width: '16rem',
+                    paddingLeft: '2.5rem'
+                  }"
+                  (input)="
+                    dt.filterGlobal($any($event.target).value, 'contains')
+                  "
+                  placeholder="Search"
+                />
+              </span>
             </div>
-          </td>
-          <td>
-            <div class="table-actions">
-              <button
-                class="table-action edit"
-                (click)="onEditStudent(student)"
-              >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Edit program"
-                  >edit</mat-icon
-                >
-                <span>Enroll</span>
-              </button>
-              <button
-                class="table-action {{
-                  !student.activeDeactive ? 'activate' : 'deactive'
-                }}"
-                (click)="onClickRemove(student)"
-              >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Remove program"
-                  >block</mat-icon
-                >
-                <span>{{
-                  !student.activeDeactive ? "Activate" : "Deactivate"
-                }}</span>
-              </button>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 30%">Name</th>
+              <th style="width: 15%">Email</th>
+              <th style="width: 15%">Enrollment Status</th>
+              <th style="width: 20%">Application Date</th>
+              <th style="width: 20%">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-application>
+            <tr>
+              <td>
+                {{ application.firstname }} {{ application.middlename }}
+                {{ application.lastname }}
+              </td>
+              <td>{{ application.email }}</td>
+              <td>
+                <div class="inactive">
+                  {{ application.status == false ? "Pending" : "Enrolled" }}
+                </div>
+              </td>
+              <td>{{ application.applicationDate }}</td>
+              <td>
+                <div class="table-actions">
+                  <button
+                    class="table-action activate"
+                    (click)="onEditApplication(application)"
+                  >
+                    <mat-icon
+                      class="material-icons-outlined"
+                      pTooltip="Approve application"
+                      >thumb_up</mat-icon
+                    >
+                  </button>
+                  <button
+                    class="table-action deactive"
+                    (click)="onDeleteApplication(application)"
+                  >
+                    <mat-icon
+                      class="material-icons-outlined"
+                      pTooltip="Disapprove application"
+                      >thumb_down</mat-icon
+                    >
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Enrolled Students">
+      <div class="table">
+        <p-table
+          #dt1
+          [value]="students"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [globalFilterFields]="[
+            'firstname',
+            'middlename',
+            'lastname',
+            'program.programCode'
+          ]"
+        >
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+              <span [style]="{ position: 'relative' }">
+                <i class="pi pi-search"></i>
+                <input
+                  type="text"
+                  pInputText
+                  placeholder="Search"
+                  [style]="{
+                    width: '16rem',
+                    paddingLeft: '2.5rem'
+                  }"
+                  (input)="
+                    dt1.filterGlobal($any($event.target).value, 'contains')
+                  "
+                  placeholder="Search"
+                />
+              </span>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 20%">Name</th>
+              <th style="width: 10%">Program</th>
+              <th style="width: 15%">Year Level</th>
+              <th style="width: 10%">Status</th>
+              <th style="width: 20%">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-student>
+            <tr>
+              <td>
+                {{ student.firstname }} {{ student.middlename }}
+                {{ student.lastname }}
+              </td>
+              <td>{{ student.program.programCode }}</td>
+              <td>{{ student.yearLevel }}</td>
+              <td>
+                <div
+                  class="{{ student.activeDeactive ? 'active' : 'inactive' }}"
+                >
+                  {{ student.activeDeactive ? "Active" : "Inactive" }}
+                </div>
+              </td>
+              <td>
+                <div class="table-actions">
+                  <button
+                    class="table-action edit"
+                    title="Set as pending enrollee"
+                    (click)="onClickRemove(student)"
+                  >
+                    <mat-icon
+                      class="material-icons-outlined"
+                      pTooltip="Set as pending enrollee"
+                      >cancel</mat-icon
+                    >
+                    <span>Remove</span>
+                  </button>
+                  <button
+                    class="table-action {{
+                      !student.activeDeactive ? 'activate' : 'deactive'
+                    }}"
+                    (click)="onClickActive(student)"
+                  >
+                    <mat-icon
+                      class="material-icons-outlined"
+                      pTooltip="Remove program"
+                      >block</mat-icon
+                    >
+                    <span>{{
+                      !student.activeDeactive ? "Activate" : "Deactivate"
+                    }}</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
 </main>
 <p-dialog
-  [(visible)]="isDialogOpen"
+  [(visible)]="isRemoveDialogOpen"
   [modal]="true"
   [breakpoints]="{ '960px': '75vw' }"
   [style]="{ width: '50vw' }"
@@ -105,34 +193,16 @@
   [resizable]="false"
 >
   <p-header>
-    <div class="modal-title">Edit Student</div>
+    <div class="modal-title">Confirmation</div>
   </p-header>
-  <form [formGroup]="sectionForm" (ngSubmit)="onEnrollStudent()">
-    <div class="form-group">
-      <div class="input-group">
-        <label>Student Name</label>
-        <input pInputText formControlName="studentName" />
-      </div>
-      <div class="input-group">
-        <label>Program</label>
-        <input pInputText formControlName="program" />
-      </div>
-      <label>Section</label>
-      <p-dropdown
-        [options]="sections"
-        [style]="{ width: '100%' }"
-        placeholder="Select a section"
-        formControlName="sectionName"
-        appendTo="body"
-      ></p-dropdown>
-    </div>
-    <div class="actions">
-      <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
-        Cancel
-      </button>
-      <button class="action-btn submit" type="submit">Save</button>
-    </div>
-  </form>
+  Are you sure you want to remove this student from the list of enrolled
+  students?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onRemoveStudent()">Yes</button>
+  </div>
 </p-dialog>
 <p-dialog
   [(visible)]="isDeleteDialogOpen"
@@ -146,11 +216,30 @@
     <div class="modal-title">Confirmation</div>
   </p-header>
   Are you sure you want to
-  {{ status ? "activate" : "deactivate" }} this section?
+  {{ status ? "activate" : "deactivate" }} this student?
   <div class="actions">
     <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
       Cancel
     </button>
     <button class="action-btn submit" (click)="onDeleteStudent()">Yes</button>
+  </div>
+</p-dialog>
+<p-dialog
+  [(visible)]="isConfirmDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  {{ confirmTitle }} this student application?
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onClickConfirm()">Yes</button>
   </div>
 </p-dialog>
