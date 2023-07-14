@@ -13,7 +13,11 @@
     >
       <ng-template pTemplate="caption">
         <div class="table-header">
-          <button class="add" (click)="onClickAdd()">ADD</button>
+          <button class="add" (click)="onClickAdd()">
+            <mat-icon class="material-icons-outlined" pTooltip="Edit program"
+              >add</mat-icon
+            >
+          </button>
           <span [style]="{ position: 'relative' }">
             <i class="pi pi-search"></i>
             <input
@@ -32,9 +36,10 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 30%">Name</th>
-          <th style="width: 17.5%">Work</th>
-          <th style="width: 17.5%">Employement Status</th>
+          <th style="width: 10%">Image</th>
+          <th style="width: 25%">Name</th>
+          <th style="width: 20%">Work</th>
+          <th style="width: 15%">Employement Status</th>
           <th style="width: 15%">Status</th>
           <th style="width: 15%">Actions</th>
         </tr>
@@ -52,9 +57,11 @@
                   alt="Prof Image"
                 />
               </div>
-              {{ prof.firstname }} {{ prof.middlename }} {{ prof.lastname }}
-              {{ prof.suffix }}
             </div>
+          </td>
+          <td>
+            {{ prof.firstname }} {{ prof.middlename }} {{ prof.lastname }}
+            {{ prof.suffix }}
           </td>
           <td>{{ prof.work }}</td>
           <td>
@@ -96,7 +103,7 @@
                 >
               </button>
               <button
-                title="{{ !status ? 'Activate' : 'Deactivate' }}"
+                title="{{ !prof.activeDeactive ? 'Activate' : 'Deactivate' }}"
                 class="table-action {{
                   !prof.activeDeactive ? 'activate' : 'deactive'
                 }}"

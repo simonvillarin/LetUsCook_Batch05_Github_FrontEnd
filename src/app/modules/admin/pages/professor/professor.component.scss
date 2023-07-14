@@ -88,7 +88,7 @@ tr td {
 }
 
 .add-schedule {
-  background-color: var(--primary);
+  background-color: var(--light-orange);
 }
 
 .edit {
@@ -127,7 +127,10 @@ label {
 }
 
 .add {
-  padding: 0.75rem 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
   color: var(--white);
   background-color: var(--primary);
   font-size: 1rem;
