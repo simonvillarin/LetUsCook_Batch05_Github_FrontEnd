@@ -57,7 +57,15 @@
             </div>
           </td>
           <td>{{ prof.work }}</td>
-          <td>{{ prof.status }}</td>
+          <td>
+            <div
+              class="status {{
+                prof.status == 'Full Time' ? 'fulltime' : 'parttime'
+              }}"
+            >
+              {{ prof.status }}
+            </div>
+          </td>
           <td>
             <div class="{{ prof.activeDeactive ? 'active' : 'inactive' }}">
               {{ prof.activeDeactive ? "Active" : "Inactive" }}

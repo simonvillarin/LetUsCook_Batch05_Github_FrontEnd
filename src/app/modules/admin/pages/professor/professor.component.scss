@@ -48,12 +48,14 @@ tr td {
 }
 
 .active,
-.inactive {
+.inactive,
+.status {
   width: 5rem;
   margin: 0 auto;
   padding: 0.25rem;
   border-radius: 0.25rem;
   color: var(--white);
+  font-size: 0.9375rem;
 }
 
 .active {
@@ -287,6 +289,14 @@ img {
 .ava {
   width: 3rem;
   height: 3rem;
+}
+
+.fulltime {
+  background-color: var(--light-red);
+}
+
+.parttime {
+  background-color: var(--light-blue);
 }
 
 /* ========== MEDIA QUERIES ========== */
