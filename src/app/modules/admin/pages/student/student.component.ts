@@ -4,7 +4,9 @@ import { HttpEvent } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SectionService } from 'src/app/shared/services/section/section.service';
-
+import { ApplicationService } from 'src/app/shared/services/application/application.service';
+import { DatePipe } from '@angular/common';
+import { ParentService } from 'src/app/shared/services/parent/parent.service';
 interface UploadEvent {
   originalEvent: HttpEvent<any>;
   files: File[];
@@ -14,14 +16,16 @@ interface UploadEvent {
   selector: 'app-student',
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss'],
-  providers: [MessageService],
+  providers: [MessageService, DatePipe],
 })
 export class StudentComponent implements OnInit {
   constructor(
+    private applicationService: ApplicationService,
     private studentService: StudentService,
-    private sectionService: SectionService,
+    private parentService: ParentService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private datePipe: DatePipe
   ) {
     this.sectionForm = this.fb.group({
       studentName: ['', [Validators.required]],
@@ -31,19 +35,27 @@ export class StudentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllApplications();
     this.getAllStudents();
   }
 
   sectionForm: FormGroup;
 
+  applications: any = [];
+  application: any = {};
   students: any = [];
-  student: any = [];
+  student: any;
   sections: any = [];
 
   isInputDisabled: boolean = true;
   isDialogOpen: boolean = false;
   isDeleteDialogOpen: boolean = false;
+  isConfirmDialogOpen: boolean = false;
+  isEditing: boolean = false;
+  isRemoveDialogOpen = false;
   status: boolean = false;
+
+  confirmTitle = '';
 
   onBasicUploadAuto(event: UploadEvent) {
     this.messageService.add({
@@ -53,6 +65,23 @@ export class StudentComponent implements OnInit {
     });
   }
 
+  getAllApplications = () => {
+    this.applicationService.getAllApplications().subscribe((data: any) => {
+      this.applications = data.sort(
+        (a: any, b: any) => a.applicationId - b.applicationId
+      );
+      this.applications = this.applications.filter(
+        (app: any) => app.status == false
+      );
+      this.applications.forEach((app: any) => {
+        app.applicationDate = this.datePipe.transform(
+          app.applicationDate,
+          'MMMM dd, yyyy'
+        );
+      });
+    });
+  };
+
   getAllStudents = () => {
     this.studentService.getAllStudents().subscribe((data: any) => {
       this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
@@ -60,75 +89,138 @@ export class StudentComponent implements OnInit {
     });
   };
 
-  getAllSections() {
-    this.sectionService.getAllSections().subscribe((data: any) => {
-      this.sections = data;
-      this.sections = this.sections.map(
-        (section: any) => (this.sections = section.sectionName)
-      );
-      console.log(this.sections);
-    });
-  }
-
   onClickRemove = (student: any) => {
+    this.student = student;
+    this.isRemoveDialogOpen = true;
+  };
+
+  onRemoveStudent = () => {
+    console.log(this.student, 'is the student');
+
+    const payload = {
+      programId: this.student.program.programId,
+      yearLevel: this.student.yearLevel,
+      sem: this.student.sem,
+      academicYear: this.student.academicYear,
+      firstname: this.student.firstname,
+      middlename: this.student.middlename,
+      lastname: this.student.lastname,
+      suffix: this.student.suffix,
+      gender: this.student.gender,
+      civilStatus: this.student.civilStatus,
+      birthdate: this.student.birthdate,
+      birthplace: this.student.birthplace,
+      citizenship: this.student.citizenship,
+      religion: this.student.religion,
+      unit: this.student.unit,
+      street: this.student.street,
+      subdivision: this.student.subdivision,
+      barangay: this.student.barangay,
+      city: this.student.city,
+      province: this.student.province,
+      zipcode: this.student.zipcode,
+      telephone: this.student.telephone,
+      mobile: this.student.mobile,
+      email: this.student.email,
+      lastSchoolAttended: this.student.lastSchoolAttended,
+      programTaken: this.student.programTaken,
+      lastSem: this.student.lastSem,
+      lastYearLevel: this.student.lastYearLevel,
+      lastSchoolYear: this.student.lastSchoolYear,
+      dateOfGraduation: this.student.dateOfGraduation,
+      parentFirstname: this.student.parent.firstname,
+      parentMiddlename: this.student.parent.middlename,
+      parentLastname: this.student.parent.lastname,
+      parentSuffix: this.student.parent.suffix,
+      parentAddress: this.student.parent.address,
+      parentContact: this.student.parent.contact,
+      parentRelationship: this.student.parent.relationship,
+      status: false,
+    };
+    console.log(payload);
+
+    this.applicationService.addApplication(payload).subscribe(() => {
+      this.parentService.deleteParent(this.student.parent.parentId).subscribe();
+      this.studentService
+        .deleteStudent(this.student.studentId)
+        .subscribe(() => {
+          this.getAllStudents();
+          this.getAllApplications();
+        });
+      this.isRemoveDialogOpen = false;
+    });
+  };
+
+  onClickActive = (student: any) => {
     this.student = student;
     this.status = this.student.activeDeactive;
     this.isDeleteDialogOpen = true;
   };
 
+  onDeleteStudent = () => {
+    const payload = {
+      activeDeactive: !this.student.activeDeactive,
+    };
+    this.studentService
+      .updateStudent(this.student.studentId, payload)
+      .subscribe(() => {
+        this.parentService
+          .updateParent(this.student.parent.parentId, payload)
+          .subscribe();
+        this.getAllStudents();
+        this.isDeleteDialogOpen = false;
+      });
+  };
+
   onCloseDeleteDialog = () => {
-    this.isDeleteDialogOpen = false;
+    this.isConfirmDialogOpen = false;
     this.student = null;
   };
 
-  onDeleteStudent = () => {
-    if (this.student) {
+  onDeleteApplication = (application: any) => {
+    this.application = application;
+    this.confirmTitle = 'Disapprove';
+    this.isEditing = false;
+    this.isConfirmDialogOpen = true;
+  };
+
+  onEditApplication = (application: any) => {
+    this.application = application;
+    this.confirmTitle = 'Approve';
+    this.isEditing = true;
+    this.isConfirmDialogOpen = true;
+  };
+
+  onClickConfirm = () => {
+    console.log(this.application);
+
+    if (this.isEditing) {
       const payload = {
-        activeDeactive: !this.student.activeDeactive,
+        status: true,
       };
-      this.studentService
-        .updateStudent(this.student.studentId, payload)
-        .subscribe(() => this.getAllStudents());
-      this.isDeleteDialogOpen = false;
-      this.student = null;
-    }
-  };
-
-  onEditStudent = (student: any) => {
-    this.student = student;
-    this.isDialogOpen = true;
-    const studentName =
-      this.student.firstname +
-      ' ' +
-      this.student.middlename +
-      ' ' +
-      this.student.lastname;
-    if (this.student) {
-      this.sectionForm.patchValue({
-        studentName: studentName,
-        program: this.student.program.programCode,
-      });
-      this.sectionForm.get('studentName')?.disable();
-      this.sectionForm.get('program')?.disable();
-      this.getAllSections();
-    }
-  };
-
-  onEnrollStudent = () => {
-    if (this.sectionForm.valid) {
-      const payload: any = {};
-      if (this.student.section != this.sectionForm.get('sectionName')?.value) {
-        payload.section = this.sectionForm.get('sectionName')?.value;
-        payload.enrollmentStatus = 'Enrolled';
-      }
-      this.studentService
-        .updateStudent(this.student.studentId, payload)
+      this.application.schedId = [];
+      this.applicationService
+        .updateApplication(this.application.appId, payload)
         .subscribe(() => {
-          this.getAllStudents();
-          this.isDialogOpen = false;
+          this.isConfirmDialogOpen = false;
+          this.studentService
+            .addStudent(this.application)
+            .subscribe(() => this.getAllStudents());
+          this.applicationService
+            .deleteApplication(this.application.appId)
+            .subscribe(() => {
+              this.isConfirmDialogOpen = false;
+              this.getAllApplications();
+            });
+          this.getAllApplications();
         });
     } else {
-      console.log('form invalid');
+      this.applicationService
+        .deleteApplication(this.application.appId)
+        .subscribe(() => {
+          this.isConfirmDialogOpen = false;
+          this.getAllApplications();
+        });
     }
   };
 }

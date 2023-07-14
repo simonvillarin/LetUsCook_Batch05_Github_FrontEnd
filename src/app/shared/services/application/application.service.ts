@@ -21,4 +21,12 @@ export class ApplicationService {
   addApplication = (application: any) => {
     return this.http.post(`${this.BASE_URL}/application`, application);
   };
+
+  updateApplication = (id: number, application: any) => {
+    return this.http.put(`${this.BASE_URL}/application/${id}`, application);
+  };
+
+  deleteApplication = (id: number) => {
+    return this.http.delete(`${this.BASE_URL}/application/${id}`);
+  };
 }

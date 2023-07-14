@@ -28,6 +28,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { SectionComponent } from './pages/section/section.component';
 import { RoomComponent } from './pages/room/room.component';
 import { CalendarModule } from 'primeng/calendar';
+import { TabViewModule } from 'primeng/tabview';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { CalendarModule } from 'primeng/calendar';
     MultiSelectModule,
     KeyFilterModule,
     CalendarModule,
+    TabViewModule,
+    TooltipModule,
   ],
 })
 export class AdminModule {}

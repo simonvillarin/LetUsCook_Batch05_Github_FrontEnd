@@ -104,7 +104,7 @@ export class ProgramComponent implements OnInit {
       const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
       let subjects: any = [];
       sortData.map((subj: any) => {
-        subjects.push(subj.subjectTitle);
+        subjects.push({ name: subj.subjectTitle, value: subj.subjectTitle });
       });
       this.majorSubjects = subjects;
     });
@@ -115,7 +115,7 @@ export class ProgramComponent implements OnInit {
       const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
       let subjects: any = [];
       sortData.map((subj: any) => {
-        subjects.push(subj.subjectTitle);
+        subjects.push({ name: subj.subjectTitle, value: subj.subjectTitle });
       });
       this.minorSubjects = subjects;
     });
@@ -126,7 +126,7 @@ export class ProgramComponent implements OnInit {
       const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
       let subjects: any = [];
       sortData.map((subj: any) => {
-        subjects.push(subj.subjectTitle);
+        subjects.push({ name: subj.subjectTitle, value: subj.subjectTitle });
       });
       this.electiveSubjects = subjects;
     });

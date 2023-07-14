@@ -209,6 +209,8 @@
         <label>Major Subject</label>
         <p-multiSelect
           [options]="majorSubjects"
+          optionLabel="name"
+          optionValue="name"
           placeholder="Select major subject/s"
           appendTo="body"
           formControlName="majors"
@@ -219,6 +221,8 @@
         <label>Minor Subject</label>
         <p-multiSelect
           [options]="minorSubjects"
+          optionLabel="name"
+          optionValue="name"
           placeholder="Select minor subject/s"
           appendTo="body"
           [style]="{ width: '100%' }"
@@ -229,6 +233,8 @@
         <label>Elective Subject</label>
         <p-multiSelect
           [options]="electiveSubjects"
+          optionLabel="name"
+          optionValue="name"
           placeholder="Select elective subject/s"
           appendTo="body"
           [style]="{ width: '100%' }"
