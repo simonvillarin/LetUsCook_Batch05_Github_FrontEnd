@@ -5,8 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { CourseService } from 'src/app/shared/services/course/course.service';
-import { ProfessorService } from 'src/app/shared/services/professor/professor.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { SectionService } from 'src/app/shared/services/section/section.service';
@@ -32,6 +32,7 @@ export class ScheduleComponent implements OnInit {
   sections: any = [];
   rooms: any = [];
   professors: any = [];
+  professorId: any;
 
   sched: any;
   isUpdating: boolean = false;
@@ -52,7 +53,7 @@ export class ScheduleComponent implements OnInit {
     private courseService: CourseService,
     private sectionService: SectionService,
     private roomService: RoomService,
-    private professorService: ProfessorService
+    private route: ActivatedRoute
   ) {
     this.scheduleForm = fb.group({
       subject: ['', Validators.required],
@@ -61,6 +62,7 @@ export class ScheduleComponent implements OnInit {
       endTime: ['', Validators.required],
       section: ['', Validators.required],
       room: ['', Validators.required],
+      professorId: [''],
     });
   }
 
@@ -97,12 +99,15 @@ export class ScheduleComponent implements OnInit {
     this.getAllSubjects();
     this.getAllSections();
     this.getAllRooms();
-    this.getAllProfessors();
   }
 
   getAllSchedules = () => {
+    this.professorId = this.route.snapshot.params['id'];
     this.scheduleService.getAllSchedules().subscribe((data: any) => {
-      this.schedules = data.sort((a: any, b: any) => b.schedId - a.schedId);
+      const sortData = data.sort((a: any, b: any) => b.schedId - a.schedId);
+      sortData.filter((data: any) => data.professorId == this.professorId);
+      this.schedules = sortData;
+      console.log(sortData);
     });
   };
 
@@ -122,7 +127,7 @@ export class ScheduleComponent implements OnInit {
       const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
       let sections: any = [];
       sortData.map((sec: any) => {
-        sections.push(sec.sectionName);
+        sections.push(sec.section);
       });
       this.sections = sections;
     });
@@ -136,19 +141,6 @@ export class ScheduleComponent implements OnInit {
         rooms.push(room.roomNumber);
       });
       this.rooms = rooms;
-    });
-  };
-
-  getAllProfessors = () => {
-    this.professorService.getAllProfessors().subscribe((data: any) => {
-      const sortData = data.sort(
-        (a: any, b: any) => b.professorId - a.professorId
-      );
-      let profs: any = [];
-      sortData.map((prof: any) => {
-        profs.push(prof.fullname);
-      });
-      this.professors = profs;
     });
   };
 
@@ -174,8 +166,8 @@ export class ScheduleComponent implements OnInit {
       day: sched.day,
       startTime: sched.startTime,
       endTime: sched.endTime,
-      section: sched.section,
-      room: sched.room,
+      section: sched.section.section,
+      room: sched.room.roomNumber,
       professor: sched.professor.fullname,
     });
   };
@@ -251,6 +243,9 @@ export class ScheduleComponent implements OnInit {
       }
     } else {
       if (this.scheduleForm.valid) {
+        this.scheduleForm.patchValue({
+          professorId: this.professorId,
+        });
         this.scheduleService
           .addSchedule(this.scheduleForm.value)
           .subscribe((res: any) => {

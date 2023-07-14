@@ -41,8 +41,8 @@
         <tr>
           <td>{{ section.section }}</td>
           <td>
-            <div class="{{ section.activeDeactive ? 'active' : 'inactive' }}">
-              {{ section.activeDeactive ? "Active" : "Inactive" }}
+            <div class="{{ !section.activeDeactive ? 'active' : 'inactive' }}">
+              {{ !section.activeDeactive ? "Active" : "Inactive" }}
             </div>
           </td>
           <td>
@@ -57,7 +57,7 @@
               </button>
               <button
                 class="table-action {{
-                  !section.activeDeactive ? 'activate' : 'deactive'
+                  section.activeDeactive ? 'activate' : 'deactive'
                 }}"
                 (click)="onClickRemove(section)"
               >
@@ -67,7 +67,7 @@
                   >block</mat-icon
                 >
                 <span>{{
-                  !section.activeDeactive ? "Activate" : "Deactivate"
+                  section.activeDeactive ? "Activate" : "Deactivate"
                 }}</span>
               </button>
             </div>

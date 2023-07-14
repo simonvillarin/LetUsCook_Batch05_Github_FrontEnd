@@ -49,10 +49,10 @@ tr td {
 
 .active,
 .inactive {
-  width: 6.5rem;
+  width: 5rem;
   margin: 0 auto;
-  padding: 0.5rem;
-  border-radius: 100vmax;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
   color: var(--white);
 }
 
@@ -72,19 +72,21 @@ tr td {
   color: var(--white);
 }
 
+.add-schedule,
 .edit,
 .deactive,
 .activate {
-  font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   cursor: pointer;
 }
 
 .activate {
-  width: 9rem;
-  padding: 0.5rem 0;
   background-color: var(--green);
+}
+
+.add-schedule {
+  background-color: var(--primary);
 }
 
 .edit {
@@ -92,8 +94,6 @@ tr td {
 }
 
 .deactive {
-  width: 9rem;
-  padding: 0.5rem 0;
   background-color: var(--red);
 }
 
@@ -180,7 +180,12 @@ label {
 
 .modal-title {
   font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
-  font-weight: 400;
+  font-weight: 300;
+}
+
+.modal-body {
+  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.25rem);
+  font-weight: 300;
 }
 
 .last-row {
@@ -244,11 +249,13 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
 }
 
 .avatar {
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -270,6 +277,16 @@ img {
 
 .alert-error {
   background-color: var(--red);
+}
+
+.dialog {
+  font-size: clamp(1.125rem, 0.9464rem + 0.8929vw, 1.75rem);
+  font-weight: 300;
+}
+
+.ava {
+  width: 3rem;
+  height: 3rem;
 }
 
 /* ========== MEDIA QUERIES ========== */

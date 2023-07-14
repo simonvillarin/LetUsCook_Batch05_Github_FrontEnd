@@ -132,14 +132,16 @@ export class MainComponent implements OnInit {
   openDialog = () => {
     this.isDialogOpen = true;
     this.getCalendar();
-    this.setupForm.patchValue({
-      startEnrollement: this.calendar[0].startEnrollement,
-      endEnrollment: this.calendar[0].endEnrollment,
-      startClass: this.calendar[0].startClass,
-      endClass: this.calendar[0].endClass,
-      sem: this.calendar[0].sem,
-      academicYear: this.calendar[0].academicYear,
-    });
+    if (this.calendar.length > 0) {
+      this.setupForm.patchValue({
+        startEnrollement: this.calendar[0].startEnrollement,
+        endEnrollment: this.calendar[0].endEnrollment,
+        startClass: this.calendar[0].startClass,
+        endClass: this.calendar[0].endClass,
+        sem: this.calendar[0].sem,
+        academicYear: this.calendar[0].academicYear,
+      });
+    }
   };
 
   closeDialog = () => {
@@ -147,7 +149,6 @@ export class MainComponent implements OnInit {
   };
 
   onSubmit = () => {
-    console.log(1);
     if (this.setupForm.valid) {
       const startEnrollment = this.setupForm.get('startEnrollement')?.value;
       const endEnrollment = this.setupForm.get('endEnrollment')?.value;

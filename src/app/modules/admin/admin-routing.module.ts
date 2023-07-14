@@ -36,7 +36,7 @@ const routes: Routes = [
         component: ProgramComponent,
       },
       {
-        path: 'schedule',
+        path: 'professor/sched/:id',
         component: ScheduleComponent,
       },
       {

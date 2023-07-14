@@ -87,6 +87,7 @@ export class SectionComponent implements OnInit {
     this.isDialogOpen = true;
     this.section = section;
     this.sectionForm.patchValue({
+      programCode: section.program.programCode,
       sectionName: section.sectionName,
     });
     this.section = section;
@@ -129,12 +130,8 @@ export class SectionComponent implements OnInit {
         });
     } else {
       if (this.sectionForm.valid) {
-        const payload = {
-          sectionName: sectionName,
-          activeDeactive: true,
-        };
         this.sectionService
-          .addSection(payload)
+          .addSection(this.sectionForm.value)
           .subscribe(() => this.getAllSections());
         this.alert = true;
         setTimeout(() => (this.alert = false), 3000);
@@ -147,7 +144,10 @@ export class SectionComponent implements OnInit {
       }
     }
   };
-  onCloseDeleteDialog = () => {};
+
+  onCloseDeleteDialog = () => {
+    this.isDeleteDialogOpen = false;
+  };
 
   onDeleteSection = () => {
     if (this.section) {
