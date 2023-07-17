@@ -588,12 +588,22 @@
         <div class="form-group fg">
           <div class="input-group">
             <label>Current Password:</label>
-            <input
-              pInputText
-              placeholder="Current Password"
-              formControlName="currentPassword"
-              *ngIf="editPassword"
-            />
+            <div class="input-grp" *ngIf="editPassword">
+              <input
+                pInputText
+                type="{{ isCurrentPasswordHidden ? 'text' : 'password' }}"
+                formControlName="currentPassword"
+                placeholder="Current Password"
+                *ngIf="editPassword"
+              />
+              <div (click)="toggleCurrentPassword()" *ngIf="editPassword">
+                <span class="material-symbols-rounded mask-icon">
+                  {{
+                    !isCurrentPasswordHidden ? "visibility_off" : "visibility"
+                  }}
+                </span>
+              </div>
+            </div>
             <div class="box" *ngIf="!editPassword"></div>
             <div
               *ngIf="
@@ -610,12 +620,20 @@
           </div>
           <div class="input-group">
             <label>New Password:</label>
-            <input
-              pInputText
-              placeholder="New Password"
-              formControlName="newPassword"
-              *ngIf="editPassword"
-            />
+            <div class="input-grp" *ngIf="editPassword">
+              <input
+                pInputText
+                type="{{ isNewPasswordHidden ? 'text' : 'password' }}"
+                formControlName="newPassword"
+                placeholder="New Password"
+                *ngIf="editPassword"
+              />
+              <div (click)="toggleNewPassword()" *ngIf="editPassword">
+                <span class="material-symbols-rounded mask-icon">
+                  {{ !isNewPasswordHidden ? "visibility_off" : "visibility" }}
+                </span>
+              </div>
+            </div>
             <div class="box" *ngIf="!editPassword"></div>
             <div
               *ngIf="
@@ -652,12 +670,22 @@
           </div>
           <div class="input-group">
             <label>Confirm Password:</label>
-            <input
-              pInputText
-              placeholder="Confirm Password"
-              formControlName="confirmPassword"
-              *ngIf="editPassword"
-            />
+            <div class="input-grp" *ngIf="editPassword">
+              <input
+                pInputText
+                type="{{ isConfirmPasswordHidden ? 'text' : 'password' }}"
+                formControlName="confirmPassword"
+                placeholder="Confirm Password"
+                *ngIf="editPassword"
+              />
+              <div (click)="toggleConfirmPassword()" *ngIf="editPassword">
+                <span class="material-symbols-rounded mask-icon">
+                  {{
+                    !isConfirmPasswordHidden ? "visibility_off" : "visibility"
+                  }}
+                </span>
+              </div>
+            </div>
             <div class="box" *ngIf="!editPassword"></div>
             <div
               *ngIf="

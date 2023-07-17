@@ -1,0 +1,276 @@
+@import "../../../../../variables.scss";
+
+main {
+  min-height: calc(100vh - 4rem);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--light-grayish-blue);
+}
+
+.profile-header,
+.profile-body {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  background-color: white;
+  overflow: hidden;
+}
+
+.profile-header {
+  padding: 0;
+}
+
+.profile-header {
+  min-height: 20rem;
+  display: grid;
+  grid-template-rows: 1.75fr 0.25fr;
+}
+
+.profile-upper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-upper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.edit-banner-icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 100vmax;
+  color: var(--white);
+  background-color: var(--primary);
+  font-size: 0.875rem;
+  z-index: 3;
+}
+
+.file {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transform: translate(2rem, 2.75rem);
+  z-index: 3;
+}
+
+.profile-img-container {
+  position: relative;
+}
+
+.profile-img {
+  width: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
+  height: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.edit-icon-container {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+}
+
+.edit-icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 50%;
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+.name {
+  transform: translateY(1.5rem);
+  color: var(--white);
+}
+
+.name h3 {
+  font-size: clamp(1.125rem, 1.0139rem + 0.5556vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.profile-lower {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 1.5rem;
+  font-size: clamp(0.875rem, 0.8262rem + 0.2439vw, 1rem);
+  font-style: italic;
+}
+
+.profile-body {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+label {
+  font-size: 0.9375rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.input-group > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  width: 100%;
+  height: 3.15rem;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+}
+
+.btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.submit {
+  padding: 0.625rem 1.25rem;
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  color: var(--white);
+  background-color: var(--primary);
+  cursor: pointer;
+}
+
+.submit:hover,
+.submit:focus {
+  background-color: var(--darker-primary);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--primary);
+  background-color: transparent;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.edit:hover,
+.edit:focus {
+  color: var(--darker-primary);
+}
+
+.alert {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--white);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: var(--green);
+}
+
+.alert-error {
+  background-color: var(--red);
+}
+
+.alert-false {
+  justify-content: flex-end;
+}
+
+.input-grp {
+  position: relative;
+}
+
+.mask-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 992px) {
+  main {
+    padding: 1.5rem;
+  }
+
+  .form-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

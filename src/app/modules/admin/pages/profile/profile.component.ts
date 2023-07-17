@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Dropdown } from 'primeng/dropdown';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AccountService } from 'src/app/shared/services/account/account.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
@@ -45,6 +44,10 @@ export class ProfileComponent implements OnInit {
 
   genders = ['Male', 'Female'];
   civil = ['Single', 'Married', 'Divorced', 'Widowed'];
+
+  isCurrentPasswordHidden: boolean = false;
+  isNewPasswordHidden: boolean = false;
+  isConfirmPasswordHidden: boolean = false;
 
   personalForm: FormGroup;
   addressForm: FormGroup;
@@ -216,6 +219,18 @@ export class ProfileComponent implements OnInit {
     return this.passwordForm.get('confirmPassword');
   }
 
+  toggleCurrentPassword = () => {
+    this.isCurrentPasswordHidden = !this.isCurrentPasswordHidden;
+  };
+
+  toggleNewPassword = () => {
+    this.isNewPasswordHidden = !this.isNewPasswordHidden;
+  };
+
+  toggleConfirmPassword = () => {
+    this.isConfirmPasswordHidden = !this.isConfirmPasswordHidden;
+  };
+
   onImageChange = (event: any) => {
     this.fileImage = event.target.files[0];
     const reader = new FileReader();
@@ -365,8 +380,10 @@ export class ProfileComponent implements OnInit {
         this.alertMessage =
           'Current password you entered does not match your current password';
       } else {
-        this.adminService
-          .updateAdmin(this.admin.adminId, this.passwordForm.value)
+        this.accountService
+          .updateAccount(this.admin.adminId, {
+            password: this.passwordForm.get('newPassword')?.value,
+          })
           .subscribe(() => this.getAdminById());
         this.alertPassword = true;
         setTimeout(() => {

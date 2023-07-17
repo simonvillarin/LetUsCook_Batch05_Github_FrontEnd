@@ -1,0 +1,155 @@
+main {
+  min-height: calc(100vh - 4rem);
+  padding: 1.5rem;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+.card {
+  min-width: 280px;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 0.25rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.card-image {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card-image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.card-image:hover img {
+  transform: scale(1.05);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease-in-out;
+}
+
+.card-body,
+.card-footer {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.title {
+  font-size: clamp(1.125rem, 1.0274rem + 0.4878vw, 1.375rem);
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.schedule {
+  margin-top: 0.25rem;
+  font-size: clamp(0.9375rem, 0.9375rem + 0vw, 0.9375rem);
+  font-weight: 300;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card-footer > div {
+  font-weight: 300;
+}
+
+.table {
+  overflow-x: auto;
+}
+
+.table-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pi-search {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+tr th {
+  font-weight: 400;
+  text-align: center;
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+tr td {
+  text-align: center;
+}
+
+.add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  color: var(--white);
+  background-color: var(--primary);
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+}
+
+.add:hover,
+.add:focus {
+  background-color: var(--darker-primary);
+}
+
+.modal-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
+  font-weight: 300;
+}
+
+.modal-body {
+  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.25rem);
+  font-weight: 300;
+}
+
+@media screen and (min-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .card-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

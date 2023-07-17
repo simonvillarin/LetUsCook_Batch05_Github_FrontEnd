@@ -1,42 +1,87 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { CalendarService } from 'src/app/shared/services/calendar/calendar.service';
+import { ProfessorloadService } from 'src/app/shared/services/professorload/professorload.service';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss'],
 })
-export class ScheduleComponent {
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
+export class ScheduleComponent implements OnInit {
+  schedules: any = [];
+  calendar: any;
+  events: any = [];
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
+  constructor(
+    private calendarService: CalendarService,
+    private professorLoadService: ProfessorloadService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.getProfessorLoadByProfessorId();
+    this.getCalendar();
+  }
+
+  getProfessorLoadByProfessorId = () => {
+    this.professorLoadService
+      .getProfessorLoadByProfessorId(this.authService.getUserId())
+      .subscribe((data: any) => {
+        const sortData = data.sort((a: any, b: any) => b.loadId - a.loadId);
+        this.schedules = sortData[0].schedules;
+        this.updateEvents();
+      });
   };
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
+  getCalendar = () => {
+    this.calendarService.getCalendar().subscribe((data: any) => {
+      this.calendar = data;
+      this.updateEvents();
+    });
   };
 
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
+  updateEvents = () => {
+    if (this.schedules && this.calendar) {
+      const startDate = new Date(this.calendar[0].startClass);
+      const endDate = new Date(this.calendar[0].endClass);
+      const temp: any = [];
+
+      while (startDate.getTime() <= endDate.getTime()) {
+        let day: any;
+        if (startDate.getDay() === 1) {
+          day = 'Monday';
+        } else if (startDate.getDay() === 2) {
+          day = 'Tuesday';
+        } else if (startDate.getDay() === 3) {
+          day = 'Wednesday';
+        } else if (startDate.getDay() === 4) {
+          day = 'Thursday';
+        } else if (startDate.getDay() === 5) {
+          day = 'Friday';
+        } else if (startDate.getDay() === 6) {
+          day = 'Saturday';
+        }
+        const scheds = this.schedules.filter((sched: any) => sched.day === day);
+        scheds.forEach((sched: any) => {
+          temp.push({
+            title: sched.subject.subjectTitle,
+            date: startDate.toISOString().split('T')[0],
+          });
+        });
+        startDate.setDate(startDate.getDate() + 1);
+      }
+
+      this.events = temp;
+      this.updateCalendarOptions();
+    }
   };
 
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+  updateCalendarOptions = () => {
+    this.calendarOptions.events = this.events;
   };
-
-  events: any = [
-    { title: 'Intro to Programming', date: '2023-06-27' },
-    { title: 'Code of Ethics', date: '2023-06-28' },
-    { title: 'Theology', date: '2023-06-28' },
-  ];
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',

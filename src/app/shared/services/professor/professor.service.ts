@@ -27,6 +27,14 @@ export class ProfessorService {
     return this.http.post(`${this.BASE_URL}/professor/image`, professor);
   };
 
+  updateImage = (id: number, professor: any) => {
+    return this.http.put(`${this.BASE_URL}/professor/img/${id}`, professor);
+  };
+
+  updateBanner = (id: number, professor: any) => {
+    return this.http.put(`${this.BASE_URL}/professor/banner/${id}`, professor);
+  };
+
   updateProfessor = (id: number, professor: any) => {
     return this.http.put(`${this.BASE_URL}/professor/${id}`, professor);
   };

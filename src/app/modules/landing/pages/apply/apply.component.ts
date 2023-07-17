@@ -52,7 +52,7 @@ export class ApplyComponent implements OnInit {
     private programService: ProgramService
   ) {
     this.applyForm = fb.group({
-      programCode: [''],
+      programId: [''],
       yearLevel: ['', [Validators.required]],
       sem: ['', [Validators.required]],
       academicYear: ['', [Validators.required]],

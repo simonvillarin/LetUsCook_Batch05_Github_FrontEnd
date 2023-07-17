@@ -252,6 +252,19 @@ label {
   justify-content: flex-end;
 }
 
+.input-grp {
+  position: relative;
+}
+
+.mask-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  color: var(--primary);
+  cursor: pointer;
+}
+
 @media screen and (min-width: 992px) {
   main {
     padding: 1.5rem;

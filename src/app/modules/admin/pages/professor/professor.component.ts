@@ -667,9 +667,9 @@ export class ProfessorComponent implements OnInit {
         .deleteSchedule(this.schedule.schedId)
         .subscribe(() => {
           this.getScheduleById();
+          this.confirmationDialog = false;
         });
     }
-    this.confirmationDialog = false;
   };
 
   onSubmitSchedule = () => {
@@ -735,7 +735,20 @@ export class ProfessorComponent implements OnInit {
               }, 3000);
               this.alertStatus = 'Error';
               this.alertMessage = 'Schedule already taken';
-            } else {
+            }
+            // else if (
+            //   (res.message =
+            //     'Please create start and end date of classes first')
+            // ) {
+            //   this.alert = true;
+            //   setTimeout(() => {
+            //     this.alert = false;
+            //   }, 3000);
+            //   this.alertStatus = 'Error';
+            //   this.alertMessage =
+            //     'Please create start and end date of classes first';
+            // }
+            else {
               this.getScheduleById();
               this.alert = true;
               setTimeout(() => {

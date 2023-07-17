@@ -1,0 +1,17 @@
+main {
+  min-height: calc(100vh - 4rem);
+  display: grid;
+  padding: 1.5rem;
+}
+
+.calendar-container {
+  width: 100%;
+  height: calc(100vh - 7rem);
+  overflow-x: auto;
+}
+
+full-calendar {
+  width: 100%;
+  min-width: 1000px;
+  height: 100%;
+}

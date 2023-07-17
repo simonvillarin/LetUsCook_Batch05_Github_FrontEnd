@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
-import { GradeComponent } from './pages/grade/grade.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfessorRoutingModule } from './professor-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -19,11 +18,13 @@ import { EvaluationDialogComponent } from './components/evaluation-dialog/evalua
 import { EvaluationFormDialogComponent } from './components/evaluation-form-dialog/evaluation-form-dialog.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProfMainComponent } from './pages/prof-main/prof-main.component';
+import { CourseComponent } from './pages/course/course.component';
+import { TabViewModule } from 'primeng/tabview';
+
 @NgModule({
   declarations: [
     HomeComponent,
     ScheduleComponent,
-    GradeComponent,
     ProfileComponent,
     EditDialogComponent,
     UploadDialogComponent,
@@ -31,6 +32,7 @@ import { ProfMainComponent } from './pages/prof-main/prof-main.component';
     EvaluationDialogComponent,
     EvaluationFormDialogComponent,
     ProfMainComponent,
+    CourseComponent,
   ],
   imports: [
     ProfessorRoutingModule,
@@ -43,6 +45,7 @@ import { ProfMainComponent } from './pages/prof-main/prof-main.component';
     FullCalendarModule,
     CardModule,
     InputTextareaModule,
+    TabViewModule,
   ],
 })
 export class ProfessorModule {}

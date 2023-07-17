@@ -29,4 +29,8 @@ export class AccountService {
   addAccount = (account: Account) => {
     return this.http.post(`${this.BASE_URL}/account`, account);
   };
+
+  updateAccount = (id: number, account: any) => {
+    return this.http.put(`${this.BASE_URL}/account/${id}`, account);
+  };
 }
