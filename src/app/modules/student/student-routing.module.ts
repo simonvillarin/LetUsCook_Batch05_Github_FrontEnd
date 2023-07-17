@@ -3,25 +3,32 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { CourseComponent } from './pages/course/course.component';
 import { HomeComponent } from './pages/home/home.component';
-import { CurriculumComponent } from './pages/curriculum/curriculum.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { StudentMainComponent } from './pages/student-main/student-main.component';
+import { GradeComponent } from './pages/grade/grade.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-  },
-  {
-    path: 'student/course',
-    component: CourseComponent,
-  },
-  {
-    path: 'student/curriculum',
-    component: CurriculumComponent,
-  },
-  {
-    path: 'student/schedule',
-    component: ScheduleComponent,
+    component: StudentMainComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'course',
+        component: CourseComponent,
+      },
+      {
+        path: 'grades',
+        component: GradeComponent,
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
+    ],
   },
 ];
 

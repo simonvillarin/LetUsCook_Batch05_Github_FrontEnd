@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
 import { CourseComponent } from './pages/course/course.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
-import { CurriculumComponent } from './pages/curriculum/curriculum.component';
 import { StudentRoutingModule } from './student-routing.module';
 import { MatIconModule } from '@angular/material/icon';
 import { TableModule } from 'primeng/table';
@@ -16,14 +15,15 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StudentMainComponent } from './pages/student-main/student-main.component';
+import { GradeComponent } from './pages/grade/grade.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CourseComponent,
     ScheduleComponent,
-    CurriculumComponent,
     StudentMainComponent,
+    GradeComponent,
   ],
   imports: [
     CommonModule,
