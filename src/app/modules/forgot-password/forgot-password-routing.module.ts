@@ -4,11 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { EmailInputComponent } from './pages/email-input/email-input.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { ForgotMainComponent } from './pages/forgot-main/forgot-main.component';
 
 const routes: Routes = [
-  { path: 'otp', component: ForgotPasswordComponent },
-  { path: 'email-input', component: EmailInputComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: '',
+    component: ForgotMainComponent,
+    children: [{ path: '', component: EmailInputComponent }],
+  },
 ];
 
 @NgModule({

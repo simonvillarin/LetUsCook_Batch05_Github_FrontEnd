@@ -82,4 +82,9 @@ export class LoginDialogComponent {
       this.loginForm.markAllAsTouched();
     }
   };
+
+  forgot = () => {
+    this.router.navigate(['/forgot-password']);
+    this.close();
+  };
 }

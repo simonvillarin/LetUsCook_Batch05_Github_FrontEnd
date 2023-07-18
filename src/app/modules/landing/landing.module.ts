@@ -36,5 +36,6 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     CalendarModule,
     KeyFilterModule,
   ],
+  exports: [HeaderComponent, FooterComponent],
 })
 export class LandingModule {}
