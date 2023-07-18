@@ -13,6 +13,7 @@ import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StudentMainComponent } from './pages/student-main/student-main.component';
 import { GradeComponent } from './pages/grade/grade.component';
@@ -34,6 +35,7 @@ import { GradeComponent } from './pages/grade/grade.component';
     InputTextModule,
     DropdownModule,
     ChartModule,
+    RadioButtonModule,
     FullCalendarModule,
     CardModule,
     ReactiveFormsModule,

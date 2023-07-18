@@ -42,6 +42,13 @@ const routes: Routes = [
       ),
     canActivate: [professorGuard],
   },
+  {
+    path: 'forgot-password',
+    loadChildren: () =>
+      import('./modules/forgot-password/forgot-password.module').then(
+        (m) => m.ForgotPasswordModule
+      ),
+  },
 ];
 
 @NgModule({

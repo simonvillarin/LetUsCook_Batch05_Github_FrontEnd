@@ -17,3 +17,48 @@ main {
   gap: 1.5rem;
   padding: 1rem;
 }
+
+.radio-container-row {
+  display: flex;
+  gap: 5rem;
+  padding: 3rem;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  gap: 0.5rem;
+}
+
+p {
+  width: 400px;
+}
+
+.modal-title {
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
+  font-weight: 400;
+  padding: 1rem 0 0 2.7rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 4rem;
+}
+
+.action-btn {
+  width: 7.5rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.625rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary);
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease-in;
+  cursor: pointer;
+}
