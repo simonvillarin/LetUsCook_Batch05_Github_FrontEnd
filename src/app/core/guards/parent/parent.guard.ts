@@ -7,7 +7,7 @@ export const parentGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
     const router = inject(Router);
-    router.navigate(['/']);
+    router.navigate(['/403']);
     return false;
   }
 };
