@@ -1,5 +1,68 @@
 <main>
-  <div class="card-container">
+  <div class="table" *ngIf="!hasSchedule">
+    <p-table
+      [(selection)]="selectedSubjects"
+      [dataKey]="subjects.subjectCode"
+      #dt
+      [value]="subjects"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['subjectCode', 'subjectTitle']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          <div class="action-container">
+            <ng-container *ngIf="selectedSubjects.length > 0">
+              <button class="submit-btn" (click)="onClickSubmit()">
+                Request for Approval
+              </button>
+            </ng-container>
+          </div>
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search"
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>Subject Code</th>
+          <th>Subject Title</th>
+          <th>No. of units</th>
+          <th>Type</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-subject>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="subject"></p-tableCheckbox>
+          </td>
+          <td>{{ subject.subjectCode }}</td>
+          <td>{{ subject.subjectTitle }}</td>
+          <td>{{ subject.units }}</td>
+          <td>{{ subject.type }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="card-container" *ngIf="hasSchedule">
     <p-card header="Introduction to Prog" subheader="MWF 11:30 - 1:00">
       <ng-template pTemplate="header">
         <img

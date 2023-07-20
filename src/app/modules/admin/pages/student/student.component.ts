@@ -7,6 +7,7 @@ import { SectionService } from 'src/app/shared/services/section/section.service'
 import { ApplicationService } from 'src/app/shared/services/application/application.service';
 import { DatePipe } from '@angular/common';
 import { ParentService } from 'src/app/shared/services/parent/parent.service';
+import { AccountService } from 'src/app/shared/services/account/account.service';
 interface UploadEvent {
   originalEvent: HttpEvent<any>;
   files: File[];
@@ -23,6 +24,7 @@ export class StudentComponent implements OnInit {
     private applicationService: ApplicationService,
     private studentService: StudentService,
     private parentService: ParentService,
+    private accountService: AccountService,
     private fb: FormBuilder,
     private messageService: MessageService,
     private datePipe: DatePipe
@@ -140,6 +142,10 @@ export class StudentComponent implements OnInit {
     console.log(payload);
 
     this.applicationService.addApplication(payload).subscribe(() => {
+      this.accountService.deleteAccount(this.student.studentId).subscribe();
+      this.accountService
+        .deleteAccount(this.student.parent.parentId)
+        .subscribe();
       this.parentService.deleteParent(this.student.parent.parentId).subscribe();
       this.studentService
         .deleteStudent(this.student.studentId)
@@ -147,6 +153,7 @@ export class StudentComponent implements OnInit {
           this.getAllStudents();
           this.getAllApplications();
         });
+
       this.isRemoveDialogOpen = false;
     });
   };
@@ -222,5 +229,9 @@ export class StudentComponent implements OnInit {
           this.getAllApplications();
         });
     }
+  };
+
+  onClickEdit = (student: any) => {
+    console.log(student);
   };
 }
