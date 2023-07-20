@@ -105,7 +105,7 @@ export class ProfessorComponent implements OnInit {
     });
     this.scheduleForm = fb.group({
       subject: ['', Validators.required],
-      day: [new FormControl<any[] | null>(null), [Validators.required]],
+      days: [new FormControl<any[] | null>(null), [Validators.required]],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       section: ['', Validators.required],
@@ -137,7 +137,7 @@ export class ProfessorComponent implements OnInit {
       .subscribe((data: any) => {
         const sortData = data.sort((a: any, b: any) => b.schedId - a.schedId);
         this.schedules = sortData;
-        console.log(sortData, 'sorted data');
+        this.filterSubjects();
       });
   };
 
@@ -172,6 +172,16 @@ export class ProfessorComponent implements OnInit {
       });
       this.rooms = rooms;
     });
+  };
+
+  filterSubjects = () => {
+    const exclusion = this.schedules.map(
+      (sub: any) => sub.subject.subjectTitle
+    );
+    console.log(exclusion, 'exclusion');
+    this.subjects = this.subjects.filter(
+      (sub: any) => !exclusion.includes(sub)
+    );
   };
 
   get firstname() {
@@ -274,7 +284,7 @@ export class ProfessorComponent implements OnInit {
   }
 
   get day() {
-    return this.scheduleForm.get('day') as FormControl;
+    return this.scheduleForm.get('days') as FormControl;
   }
 
   get startTime() {
@@ -632,7 +642,7 @@ export class ProfessorComponent implements OnInit {
 
   onAddSchedule = () => {
     console.log(this.prof);
-
+    this.filterSubjects();
     this.title = 'Add Schedule';
     this.isUpdatingSchedule = false;
     this.scheduleForm.reset();
@@ -640,20 +650,30 @@ export class ProfessorComponent implements OnInit {
   };
 
   onEditSchedule = (sched: any) => {
-    console.log(sched, 'edit sched');
-
-    this.title = 'Edit Schedule';
-    this.isUpdatingSchedule = true;
-    this.schedule = sched;
-    this.scheduleForm.patchValue({
-      subject: this.schedule.subject.subjectTitle,
-      day: this.schedule.days,
-      startTime: this.schedule.startTime,
-      endTime: this.schedule.endTime,
-      section: this.schedule.section.section,
-      room: this.schedule.room.roomNumber,
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      let subjects: any = [];
+      sortData.map((sub: any) => {
+        subjects.push(sub.subjectTitle);
+      });
+      this.subjects = subjects;
+      this.subjects = this.subjects.filter(
+        (sub: any) => sub == sched.subject.subjectTitle
+      );
+      this.title = 'Edit Schedule';
+      this.isUpdatingSchedule = true;
+      this.schedule = sched;
+      console.log(this.schedule.subject.subjectTitle, 'edit sched');
+      this.addScheduleDialog = true;
+      this.scheduleForm.patchValue({
+        subject: this.schedule.subject.subjectTitle,
+        days: this.schedule.days,
+        startTime: this.schedule.startTime,
+        endTime: this.schedule.endTime,
+        section: this.schedule.section.section,
+        room: this.schedule.room.roomNumber,
+      });
     });
-    this.addScheduleDialog = true;
   };
 
   onCloseDialog = () => {
@@ -722,48 +742,42 @@ export class ProfessorComponent implements OnInit {
       }
     } else {
       if (this.scheduleForm.valid) {
-        this.selectedDays = this.scheduleForm.get('day')?.value;
-        console.log(this.selectedDays);
-
-        this.selectedDays.map((day: any) => {
-          this.scheduleForm.patchValue({
-            professorId: this.prof.professorId,
-            day: day,
-          });
-          this.scheduleService
-            .addSchedule(this.scheduleForm.value)
-            .subscribe((res: any) => {
-              if (res.message == 'Schedule already exist') {
-                this.alert = true;
-                setTimeout(() => {
-                  this.alert = false;
-                }, 3000);
-                this.alertStatus = 'Error';
-                this.alertMessage = 'Schedule already taken';
-              } else if (
-                (res.message =
-                  'Please create start and end date of classes first')
-              ) {
-                this.alert = true;
-                setTimeout(() => {
-                  this.alert = false;
-                }, 3000);
-                this.alertStatus = 'Error';
-                this.alertMessage =
-                  'Please create start and end date of classes first';
-              } else {
-                this.getScheduleById();
-                this.alert = true;
-                setTimeout(() => {
-                  this.alert = false;
-                }, 3000);
-                this.alertStatus = 'Success';
-                this.alertMessage = 'Section successfully added';
-                this.scheduleForm.reset();
-                this.addScheduleDialog = false;
-              }
-            });
+        this.scheduleForm.patchValue({
+          professorId: this.prof.professorId,
         });
+        this.scheduleService
+          .addSchedule(this.scheduleForm.value)
+          .subscribe((res: any) => {
+            if (res.message == 'Schedule already exist') {
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Schedule already taken';
+              // } else if (
+              //   (res.message =
+              //     'Please create start and end date of classes first')
+              // ) {
+              //   this.alert = true;
+              //   setTimeout(() => {
+              //     this.alert = false;
+              //   }, 3000);
+              //   this.alertStatus = 'Error';
+              //   this.alertMessage =
+              //     'Please create start and end date of classes first';
+            } else {
+              this.getScheduleById();
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Section successfully added';
+              this.scheduleForm.reset();
+              this.addScheduleDialog = false;
+            }
+          });
       } else {
         this.scheduleForm.markAllAsTouched();
       }
