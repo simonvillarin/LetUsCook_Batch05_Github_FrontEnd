@@ -1,8 +1,8 @@
 <main>
   <div class="table" *ngIf="!hasSchedule">
     <p-table
-      [(selection)]="selectedSubjects"
-      [dataKey]="subjects.subjectCode"
+      [(selection)]="schedules"
+      [dataKey]="schedules.schedId"
       #dt
       [value]="subjects"
       [paginator]="true"

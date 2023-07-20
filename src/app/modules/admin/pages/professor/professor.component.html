@@ -526,7 +526,12 @@
   <p-header>
     <div class="avatar-container dialog">
       <div class="avatar ava">
-        <img src="{{ prof.image }}" alt="Prof Image" />
+        <img
+          src="{{
+            prof.image || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Prof Image"
+        />
       </div>
       {{ prof.firstname }} {{ prof.middlename }}
       {{ prof.lastname }}
@@ -580,7 +585,21 @@
       <ng-template pTemplate="body" let-sched>
         <tr>
           <td>{{ sched.subject.subjectTitle }}</td>
-          <td>{{ sched.day }}</td>
+          <td>
+            <ng-container *ngFor="let day of sched.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+          </td>
           <td>{{ sched.startTime }}</td>
           <td>{{ sched.endTime }}</td>
           <td>{{ sched.section.section }}</td>
@@ -670,13 +689,15 @@
       </div>
       <div class="input-group">
         <label>Day:</label>
-        <p-dropdown
+        <p-multiSelect
           [options]="days"
+          optionLabel="name"
+          optionValue="name"
           placeholder="Select a day"
-          formControlName="day"
+          formControlName="days"
           appendTo="body"
           [style]="{ width: '100%' }"
-        ></p-dropdown>
+        ></p-multiSelect>
         <div *ngIf="day?.invalid && (day?.dirty || day?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"

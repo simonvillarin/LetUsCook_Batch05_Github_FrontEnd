@@ -149,6 +149,7 @@
               <td>
                 <div class="table-actions">
                   <button
+                    *ngIf="student.tempSched.length > 0"
                     class="table-action edit"
                     title="Set as pending enrollee"
                     (click)="onClickEdit(student)"

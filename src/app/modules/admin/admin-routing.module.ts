@@ -5,7 +5,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { CourseComponent } from './pages/course/course.component';
 import { CurriculumComponent } from './pages/curriculum/curriculum.component';
 import { ProgramComponent } from './pages/program/program.component';
-import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ParentComponent } from './pages/parent/parent.component';
 import { ProfessorComponent } from './pages/professor/professor.component';
 import { StudentComponent } from './pages/student/student.component';
@@ -34,10 +33,6 @@ const routes: Routes = [
       {
         path: 'program',
         component: ProgramComponent,
-      },
-      {
-        path: 'professor/sched/:id',
-        component: ScheduleComponent,
       },
       {
         path: 'parent',

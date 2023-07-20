@@ -100,7 +100,7 @@ export class StudentComponent implements OnInit {
     console.log(this.student, 'is the student');
 
     const payload = {
-      programId: this.student.program.programId,
+      programCode: this.student.program.programCode,
       yearLevel: this.student.yearLevel,
       sem: this.student.sem,
       academicYear: this.student.academicYear,
