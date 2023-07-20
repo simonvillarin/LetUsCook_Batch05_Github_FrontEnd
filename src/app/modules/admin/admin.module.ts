@@ -30,6 +30,8 @@ import { RoomComponent } from './pages/room/room.component';
 import { CalendarModule } from 'primeng/calendar';
 import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import { TooltipModule } from 'primeng/tooltip';
     CalendarModule,
     TabViewModule,
     TooltipModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
 })
 export class AdminModule {}

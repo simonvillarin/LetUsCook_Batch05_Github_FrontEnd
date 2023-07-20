@@ -725,6 +725,8 @@ export class ProfessorComponent implements OnInit {
         this.scheduleForm.patchValue({
           professorId: this.prof.professorId,
         });
+        console.log(this.scheduleForm.value);
+
         this.scheduleService
           .addSchedule(this.scheduleForm.value)
           .subscribe((res: any) => {

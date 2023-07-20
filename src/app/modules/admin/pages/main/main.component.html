@@ -1,257 +1,287 @@
-<div class="container">
-  <div class="sidebar">
-    <div class="logo">
-      <mat-icon class="material-icons-outlined">school</mat-icon
-      ><span>Educate University</span>
+<div class="sidebar" [class.hide]="!isShowMobileNav">
+  <div class="logo">
+    <span class="material-symbols-rounded"> school </span>
+    <span>Educate University</span>
+  </div>
+  <nav>
+    <div class="close" (click)="closeMobileNav()">
+      <span class="material-symbols-rounded"> close </span>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/admin/home"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Home')"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/course"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Course')"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Course</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/program"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Program')"
-        >
-          <mat-icon class="material-icons-outlined">description</mat-icon>
-          <span>Program</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/section"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Section')"
-        >
-          <mat-icon class="material-icons-outlined">safety_divider</mat-icon>
-          <span>Section</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/room"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Room')"
-        >
-          <mat-icon class="material-icons-outlined">meeting_room</mat-icon>
-          <span>Room</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/professor"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Professor')"
-        >
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>
-          <span>Professor</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/student"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Student')"
-        >
-          <mat-icon class="material-icons-outlined">man</mat-icon>
-          <span>Student</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/parent"
-          routerLinkActive="link-active"
-          (click)="onChangeRoute('Parent')"
-        >
-          <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
-          <span>Parent</span>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <div class="mobile-nav" [class.close-dropdown-mobile]="isShowMobileNav">
-    <div class="close-icon" (click)="closeMobileNav()">
-      <mat-icon fontIcon="close"></mat-icon>
+    <div
+      class="link"
+      routerLink="/admin/home"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Home')"
+    >
+      <span class="material-symbols-rounded"> home </span>
+      <span>Home</span>
     </div>
-    <nav>
-      <div class="links">
-        <div
-          class="link"
-          routerLink="/admin/home"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Home')"
-        >
-          <mat-icon class="material-icons-outlined">home</mat-icon>
-          <span>Home</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/course"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Course')"
-        >
-          <mat-icon class="material-icons-outlined">menu_book</mat-icon>
-          <span>Course</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/program"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Program')"
-        >
-          <mat-icon class="material-icons-outlined">description</mat-icon>
-          <span>Program</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/section"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Section')"
-        >
-          <mat-icon class="material-icons-outlined">safety_divider</mat-icon>
-          <span>Section</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/room"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Room')"
-        >
-          <mat-icon class="material-icons-outlined">meeting_room</mat-icon>
-          <span>Room</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/professor"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Professor')"
-        >
-          <mat-icon class="material-icons-outlined">man_4</mat-icon>
-          <span>Professor</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/student"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Student')"
-        >
-          <mat-icon class="material-icons-outlined">man</mat-icon>
-          <span>Student</span>
-        </div>
-        <div
-          class="link"
-          routerLink="/admin/parent"
-          routerLinkActive="mobile-link-active"
-          (click)="onChangeRoute('Parent')"
-        >
-          <mat-icon class="material-icons-outlined">escalator_warning</mat-icon>
-          <span>Parent</span>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <div class="main-container">
-    <header>
-      <div class="left-nav">
-        <div class="menu-icon" (click)="openMobileNav()">
-          <mat-icon fontIcon="menu"></mat-icon>
-        </div>
-        <div class="location">
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Home'"
-            >home</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Program'"
-            >description</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Course'"
-            >menu_book</mat-icon
-          >
-          <mat-icon
-            class="material-icons-outlined"
-            *ngIf="route == 'Curriculum'"
-            >event_note</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Professor'"
-            >man_4</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Section'"
-            >safety_divider</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Room'"
-            >meeting_room</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Schedule'"
-            >event_available</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Student'"
-            >man</mat-icon
-          >
-          <mat-icon class="material-icons-outlined" *ngIf="route == 'Parent'"
-            >escalator_warning</mat-icon
-          ><span>{{ route }}</span>
-        </div>
-      </div>
-      <div class="right-nav">
-        <div class="setup-container">
-          <button class="setup" (click)="openDialog()">SETUP</button>
-        </div>
-        <div class="profile">
-          <div class="avatar" (click)="toggleShowDropdown()">
-            <div class="img">
-              <img
-                src="../../../../assets/images/itachi.jpg"
-                alt="Profile Image"
-              />
-            </div>
-          </div>
-          <div class="name">
-            <div class="type">
-              <span>{{ admin.firstname }} {{ admin.lastname }}</span>
-              <div class="role">Admin</div>
-            </div>
-            <div (click)="toggleShowDropdown()">
-              <mat-icon
-                fontIcon="expand_more"
-                class="arrow-down"
-                [class.arrow-down-active]="isShowDropdown"
-              ></mat-icon>
-            </div>
-          </div>
-
-          <div class="dropdown" [class.dropdown-active]="isShowDropdown">
-            <div class="border"></div>
-            <div class="dropdown-links">
-              <div class="dropdown-link" (click)="profile()">
-                <mat-icon class="material-icons-outlined">person</mat-icon
-                ><span>Profile</span>
-              </div>
-              <div class="dropdown-link" (click)="logout()">
-                <mat-icon class="material-icons-outlined">logout</mat-icon
-                ><span>Logout</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <router-outlet></router-outlet>
-  </div>
+    <div
+      class="link"
+      routerLink="/admin/course"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Course')"
+    >
+      <span class="material-symbols-rounded"> menu_book </span>
+      <span>Course</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/admin/program"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Program')"
+    >
+      <span class="material-symbols-rounded"> description </span>
+      <span>Program</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/admin/section"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Section')"
+    >
+      <span class="material-symbols-rounded"> safety_divider </span>
+      <span>Section</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/admin/room"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Room')"
+    >
+      <span class="material-symbols-rounded"> meeting_room </span>
+      <span>Room</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/admin/professor"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Professor')"
+    >
+      <span class="material-symbols-rounded"> man_4 </span>
+      <span>Professor</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/admin/student"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Student')"
+    >
+      <span class="material-symbols-rounded"> man </span>
+      <span>Student</span>
+    </div>
+    <div
+      class="link"
+      routerLink="/admin/parent"
+      routerLinkActive="link-active"
+      (click)="onChangeRoute('Parent')"
+    >
+      <span class="material-symbols-rounded"> escalator_warning </span>
+      <span>Parent</span>
+    </div>
+  </nav>
 </div>
+
+<main [class.overflow-hidden]="isShowMobileNav">
+  <header>
+    <div class="left-header">
+      <div class="menu-icon" (click)="openMobileNav()">
+        <span class="material-symbols-rounded"> menu </span>
+      </div>
+      <div class="location">{{ route }}</div>
+    </div>
+    <div class="right-header">
+      <button class="setup" (click)="openDialog()">SETUP</button>
+      <div class="profile">
+        <div class="avatar" (click)="toggleShowDropdown()">
+          <img src="../../../../assets/images/itachi.jpg" alt="Profile Image" />
+        </div>
+        <div class="name">
+          <div class="type">
+            <span
+              >{{ admin.firstname }} {{ admin.middlename }}
+              {{ admin.lastname }}</span
+            >
+            <div>Admin</div>
+          </div>
+          <div class="arrow" (click)="toggleShowDropdown()">
+            <span
+              class="material-symbols-rounded arrow"
+              [class.arrow-active]="isShowDropdown"
+            >
+              expand_more
+            </span>
+          </div>
+        </div>
+
+        <div class="dropdown" [class.dropdown-active]="isShowDropdown">
+          <div class="dropdown-link" (click)="profile()">Profile</div>
+          <div class="dropdown-link" (click)="logout()">Logout</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <router-outlet></router-outlet>
+</main>
+
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">School Calendar</div>
+  </p-header>
+  <div
+    class="alert {{
+      alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+    }}"
+    *ngIf="alert"
+  >
+    <mat-icon
+      class="material-icons-outlined alert-icon"
+      *ngIf="alertStatus == 'Error'"
+      >error</mat-icon
+    >
+    <mat-icon
+      class="material-icons-outlined alert-icon"
+      *ngIf="alertStatus == 'Success'"
+      >check</mat-icon
+    >
+    {{ alertMessage }}
+  </div>
+  <form [formGroup]="setupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="input-group">
+        <label>Start of Enrollment:</label>
+        <p-calendar
+          formControlName="startEnrollement"
+          placeholder="Select start of enrollment date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
+        <div
+          *ngIf="
+            enrolmentStart.invalid &&
+            (enrolmentStart?.dirty || enrolmentStart?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="enrolmentStart?.errors?.['required']"
+            >Start of enrollment is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>End of Enrollment:</label>
+        <p-calendar
+          formControlName="endEnrollment"
+          placeholder="Select end of enrollment date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
+        <div
+          *ngIf="
+            enrolmentEnd.invalid &&
+            (enrolmentEnd?.dirty || enrolmentEnd?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="enrolmentEnd?.errors?.['required']"
+            >End of enrollment is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Start of Classes:</label>
+        <p-calendar
+          formControlName="startClass"
+          placeholder="Select start of classes date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
+        <div
+          *ngIf="
+            classStart.invalid && (classStart?.dirty || classStart?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="classStart?.errors?.['required']"
+            >Start of classes is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>End of Classes:</label>
+        <p-calendar
+          formControlName="endClass"
+          placeholder="Select end of classes date"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+        ></p-calendar>
+        <div *ngIf="classEnd.invalid && (classEnd?.dirty || classEnd?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="classEnd?.errors?.['required']"
+            >End of classes is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Term:</label>
+        <p-dropdown
+          [options]="terms"
+          placeholder="Select a term"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="sem"
+        ></p-dropdown>
+        <div *ngIf="semester.invalid && (semester?.dirty || semester?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="semester?.errors?.['required']"
+            >Term is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>School Year:</label>
+        <p-dropdown
+          [options]="schoolYear"
+          placeholder="Select a school year"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          formControlName="academicYear"
+        ></p-dropdown>
+        <div
+          *ngIf="
+            academicYear?.invalid &&
+            (academicYear?.dirty || academicYear?.touched)
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="academicYear?.errors?.['required']"
+            >School year is required</small
+          >
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="action-btn cancel" type="button" (click)="closeDialog()">
+        Cancel
+      </button>
+      <button class="action-btn submit" type="submit">Save</button>
+    </div>
+  </form>
+</p-dialog>
 
 <p-dialog
   [(visible)]="isDialogOpen"

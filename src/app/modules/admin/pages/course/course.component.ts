@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,6 +8,9 @@ import {
 } from '@angular/forms';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-course',
@@ -15,17 +18,27 @@ import { ProgramService } from 'src/app/shared/services/program/program.service'
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
+  displayedColumns: string[] = [
+    'subjectCode',
+    'subjectTitle',
+    'units',
+    'preRequisites',
+    'type',
+    'status',
+    'actions',
+  ];
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   courseForm: FormGroup;
   preRequisiteFormArray: FormArray;
 
-  subjects: any[] = [];
   subject: any;
+  subjects: any = [];
   programs: string[] = [];
   types = ['Major', 'Minor', 'Elective'];
 
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
   isDialogOpen: boolean = false;
   isDeleteDialogOpen: boolean = false;
   isUpdating: boolean = false;
@@ -33,6 +46,7 @@ export class CourseComponent implements OnInit {
 
   title: string = '';
   status: boolean = false;
+  search: string = '';
 
   constructor(
     private courseService: CourseService,
@@ -55,6 +69,17 @@ export class CourseComponent implements OnInit {
     this.getAllSubjects();
     this.getAllProgramCodes();
   }
+
+  getAllSubjects = () => {
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      this.dataSource = data.sort(
+        (a: any, b: any) => b.subjectId - a.subjectId
+      );
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  };
 
   getAllProgramCodes = () => {
     this.programService.getAllPrograms().subscribe((data: any) => {
@@ -84,45 +109,36 @@ export class CourseComponent implements OnInit {
     return this.courseForm.get('type') as FormControl;
   }
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
-  };
-
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
-
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-    scroll(0, 0);
-  };
-
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+  searchFilter = (searchTerm: any) => {
+    if (searchTerm != '') {
+      const sortData = this.subjects.filter(
+        (subject: any) =>
+          subject.subjectTitle
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          subject.subjectCode.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      this.dataSource = sortData;
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    } else {
+      this.dataSource = this.subjects;
+    }
   };
 
   onClickAdd = () => {
     this.title = 'Add Subject';
+    this.isUpdating = false;
     this.isDialogOpen = true;
     this.preRequisiteFormArray.reset();
     this.courseForm.reset();
     this.courseForm.markAsUntouched();
-    this.isUpdating = false;
   };
 
   onClickCancel = () => {
     this.isDialogOpen = false;
     this.courseForm.reset();
-  };
-
-  getAllSubjects = () => {
-    this.courseService.getAllSubjects().subscribe((data: any) => {
-      this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
-    });
   };
 
   onClickSave = () => {
@@ -132,7 +148,7 @@ export class CourseComponent implements OnInit {
         const subjectCode = this.courseForm.get('subjectCode')?.value;
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
-        const preRequisite = this.courseForm.get('preRequisites')?.value;
+        const preRequisites = this.courseForm.get('preRequisites')?.value;
         const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
@@ -145,8 +161,8 @@ export class CourseComponent implements OnInit {
         if (this.subject.units != unit) {
           payload.units = unit;
         }
-        if (this.subject.preRequisite != preRequisite) {
-          payload.preRequisite = preRequisite;
+        if (this.subject.preRequisites != preRequisites) {
+          payload.preRequisites = preRequisites;
         }
         if (this.subject.type != type) {
           payload.type = type;
@@ -159,18 +175,8 @@ export class CourseComponent implements OnInit {
             } else if (res.message == 'Subject title already exist') {
               alert('Subject title already exist');
             } else {
-              const index = this.subjects.findIndex(
-                (subject: any) => subject.subjectId == this.subject.subjectId
-              );
-
-              this.subjects[index].subjectCode = subjectCode;
-              this.subjects[index].subjectTitle = subjectTitle;
-              this.subjects[index].units = unit;
-              this.subjects[index].preRequisite = preRequisite;
-              this.subjects[index].type = type;
-              this.isDialogOpen = false;
+              this.getAllSubjects();
               this.courseForm.reset();
-              this.isUpdating = false;
             }
           });
       } else {
@@ -231,12 +237,7 @@ export class CourseComponent implements OnInit {
     let payload = { activeDeactive: !this.subject.activeDeactive };
     this.courseService
       .updateSubject(this.subject.subjectId, payload)
-      .subscribe();
-    const index = this.subjects.findIndex(
-      (subject: any) => subject.subjectId == this.subject.subjectId
-    );
-    this.subjects[index].activeDeactive = !this.subject.activeDeactive;
-    this.status = !this.subject.activeDeactive;
+      .subscribe(() => this.getAllSubjects());
   };
 
   clearForm = () => {
