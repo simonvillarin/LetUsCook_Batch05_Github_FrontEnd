@@ -23,8 +23,8 @@ export class ScheduleService {
     return this.http.post(`${this.BASE_URL}/schedule`, schedule);
   };
 
-  updateSchedule = (id: number, schedule: any) => {
-    return this.http.put(`${this.BASE_URL}/schedule/${id}`, schedule);
+  updateSchedule = (schedule: any) => {
+    return this.http.put(`${this.BASE_URL}/schedule`, schedule);
   };
 
   deleteSchedule = (id: number) => {

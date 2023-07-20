@@ -13,6 +13,7 @@ import { StudentService } from 'src/app/shared/services/student/student.service'
 export class CourseComponent {
   subjects: any = [];
   selectedSubjects: any[] = [];
+  schedules: any = [];
   sh: any = [];
   studentId: any;
   student: any;
@@ -211,7 +212,7 @@ export class CourseComponent {
         data.minors?.map((sub: any) => {
           this.subjects.push(sub);
         });
-        data.elecctives?.map((sub: any) => {
+        data.electives?.map((sub: any) => {
           this.subjects.push(sub);
         });
       });
@@ -225,6 +226,6 @@ export class CourseComponent {
     const payload = {
       tempSchedId: subjArr,
     };
-    // this.studentService.updateStudent(this.studentId, payload).subscribe();
+    this.studentService.updateStudent(this.studentId, payload).subscribe();
   };
 }

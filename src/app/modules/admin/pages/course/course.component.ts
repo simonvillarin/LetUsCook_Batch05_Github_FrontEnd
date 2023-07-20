@@ -132,7 +132,7 @@ export class CourseComponent implements OnInit {
         const subjectCode = this.courseForm.get('subjectCode')?.value;
         const subjectTitle = this.courseForm.get('subjectTitle')?.value;
         const unit = this.courseForm.get('units')?.value;
-        const preRequisite = this.courseForm.get('preRequisites')?.value;
+        const preRequisites = this.courseForm.get('preRequisites')?.value;
         const type = this.courseForm.get('type')?.value;
         let payload: any = {};
 
@@ -145,8 +145,8 @@ export class CourseComponent implements OnInit {
         if (this.subject.units != unit) {
           payload.units = unit;
         }
-        if (this.subject.preRequisite != preRequisite) {
-          payload.preRequisite = preRequisite;
+        if (this.subject.preRequisites != preRequisites) {
+          payload.preRequisites = preRequisites;
         }
         if (this.subject.type != type) {
           payload.type = type;
@@ -166,12 +166,13 @@ export class CourseComponent implements OnInit {
               this.subjects[index].subjectCode = subjectCode;
               this.subjects[index].subjectTitle = subjectTitle;
               this.subjects[index].units = unit;
-              this.subjects[index].preRequisite = preRequisite;
+              this.subjects[index].preRequisite = preRequisites;
               this.subjects[index].type = type;
               this.isDialogOpen = false;
               this.courseForm.reset();
               this.isUpdating = false;
             }
+            this.getAllSubjects();
           });
       } else {
         this.courseForm.markAllAsTouched();
