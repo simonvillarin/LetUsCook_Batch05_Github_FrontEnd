@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { StudentHistoryService } from 'src/app/shared/services/student-history/student-history.service';
+import { StudentService } from 'src/app/shared/services/student/student.service';
 
 @Component({
   selector: 'app-course',
@@ -7,10 +11,18 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent {
+  subjects: any = [];
+  selectedSubjects: any[] = [];
+  sh: any = [];
+  studentId: any;
+  student: any;
+
   isShowDropdown = false;
   isShowMobileNav = false;
   isShowNotifications = false;
   isDialogOpen: boolean = false;
+  hasSchedule: boolean = false;
+  isFreshman: boolean = true;
 
   title: string = '';
 
@@ -132,9 +144,17 @@ export class CourseComponent {
     this.evaluationQuestions.forEach((question) => {
       this.evaluationForm.addControl(question.sentence, new FormControl(''));
     });
+    this.studentId = this.authService.getUserId();
+    this.getStudent();
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private studentService: StudentService,
+    private programService: ProgramService,
+    private authService: AuthService,
+    private subjectHistService: StudentHistoryService
+  ) {
     this.evaluationForm = this.fb.group({});
   }
 
@@ -147,23 +167,64 @@ export class CourseComponent {
     console.log(this.evaluationForm.value);
   };
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
+  getStudent = () => {
+    console.log(this.studentId);
+
+    this.studentService
+      .getStudentById(this.studentId)
+      .subscribe((data: any) => {
+        this.student = data;
+        console.log(this.student);
+        if (this.student.schedules == null) {
+          console.log('Dont display table subjects');
+        } else {
+          console.log('display table subjects');
+        }
+        this.getStudentSubjectHistory();
+        if (this.isFreshman) {
+          this.getAllSubjects();
+        } else {
+        }
+      });
   };
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
+  getStudentSched = () => {};
+
+  getStudentSubjectHistory = () => {
+    this.subjectHistService
+      .getStudentHistory(this.studentId)
+      .subscribe((data) => {
+        this.sh = data;
+        if (this.sh.size != 0 || data != null) {
+          this.isFreshman = false;
+        }
+      });
   };
 
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
+  getAllSubjects = () => {
+    this.programService
+      .getProgramById(this.student.program.programId)
+      .subscribe((data: any) => {
+        data.majors?.map((sub: any) => {
+          this.subjects.push(sub);
+        });
+        data.minors?.map((sub: any) => {
+          this.subjects.push(sub);
+        });
+        data.elecctives?.map((sub: any) => {
+          this.subjects.push(sub);
+        });
+      });
   };
 
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+  onClickSubmit = () => {
+    let subjArr: any = [];
+    this.selectedSubjects.map((data: any) => subjArr.push(data.subjectId));
+
+    console.log(subjArr);
+    const payload = {
+      tempSchedId: subjArr,
+    };
+    // this.studentService.updateStudent(this.studentId, payload).subscribe();
   };
 }

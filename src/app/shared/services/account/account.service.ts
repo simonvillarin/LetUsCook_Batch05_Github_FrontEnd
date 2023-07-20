@@ -33,4 +33,8 @@ export class AccountService {
   updateAccount = (id: number, account: any) => {
     return this.http.put(`${this.BASE_URL}/account/${id}`, account);
   };
+
+  deleteAccount = (id: number) => {
+    return this.http.delete(`${this.BASE_URL}/account/${id}`);
+  };
 }

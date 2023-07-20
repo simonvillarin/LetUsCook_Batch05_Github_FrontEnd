@@ -151,6 +151,18 @@
                   <button
                     class="table-action edit"
                     title="Set as pending enrollee"
+                    (click)="onClickEdit(student)"
+                  >
+                    <mat-icon
+                      class="material-icons-outlined"
+                      pTooltip="Edit student subjects"
+                      >cancel</mat-icon
+                    >
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    class="table-action edit"
+                    title="Set as pending enrollee"
                     (click)="onClickRemove(student)"
                   >
                     <mat-icon

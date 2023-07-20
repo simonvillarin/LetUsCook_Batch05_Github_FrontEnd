@@ -1,0 +1,38 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+p {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+button {
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary);
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.625rem 1.25rem;
+  cursor: pointer;
+  transform: background-color 300ms ease-in;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--darker-primary);
+}

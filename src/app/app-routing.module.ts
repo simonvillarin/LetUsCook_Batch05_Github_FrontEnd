@@ -4,6 +4,8 @@ import { adminGuard } from './core/guards/admin/admin.guard';
 import { studentGuard } from './core/guards/student/student.guard';
 import { professorGuard } from './core/guards/professor/professor.guard';
 import { parentGuard } from './core/guards/parent/parent.guard';
+import { UnauthorizedComponent } from './modules/error/components/unauthorized/unauthorized.component';
+import { NotFoundComponent } from './modules/error/components/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -48,6 +50,14 @@ const routes: Routes = [
       import('./modules/forgot-password/forgot-password.module').then(
         (m) => m.ForgotPasswordModule
       ),
+  },
+  {
+    path: '403',
+    component: UnauthorizedComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 
