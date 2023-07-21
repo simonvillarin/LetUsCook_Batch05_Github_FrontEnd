@@ -134,6 +134,7 @@ export class ProgramComponent implements OnInit {
 
   addUnits(): void {
     this.units.push(this.fb.control(''));
+    this.units.push(this.fb.control(''));
   }
 
   onYearsToCompleteChange(value: any) {

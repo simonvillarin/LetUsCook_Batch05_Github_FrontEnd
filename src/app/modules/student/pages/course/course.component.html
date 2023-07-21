@@ -4,7 +4,7 @@
       [(selection)]="schedules"
       [dataKey]="schedules.schedId"
       #dt
-      [value]="subjects"
+      [value]="schedules"
       [paginator]="true"
       [rows]="10"
       [showCurrentPageReport]="true"
@@ -43,21 +43,41 @@
           <th style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th>Subject Code</th>
-          <th>Subject Title</th>
-          <th>No. of units</th>
-          <th>Type</th>
+          <th>Subject</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Day</th>
+          <th>Time</th>
+          <th>Section</th>
+          <th>Room</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-subject>
+      <ng-template pTemplate="body" let-sched>
         <tr>
           <td>
-            <p-tableCheckbox [value]="subject"></p-tableCheckbox>
+            <p-tableCheckbox [value]="sched"></p-tableCheckbox>
           </td>
-          <td>{{ subject.subjectCode }}</td>
-          <td>{{ subject.subjectTitle }}</td>
-          <td>{{ subject.units }}</td>
-          <td>{{ subject.type }}</td>
+          <td>{{ sched.subject.subjectTitle }}</td>
+          <td>{{ sched.startDate }}</td>
+          <td>{{ sched.endDate }}</td>
+          <td>
+            <ng-container *ngFor="let day of sched.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+          </td>
+          <td>{{ sched.startTime }} - {{ sched.endTime }}</td>
+          <td>{{ sched.section.section }}</td>
+          <td>{{ sched.room.roomNumber }}</td>
         </tr>
       </ng-template>
     </p-table>

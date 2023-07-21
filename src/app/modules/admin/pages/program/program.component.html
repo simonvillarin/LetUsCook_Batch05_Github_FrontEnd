@@ -119,7 +119,11 @@
     <div class="form-group">
       <div class="input-group">
         <label>Program Code</label>
-        <input pInputText formControlName="programCode" />
+        <input
+          pInputText
+          formControlName="programCode"
+          placeholder="Program Code"
+        />
         <div
           *ngIf="
             programCode.invalid && (programCode?.dirty || programCode?.touched)
@@ -134,7 +138,11 @@
       </div>
       <div class="input-group">
         <label>Program Title</label>
-        <input pInputText formControlName="programTitle" />
+        <input
+          pInputText
+          formControlName="programTitle"
+          placeholder="Program Title"
+        />
         <div
           *ngIf="
             programTitle.invalid &&
@@ -170,40 +178,41 @@
           >
         </div>
       </div>
-      <div
-        class="input-group"
-        formArrayName="units"
-        *ngFor="let unit of units.controls; let i = index"
-      >
-        <label
-          >{{
-            i + 1 == 1
-              ? "First Year"
-              : i + 1 == 2
-              ? "Second Year"
-              : i + 1 == 3
-              ? "Third Year"
-              : i + 1 == 4
-              ? "Fourth Year"
-              : "Fifth Year"
-          }}
-          Units to Complete</label
+      <div class="fg">
+        <div
+          class="input-group"
+          formArrayName="units"
+          *ngFor="let unit of units.controls; let i = index"
         >
-        <input
-          pInputText
-          placeholder="{{
-            i + 1 == 1
-              ? 'First year'
-              : i + 1 == 2
-              ? 'Second year'
-              : i + 1 == 3
-              ? 'Third year'
-              : i + 1 == 4
-              ? 'Fourth year'
-              : 'Fifth year'
-          }} units"
-          [formControlName]="i"
-        />
+          <label class="{{ i % 2 != 0 ? 'd-none' : '' }}"
+            >{{
+              i == 0
+                ? "First Year"
+                : i == 2
+                ? "Second Year"
+                : i == 4
+                ? "Third Year"
+                : i == 6
+                ? "Fourth Year"
+                : i == 8
+                ? "Fifth Year"
+                : ""
+            }}
+            Units to Complete</label
+          >
+          <div class="ig">
+            <label>{{
+              i % 2 == 0 ? "First Term Units" : "Second Term Units"
+            }}</label>
+            <input
+              pInputText
+              placeholder="{{
+                i % 2 == 0 ? 'First term' : 'Second term'
+              }} units"
+              [formControlName]="i"
+            />
+          </div>
+        </div>
       </div>
       <div class="input-group">
         <label>Major Subject</label>

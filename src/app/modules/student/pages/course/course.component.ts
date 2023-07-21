@@ -148,14 +148,13 @@ export class CourseComponent {
     });
     this.studentId = this.authService.getUserId();
     this.getStudent();
+    this.getAllSubjects();
   }
 
   constructor(
     private fb: FormBuilder,
     private studentService: StudentService,
-    private programService: ProgramService,
     private authService: AuthService,
-    private subjectHistService: StudentHistoryService,
     private scheduleService: ScheduleService
   ) {
     this.evaluationForm = this.fb.group({});
@@ -183,40 +182,15 @@ export class CourseComponent {
         } else {
           this.hasSchedule = true;
         }
-        this.getStudentSubjectHistory();
-        if (this.isFreshman) {
-          this.getAllSubjects();
-        } else {
-        }
-      });
-  };
-
-  getStudentSched = () => {};
-
-  getStudentSubjectHistory = () => {
-    this.subjectHistService
-      .getStudentHistoryById(this.studentId)
-      .subscribe((data) => {
-        this.sh = data;
-        if (this.sh.length != 0) {
-          this.isFreshman = false;
-        }
       });
   };
 
   getAllSubjects = () => {
-    this.programService
-      .getProgramById(this.student.program.programId)
+    this.scheduleService
+      .getScheduleByStudentId(this.authService.getUserId())
       .subscribe((data: any) => {
-        data.majors?.map((sub: any) => {
-          this.subjects.push(sub);
-        });
-        data.minors?.map((sub: any) => {
-          this.subjects.push(sub);
-        });
-        data.electives?.map((sub: any) => {
-          this.subjects.push(sub);
-        });
+        this.schedules = data;
+        console.log(this.schedules);
       });
   };
 

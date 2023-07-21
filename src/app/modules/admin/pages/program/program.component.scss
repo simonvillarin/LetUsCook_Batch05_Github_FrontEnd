@@ -110,6 +110,21 @@ form {
   gap: 0.25rem;
 }
 
+.fg {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.ig {
+  display: flex;
+  flex-direction: column;
+}
+
+.d-none {
+  opacity: 0;
+}
+
 label {
   font-size: 0.935rem;
 }

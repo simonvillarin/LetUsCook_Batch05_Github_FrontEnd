@@ -19,6 +19,10 @@ export class ScheduleService {
     return this.http.get<Schedule>(`${this.BASE_URL}/schedule/${id}`);
   };
 
+  getScheduleByStudentId = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.BASE_URL}/schedule/student/${id}`);
+  };
+
   addSchedule = (schedule: any) => {
     return this.http.post(`${this.BASE_URL}/schedule`, schedule);
   };
