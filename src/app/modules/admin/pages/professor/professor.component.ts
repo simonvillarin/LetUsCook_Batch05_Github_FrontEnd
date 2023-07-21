@@ -175,13 +175,20 @@ export class ProfessorComponent implements OnInit {
   };
 
   filterSubjects = () => {
-    const exclusion = this.schedules.map(
-      (sub: any) => sub.subject.subjectTitle
-    );
-    console.log(exclusion, 'exclusion');
-    this.subjects = this.subjects.filter(
-      (sub: any) => !exclusion.includes(sub)
-    );
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      let subjects: any = [];
+      sortData.map((sub: any) => {
+        subjects.push(sub.subjectTitle);
+      });
+      this.subjects = subjects;
+      const exclusion = this.schedules.map(
+        (sub: any) => sub.subject.subjectTitle
+      );
+      this.subjects = this.subjects.filter(
+        (sub: any) => !exclusion.includes(sub)
+      );
+    });
   };
 
   get firstname() {
@@ -693,12 +700,12 @@ export class ProfessorComponent implements OnInit {
     if (this.deleteProfessor) {
       this.onDeleteProfessor();
     } else {
-      this.scheduleService
-        .deleteSchedule(this.schedule.schedId)
-        .subscribe(() => {
+      this.schedule.schedId.map((id: number) => {
+        this.scheduleService.deleteSchedule(id).subscribe(() => {
           this.getScheduleById();
-          this.confirmationDialog = false;
         });
+      });
+      this.confirmationDialog = false;
     }
   };
 
@@ -755,17 +762,16 @@ export class ProfessorComponent implements OnInit {
               }, 3000);
               this.alertStatus = 'Error';
               this.alertMessage = 'Schedule already taken';
-              // } else if (
-              //   (res.message =
-              //     'Please create start and end date of classes first')
-              // ) {
-              //   this.alert = true;
-              //   setTimeout(() => {
-              //     this.alert = false;
-              //   }, 3000);
-              //   this.alertStatus = 'Error';
-              //   this.alertMessage =
-              //     'Please create start and end date of classes first';
+            } else if (
+              res.message == 'Please create start and end date of classes first'
+            ) {
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Error';
+              this.alertMessage =
+                'Please create start and end date of classes first';
             } else {
               this.getScheduleById();
               this.alert = true;
