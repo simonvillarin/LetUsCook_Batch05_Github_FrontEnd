@@ -21,6 +21,7 @@ export class CourseComponent implements OnInit {
   subjects: any[] = [];
   subject: any;
   programs: string[] = [];
+  preRequisitesSelection: any = [];
   types = ['Major', 'Minor', 'Elective'];
 
   isShowDropdown = false;
@@ -43,7 +44,7 @@ export class CourseComponent implements OnInit {
       subjectCode: ['', [Validators.required]],
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
-      preRequisites: new FormControl<string[] | null>(null),
+      preRequisites: new FormControl<any[] | null>(null),
       type: ['', [Validators.required]],
     });
     this.preRequisiteFormArray = this.courseForm.get(
@@ -84,34 +85,23 @@ export class CourseComponent implements OnInit {
     return this.courseForm.get('type') as FormControl;
   }
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
-  };
-
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
-
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-    scroll(0, 0);
-  };
-
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
-  };
-
   onClickAdd = () => {
     this.title = 'Add Subject';
-    this.isDialogOpen = true;
-    this.preRequisiteFormArray.reset();
-    this.courseForm.reset();
-    this.courseForm.markAsUntouched();
-    this.isUpdating = false;
+    this.preRequisitesSelection = [];
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
+      this.isDialogOpen = true;
+      this.preRequisiteFormArray.reset();
+      this.courseForm.reset();
+      this.courseForm.markAsUntouched();
+      this.isUpdating = false;
+    });
   };
 
   onClickCancel = () => {
@@ -122,6 +112,13 @@ export class CourseComponent implements OnInit {
   getAllSubjects = () => {
     this.courseService.getAllSubjects().subscribe((data: any) => {
       this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
     });
   };
 
@@ -205,16 +202,37 @@ export class CourseComponent implements OnInit {
     this.isUpdating = true;
     this.courseForm.reset();
     this.title = 'Edit Subject';
+    this.preRequisitesSelection = [];
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
+      const filter: any = [];
+      this.preRequisitesSelection.map((data: any) => filter.push(data.name));
+      const filteredData = filter.filter(
+        (data: any) => data != subject.subjectTitle
+      );
+      this.preRequisitesSelection = [];
+      filteredData.map((data: any) =>
+        this.preRequisitesSelection.push({ name: data, value: data })
+      );
+      const subjects: any = [];
+      subject.preRequisites.map((sub: any) => subjects.push(sub.subjectTitle));
 
-    this.courseForm.patchValue({
-      subjectCode: subject.subjectCode,
-      subjectTitle: subject.subjectTitle,
-      units: subject.units,
-      preRequisites: subject.preRequisites,
-      type: subject.type,
+      this.courseForm.patchValue({
+        subjectCode: subject.subjectCode,
+        subjectTitle: subject.subjectTitle,
+        units: subject.units,
+        preRequisites: subjects,
+        type: subject.type,
+      });
+
+      this.isDialogOpen = true;
     });
-
-    this.isDialogOpen = true;
   };
 
   onClickRemove = (subject: any) => {

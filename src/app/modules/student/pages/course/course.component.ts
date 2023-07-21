@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { StudentHistoryService } from 'src/app/shared/services/student-history/student-history.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
 
@@ -154,7 +155,8 @@ export class CourseComponent {
     private studentService: StudentService,
     private programService: ProgramService,
     private authService: AuthService,
-    private subjectHistService: StudentHistoryService
+    private subjectHistService: StudentHistoryService,
+    private scheduleService: ScheduleService
   ) {
     this.evaluationForm = this.fb.group({});
   }
@@ -176,10 +178,10 @@ export class CourseComponent {
       .subscribe((data: any) => {
         this.student = data;
         console.log(this.student);
-        if (this.student.schedules == null) {
+        if (this.student.schedules.length == 0) {
           console.log('Dont display table subjects');
         } else {
-          console.log('display table subjects');
+          this.hasSchedule = true;
         }
         this.getStudentSubjectHistory();
         if (this.isFreshman) {
@@ -193,10 +195,10 @@ export class CourseComponent {
 
   getStudentSubjectHistory = () => {
     this.subjectHistService
-      .getStudentHistory(this.studentId)
+      .getStudentHistoryById(this.studentId)
       .subscribe((data) => {
         this.sh = data;
-        if (this.sh.size != 0 || data != null) {
+        if (this.sh.length != 0) {
           this.isFreshman = false;
         }
       });

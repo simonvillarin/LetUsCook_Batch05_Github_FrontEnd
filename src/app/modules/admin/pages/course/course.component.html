@@ -46,7 +46,11 @@
           <td>{{ sub.subjectCode }}</td>
           <td>{{ sub.subjectTitle }}</td>
           <td>{{ sub.units }}</td>
-          <td>{{ sub.preRequisites }}</td>
+          <td>
+            <ng-container *ngFor="let item of sub.preRequisites"
+              >{{ item.subjectTitle }}<br
+            /></ng-container>
+          </td>
           <td>{{ sub.type }}</td>
           <td>
             <div class="{{ sub.activeDeactive ? 'active' : 'inactive' }}">
@@ -155,10 +159,15 @@
       </div>
       <div class="input-group">
         <label>Pre Requisites</label>
-        <p-chips
+        <p-multiSelect
+          [options]="preRequisitesSelection"
+          optionLabel="name"
+          optionValue="name"
+          placeholder="Select Prerequisites"
+          appendTo="body"
           formControlName="preRequisites"
-          placeholder="Prerequisites"
-        ></p-chips>
+          [style]="{ width: '100%' }"
+        ></p-multiSelect>
       </div>
       <div class="input-group">
         <label>Type</label>
