@@ -99,12 +99,19 @@ export class SectionComponent implements OnInit {
   };
 
   onSubmit = () => {
+    const programCode = this.sectionForm.get('programCode')?.value;
     const sectionName = this.sectionForm.get('sectionName')?.value;
     if (this.isUpdating) {
+      console.log(this.section);
+
       const payload: any = {};
+      if (this.section.program.programCode != programCode) {
+        payload.programCode = programCode;
+      }
       if (this.section.sectionName != sectionName) {
         payload.sectionName = sectionName;
       }
+      console.log(payload);
 
       this.sectionService
         .updateSection(this.section.sectionId, payload)
@@ -132,13 +139,22 @@ export class SectionComponent implements OnInit {
       if (this.sectionForm.valid) {
         this.sectionService
           .addSection(this.sectionForm.value)
-          .subscribe(() => this.getAllSections());
-        this.alert = true;
-        setTimeout(() => (this.alert = false), 3000);
-        this.alertStatus = 'Success';
-        this.alertMessage = 'Section name successfully added';
-        this.sectionForm.reset();
-        this.isDialogOpen = false;
+          .subscribe((res: any) => {
+            if (res.message == 'Section name already exist') {
+              this.alert = true;
+              setTimeout(() => (this.alert = false), 3000);
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Section name already exists';
+            } else {
+              this.getAllSections();
+              this.alert = true;
+              setTimeout(() => (this.alert = false), 3000);
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Section name successfully added';
+              this.sectionForm.reset();
+              this.isDialogOpen = false;
+            }
+          });
       } else {
         this.sectionForm.markAllAsTouched();
       }

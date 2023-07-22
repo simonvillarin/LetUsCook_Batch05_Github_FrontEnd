@@ -20,6 +20,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 import { CourseComponent } from './pages/course/course.component';
 import { TabViewModule } from 'primeng/tabview';
+import { LoadComponent } from './pages/load/load.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TabViewModule } from 'primeng/tabview';
     EvaluationFormDialogComponent,
     ProfMainComponent,
     CourseComponent,
+    LoadComponent,
   ],
   imports: [
     ProfessorRoutingModule,

@@ -100,7 +100,7 @@ export class StudentComponent implements OnInit {
     console.log(this.student, 'is the student');
 
     const payload = {
-      programId: this.student.program.programId,
+      programCode: this.student.program.programCode,
       yearLevel: this.student.yearLevel,
       sem: this.student.sem,
       academicYear: this.student.academicYear,
@@ -199,8 +199,6 @@ export class StudentComponent implements OnInit {
   };
 
   onClickConfirm = () => {
-    console.log(this.application);
-
     if (this.isEditing) {
       const payload = {
         status: true,

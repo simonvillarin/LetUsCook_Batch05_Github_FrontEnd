@@ -1,7 +1,7 @@
 <main>
   <div class="card-container">
-    <ng-container *ngFor="let load of loads; index as i">
-      <div class="card" (click)="onStudentsTable(load)">
+    <ng-container *ngFor="let load of load.schedules; index as i">
+      <div class="card" (click)="onStudentsTable(load.section.section)">
         <div class="card-image">
           <img
             src="../../../../../assets/images/banner2.jpg"
@@ -9,16 +9,28 @@
           />
         </div>
         <div class="card-body">
-          <div class="title">{{ load.schedules[i].subject.subjectTitle }}</div>
+          <div class="title">{{ load.subject.subjectTitle }}</div>
           <div class="schedule">
-            {{ load.schedules[i].day }},
-            {{ convertTime(load.schedules[i].startTime) }} -
-            {{ convertTime(load.schedules[i].endTime) }}
+            <ng-container *ngFor="let day of load.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+            ({{ convertTime(load.startTime) }} -
+            {{ convertTime(load.endTime) }})
           </div>
         </div>
         <div class="card-footer">
-          <div>Section: {{ load.schedules[i].section.section }}</div>
-          <div>Room: {{ load.schedules[i].room.roomNumber }}</div>
+          <div>Section: {{ load.section.section }}</div>
+          <div>Room: {{ load.room.roomNumber }}</div>
         </div>
       </div>
     </ng-container>

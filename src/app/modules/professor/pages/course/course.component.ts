@@ -9,7 +9,6 @@ import { ProfessorloadService } from 'src/app/shared/services/professorload/prof
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
-  loads: any[] = [];
   loadTable: any[] = [];
   load: any = {};
   loadDialog = false;
@@ -28,16 +27,18 @@ export class CourseComponent implements OnInit {
     this.professorLoadService
       .getProfessorLoadByProfessorId(this.authService.getUserId())
       .subscribe((data: any) => {
-        this.loads = data.sort((a: any, b: any) => b.loadId - a.loadId);
+        this.load = data;
         console.log(data);
       });
   };
 
   convertTime = (time: any) => {
     const splitTime = time.split(':');
-    let hour: any;
-    let suffix;
+    let hour;
+    let zone;
     if (parseInt(splitTime[0]) == 13) {
+      hour = 1;
+    } else if (parseInt(splitTime[0]) == 13) {
       hour = 1;
     } else if (parseInt(splitTime[0]) == 14) {
       hour = 2;
@@ -59,24 +60,24 @@ export class CourseComponent implements OnInit {
       hour = 10;
     } else if (parseInt(splitTime[0]) == 23) {
       hour = 11;
-    } else if (parseInt(splitTime[0]) == 24) {
+    } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
       hour = 12;
     } else {
       hour = splitTime[0];
     }
 
     if (parseInt(splitTime[0]) > 12) {
-      suffix = 'PM';
+      zone = 'PM';
     } else {
-      suffix = 'AM';
+      zone = 'AM';
     }
-    return hour + ':' + splitTime[1] + ' ' + suffix;
+
+    return hour + ':' + splitTime[1] + ' ' + zone;
   };
 
-  onStudentsTable = (load: any) => {
-    this.loadTable = load.students;
-    console.log(load);
-
-    this.load = this.loadDialog = true;
+  onStudentsTable = (section: any) => {
+    const splitSection = section.split(' ');
+    const sec = splitSection[0] + '@' + splitSection[1];
+    this.router.navigate([`professor/course/${sec}`]);
   };
 }

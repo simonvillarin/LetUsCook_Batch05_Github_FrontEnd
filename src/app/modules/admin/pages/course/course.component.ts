@@ -37,6 +37,7 @@ export class CourseComponent implements OnInit {
   subject: any;
   subjects: any = [];
   programs: string[] = [];
+  preRequisitesSelection: any = [];
   types = ['Major', 'Minor', 'Elective'];
 
   isDialogOpen: boolean = false;
@@ -57,7 +58,7 @@ export class CourseComponent implements OnInit {
       subjectCode: ['', [Validators.required]],
       subjectTitle: ['', [Validators.required]],
       units: ['', [Validators.required]],
-      preRequisites: new FormControl<string[] | null>(null),
+      preRequisites: new FormControl<any[] | null>(null),
       type: ['', [Validators.required]],
     });
     this.preRequisiteFormArray = this.courseForm.get(
@@ -129,11 +130,21 @@ export class CourseComponent implements OnInit {
 
   onClickAdd = () => {
     this.title = 'Add Subject';
-    this.isUpdating = false;
-    this.isDialogOpen = true;
-    this.preRequisiteFormArray.reset();
-    this.courseForm.reset();
-    this.courseForm.markAsUntouched();
+    this.preRequisitesSelection = [];
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
+      this.isDialogOpen = true;
+      this.preRequisiteFormArray.reset();
+      this.courseForm.reset();
+      this.courseForm.markAsUntouched();
+      this.isUpdating = false;
+    });
   };
 
   onClickCancel = () => {
@@ -175,9 +186,19 @@ export class CourseComponent implements OnInit {
             } else if (res.message == 'Subject title already exist') {
               alert('Subject title already exist');
             } else {
-              this.getAllSubjects();
+              const index = this.subjects.findIndex(
+                (subject: any) => subject.subjectId == this.subject.subjectId
+              );
+
+              this.subjects[index].subjectCode = subjectCode;
+              this.subjects[index].subjectTitle = subjectTitle;
+              this.subjects[index].units = unit;
+              this.subjects[index].preRequisite = preRequisites;
+              this.subjects[index].type = type;
+              this.isDialogOpen = false;
               this.courseForm.reset();
             }
+            this.getAllSubjects();
           });
       } else {
         this.courseForm.markAllAsTouched();
@@ -210,16 +231,37 @@ export class CourseComponent implements OnInit {
     this.isUpdating = true;
     this.courseForm.reset();
     this.title = 'Edit Subject';
+    this.preRequisitesSelection = [];
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
+      const filter: any = [];
+      this.preRequisitesSelection.map((data: any) => filter.push(data.name));
+      const filteredData = filter.filter(
+        (data: any) => data != subject.subjectTitle
+      );
+      this.preRequisitesSelection = [];
+      filteredData.map((data: any) =>
+        this.preRequisitesSelection.push({ name: data, value: data })
+      );
+      const subjects: any = [];
+      subject.preRequisites.map((sub: any) => subjects.push(sub.subjectTitle));
 
-    this.courseForm.patchValue({
-      subjectCode: subject.subjectCode,
-      subjectTitle: subject.subjectTitle,
-      units: subject.units,
-      preRequisites: subject.preRequisites,
-      type: subject.type,
+      this.courseForm.patchValue({
+        subjectCode: subject.subjectCode,
+        subjectTitle: subject.subjectTitle,
+        units: subject.units,
+        preRequisites: subjects,
+        type: subject.type,
+      });
+
+      this.isDialogOpen = true;
     });
-
-    this.isDialogOpen = true;
   };
 
   onClickRemove = (subject: any) => {

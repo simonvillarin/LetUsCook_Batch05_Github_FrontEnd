@@ -1,21 +1,20 @@
+@import "../../../../../variables.scss";
+
 main {
   min-height: calc(100vh - 4rem);
-  padding: 1.5rem;
 }
 
 .table {
   padding: 1.5rem;
-  border-radius: 0.25rem;
-  background-color: var(--white);
   overflow-x: auto;
 }
 
 .table-header {
-  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .pi-search {
@@ -36,55 +35,123 @@ tr td {
   text-align: center;
 }
 
-.action-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.search-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 1rem;
-  padding-left: 2rem;
-}
-
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  padding: 1rem;
-}
-
-.radio-container-row {
-  display: flex;
-  gap: 5rem;
-  padding: 3rem;
-}
-
-.radio-item {
+.btn-container {
   display: flex;
   align-items: center;
-  margin-right: 10px;
   gap: 0.5rem;
 }
 
-p {
-  width: 400px;
+.filter {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+
+.search-container {
+  position: relative;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.request {
+  background-color: var(--green);
+}
+
+.reset {
+  background-color: var(--light-red);
+}
+
+span {
+  font-size: 1.75rem;
+  color: var(--white);
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subject-container,
+.professor-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.25rem;
+}
+
+.subject-description {
+  width: 50%;
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 0.5rem;
+  margin: 0 auto;
+  font-size: 0.875rem;
+}
+
+.type,
+.units {
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  color: var(--white);
+  background-color: #fff;
+}
+
+.major {
+  background-color: var(--light-red);
+}
+
+.minor {
+  background-color: var(--orange);
+}
+
+.elective {
+  background-color: var(--light-blue);
+}
+
+.units {
+  background-color: var(--yellow);
+}
+
+.name {
+  font-size: 0.875rem;
 }
 
 .modal-title {
-  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 1.75rem);
-  font-weight: 400;
-  padding: 1rem 0 0 2.7rem;
+  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 2rem);
+  font-weight: 300;
+}
+
+.modal-body {
+  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.25rem);
+  font-weight: 300;
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
-  padding-right: 4rem;
+  gap: 0.5rem;
 }
 
 .action-btn {
@@ -103,18 +170,65 @@ p {
   cursor: pointer;
 }
 
-.submit-btn {
-  width: 12rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0.5rem;
-  padding: 0.625rem;
-  font-size: 1rem;
+.submit:hover,
+.submit:focus {
+  background-color: var(--darker-primary);
+}
+
+.cancel {
+  color: var(--red);
+  background-color: var(--white);
+  border: 1px solid var(--red);
+}
+
+.cancel:hover,
+.cancel:focus {
   color: var(--white);
-  background-color: var(--primary);
-  border-radius: 0.25rem;
-  transition: background-color 300ms ease-in;
-  cursor: pointer;
+  background-color: var(--red);
+}
+
+.evalForm {
+  overflow-x: auto;
+}
+
+.question-container {
+  margin-bottom: 1rem;
+}
+
+.question {
+  width: 100%;
+  font-size: clamp(1rem, 0.9024rem + 0.4878vw, 1.25rem);
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.radio-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.5rem;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  gap: 0.5rem;
+}
+
+.radio-label {
+  font-weight: 300;
+}
+
+.eval {
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .table-header {
+    flex-direction: row;
+  }
+
+  .filter {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

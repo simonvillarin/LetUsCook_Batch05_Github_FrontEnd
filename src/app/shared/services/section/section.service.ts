@@ -15,6 +15,10 @@ export class SectionService {
     return this.http.get<any[]>(`${this.BASE_URL}/sections`);
   };
 
+  getSectionByProgram = (id: any) => {
+    return this.http.get(`${this.BASE_URL}/section/${id}`);
+  };
+
   addSection = (section: any) => {
     return this.http.post(`${this.BASE_URL}/section`, section);
   };

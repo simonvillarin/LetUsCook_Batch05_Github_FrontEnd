@@ -1,148 +1,135 @@
 <main>
   <div class="table" *ngIf="!hasSchedule">
+    <div class="table-header">
+      <div class="btn-container">
+        <button
+          (click)="onConfirm()"
+          class="request"
+          title="Request for Approval"
+        >
+          <span class="material-symbols-rounded"> assignment_turned_in </span>
+        </button>
+        <button class="reset" (click)="reset()" title="Reset">
+          <span class="material-symbols-rounded"> restart_alt </span>
+        </button>
+      </div>
+      <div class="filter">
+        <p-dropdown
+          [options]="sections"
+          placeholder="Select a section"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="selectedSection"
+          (ngModelChange)="onChangeSection($event)"
+          [style]="{
+            width: '100%',
+          }"
+        ></p-dropdown>
+        <div class="search-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [style]="{
+              width: '100%',
+              paddingLeft: '2.5rem'
+            }"
+            placeholder="Search"
+            [(ngModel)]="search"
+            (ngModelChange)="onSearchChange($event)"
+          />
+        </div>
+      </div>
+    </div>
     <p-table
-      [(selection)]="selectedSubjects"
-      [dataKey]="subjects.subjectCode"
-      #dt
-      [value]="subjects"
+      [(selection)]="selectedSchedules"
+      [dataKey]="schedules.subject"
+      [value]="schedules"
       [paginator]="true"
       [rows]="10"
       [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [rowsPerPageOptions]="[10, 20, 30]"
-      [globalFilterFields]="['subjectCode', 'subjectTitle']"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      [rowsPerPageOptions]="[10, 15, 20]"
+      paginatorDropdownAppendTo="body"
     >
-      <ng-template pTemplate="caption">
-        <div class="table-header">
-          <div class="action-container">
-            <ng-container *ngIf="selectedSubjects.length > 0">
-              <button class="submit-btn" (click)="onClickSubmit()">
-                Request for Approval
-              </button>
-            </ng-container>
-          </div>
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{
-                width: '16rem',
-                paddingLeft: '2.5rem'
-              }"
-              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search"
-            />
-          </span>
-        </div>
-      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th>Subject Code</th>
-          <th>Subject Title</th>
-          <th>No. of units</th>
-          <th>Type</th>
+          <th>Subject</th>
+          <th>Day</th>
+          <th>Time</th>
+          <th>Room</th>
+          <th>Section</th>
+          <th>Professor</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-subject>
+      <ng-template pTemplate="body" let-sched>
         <tr>
           <td>
-            <p-tableCheckbox [value]="subject"></p-tableCheckbox>
+            <p-tableCheckbox [value]="sched"></p-tableCheckbox>
           </td>
-          <td>{{ subject.subjectCode }}</td>
-          <td>{{ subject.subjectTitle }}</td>
-          <td>{{ subject.units }}</td>
-          <td>{{ subject.type }}</td>
+          <td>
+            <div class="subject-container">
+              <div>{{ sched.subject.subjectTitle }}</div>
+              <div class="subject-description">
+                <div
+                  class="type {{
+                    sched.subject.type == 'Major'
+                      ? 'major'
+                      : sched.subject.type == 'Minor'
+                      ? 'minor'
+                      : 'elective'
+                  }}"
+                >
+                  {{ sched.subject.type }}
+                </div>
+                <div class="units">{{ sched.subject.units }} units</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <ng-container *ngFor="let day of sched.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+          </td>
+          <td>
+            {{ convertTime(sched.startTime) }} -
+            {{ convertTime(sched.endTime) }}
+          </td>
+          <td>{{ sched.room.roomNumber }}</td>
+          <td>{{ sched.section.section }}</td>
+          <td>
+            <div class="professor-container">
+              <div class="avatar-container">
+                <div class="avatar">
+                  <img
+                    src="{{
+                      sched.professor.image ||
+                        '../../../../../../../assets/images/blank-profile.jpg'
+                    }}"
+                    alt="Prof Image"
+                  />
+                </div>
+              </div>
+              <div class="name">{{ sched.professor.fullname }}</div>
+            </div>
+          </td>
         </tr>
       </ng-template>
     </p-table>
-  </div>
-  <div class="card-container" *ngIf="hasSchedule">
-    <p-card header="Introduction to Prog" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Lebron James
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="Code of Ethics" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Steph Curry
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="Database Management" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Michael Jordan
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="NSTP" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Larry Bird
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="NSTP" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Larry Bird
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="NSTP" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Larry Bird
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="NSTP" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Larry Bird
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
-    <p-card header="NSTP" subheader="MWF 11:30 - 1:00">
-      <ng-template pTemplate="header">
-        <img
-          alt="Card"
-          src="https://primefaces.org/cdn/primeng/images/usercard.png"
-        />
-      </ng-template>
-      Mr. Larry Bird
-      <button class="action-btn" (click)="onClickEvaluate()">Evaluate</button>
-    </p-card>
   </div>
 </main>
 
@@ -150,33 +137,97 @@
   [(visible)]="isDialogOpen"
   [modal]="true"
   [breakpoints]="{ '960px': '75vw' }"
-  [style]="{ width: '80vw' }"
+  [style]="{ minWidth: '60vw' }"
   [draggable]="false"
   [resizable]="false"
 >
   <p-header>
-    <div class="modal-title">{{ title }}</div>
+    <div class="modal-title">Evaluation Form</div>
   </p-header>
 
-  <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()" class="evalForm">
     <div
-      class="radio-container-row"
-      *ngFor="let question of evaluationQuestions"
+      class="question-container"
+      *ngFor="let question of evaluationQuestions; let i = index"
     >
-      <p>{{ question.sentence }}</p>
-      <ng-container *ngFor="let rating of question.ratings">
-        <div class="radio-item">
-          <p-radioButton
-            [inputId]="rating.key"
-            [value]="rating"
-            [formControlName]="question.sentence"
-          ></p-radioButton>
-          <label [for]="rating.key">{{ rating.name }}</label>
-        </div>
-      </ng-container>
+      <p class="question">{{ i + 1 }}. {{ question.sentence }}</p>
+      <div class="radio-container">
+        <ng-container *ngFor="let rating of question.ratings">
+          <div class="radio-item">
+            <p-radioButton
+              [inputId]="rating.key"
+              [value]="rating"
+              [formControlName]="question.sentence"
+            ></p-radioButton>
+            <label [for]="rating.key" class="radio-label">{{
+              rating.name
+            }}</label>
+          </div>
+        </ng-container>
+      </div>
     </div>
-    <div class="actions">
+    <div class="actions eval">
+      <button class="action-btn cancel" (click)="onCloseEval()">Cancel</button>
       <button type="submit" class="action-btn submit">Submit</button>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  <div class="modal-body">
+    Are you sure you want to request approval on these subjects?
+  </div>
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onClose()">Cancel</button>
+    <button class="action-btn submit" (click)="onRequest()">Confirm</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="errorDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Error</div>
+  </p-header>
+  <div class="modal-body">
+    {{ errorMessage }}
+  </div>
+  <div class="actions">
+    <button class="action-btn submit" (click)="onOkError()">OK</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="successDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Success</div>
+  </p-header>
+  <div class="modal-body">
+    Thank you for submitting your requested subjects. Please await an email
+    notification regarding the approval status of your subjects.
+  </div>
+  <div class="actions">
+    <button class="action-btn submit" (click)="onOkSuccess()">OK</button>
+  </div>
 </p-dialog>

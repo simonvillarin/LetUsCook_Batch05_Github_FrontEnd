@@ -30,8 +30,7 @@ export class ScheduleComponent implements OnInit {
     this.professorLoadService
       .getProfessorLoadByProfessorId(this.authService.getUserId())
       .subscribe((data: any) => {
-        const sortData = data.sort((a: any, b: any) => b.loadId - a.loadId);
-        this.schedules = sortData[0].schedules;
+        this.schedules = data.schedules;
         this.updateEvents();
       });
   };
@@ -41,6 +40,49 @@ export class ScheduleComponent implements OnInit {
       this.calendar = data;
       this.updateEvents();
     });
+  };
+
+  convertTime = (time: any) => {
+    const splitTime = time.split(':');
+    let hour;
+    let zone;
+    if (parseInt(splitTime[0]) == 13) {
+      hour = 1;
+    } else if (parseInt(splitTime[0]) == 13) {
+      hour = 1;
+    } else if (parseInt(splitTime[0]) == 14) {
+      hour = 2;
+    } else if (parseInt(splitTime[0]) == 15) {
+      hour = 3;
+    } else if (parseInt(splitTime[0]) == 16) {
+      hour = 4;
+    } else if (parseInt(splitTime[0]) == 17) {
+      hour = 5;
+    } else if (parseInt(splitTime[0]) == 18) {
+      hour = 6;
+    } else if (parseInt(splitTime[0]) == 19) {
+      hour = 7;
+    } else if (parseInt(splitTime[0]) == 20) {
+      hour = 8;
+    } else if (parseInt(splitTime[0]) == 21) {
+      hour = 9;
+    } else if (parseInt(splitTime[0]) == 22) {
+      hour = 10;
+    } else if (parseInt(splitTime[0]) == 23) {
+      hour = 11;
+    } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
+      hour = 12;
+    } else {
+      hour = splitTime[0];
+    }
+
+    if (parseInt(splitTime[0]) > 12) {
+      zone = 'PM';
+    } else {
+      zone = 'AM';
+    }
+
+    return hour + ':' + splitTime[1] + ' ' + zone;
   };
 
   updateEvents = () => {
@@ -64,10 +106,21 @@ export class ScheduleComponent implements OnInit {
         } else if (startDate.getDay() === 6) {
           day = 'Saturday';
         }
-        const scheds = this.schedules.filter((sched: any) => sched.day === day);
+        const scheds: any = [];
+        this.schedules.map((sched: any) => {
+          sched.days.map((d: any) => {
+            if (d == day) {
+              scheds.push(sched);
+            }
+          });
+        });
         scheds.forEach((sched: any) => {
           temp.push({
-            title: sched.subject.subjectTitle,
+            title:
+              sched.subject.subjectTitle +
+              ` (${this.convertTime(sched.startTime)} - ${this.convertTime(
+                sched.endTime
+              )})`,
             date: startDate.toISOString().split('T')[0],
           });
         });
