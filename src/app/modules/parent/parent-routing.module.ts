@@ -6,7 +6,7 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { GradesComponent } from './pages/grades/grades.component';
 const routes: Routes = [
   {
-    path: 'parent/home',
+    path: 'parent',
     component: HomeComponent,
   },
   {

@@ -6,6 +6,7 @@ import { professorGuard } from './core/guards/professor/professor.guard';
 import { parentGuard } from './core/guards/parent/parent.guard';
 import { UnauthorizedComponent } from './modules/error/components/unauthorized/unauthorized.component';
 import { NotFoundComponent } from './modules/error/components/not-found/not-found.component';
+import { landingGuard } from './core/guards/landing/landing.guard';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./modules/landing/landing.module').then((m) => m.LandingModule),
+    canActivate: [landingGuard],
   },
   {
     path: 'admin',
