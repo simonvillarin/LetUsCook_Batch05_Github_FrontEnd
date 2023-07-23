@@ -75,9 +75,9 @@ export class CourseComponent implements OnInit {
     return hour + ':' + splitTime[1] + ' ' + zone;
   };
 
-  onStudentsTable = (section: any) => {
-    const splitSection = section.split(' ');
-    const sec = splitSection[0] + '@' + splitSection[1];
-    this.router.navigate([`professor/course/${sec}`]);
+  onStudentsTable = (load: any) => {
+    const sectionId = load.section.sectionId;
+    const subjectId = load.subject.subjectId;
+    this.router.navigate([`student/course/${sectionId}-${subjectId}`]);
   };
 }

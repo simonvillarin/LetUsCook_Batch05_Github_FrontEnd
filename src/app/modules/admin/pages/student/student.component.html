@@ -1,44 +1,59 @@
 <main>
   <p-tabView>
-    <p-tabPanel header="Pending Applications">
+    <p-tabPanel header="Pending Students">
       <div class="table">
+        <div class="table-header">
+          <div class="btn-container">
+            <button class="btn-table-header reset" title="Reset">
+              <span class="material-symbols-rounded icon-table-header">
+                restart_alt
+              </span>
+            </button>
+          </div>
+          <div class="filter">
+            <p-dropdown
+              [options]="yearLevels"
+              placeholder="Filter by year level"
+              appendTo="body"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+            <p-dropdown
+              [options]="terms"
+              placeholder="Filter by term"
+              appendTo="body"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+            <div class="search-container">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                placeholder="Search"
+                [style]="{
+                  width: '100%',
+                  paddingLeft: '2.5rem'
+                }"
+                placeholder="Search"
+              />
+            </div>
+          </div>
+        </div>
         <p-table
-          #dt
           [value]="applications"
           [paginator]="true"
           [rows]="10"
           [showCurrentPageReport]="true"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [rowsPerPageOptions]="[10, 25, 50]"
-          [globalFilterFields]="['firstname', 'middlename', 'lastname']"
+          [tableStyle]="{ 'min-width': '80rem' }"
+          [rowsPerPageOptions]="[10, 15, 20]"
+          paginatorDropdownAppendTo="body"
         >
-          <ng-template pTemplate="caption">
-            <div class="table-header">
-              <span [style]="{ position: 'relative' }">
-                <i class="pi pi-search"></i>
-                <input
-                  type="text"
-                  pInputText
-                  placeholder="Search"
-                  [style]="{
-                    width: '16rem',
-                    paddingLeft: '2.5rem'
-                  }"
-                  (input)="
-                    dt.filterGlobal($any($event.target).value, 'contains')
-                  "
-                  placeholder="Search"
-                />
-              </span>
-            </div>
-          </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 30%">Name</th>
-              <th style="width: 15%">Email</th>
-              <th style="width: 15%">Enrollment Status</th>
-              <th style="width: 20%">Application Date</th>
+              <th style="width: 25%">Name</th>
+              <th style="width: 12%">Program</th>
+              <th style="width: 14%">Year Level</th>
+              <th style="width: 14%">Term</th>
+              <th style="width: 15%">Application Date</th>
               <th style="width: 20%">Actions</th>
             </tr>
           </ng-template>
@@ -48,13 +63,10 @@
                 {{ application.firstname }} {{ application.middlename }}
                 {{ application.lastname }}
               </td>
-              <td>{{ application.email }}</td>
-              <td>
-                <div class="inactive">
-                  {{ application.status == false ? "Pending" : "Enrolled" }}
-                </div>
-              </td>
-              <td>{{ application.applicationDate }}</td>
+              <td>{{ application.program.programCode }}</td>
+              <td>{{ application.yearLevel }}</td>
+              <td>{{ application.sem }}</td>
+              <td>{{ convertDate(application.applicationDate) }}</td>
               <td>
                 <div class="table-actions">
                   <button
@@ -63,7 +75,7 @@
                   >
                     <mat-icon
                       class="material-icons-outlined"
-                      pTooltip="Approve application"
+                      title="Approve Application"
                       >thumb_up</mat-icon
                     >
                   </button>
@@ -73,7 +85,7 @@
                   >
                     <mat-icon
                       class="material-icons-outlined"
-                      pTooltip="Disapprove application"
+                      title="Disapprove Application"
                       >thumb_down</mat-icon
                     >
                   </button>
@@ -86,107 +98,116 @@
     </p-tabPanel>
     <p-tabPanel header="Enrolled Students">
       <div class="table">
+        <div class="table-header">
+          <div class="btn-container">
+            <button class="btn-table-header reset" title="Reset">
+              <span class="material-symbols-rounded icon-table-header">
+                restart_alt
+              </span>
+            </button>
+          </div>
+          <div class="filter">
+            <p-dropdown
+              [options]="yearLevels"
+              placeholder="Filter by year level"
+              appendTo="body"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+            <p-dropdown
+              [options]="terms"
+              placeholder="Filter by term"
+              appendTo="body"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+            <div class="search-container">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                placeholder="Search"
+                [style]="{
+                  width: '100%',
+                  paddingLeft: '2.5rem'
+                }"
+                placeholder="Search"
+              />
+            </div>
+          </div>
+        </div>
         <p-table
-          #dt1
           [value]="students"
           [paginator]="true"
           [rows]="10"
           [showCurrentPageReport]="true"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [rowsPerPageOptions]="[10, 25, 50]"
-          [globalFilterFields]="[
-            'firstname',
-            'middlename',
-            'lastname',
-            'program.programCode'
-          ]"
+          [tableStyle]="{ 'min-width': '80rem' }"
+          [rowsPerPageOptions]="[10, 15, 20]"
+          paginatorDropdownAppendTo="body"
         >
-          <ng-template pTemplate="caption">
-            <div class="table-header">
-              <span [style]="{ position: 'relative' }">
-                <i class="pi pi-search"></i>
-                <input
-                  type="text"
-                  pInputText
-                  placeholder="Search"
-                  [style]="{
-                    width: '16rem',
-                    paddingLeft: '2.5rem'
-                  }"
-                  (input)="
-                    dt1.filterGlobal($any($event.target).value, 'contains')
-                  "
-                  placeholder="Search"
-                />
-              </span>
-            </div>
-          </ng-template>
           <ng-template pTemplate="header">
             <tr>
+              <th style="width: 10%">Image</th>
               <th style="width: 20%">Name</th>
-              <th style="width: 10%">Program</th>
-              <th style="width: 15%">Year Level</th>
-              <th style="width: 10%">Status</th>
-              <th style="width: 20%">Actions</th>
+              <th style="width: 12%">Program</th>
+              <th style="width: 14%">Year Level</th>
+              <th style="width: 14%">Term</th>
+              <th style="width: 15%">Enrolled Date</th>
+              <th style="width: 15%">Actions</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-student>
             <tr>
+              <td>
+                <div class="avatar-container">
+                  <div class="avatar">
+                    <img
+                      src="{{
+                        student.image ||
+                          '../../../../../../../assets/images/blank-profile.jpg'
+                      }}"
+                      alt="Student Image"
+                    />
+                  </div>
+                </div>
+              </td>
               <td>
                 {{ student.firstname }} {{ student.middlename }}
                 {{ student.lastname }}
               </td>
               <td>{{ student.program.programCode }}</td>
               <td>{{ student.yearLevel }}</td>
-              <td>
-                <div
-                  class="{{ student.activeDeactive ? 'active' : 'inactive' }}"
-                >
-                  {{ student.activeDeactive ? "Active" : "Inactive" }}
-                </div>
-              </td>
+              <td>{{ student.sem }}</td>
+              <td>{{ convertDate(student.dateEnrolled) }}</td>
               <td>
                 <div class="table-actions">
-                  <button
-                    *ngIf="student.tempSched.length > 0"
-                    class="table-action edit"
-                    title="Set as pending enrollee"
-                    (click)="onClickEdit(student)"
-                  >
-                    <mat-icon
-                      class="material-icons-outlined"
-                      pTooltip="Edit student subjects"
-                      >cancel</mat-icon
+                  <ng-container *ngIf="student.tempSched.length > 0">
+                    <button
+                      class="table-action approve"
+                      title="Approve Subjects"
+                      (click)="onApproval(student)"
                     >
-                    <span>Edit</span>
-                  </button>
-                  <button
-                    class="table-action edit"
-                    title="Set as pending enrollee"
-                    (click)="onClickRemove(student)"
+                      <span class="material-symbols-rounded"> thumb_up </span>
+                    </button></ng-container
                   >
-                    <mat-icon
-                      class="material-icons-outlined"
-                      pTooltip="Set as pending enrollee"
-                      >cancel</mat-icon
-                    >
-                    <span>Remove</span>
-                  </button>
+
                   <button
                     class="table-action {{
                       !student.activeDeactive ? 'activate' : 'deactive'
                     }}"
+                    title="{{
+                      !student.activeDeactive
+                        ? 'Activate Student'
+                        : 'Deactivate Student'
+                    }}"
                     (click)="onClickActive(student)"
                   >
-                    <mat-icon
-                      class="material-icons-outlined"
-                      pTooltip="Remove program"
-                      >block</mat-icon
-                    >
-                    <span>{{
-                      !student.activeDeactive ? "Activate" : "Deactivate"
-                    }}</span>
+                    <span class="material-symbols-rounded"> block </span>
+                  </button>
+                  <button
+                    class="table-action delete"
+                    title="Remove Student"
+                    (click)="onClickRemove(student)"
+                  >
+                    <span class="material-symbols-rounded"> delete </span>
                   </button>
                 </div>
               </td>
@@ -197,6 +218,147 @@
     </p-tabPanel>
   </p-tabView>
 </main>
+
+<p-dialog
+  [(visible)]="scheduleDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '80vw' }"
+  [style]="{ width: '80vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  [maximizable]="true"
+>
+  <p-header>
+    <div class="avatar-container dialog">
+      <div class="avatar ava">
+        <img
+          src="{{
+            student.image ||
+              '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Prof Image"
+        />
+      </div>
+      {{ student.firstname }} {{ student.middlename }}
+      {{ student.lastname }}
+      {{ student.suffix }}
+    </div>
+  </p-header>
+  <div class="table-dialog">
+    <p-table
+      [(selection)]="selectedSchedules"
+      [dataKey]="schedules.subject"
+      [value]="schedules"
+      [tableStyle]="{ 'min-width': '80rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>Subject</th>
+          <th>Day</th>
+          <th>Time</th>
+          <th>Room</th>
+          <th>Section</th>
+          <th>Professor</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-sched>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="sched"></p-tableCheckbox>
+          </td>
+          <td>
+            <div class="subject-container">
+              <div>{{ sched.subject.subjectTitle }}</div>
+              <div class="subject-description">
+                <div
+                  class="type {{
+                    sched.subject.type == 'Major'
+                      ? 'major'
+                      : sched.subject.type == 'Minor'
+                      ? 'minor'
+                      : 'elective'
+                  }}"
+                >
+                  {{ sched.subject.type }}
+                </div>
+                <div class="units">{{ sched.subject.units }} units</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <ng-container *ngFor="let day of sched.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+          </td>
+          <td>
+            {{ convertTime(sched.startTime) }} -
+            {{ convertTime(sched.endTime) }}
+          </td>
+          <td>{{ sched.room.roomNumber }}</td>
+          <td>{{ sched.section.section }}</td>
+          <td>
+            <div class="professor-container">
+              <div class="avatar-container">
+                <div class="avatar">
+                  <img
+                    src="{{
+                      sched.professor.image ||
+                        '../../../../../../../assets/images/blank-profile.jpg'
+                    }}"
+                    alt="Prof Image"
+                  />
+                </div>
+              </div>
+              <div class="name">{{ sched.professor.fullname }}</div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <div class="actions sched-actions">
+      <button class="action-btn cancel" (click)="onCloseSchedTable()">
+        Cancel
+      </button>
+      <button class="action-btn submit" (click)="onApprovalDialog()">
+        Approve
+      </button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="isApprovalDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  <div class="modal-body">Are you sure you want to approve this subjects?</div>
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseApprovalDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onApprove()">Yes</button>
+  </div>
+</p-dialog>
+
 <p-dialog
   [(visible)]="isRemoveDialogOpen"
   [modal]="true"
@@ -208,8 +370,10 @@
   <p-header>
     <div class="modal-title">Confirmation</div>
   </p-header>
-  Are you sure you want to remove this student from the list of enrolled
-  students?
+  <div class="modal-body">
+    Are you sure you want to remove this student from the list of enrolled
+    students?
+  </div>
   <div class="actions">
     <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
       Cancel
@@ -228,8 +392,10 @@
   <p-header>
     <div class="modal-title">Confirmation</div>
   </p-header>
-  Are you sure you want to
-  {{ status ? "activate" : "deactivate" }} this student?
+  <div class="modal-body">
+    Are you sure you want to {{ !status ? "activate" : "deactivate" }} this
+    student?
+  </div>
   <div class="actions">
     <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
       Cancel
@@ -237,6 +403,7 @@
     <button class="action-btn submit" (click)="onDeleteStudent()">Yes</button>
   </div>
 </p-dialog>
+
 <p-dialog
   [(visible)]="isConfirmDialogOpen"
   [modal]="true"
@@ -248,7 +415,7 @@
   <p-header>
     <div class="modal-title">Confirmation</div>
   </p-header>
-  {{ confirmTitle }} this student application?
+  <div class="modal-body">{{ confirmTitle }} this student application?</div>
   <div class="actions">
     <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
       Cancel

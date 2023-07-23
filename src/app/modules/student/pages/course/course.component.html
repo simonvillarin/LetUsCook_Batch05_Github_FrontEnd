@@ -131,6 +131,44 @@
       </ng-template>
     </p-table>
   </div>
+  <div class="table" *ngIf="hasSchedule">
+    <div class="card-container">
+      <ng-container *ngFor="let load of schedules; index as i">
+        <div class="card" (click)="onStudentsTable(load)">
+          <div class="card-image">
+            <img
+              src="../../../../../assets/images/banner2.jpg"
+              alt="Card Image"
+            />
+          </div>
+          <div class="card-body">
+            <div class="title">{{ load.subject.subjectTitle }}</div>
+            <div class="schedule">
+              <ng-container *ngFor="let day of load.days">{{
+                day == "Monday"
+                  ? "M"
+                  : day == "Tuesday"
+                  ? "T"
+                  : day == "Wednesday"
+                  ? "W"
+                  : day == "Thursday"
+                  ? "Th"
+                  : day == "Friday"
+                  ? "F"
+                  : "S"
+              }}</ng-container>
+              ({{ convertTime(load.startTime) }} -
+              {{ convertTime(load.endTime) }})
+            </div>
+          </div>
+          <div class="card-footer">
+            <div>Section: {{ load.section.section }}</div>
+            <div>Room: {{ load.room.roomNumber }}</div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </main>
 
 <p-dialog

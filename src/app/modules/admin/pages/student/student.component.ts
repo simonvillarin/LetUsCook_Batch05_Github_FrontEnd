@@ -1,17 +1,15 @@
 import { StudentService } from './../../../../shared/services/student/student.service';
-import { Component, OnInit } from '@angular/core';
-import { HttpEvent } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SectionService } from 'src/app/shared/services/section/section.service';
 import { ApplicationService } from 'src/app/shared/services/application/application.service';
 import { DatePipe } from '@angular/common';
 import { ParentService } from 'src/app/shared/services/parent/parent.service';
 import { AccountService } from 'src/app/shared/services/account/account.service';
-interface UploadEvent {
-  originalEvent: HttpEvent<any>;
-  files: File[];
-}
+import { Paginator } from 'primeng/paginator';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { GradeService } from 'src/app/shared/services/grade/grade.service';
+import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
 
 @Component({
   selector: 'app-student',
@@ -20,13 +18,41 @@ interface UploadEvent {
   providers: [MessageService, DatePipe],
 })
 export class StudentComponent implements OnInit {
+  @ViewChild('paginator', { static: true }) paginator: Paginator | undefined;
+
+  sectionForm: FormGroup;
+
+  applications: any = [];
+  application: any = {};
+  students: any = [];
+  student: any = {};
+  sections: any = [];
+  selectedSchedules: any = [];
+  schedules: any = [];
+
+  isInputDisabled: boolean = true;
+  isDialogOpen: boolean = false;
+  isDeleteDialogOpen: boolean = false;
+  isConfirmDialogOpen: boolean = false;
+  isEditing: boolean = false;
+  isRemoveDialogOpen = false;
+  isApprovalDialogOpen: boolean = false;
+  scheduleDialog: boolean = false;
+  status: boolean = false;
+
+  yearLevels = ['First Year', 'Second Year', 'Fourth Year', 'Fifth Year'];
+  terms = ['First Term', 'Second Term'];
+
+  confirmTitle = '';
+
   constructor(
     private applicationService: ApplicationService,
     private studentService: StudentService,
     private parentService: ParentService,
     private accountService: AccountService,
+    private gradeService: GradeService,
+    private attendanceStudentService: AttendanceStudentService,
     private fb: FormBuilder,
-    private messageService: MessageService,
     private datePipe: DatePipe
   ) {
     this.sectionForm = this.fb.group({
@@ -40,33 +66,6 @@ export class StudentComponent implements OnInit {
     this.getAllApplications();
     this.getAllStudents();
   }
-
-  sectionForm: FormGroup;
-
-  applications: any = [];
-  application: any = {};
-  students: any = [];
-  student: any;
-  sections: any = [];
-
-  isInputDisabled: boolean = true;
-  isDialogOpen: boolean = false;
-  isDeleteDialogOpen: boolean = false;
-  isConfirmDialogOpen: boolean = false;
-  isEditing: boolean = false;
-  isRemoveDialogOpen = false;
-  status: boolean = false;
-
-  confirmTitle = '';
-
-  onBasicUploadAuto(event: UploadEvent) {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'File Uploaded successfully',
-    });
-  }
-
   getAllApplications = () => {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
@@ -75,20 +74,130 @@ export class StudentComponent implements OnInit {
       this.applications = this.applications.filter(
         (app: any) => app.status == false
       );
-      this.applications.forEach((app: any) => {
-        app.applicationDate = this.datePipe.transform(
-          app.applicationDate,
-          'MMMM dd, yyyy'
-        );
-      });
     });
   };
 
   getAllStudents = () => {
     this.studentService.getAllStudents().subscribe((data: any) => {
       this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
-      console.log(this.students);
     });
+  };
+
+  convertDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return this.datePipe.transform(date, 'MMMM d, y');
+  };
+
+  convertTime = (time: any) => {
+    const splitTime = time.split(':');
+    let hour;
+    let zone;
+    if (parseInt(splitTime[0]) == 13) {
+      hour = 1;
+    } else if (parseInt(splitTime[0]) == 13) {
+      hour = 1;
+    } else if (parseInt(splitTime[0]) == 14) {
+      hour = 2;
+    } else if (parseInt(splitTime[0]) == 15) {
+      hour = 3;
+    } else if (parseInt(splitTime[0]) == 16) {
+      hour = 4;
+    } else if (parseInt(splitTime[0]) == 17) {
+      hour = 5;
+    } else if (parseInt(splitTime[0]) == 18) {
+      hour = 6;
+    } else if (parseInt(splitTime[0]) == 19) {
+      hour = 7;
+    } else if (parseInt(splitTime[0]) == 20) {
+      hour = 8;
+    } else if (parseInt(splitTime[0]) == 21) {
+      hour = 9;
+    } else if (parseInt(splitTime[0]) == 22) {
+      hour = 10;
+    } else if (parseInt(splitTime[0]) == 23) {
+      hour = 11;
+    } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
+      hour = 12;
+    } else {
+      hour = splitTime[0];
+    }
+
+    if (parseInt(splitTime[0]) > 12) {
+      zone = 'PM';
+    } else {
+      zone = 'AM';
+    }
+    return hour + ':' + splitTime[1] + ' ' + zone;
+  };
+
+  onApproval = (student: any) => {
+    this.student = student;
+    this.schedules = student.tempSched;
+    console.log(student);
+    this.scheduleDialog = true;
+  };
+
+  onCloseSchedTable = () => {
+    this.scheduleDialog = false;
+  };
+
+  onApprovalDialog = () => {
+    this.isApprovalDialogOpen = true;
+  };
+
+  onCloseApprovalDialog = () => {
+    this.isApprovalDialogOpen = false;
+  };
+
+  onApprove = () => {
+    if (this.selectedSchedules.length > 0) {
+      const schedId: any = [];
+      this.selectedSchedules.map((sched: any) => {
+        sched.schedId.map((id: number) => {
+          schedId.push(id);
+        });
+      });
+
+      const payload = {
+        schedId: schedId,
+        tempSchedId: [],
+      };
+
+      this.studentService
+        .updateStudent(this.student.studentId, payload)
+        .subscribe(() => {
+          this.getAllStudents();
+          this.isApprovalDialogOpen = false;
+          this.scheduleDialog = false;
+        });
+
+      this.selectedSchedules.map((sched: any) => {
+        const payload = {
+          professorId: sched.professor.professorId,
+          studentId: this.student.studentId,
+          subjectId: sched.subject.subjectId,
+          prelim: '',
+          midterm: '',
+          finals: '',
+          sem: this.student.sem,
+          academicYear: this.student.academicYear,
+          comment: '',
+          remarks: '',
+          dateModified: '',
+        };
+        this.gradeService.addGrade(payload).subscribe();
+
+        const payload1 = {
+          studentId: this.student.studentId,
+          subjectId: sched.subject.subjectId,
+          sem: this.student.sem,
+          yearLevel: this.student.yearLevel,
+          academicYear: this.student.academicYear,
+          status: '',
+        };
+        this.attendanceStudentService.addAttendance(payload1).subscribe();
+      });
+    }
   };
 
   onClickRemove = (student: any) => {
@@ -139,7 +248,6 @@ export class StudentComponent implements OnInit {
       parentRelationship: this.student.parent.relationship,
       status: false,
     };
-    console.log(payload);
 
     this.applicationService.addApplication(payload).subscribe(() => {
       this.accountService.deleteAccount(this.student.studentId).subscribe();
@@ -227,9 +335,5 @@ export class StudentComponent implements OnInit {
           this.getAllApplications();
         });
     }
-  };
-
-  onClickEdit = (student: any) => {
-    console.log(student);
   };
 }

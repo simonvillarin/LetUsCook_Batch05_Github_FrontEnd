@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { StudentMainComponent } from './pages/student-main/student-main.component';
 import { GradeComponent } from './pages/grade/grade.component';
+import { LoadComponent } from './pages/load/load.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
       {
         path: 'course',
         component: CourseComponent,
+      },
+      {
+        path: 'course/:id',
+        component: LoadComponent,
       },
       {
         path: 'grades',

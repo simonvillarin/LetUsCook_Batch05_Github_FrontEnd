@@ -234,45 +234,6 @@
           >
         </div>
       </div>
-      <div class="input-group">
-        <label>Term:</label>
-        <p-dropdown
-          [options]="terms"
-          placeholder="Select a term"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="sem"
-        ></p-dropdown>
-        <div *ngIf="semester.invalid && (semester?.dirty || semester?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="semester?.errors?.['required']"
-            >Term is required</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
-        <label>School Year:</label>
-        <p-dropdown
-          [options]="schoolYear"
-          placeholder="Select a school year"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="academicYear"
-        ></p-dropdown>
-        <div
-          *ngIf="
-            academicYear?.invalid &&
-            (academicYear?.dirty || academicYear?.touched)
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="academicYear?.errors?.['required']"
-            >School year is required</small
-          >
-        </div>
-      </div>
     </div>
     <div class="actions">
       <button class="action-btn cancel" type="button" (click)="closeDialog()">
@@ -389,45 +350,6 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="classEnd?.errors?.['required']"
             >End of classes is required</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Term:</label>
-        <p-dropdown
-          [options]="terms"
-          placeholder="Select a term"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="sem"
-        ></p-dropdown>
-        <div *ngIf="semester.invalid && (semester?.dirty || semester?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="semester?.errors?.['required']"
-            >Term is required</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
-        <label>School Year:</label>
-        <p-dropdown
-          [options]="schoolYear"
-          placeholder="Select a school year"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          formControlName="academicYear"
-        ></p-dropdown>
-        <div
-          *ngIf="
-            academicYear?.invalid &&
-            (academicYear?.dirty || academicYear?.touched)
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="academicYear?.errors?.['required']"
-            >School year is required</small
           >
         </div>
       </div>

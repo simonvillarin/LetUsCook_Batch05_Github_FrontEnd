@@ -25,7 +25,7 @@ export class ProgramComponent implements OnInit {
   minorSubjects: any = [];
   electiveSubjects: any = [];
   program: any;
-  years = [2, 3, 4, 5];
+  years = [2, 3, 4];
 
   isShowDropdown = false;
   isShowMobileNav = false;

@@ -17,6 +17,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StudentMainComponent } from './pages/student-main/student-main.component';
 import { GradeComponent } from './pages/grade/grade.component';
+import { LoadComponent } from './pages/load/load.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { GradeComponent } from './pages/grade/grade.component';
     ScheduleComponent,
     StudentMainComponent,
     GradeComponent,
+    LoadComponent,
   ],
   imports: [
     CommonModule,

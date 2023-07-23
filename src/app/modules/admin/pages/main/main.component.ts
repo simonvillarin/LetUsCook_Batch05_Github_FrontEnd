@@ -21,9 +21,7 @@ export class MainComponent implements OnInit {
   isShowDropdown = false;
   isShowMobileNav = false;
   isDialogOpen = false;
-  schoolYear: any[] = [];
   calendar: any[] = [];
-  terms: any = ['First Term', 'Second Term'];
 
   alert: boolean = false;
   alertStatus: string = '';
@@ -43,8 +41,6 @@ export class MainComponent implements OnInit {
       endEnrollment: ['', [Validators.required]],
       startClass: ['', [Validators.required]],
       endClass: ['', [Validators.required]],
-      sem: ['', [Validators.required]],
-      academicYear: ['', [Validators.required]],
     });
   }
 
@@ -64,22 +60,9 @@ export class MainComponent implements OnInit {
     return this.setupForm.get('endClass') as FormControl;
   }
 
-  get semester() {
-    return this.setupForm.get('sem') as FormControl;
-  }
-
-  get academicYear() {
-    return this.setupForm.get('academicYear') as FormControl;
-  }
-
   ngOnInit(): void {
     this.getAdminById();
     this.getCalendar();
-    const date = new Date();
-    let currentYear = date.getFullYear();
-    const nextYear = date.getFullYear() + 1;
-    const schoolYear = String(currentYear) + ' - ' + String(nextYear);
-    this.schoolYear.push(schoolYear);
   }
 
   getAdminById = () => {
@@ -91,8 +74,11 @@ export class MainComponent implements OnInit {
   };
 
   getCalendar = () => {
-    this.calendarService.getCalendar().subscribe((data) => {
+    this.calendarService.getCalendar().subscribe((data: any) => {
       this.calendar = data;
+      if (data[0].startClass == null) {
+        this.isDialogOpen = true;
+      }
     });
   };
 
@@ -138,8 +124,6 @@ export class MainComponent implements OnInit {
         endEnrollment: this.calendar[0].endEnrollment,
         startClass: this.calendar[0].startClass,
         endClass: this.calendar[0].endClass,
-        sem: this.calendar[0].sem,
-        academicYear: this.calendar[0].academicYear,
       });
     }
   };

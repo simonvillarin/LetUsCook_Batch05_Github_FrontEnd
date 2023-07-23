@@ -6,6 +6,7 @@ import { ScheduleService } from 'src/app/shared/services/schedule/schedule.servi
 import { StudentService } from 'src/app/shared/services/student/student.service';
 import { Paginator } from 'primeng/paginator';
 import { SectionService } from 'src/app/shared/services/section/section.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course',
@@ -153,7 +154,8 @@ export class CourseComponent {
     private authService: AuthService,
     private scheduleService: ScheduleService,
     private sectionService: SectionService,
-    private programService: ProgramService
+    private programService: ProgramService,
+    private router: Router
   ) {
     this.evaluationForm = this.fb.group({});
   }
@@ -177,9 +179,6 @@ export class CourseComponent {
           this.selectedSchedules.push(sched);
         });
         this.getProgram();
-        if (this.student.schedules.length == 0) {
-          console.log('Dont display table subjects');
-        }
         if (this.student.schedules.length > 0) {
           this.hasSchedule = true;
         }
@@ -191,6 +190,7 @@ export class CourseComponent {
       .getScheduleByStudentId(this.studentId)
       .subscribe((data: any) => {
         this.schedules = data;
+        console.log(data);
       });
   };
 
@@ -410,5 +410,11 @@ export class CourseComponent {
 
   onSubmit = () => {
     console.log(this.evaluationForm.value);
+  };
+
+  onStudentsTable = (load: any) => {
+    const sectionId = load.section.sectionId;
+    const subjectId = load.subject.subjectId;
+    this.router.navigate([`student/course/${sectionId}-${subjectId}`]);
   };
 }
