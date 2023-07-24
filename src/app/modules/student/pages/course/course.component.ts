@@ -19,6 +19,7 @@ export class CourseComponent {
   selectedSchedules: any[] = [];
   schedules: any = [];
   sections: any = [];
+  sched: any = [];
   selectedSection: any;
   studentId: any;
   student: any = {};
@@ -175,6 +176,7 @@ export class CourseComponent {
       .getStudentById(this.studentId)
       .subscribe((data: any) => {
         this.student = data;
+        this.sched = data.schedules;
         data.tempSched.map((sched: any) => {
           this.selectedSchedules.push(sched);
         });

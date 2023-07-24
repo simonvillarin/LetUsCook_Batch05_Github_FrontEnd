@@ -1,1 +1,87 @@
-<p>load works!</p>
+<!-- <main>
+    <div class="table">
+        <p-table
+      [(selection)]="selectedSchedules"
+      [dataKey]="schedules.subject"
+      [value]="schedules"
+      [tableStyle]="{ 'min-width': '80rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>Subject</th>
+          <th>Day</th>
+          <th>Time</th>
+          <th>Room</th>
+          <th>Section</th>
+          <th>Professor</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-sched>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="sched"></p-tableCheckbox>
+          </td>
+          <td>
+            <div class="subject-container">
+              <div>{{ sched.subject.subjectTitle }}</div>
+              <div class="subject-description">
+                <div
+                  class="type {{
+                    sched.subject.type == 'Major'
+                      ? 'major'
+                      : sched.subject.type == 'Minor'
+                      ? 'minor'
+                      : 'elective'
+                  }}"
+                >
+                  {{ sched.subject.type }}
+                </div>
+                <div class="units">{{ sched.subject.units }} units</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <ng-container *ngFor="let day of sched.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+          </td>
+          <td>
+            {{ convertTime(sched.startTime) }} -
+            {{ convertTime(sched.endTime) }}
+          </td>
+          <td>{{ sched.room.roomNumber }}</td>
+          <td>{{ sched.section.section }}</td>
+          <td>
+            <div class="professor-container">
+              <div class="avatar-container">
+                <div class="avatar">
+                  <img
+                    src="{{
+                      sched.professor.image ||
+                        '../../../../../../../assets/images/blank-profile.jpg'
+                    }}"
+                    alt="Prof Image"
+                  />
+                </div>
+              </div>
+              <div class="name">{{ sched.professor.fullname }}</div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    </div>
+</main> -->

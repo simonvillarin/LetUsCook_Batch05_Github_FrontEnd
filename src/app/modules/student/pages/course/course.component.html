@@ -133,7 +133,7 @@
   </div>
   <div class="table" *ngIf="hasSchedule">
     <div class="card-container">
-      <ng-container *ngFor="let load of schedules; index as i">
+      <ng-container *ngFor="let load of sched; index as i">
         <div class="card" (click)="onStudentsTable(load)">
           <div class="card-image">
             <img
