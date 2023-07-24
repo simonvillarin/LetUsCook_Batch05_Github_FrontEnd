@@ -1,87 +1,131 @@
-<!-- <main>
-    <div class="table">
-        <p-table
-      [(selection)]="selectedSchedules"
-      [dataKey]="schedules.subject"
-      [value]="schedules"
+<main>
+  <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button class="send" title="Submit" (click)="onSubmit()">
+          <span class="material-symbols-rounded"> send </span>
+        </button>
+        <button class="edit" title="Edit" (click)="onEdit()">
+          <span class="material-symbols-rounded"> edit </span>
+        </button>
+        <button class="reset" title="Reset" (click)="onReset()">
+          <span class="material-symbols-rounded"> restart_alt </span>
+        </button>
+      </div>
+      <div class="search-container">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [style]="{
+            width: '100%',
+            paddingLeft: '2.5rem'
+          }"
+          placeholder="Search"
+        />
+      </div>
+    </div>
+    <p-table
+      [value]="grades"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '80rem' }"
+      [rowsPerPageOptions]="[10, 15, 20]"
+      paginatorDropdownAppendTo="body"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 4rem">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-          </th>
-          <th>Subject</th>
-          <th>Day</th>
-          <th>Time</th>
-          <th>Room</th>
-          <th>Section</th>
-          <th>Professor</th>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Prelim</th>
+          <th>Midterm</th>
+          <th>Final</th>
+          <th>Comment</th>
+          <th>Remarks</th>
+          <th>Date Modified</th>
+          <th>Status</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-sched>
+      <ng-template pTemplate="body" let-grade let-rowIndex="rowIndex">
         <tr>
           <td>
-            <p-tableCheckbox [value]="sched"></p-tableCheckbox>
-          </td>
-          <td>
-            <div class="subject-container">
-              <div>{{ sched.subject.subjectTitle }}</div>
-              <div class="subject-description">
-                <div
-                  class="type {{
-                    sched.subject.type == 'Major'
-                      ? 'major'
-                      : sched.subject.type == 'Minor'
-                      ? 'minor'
-                      : 'elective'
+            <div class="avatar-container">
+              <div class="avatar">
+                <img
+                  src="{{
+                    grade.student.image ||
+                      '../../../../../../../assets/images/blank-profile.jpg'
                   }}"
-                >
-                  {{ sched.subject.type }}
-                </div>
-                <div class="units">{{ sched.subject.units }} units</div>
+                  alt="Student Image"
+                />
               </div>
             </div>
           </td>
           <td>
-            <ng-container *ngFor="let day of sched.days">{{
-              day == "Monday"
-                ? "M"
-                : day == "Tuesday"
-                ? "T"
-                : day == "Wednesday"
-                ? "W"
-                : day == "Thursday"
-                ? "Th"
-                : day == "Friday"
-                ? "F"
-                : "S"
-            }}</ng-container>
+            {{ grade.student.firstname }} {{ grade.student.middlename }}
+            {{ grade.student.lastname }}
           </td>
           <td>
-            {{ convertTime(sched.startTime) }} -
-            {{ convertTime(sched.endTime) }}
+            <div *ngIf="!isEditing">{{ grade.prelim || "-" }}</div>
+            <input
+              *ngIf="isEditing"
+              pInputText
+              pKeyFilter="num"
+              [style]="{
+                height: '45px',
+                width: '4.75rem',
+                textAlign: 'center'
+              }"
+              [value]="gradesToSubmit[rowIndex].prelim"
+              (input)="onChangePrelim($event, rowIndex, grade.gradeId)"
+            />
           </td>
-          <td>{{ sched.room.roomNumber }}</td>
-          <td>{{ sched.section.section }}</td>
           <td>
-            <div class="professor-container">
-              <div class="avatar-container">
-                <div class="avatar">
-                  <img
-                    src="{{
-                      sched.professor.image ||
-                        '../../../../../../../assets/images/blank-profile.jpg'
-                    }}"
-                    alt="Prof Image"
-                  />
-                </div>
-              </div>
-              <div class="name">{{ sched.professor.fullname }}</div>
+            <div *ngIf="!isEditing">
+              {{ grade.midterm || "-" }}
+            </div>
+            <input
+              *ngIf="isEditing"
+              pInputText
+              pKeyFilter="num"
+              [style]="{
+                height: '45px',
+                width: '4.75rem',
+                textAlign: 'center'
+              }"
+              [value]="gradesToSubmit[rowIndex].midterm"
+              (input)="onChangeMidterm($event, rowIndex, grade.gradeId)"
+            />
+          </td>
+          <td>
+            <div *ngIf="!isEditing">
+              {{ grade.finals || "-" }}
+            </div>
+            <input
+              *ngIf="isEditing"
+              pInputText
+              pKeyFilter="num"
+              [style]="{
+                height: '45px',
+                width: '4.75rem',
+                textAlign: 'center'
+              }"
+              [value]="gradesToSubmit[rowIndex].finals"
+              (input)="onChangeFinal($event, rowIndex, grade.gradeId)"
+            />
+          </td>
+          <td>{{ grade.comment || "-" }}</td>
+          <td>{{ grade.remark || "-" }}</td>
+          <td>{{ grade.dateModified || "-" }}</td>
+          <td>
+            <div class="status {{ grade.status ? 'active' : 'inactive' }}">
+              {{ grade.status ? "Active" : "Inactive" }}
             </div>
           </td>
         </tr>
       </ng-template>
     </p-table>
-    </div>
-</main> -->
+  </div>
+</main>

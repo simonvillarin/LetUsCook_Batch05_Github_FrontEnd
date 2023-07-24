@@ -21,6 +21,7 @@ import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 import { CourseComponent } from './pages/course/course.component';
 import { TabViewModule } from 'primeng/tabview';
 import { LoadComponent } from './pages/load/load.component';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { LoadComponent } from './pages/load/load.component';
     CardModule,
     InputTextareaModule,
     TabViewModule,
+    KeyFilterModule,
   ],
 })
 export class ProfessorModule {}

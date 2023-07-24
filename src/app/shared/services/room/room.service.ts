@@ -14,6 +14,10 @@ export class RoomService {
     return this.http.get<any[]>(`${this.BASE_URL}/rooms`);
   };
 
+  getRoomById = (id: number): Observable<any> => {
+    return this.http.get<any>(`${this.BASE_URL}/room/${id}`);
+  };
+
   addRoom = (room: any) => {
     return this.http.post(`${this.BASE_URL}/room`, room);
   };
