@@ -670,7 +670,7 @@ export class ProfessorComponent implements OnInit {
       this.title = 'Edit Schedule';
       this.isUpdatingSchedule = true;
       this.schedule = sched;
-      console.log(this.schedule.subject.subjectTitle, 'edit sched');
+      console.log(this.schedule, 'edit sched');
       this.addScheduleDialog = true;
       this.scheduleForm.patchValue({
         subject: this.schedule.subject.subjectTitle,
@@ -713,7 +713,7 @@ export class ProfessorComponent implements OnInit {
     if (this.isUpdatingSchedule) {
       if (this.scheduleForm.valid) {
         const subject = this.scheduleForm.get('subject')?.value;
-        const days = this.scheduleForm.get('day')?.value;
+        const days = this.scheduleForm.get('days')?.value;
         const startTime = this.scheduleForm.get('startTime')?.value;
         const endTime = this.scheduleForm.get('endTime')?.value;
         const section = this.scheduleForm.get('section')?.value;
@@ -732,6 +732,8 @@ export class ProfessorComponent implements OnInit {
         console.log(payload, ' is the payload');
 
         this.scheduleService.updateSchedule(payload).subscribe((res: any) => {
+          console.log(res, 'res message');
+
           if (res.message == 'Schedule already exist') {
             this.alert = true;
             setTimeout(() => {

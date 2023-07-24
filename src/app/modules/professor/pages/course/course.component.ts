@@ -78,6 +78,6 @@ export class CourseComponent implements OnInit {
   onStudentsTable = (load: any) => {
     const sectionId = load.section.sectionId;
     const subjectId = load.subject.subjectId;
-    this.router.navigate([`student/course/${sectionId}-${subjectId}`]);
+    this.router.navigate([`professor/course/${sectionId}-${subjectId}`]);
   };
 }
