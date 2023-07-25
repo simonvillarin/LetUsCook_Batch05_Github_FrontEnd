@@ -1,131 +1,348 @@
 <main>
   <div class="table">
-    <div class="table-header">
-      <div class="btn-container">
-        <button class="send" title="Submit" (click)="onSubmit()">
-          <span class="material-symbols-rounded"> send </span>
-        </button>
-        <button class="edit" title="Edit" (click)="onEdit()">
-          <span class="material-symbols-rounded"> edit </span>
-        </button>
-        <button class="reset" title="Reset" (click)="onReset()">
-          <span class="material-symbols-rounded"> restart_alt </span>
-        </button>
-      </div>
-      <div class="search-container">
-        <i class="pi pi-search"></i>
-        <input
-          type="text"
-          pInputText
-          placeholder="Search"
-          [style]="{
+    <p-tabView>
+      <p-tabPanel header="Attendance">
+        <div class="table-header">
+          <div class="btn-container">
+            <button
+              class="reset table-header-btn"
+              title="Reset"
+              (click)="onReset()"
+            >
+              <span class="material-symbols-rounded table-header-icon">
+                restart_alt
+              </span>
+            </button>
+          </div>
+          <div class="filter">
+            <p-dropdown
+              [options]="remarks"
+              placeholder="Filter by remarks"
+              appendTo="body"
+              [(ngModel)]="remark"
+              (ngModelChange)="onChangeRemarks($event)"
+              [style]="{
             width: '100%',
-            paddingLeft: '2.5rem'
           }"
-          placeholder="Search"
-        />
-      </div>
-    </div>
-    <p-table
-      [value]="grades"
-      [paginator]="true"
-      [rows]="10"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '80rem' }"
-      [rowsPerPageOptions]="[10, 15, 20]"
-      paginatorDropdownAppendTo="body"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Prelim</th>
-          <th>Midterm</th>
-          <th>Final</th>
-          <th>Comment</th>
-          <th>Remarks</th>
-          <th>Date Modified</th>
-          <th>Status</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-grade let-rowIndex="rowIndex">
-        <tr>
-          <td>
-            <div class="avatar-container">
-              <div class="avatar">
-                <img
-                  src="{{
-                    grade.student.image ||
-                      '../../../../../../../assets/images/blank-profile.jpg'
-                  }}"
-                  alt="Student Image"
-                />
-              </div>
+            ></p-dropdown>
+            <div class="search-container">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                placeholder="Search"
+                [style]="{
+                  width: '100%',
+                  paddingLeft: '2.5rem'
+                }"
+                placeholder="Search"
+                [(ngModel)]="gradeSearch"
+                (ngModelChange)="onChangeGradeSearch($event)"
+              />
             </div>
-          </td>
-          <td>
-            {{ grade.student.firstname }} {{ grade.student.middlename }}
-            {{ grade.student.lastname }}
-          </td>
-          <td>
-            <div *ngIf="!isEditing">{{ grade.prelim || "-" }}</div>
-            <input
-              *ngIf="isEditing"
-              pInputText
-              pKeyFilter="num"
+          </div>
+        </div>
+        <p-table [value]="attendance" [tableStyle]="{ 'min-width': '80rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 10%">Image</th>
+              <th style="width: 25%">Name</th>
+              <th style="width: 16%">Date</th>
+              <th style="width: 16%">Time</th>
+              <th style="width: 20%">Status</th>
+              <th style="width: 18%">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-att>
+            <ng-container *ngIf="att.activeDeactive">
+              <tr>
+                <td>
+                  <div class="avatar-container">
+                    <div class="avatar">
+                      <img
+                        src="{{
+                          att.student.image ||
+                            '../../../../../../../assets/images/blank-profile.jpg'
+                        }}"
+                        alt="Student Image"
+                      />
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  {{ att.student.firstname }} {{ att.student.middlename }}
+                  {{ att.student.lastname }} {{ att.student.suffix }}
+                </td>
+                <td>
+                  {{ convertDate(att.date) }}
+                </td>
+                <td>
+                  {{ convertTime(att.time) }}
+                </td>
+                <td>
+                  <div
+                    *ngIf="att.status"
+                    class="status {{
+                      att.status == 'Present'
+                        ? 'present'
+                        : att.status == 'Absent'
+                        ? 'absent'
+                        : 'late'
+                    }}"
+                  >
+                    {{ att.status }}
+                  </div>
+                  <div *ngIf="!att.status"></div>
+                </td>
+                <td>
+                  <div class="table-actions">
+                    <button
+                      class="table-btn edit"
+                      title="Edit"
+                      (click)="onEditAtt(att)"
+                    >
+                      <span class="material-symbols-rounded table-icon">
+                        edit
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
+      <p-tabPanel header="Grades">
+        <div class="table-header">
+          <div class="btn-container">
+            <button
+              class="reset table-header-btn"
+              title="Reset"
+              (click)="onReset()"
+            >
+              <span class="material-symbols-rounded table-header-icon">
+                restart_alt
+              </span>
+            </button>
+          </div>
+          <div class="filter">
+            <p-dropdown
+              [options]="remarks"
+              placeholder="Filter by remarks"
+              appendTo="body"
+              [style]="{ width: '100%' }"
+              [(ngModel)]="remark"
+              (ngModelChange)="onChangeRemarks($event)"
               [style]="{
-                height: '45px',
-                width: '4.75rem',
-                textAlign: 'center'
-              }"
-              [value]="gradesToSubmit[rowIndex].prelim"
-              (input)="onChangePrelim($event, rowIndex, grade.gradeId)"
-            />
-          </td>
-          <td>
-            <div *ngIf="!isEditing">
-              {{ grade.midterm || "-" }}
+            width: '100%',
+          }"
+            ></p-dropdown>
+            <div class="search-container">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                placeholder="Search"
+                [style]="{
+                  width: '100%',
+                  paddingLeft: '2.5rem'
+                }"
+                placeholder="Search"
+                [(ngModel)]="gradeSearch"
+                (ngModelChange)="onChangeGradeSearch($event)"
+              />
             </div>
-            <input
-              *ngIf="isEditing"
-              pInputText
-              pKeyFilter="num"
-              [style]="{
-                height: '45px',
-                width: '4.75rem',
-                textAlign: 'center'
-              }"
-              [value]="gradesToSubmit[rowIndex].midterm"
-              (input)="onChangeMidterm($event, rowIndex, grade.gradeId)"
-            />
-          </td>
-          <td>
-            <div *ngIf="!isEditing">
-              {{ grade.finals || "-" }}
-            </div>
-            <input
-              *ngIf="isEditing"
-              pInputText
-              pKeyFilter="num"
-              [style]="{
-                height: '45px',
-                width: '4.75rem',
-                textAlign: 'center'
-              }"
-              [value]="gradesToSubmit[rowIndex].finals"
-              (input)="onChangeFinal($event, rowIndex, grade.gradeId)"
-            />
-          </td>
-          <td>{{ grade.comment || "-" }}</td>
-          <td>{{ grade.remark || "-" }}</td>
-          <td>{{ grade.dateModified || "-" }}</td>
-          <td>
-            <div class="status {{ grade.status ? 'active' : 'inactive' }}">
-              {{ grade.status ? "Active" : "Inactive" }}
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+          </div>
+        </div>
+        <p-table [value]="grades" [tableStyle]="{ 'min-width': '80rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 5%">Image</th>
+              <th style="width: 20%">Name</th>
+              <th style="width: 9%">Prelim</th>
+              <th style="width: 9%">Midterm</th>
+              <th style="width: 9%">Final</th>
+              <th style="width: 15%">Comment</th>
+              <th style="width: 9%">Remarks</th>
+              <th style="width: 15%">Date Modified</th>
+              <th style="width: 9%">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-grade>
+            <ng-container *ngIf="grade.status">
+              <tr>
+                <td>
+                  <div class="avatar-container">
+                    <div class="avatar">
+                      <img
+                        src="{{
+                          grade.student.image ||
+                            '../../../../../../../assets/images/blank-profile.jpg'
+                        }}"
+                        alt="Student Image"
+                      />
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  {{ grade.student.firstname }} {{ grade.student.middlename }}
+                  {{ grade.student.lastname }} {{ grade.student.suffix }}
+                </td>
+                <td>
+                  {{ grade.prelim || "-" }}
+                </td>
+                <td>
+                  {{ grade.midterm || "-" }}
+                </td>
+                <td>
+                  {{ grade.finals || "-" }}
+                </td>
+                <td>{{ grade.comment || "-" }}</td>
+                <td>{{ grade.remarks || "-" }}</td>
+                <td>{{ convertDate(grade.dateModified) || "-" }}</td>
+                <td>
+                  <div class="table-actions">
+                    <button
+                      class="table-btn edit"
+                      title="Edit"
+                      (click)="onEdit(grade)"
+                    >
+                      <span class="material-symbols-rounded table-icon">
+                        edit
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
+    </p-tabView>
   </div>
 </main>
+
+<p-dialog
+  [(visible)]="gradesDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="avatar-container dialog">
+      <div class="avatar ava">
+        <img
+          src="{{
+            student.image ||
+              '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Student Image"
+        />
+      </div>
+      {{ student.firstname }} {{ student.middlename }}
+      {{ student.lastname }}
+      {{ student.suffix }}
+    </div>
+  </p-header>
+
+  <div>
+    <form [formGroup]="gradesForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <div class="input-groups">
+          <div class="input-group">
+            <label>Prelim</label>
+            <input
+              pInputText
+              placeholder="Prelim"
+              pKeyFilter="num"
+              formControlName="prelim"
+            />
+          </div>
+          <div class="input-group">
+            <label>Midterm</label>
+            <input
+              pInputText
+              placeholder="Midterm"
+              pKeyFilter="num"
+              formControlName="midterm"
+            />
+          </div>
+          <div class="input-group">
+            <label>Final</label>
+            <input
+              pInputText
+              placeholder="Final"
+              pKeyFilter="num"
+              formControlName="finals"
+            />
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Comment</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="comment"
+          ></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn cancel" type="button">Cancel</button>
+        <button class="action-btn submit" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="attDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="avatar-container dialog">
+      <div class="avatar ava">
+        <img
+          src="{{
+            student.image ||
+              '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Student Image"
+        />
+      </div>
+      {{ student.firstname }} {{ student.middlename }}
+      {{ student.lastname }}
+      {{ student.suffix }}
+    </div>
+  </p-header>
+
+  <div>
+    <form [formGroup]="attendanceForm" (ngSubmit)="onSubmitAttendance()">
+      <div class="form-group">
+        <div class="input-group">
+          <label>Student's Attendance Status</label>
+          <p-dropdown
+            [options]="atts"
+            placeholder="Select student' attendance status"
+            appendTo="body"
+            [style]="{
+            width: '100%',
+
+          }"
+            formControlName="status"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn cancel" type="button">Cancel</button>
+        <button class="action-btn submit" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</p-dialog>

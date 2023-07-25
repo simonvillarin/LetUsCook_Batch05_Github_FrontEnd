@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -51,5 +51,6 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     TabViewModule,
     KeyFilterModule,
   ],
+  providers: [DatePipe],
 })
 export class ProfessorModule {}

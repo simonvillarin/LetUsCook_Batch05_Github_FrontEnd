@@ -5,7 +5,7 @@ main {
 }
 
 .table {
-  padding: 1.5rem;
+  padding: 0.5rem 1.5rem;
   overflow-x: auto;
 }
 
@@ -51,7 +51,14 @@ tr td {
   position: relative;
 }
 
-button {
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.table-header-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +67,26 @@ button {
   cursor: pointer;
 }
 
-.send {
+.table-header-icon {
+  font-size: 1.75rem;
+  color: var(--white);
+}
+
+.table-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.table-icon {
+  color: var(--white);
+}
+
+.send,
+.active {
   background-color: var(--green);
 }
 
@@ -68,13 +94,9 @@ button {
   background-color: var(--light-blue);
 }
 
-.reset {
+.reset,
+.inactive {
   background-color: var(--light-red);
-}
-
-span {
-  font-size: 1.75rem;
-  color: var(--white);
 }
 
 .avatar-container {
@@ -162,6 +184,71 @@ img {
 
 .inactive {
   background-color: var(--red);
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.avatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.dialog {
+  font-size: clamp(1.125rem, 0.9464rem + 0.8929vw, 1.75rem);
+  font-weight: 300;
+}
+
+.ava {
+  width: 3rem;
+  height: 3rem;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.input-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+label {
+  font-size: 0.935rem;
+}
+
+.present {
+  background-color: var(--green);
+}
+
+.absent {
+  background-color: var(--light-red);
+}
+
+.late {
+  background-color: var(--light-orange);
 }
 
 @media screen and (min-width: 768px) {
