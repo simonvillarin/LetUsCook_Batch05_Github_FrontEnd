@@ -30,6 +30,10 @@ export class StudentComponent implements OnInit {
   sections: any = [];
   selectedSchedules: any = [];
   schedules: any = [];
+  yearLevelSelectedStudent: string = '';
+  termSelectedStudent: string = '';
+  yearLevelSelectedApplication: string = '';
+  termSelectedApplication: string = '';
 
   isInputDisabled: boolean = true;
   isDialogOpen: boolean = false;
@@ -326,6 +330,8 @@ export class StudentComponent implements OnInit {
   };
 
   onEditApplication = (application: any) => {
+    console.log(application, 'is the application');
+
     this.application = application;
     this.confirmTitle = 'Approve';
     this.isEditing = true;
@@ -361,5 +367,98 @@ export class StudentComponent implements OnInit {
           this.getAllApplications();
         });
     }
+  };
+
+  onYearChangeStudent = () => {
+    this.studentService.getAllStudents().subscribe((data: any) => {
+      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+      if (this.termSelectedStudent == '') {
+        this.students = this.students.filter(
+          (data: any) => data.yearLevel == this.yearLevelSelectedStudent
+        );
+      } else {
+        this.students = this.students.filter(
+          (data: any) =>
+            data.yearLevel == this.yearLevelSelectedStudent &&
+            data.sem == this.termSelectedStudent
+        );
+      }
+    });
+  };
+
+  onTermChangeStudent = () => {
+    this.studentService.getAllStudents().subscribe((data: any) => {
+      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+      if (this.yearLevelSelectedStudent == '') {
+        this.students = this.students.filter(
+          (data: any) => data.sem == this.termSelectedStudent
+        );
+      } else {
+        this.students = this.students.filter(
+          (data: any) =>
+            data.yearLevel == this.yearLevelSelectedStudent &&
+            data.sem == this.termSelectedStudent
+        );
+      }
+    });
+  };
+
+  onYearChangeApplication = () => {
+    this.applicationService.getAllApplications().subscribe((data: any) => {
+      this.applications = data.sort(
+        (a: any, b: any) => a.applicationId - b.applicationId
+      );
+      if (this.termSelectedApplication == '') {
+        this.applications = this.applications.filter(
+          (data: any) => data.yearLevel == this.yearLevelSelectedApplication
+        );
+      } else {
+        this.applications = this.applications.filter(
+          (data: any) =>
+            data.yearLevel == this.yearLevelSelectedApplication &&
+            data.sem == this.termSelectedApplication
+        );
+      }
+    });
+  };
+
+  onTermChangeApplication = () => {
+    this.applicationService.getAllApplications().subscribe((data: any) => {
+      this.applications = data.sort(
+        (a: any, b: any) => a.applicationId - b.applicationId
+      );
+      if (this.yearLevelSelectedApplication == '') {
+        this.applications = this.applications.filter(
+          (data: any) => data.sem == this.termSelectedApplication
+        );
+      } else {
+        this.applications = this.applications.filter(
+          (data: any) =>
+            data.yearLevel == this.yearLevelSelectedApplication &&
+            data.sem == this.termSelectedApplication
+        );
+      }
+    });
+  };
+
+  refreshStudent = () => {
+    this.yearLevelSelectedStudent = '';
+    this.termSelectedStudent = '';
+    this.studentService.getAllStudents().subscribe((data: any) => {
+      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+    });
+  };
+
+  refreshApplication = () => {
+    this.yearLevelSelectedApplication = '';
+    this.termSelectedApplication = '';
+    this.applicationService.getAllApplications().subscribe((data: any) => {
+      this.applications = data.sort(
+        (a: any, b: any) => a.applicationId - b.applicationId
+      );
+      this.applications = this.applications.filter(
+        (app: any) => app.status == false
+      );
+    });
   };
 }

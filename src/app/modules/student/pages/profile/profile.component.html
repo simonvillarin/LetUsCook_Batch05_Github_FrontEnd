@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="name">
-          <h3>{{ professor.firstname }} {{ professor.lastname }}</h3>
+          <h3>{{ student.firstname }} {{ student.lastname }}</h3>
           <span>{{ username }}</span>
         </div>
       </div>
@@ -89,7 +89,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.firstname }}
+              {{ student.firstname }}
             </div>
             <div
               *ngIf="
@@ -112,7 +112,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.middlename }}
+              {{ student.middlename }}
             </div>
           </div>
           <div class="input-group">
@@ -124,7 +124,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.lastname }}
+              {{ student.lastname }}
             </div>
             <div
               *ngIf="
@@ -146,7 +146,7 @@
               formControlName="suffix"
               *ngIf="editPersonal"
             />
-            <div class="box" *ngIf="!editPersonal">{{ professor.suffix }}</div>
+            <div class="box" *ngIf="!editPersonal">{{ student.suffix }}</div>
           </div>
           <div class="input-group">
             <label class="input-label">Gender:</label>
@@ -158,7 +158,7 @@
               *ngIf="editPersonal"
               >p</p-dropdown
             >
-            <div class="box" *ngIf="!editPersonal">{{ professor.gender }}</div>
+            <div class="box" *ngIf="!editPersonal">{{ student.gender }}</div>
             <div *ngIf="gender?.invalid && (gender?.dirty || gender?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"
@@ -177,7 +177,7 @@
               *ngIf="editPersonal"
             ></p-dropdown>
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.civilStatus }}
+              {{ student.civilStatus }}
             </div>
             <div
               *ngIf="
@@ -201,7 +201,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.birthdate }}
+              {{ student.birthdate }}
             </div>
             <div
               *ngIf="
@@ -229,7 +229,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.birthplace }}
+              {{ student.birthplace }}
             </div>
             <div
               *ngIf="
@@ -253,7 +253,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.citizenship }}
+              {{ student.citizenship }}
             </div>
             <div
               *ngIf="
@@ -277,7 +277,7 @@
               *ngIf="editPersonal"
             />
             <div class="box" *ngIf="!editPersonal">
-              {{ professor.religion }}
+              {{ student.religion }}
             </div>
             <div
               *ngIf="
@@ -332,7 +332,7 @@
               formControlName="unit"
               *ngIf="editAddress"
             />
-            <div class="box" *ngIf="!editAddress">{{ professor.unit }}</div>
+            <div class="box" *ngIf="!editAddress">{{ student.unit }}</div>
             <div *ngIf="unit?.invalid && (unit?.dirty || unit?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"
@@ -349,7 +349,7 @@
               formControlName="street"
               *ngIf="editAddress"
             />
-            <div class="box" *ngIf="!editAddress">{{ professor.street }}</div>
+            <div class="box" *ngIf="!editAddress">{{ student.street }}</div>
             <div *ngIf="street?.invalid && (street?.dirty || street?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"
@@ -367,7 +367,7 @@
               *ngIf="editAddress"
             />
             <div class="box" *ngIf="!editAddress">
-              {{ professor.subdivision }}
+              {{ student.subdivision }}
             </div>
             <div
               *ngIf="
@@ -390,7 +390,7 @@
               formControlName="barangay"
               *ngIf="editAddress"
             />
-            <div class="box" *ngIf="!editAddress">{{ professor.barangay }}</div>
+            <div class="box" *ngIf="!editAddress">{{ student.barangay }}</div>
             <div
               *ngIf="
                 barangay?.invalid && (barangay?.dirty || barangay?.touched)
@@ -411,7 +411,7 @@
               formControlName="city"
               *ngIf="editAddress"
             />
-            <div class="box" *ngIf="!editAddress">{{ professor.city }}</div>
+            <div class="box" *ngIf="!editAddress">{{ student.city }}</div>
             <div *ngIf="city?.invalid && (city?.dirty || city?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"
@@ -428,7 +428,7 @@
               formControlName="province"
               *ngIf="editAddress"
             />
-            <div class="box" *ngIf="!editAddress">{{ professor.province }}</div>
+            <div class="box" *ngIf="!editAddress">{{ student.province }}</div>
             <div
               *ngIf="
                 province?.invalid && (province?.dirty || province?.touched)
@@ -450,7 +450,7 @@
               formControlName="zipcode"
               *ngIf="editAddress"
             />
-            <div class="box" *ngIf="!editAddress">{{ professor.zipcode }}</div>
+            <div class="box" *ngIf="!editAddress">{{ student.zipcode }}</div>
             <div
               *ngIf="zipcode?.invalid && (zipcode?.dirty || zipcode?.touched)"
             >
@@ -509,7 +509,7 @@
               *ngIf="editContact"
             />
             <div class="box" *ngIf="!editContact">
-              {{ professor.telephone }}
+              {{ student.telephone }}
             </div>
             <div
               *ngIf="
@@ -532,12 +532,12 @@
             <label class="input-label">Mobile No:</label>
             <input
               pInputText
-              type="number"
+              type="text"
               placeholder="09XXxxxxxxx"
               formControlName="mobile"
               *ngIf="editContact"
             />
-            <div class="box" *ngIf="!editContact">{{ professor.mobile }}</div>
+            <div class="box" *ngIf="!editContact">{{ student.mobile }}</div>
             <div *ngIf="mobile?.invalid && (mobile?.dirty || mobile?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"
@@ -559,7 +559,7 @@
               formControlName="email"
               *ngIf="editContact"
             />
-            <div class="box" *ngIf="!editContact">{{ professor.email }}</div>
+            <div class="box" *ngIf="!editContact">{{ student.email }}</div>
             <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
               <small
                 [style]="{ color: 'var(--red)' }"

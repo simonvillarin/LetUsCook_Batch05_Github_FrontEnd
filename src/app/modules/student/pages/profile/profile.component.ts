@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AccountService } from 'src/app/shared/services/account/account.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
+import { StudentService } from 'src/app/shared/services/student/student.service';
 import {
   PasswordLengthValidator,
   hasUppercaseValidator,
@@ -27,7 +28,7 @@ export class ProfileComponent implements OnInit {
   imagePreview: string | ArrayBuffer | null = null;
   bannerPreview: string | ArrayBuffer | null = null;
 
-  admin: any = {};
+  student: any = {};
   username: string = '';
   password: string = '';
 
@@ -56,7 +57,7 @@ export class ProfileComponent implements OnInit {
   passwordForm: FormGroup;
 
   constructor(
-    private adminService: AdminService,
+    private studentService: StudentService,
     private authService: AuthService,
     private accountService: AccountService,
     private fb: FormBuilder
@@ -84,7 +85,15 @@ export class ProfileComponent implements OnInit {
     });
     this.contactForm = fb.group({
       telephone: ['', [Validators.required, telephoneNumberValidator()]],
-      mobile: ['', [Validators.required, mobileNumberValidator()]],
+      mobile: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+          mobileNumberValidator(),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
     });
     this.passwordForm = fb.group(
@@ -111,17 +120,17 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAdminById();
+    this.getProfessorById();
     this.getAccountByUserId();
   }
 
-  getAdminById = () => {
-    this.adminService
-      .getAdminById(this.authService.getUserId())
+  getProfessorById = () => {
+    this.studentService
+      .getStudentById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.imagePreview = data.image;
-        this.bannerPreview = data.bannerImage;
-        this.admin = data;
+        this.bannerPreview = data.banner;
+        this.student = data;
       });
   };
 
@@ -250,8 +259,8 @@ export class ProfileComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('image', this.fileImage);
-    this.adminService
-      .updateImage(this.authService.getUserId(), formData)
+    this.studentService
+      .updateStudentWithImage(this.authService.getUserId(), formData)
       .subscribe((res) => console.log(res));
   };
 
@@ -266,64 +275,65 @@ export class ProfileComponent implements OnInit {
     reader.readAsDataURL(this.fileBanner);
     const formData = new FormData();
     formData.append('banner', this.fileBanner);
-    this.adminService
-      .updateBanner(this.authService.getUserId(), formData)
+    this.studentService
+      .updateStudentBanner(this.authService.getUserId(), formData)
       .subscribe((res) => console.log(res));
   };
 
   onEditPersonal = () => {
     this.editPersonal = !this.editPersonal;
     this.personalForm.patchValue({
-      firstname: this.admin.firstname,
-      middlename: this.admin.middlename,
-      lastname: this.admin.lastname,
-      suffix: this.admin.suffix,
-      gender: this.admin.gender,
-      civilStatus: this.admin.civilStatus,
-      birthdate: this.admin.birthdate,
-      birthplace: this.admin.birthplace,
-      citizenship: this.admin.citizenship,
-      religion: this.admin.religion,
+      firstname: this.student.firstname,
+      middlename: this.student.middlename,
+      lastname: this.student.lastname,
+      suffix: this.student.suffix,
+      gender: this.student.gender,
+      civilStatus: this.student.civilStatus,
+      birthdate: this.student.birthdate,
+      birthplace: this.student.birthplace,
+      citizenship: this.student.citizenship,
+      religion: this.student.religion,
     });
   };
 
   onEditAddress = () => {
     this.editAddress = !this.editAddress;
     this.addressForm.patchValue({
-      unit: this.admin.unit,
-      street: this.admin.street,
-      subdivision: this.admin.subdivision,
-      barangay: this.admin.barangay,
-      city: this.admin.city,
-      province: this.admin.province,
-      zipcode: this.admin.zipcode,
+      unit: this.student.unit,
+      street: this.student.street,
+      subdivision: this.student.subdivision,
+      barangay: this.student.barangay,
+      city: this.student.city,
+      province: this.student.province,
+      zipcode: this.student.zipcode,
     });
   };
 
   onEditContact = () => {
     this.editContact = !this.editContact;
     this.contactForm.patchValue({
-      telephone: this.admin.telephone,
-      mobile: this.admin.mobile,
-      email: this.admin.email,
+      telephone: this.student.telephone,
+      mobile: this.student.mobile,
+      email: this.student.email,
     });
+    console.log(this.student, 'student');
   };
 
   onEditPassword = () => {
-    this.editPassword = !this.editPassword;
     this.accountService
       .getAccountByUserId(this.authService.getUserId())
       .subscribe((data: any) => {
         this.username = data.username;
         this.password = data.pass;
       });
+    this.editPassword = !this.editPassword;
   };
 
   onSubmitPersonal = () => {
     if (this.personalForm.valid) {
-      this.adminService
-        .updateAdmin(this.admin.adminId, this.personalForm.value)
-        .subscribe(() => this.getAdminById());
+      this.studentService
+        .updateStudent(this.student.studentId, this.personalForm.value)
+        .subscribe(() => this.getProfessorById());
       this.alertPersonal = true;
       setTimeout(() => {
         this.alertPersonal = false;
@@ -338,9 +348,9 @@ export class ProfileComponent implements OnInit {
 
   onSubmitAddress = () => {
     if (this.addressForm.valid) {
-      this.adminService
-        .updateAdmin(this.admin.adminId, this.addressForm.value)
-        .subscribe(() => this.getAdminById());
+      this.studentService
+        .updateStudent(this.student.studentId, this.addressForm.value)
+        .subscribe(() => this.getProfessorById());
       this.alertAddress = true;
       setTimeout(() => {
         this.alertAddress = false;
@@ -355,9 +365,24 @@ export class ProfileComponent implements OnInit {
 
   onSubmitContact = () => {
     if (this.contactForm.valid) {
-      this.adminService
-        .updateAdmin(this.admin.adminId, this.contactForm.value)
+      const telNumber = this.contactForm.get('telephone')?.value;
+      const mobileNumber = this.contactForm.get('mobile')?.value;
+      const emailVal = this.contactForm.get('email')?.value;
+      const payload: any = {};
+      if (this.student.telephone != telNumber) {
+        payload.telephone = telNumber;
+      }
+      if (this.student.mobile != mobileNumber) {
+        payload.mobile = mobileNumber;
+      }
+      if (this.student.email != emailVal) {
+        payload.email = emailVal;
+      }
+      this.studentService
+        .updateStudent(this.student.studentId, payload)
         .subscribe((res: any) => {
+          console.log(res.message, 'message');
+
           if (res.message == 'Email already exist') {
             this.alertContact = true;
             setTimeout(() => {
@@ -367,7 +392,7 @@ export class ProfileComponent implements OnInit {
             this.alertMessage = 'Email address already exists';
             this.editContact = false;
           } else {
-            this.getAdminById();
+            this.getProfessorById();
             this.alertContact = true;
             setTimeout(() => {
               this.alertContact = false;
@@ -384,6 +409,8 @@ export class ProfileComponent implements OnInit {
 
   onSubmitPassword = () => {
     if (this.passwordForm.valid) {
+      console.log(this.passwordForm.get('newPassword')?.value, 'form password');
+      console.log(this.password, 'password');
       if (this.password != this.passwordForm.get('currentPassword')?.value) {
         this.alertPassword = true;
         setTimeout(() => {
@@ -394,10 +421,10 @@ export class ProfileComponent implements OnInit {
           'Current password you entered does not match your current password';
       } else {
         this.accountService
-          .updateAccount(this.admin.adminId, {
+          .updateAccount(this.student.studentId, {
             password: this.passwordForm.get('newPassword')?.value,
           })
-          .subscribe(() => this.getAdminById());
+          .subscribe(() => this.getProfessorById());
         this.alertPassword = true;
         setTimeout(() => {
           this.alertPassword = false;
