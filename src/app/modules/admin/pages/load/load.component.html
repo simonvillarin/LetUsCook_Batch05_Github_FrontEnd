@@ -1,0 +1,250 @@
+<main>
+  <div class="table">
+    <p-table
+      #dt1
+      [value]="schedules"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['subject.subjectTitle']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          <button class="add" (click)="onAddSchedule()">ADD</button>
+          <span [style]="{ position: 'relative' }">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search"
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 16%">Subject</th>
+          <th style="width: 12%">Day</th>
+          <th style="width: 12%">Start Time</th>
+          <th style="width: 12%">End Time</th>
+          <th style="width: 12%">Section</th>
+          <th style="width: 12%">Room</th>
+          <th style="width: 12%">Status</th>
+          <th style="width: 12%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-sched>
+        <tr>
+          <td>{{ sched.subject.subjectTitle }}</td>
+          <td>
+            <ng-container *ngFor="let day of sched.days">{{
+              day == "Monday"
+                ? "M"
+                : day == "Tuesday"
+                ? "T"
+                : day == "Wednesday"
+                ? "W"
+                : day == "Thursday"
+                ? "Th"
+                : day == "Friday"
+                ? "F"
+                : "S"
+            }}</ng-container>
+          </td>
+          <td>{{ convertTime(sched.startTime) }}</td>
+          <td>{{ convertTime(sched.endTime) }}</td>
+          <td>{{ sched.section.section }}</td>
+          <td>{{ sched.room.roomNumber }}</td>
+          <td>
+            <div class="{{ sched.activeDeactive ? 'active' : 'inactive' }}">
+              {{ sched.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button
+                title="Edit"
+                class="table-action edit"
+                (click)="onEditSchedule(sched)"
+              >
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Edit program"
+                  >edit</mat-icon
+                >
+              </button>
+              <button
+                title="Delete"
+                class="table-action {{
+                  !sched.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onRemoveSchedule(sched)"
+              >
+                <mat-icon
+                  class="material-icons-outlined"
+                  pTooltip="Remove program"
+                  >delete</mat-icon
+                >
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</main>
+<p-dialog
+  [(visible)]="addScheduleDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">{{ title }}</div>
+  </p-header>
+  <form [formGroup]="scheduleForm" (ngSubmit)="onSubmitSchedule()">
+    <div
+      class="alert {{
+        alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+      }}"
+      *ngIf="alert"
+    >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Error'"
+        >error</mat-icon
+      >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Success'"
+        >check</mat-icon
+      >
+      {{ alertMessage }}
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <label>Subject:</label>
+        <p-dropdown
+          [options]="subjects"
+          placeholder="Select a subject"
+          formControlName="subject"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <div *ngIf="subject?.invalid && (subject?.dirty || subject?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="subject?.errors?.['required']"
+            >Please select a subject</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Day:</label>
+        <p-multiSelect
+          [options]="days"
+          optionLabel="name"
+          optionValue="name"
+          placeholder="Select a day"
+          formControlName="days"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        ></p-multiSelect>
+        <div *ngIf="day?.invalid && (day?.dirty || day?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="day?.errors?.['required']"
+            >Please select a day</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Start Time:</label>
+        <input
+          type="time"
+          pInputText
+          placeholder="Select a start time"
+          appendTo="body"
+          formControlName="startTime"
+        />
+        <div
+          *ngIf="startTime?.invalid && (startTime?.dirty || startTime?.touched)"
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="startTime?.errors?.['required']"
+            >Please select a start time</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>End Time:</label>
+        <input
+          type="time"
+          pInputText
+          placeholder="Select an end time"
+          appendTo="body"
+          formControlName="endTime"
+        />
+        <div *ngIf="endTime?.invalid && (endTime?.dirty || endTime?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="endTime?.errors?.['required']"
+            >Please select an end time</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Section:</label>
+        <p-dropdown
+          [options]="sections"
+          placeholder="Select a section"
+          formControlName="section"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+      <div class="input-group">
+        <label>Room:</label>
+        <p-dropdown
+          [options]="rooms"
+          placeholder="Select a room"
+          formControlName="room"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="action-btn cancel" (click)="onCloseDialog()">
+        Cancel
+      </button>
+      <button type="submit" class="action-btn submit">Save</button>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">{{ title }}</div>
+  </p-header>
+  <div class="modal-body">
+    {{ body }}
+  </div>
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDialog()">Cancel</button>
+    <button class="action-btn submit" (click)="onDelete()">Yes</button>
+  </div>
+</p-dialog>

@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProfessorService } from 'src/app/shared/services/professor/professor.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
@@ -75,7 +76,8 @@ export class ProfessorComponent implements OnInit {
     private scheduleService: ScheduleService,
     private courseService: CourseService,
     private sectionService: SectionService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private router: Router
   ) {
     this.professorForm = fb.group({
       firstname: ['', [Validators.required]],
@@ -641,10 +643,7 @@ export class ProfessorComponent implements OnInit {
 
   onScheduleTable = (prof: any) => {
     this.prof = prof;
-    console.log(this.prof, 'in sched table');
-
-    this.getScheduleById();
-    this.schedulesDialog = true;
+    this.router.navigate([`admin/professor/schedule/${this.prof.professorId}`]);
   };
 
   onAddSchedule = () => {

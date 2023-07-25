@@ -12,6 +12,7 @@ import { MainComponent } from './pages/main/main.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SectionComponent } from './pages/section/section.component';
 import { RoomComponent } from './pages/room/room.component';
+import { LoadComponent } from './pages/load/load.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
       {
         path: 'room',
         component: RoomComponent,
+      },
+      {
+        path: 'professor/schedule/:id',
+        component: LoadComponent,
       },
     ],
   },

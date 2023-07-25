@@ -31,6 +31,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { LoadComponent } from './pages/load/load.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ProfileComponent,
     SectionComponent,
     RoomComponent,
+    LoadComponent,
   ],
   imports: [
     CommonModule,
