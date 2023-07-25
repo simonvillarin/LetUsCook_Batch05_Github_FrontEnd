@@ -14,6 +14,7 @@ import {
   mobileNumberValidator,
   telephoneNumberValidator,
   birthdateValidator,
+  confirmPasswordValidator,
 } from 'src/app/shared/validators/custom.validator';
 
 @Component({
@@ -87,21 +88,27 @@ export class ProfileComponent implements OnInit {
       mobile: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
     });
-    this.passwordForm = fb.group({
-      currentPassword: ['', [Validators.required]],
-      newPassword: [
-        '',
-        [
-          Validators.required,
-          PasswordLengthValidator(),
-          hasUppercaseValidator(),
-          hasLowercaseValidator(),
-          hasNumberValidator(),
-          hasSymbolValidator(),
+    this.passwordForm = fb.group(
+      {
+        currentPassword: ['', [Validators.required]],
+        newPassword: [
+          '',
+          [
+            Validators.required,
+            PasswordLengthValidator(),
+            hasUppercaseValidator(),
+            hasLowercaseValidator(),
+            hasNumberValidator(),
+            hasSymbolValidator(),
+          ],
         ],
-      ],
-      confirmPassword: ['', [Validators.required]],
-    });
+        confirmPassword: [
+          '',
+          [Validators.required, confirmPasswordValidator()],
+        ],
+      },
+      { validators: confirmPasswordValidator() }
+    );
   }
 
   ngOnInit(): void {
@@ -305,6 +312,12 @@ export class ProfileComponent implements OnInit {
 
   onEditPassword = () => {
     this.editPassword = !this.editPassword;
+    this.accountService
+      .getAccountByUserId(this.authService.getUserId())
+      .subscribe((data: any) => {
+        this.username = data.username;
+        this.password = data.pass;
+      });
   };
 
   onSubmitPersonal = () => {

@@ -35,7 +35,7 @@ export class StudentMainComponent {
   };
 
   profile = () => {
-    this.router.navigate(['/admin/profile']);
+    this.router.navigate(['student/profile']);
     this.isShowDropdown = false;
   };
 

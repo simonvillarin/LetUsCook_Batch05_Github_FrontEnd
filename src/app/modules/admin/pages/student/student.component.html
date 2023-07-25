@@ -4,7 +4,11 @@
       <div class="table">
         <div class="table-header">
           <div class="btn-container">
-            <button class="btn-table-header reset" title="Reset">
+            <button
+              class="btn-table-header reset"
+              title="Reset"
+              (click)="refreshApplication()"
+            >
               <span class="material-symbols-rounded icon-table-header">
                 restart_alt
               </span>
@@ -16,12 +20,16 @@
               placeholder="Filter by year level"
               appendTo="body"
               [style]="{ width: '100%' }"
+              [(ngModel)]="yearLevelSelectedApplication"
+              (onChange)="onYearChangeApplication()"
             ></p-dropdown>
             <p-dropdown
               [options]="terms"
               placeholder="Filter by term"
               appendTo="body"
               [style]="{ width: '100%' }"
+              [(ngModel)]="termSelectedApplication"
+              (onChange)="onTermChangeApplication()"
             ></p-dropdown>
             <div class="search-container">
               <i class="pi pi-search"></i>
@@ -100,7 +108,11 @@
       <div class="table">
         <div class="table-header">
           <div class="btn-container">
-            <button class="btn-table-header reset" title="Reset">
+            <button
+              class="btn-table-header reset"
+              title="Reset"
+              (click)="refreshStudent()"
+            >
               <span class="material-symbols-rounded icon-table-header">
                 restart_alt
               </span>
@@ -112,12 +124,16 @@
               placeholder="Filter by year level"
               appendTo="body"
               [style]="{ width: '100%' }"
+              [(ngModel)]="yearLevelSelectedStudent"
+              (onChange)="onYearChangeStudent()"
             ></p-dropdown>
             <p-dropdown
               [options]="terms"
               placeholder="Filter by term"
               appendTo="body"
               [style]="{ width: '100%' }"
+              [(ngModel)]="termSelectedStudent"
+              (onChange)="onTermChangeStudent()"
             ></p-dropdown>
             <div class="search-container">
               <i class="pi pi-search"></i>

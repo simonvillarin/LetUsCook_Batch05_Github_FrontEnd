@@ -7,6 +7,7 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { StudentMainComponent } from './pages/student-main/student-main.component';
 import { GradeComponent } from './pages/grade/grade.component';
 import { LoadComponent } from './pages/load/load.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
       {
         path: 'schedule',
         component: ScheduleComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
       },
     ],
   },

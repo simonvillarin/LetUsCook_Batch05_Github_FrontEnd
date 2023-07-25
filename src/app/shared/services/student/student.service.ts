@@ -32,7 +32,11 @@ export class StudentService {
   };
 
   updateStudentWithImage = (id: number, student: any) => {
-    return this.http.put(`${this.BASE_URL}/student/image/${id}`, student);
+    return this.http.put(`${this.BASE_URL}/student/img/${id}`, student);
+  };
+
+  updateStudentBanner = (id: number, student: any) => {
+    return this.http.put(`${this.BASE_URL}/student/banner/${id}`, student);
   };
 
   updateStudent = (id: number, student: any) => {

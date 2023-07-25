@@ -40,8 +40,9 @@ export const hasSymbolValidator = (): ValidatorFn => {
 
 //Validate Mobile Number (forgot password)
 export const mobileNumberValidator = (): ValidatorFn => {
+  const regexPattern = /^(09|\+639)\d{9}$/;
   return (control: AbstractControl): ValidationErrors | null => {
-    const isValid = /^(09|\+639)\d{9}$/.test(control.value);
+    const isValid = regexPattern.test(control.value);
     return isValid ? null : { mobileNoIsValid: true };
   };
 };
@@ -84,3 +85,18 @@ export const birthdateValidator = (): ValidatorFn => {
     return null;
   };
 };
+
+export function confirmPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const passwordControl = control.get('newPassword');
+    const confirmPasswordControl = control.get('confirmPassword');
+
+    if (passwordControl?.value !== confirmPasswordControl?.value) {
+      confirmPasswordControl?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    } else {
+      confirmPasswordControl?.setErrors(null);
+      return null;
+    }
+  };
+}

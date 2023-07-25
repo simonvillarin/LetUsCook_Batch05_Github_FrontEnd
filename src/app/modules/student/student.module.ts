@@ -18,6 +18,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { StudentMainComponent } from './pages/student-main/student-main.component';
 import { GradeComponent } from './pages/grade/grade.component';
 import { LoadComponent } from './pages/load/load.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoadComponent } from './pages/load/load.component';
     StudentMainComponent,
     GradeComponent,
     LoadComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

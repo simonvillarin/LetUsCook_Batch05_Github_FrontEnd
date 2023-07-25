@@ -698,6 +698,11 @@
                 *ngIf="confirmPassword?.errors?.['required']"
                 >Confirm password is required</small
               >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="confirmPassword?.errors?.['passwordMismatch']"
+                >Passwords does not match</small
+              >
             </div>
           </div>
         </div>
