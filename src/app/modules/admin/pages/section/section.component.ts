@@ -17,17 +17,20 @@ export class SectionComponent implements OnInit {
   sectionForm: FormGroup;
 
   sections: any = [];
-  programs: any[] = [];
+  programs: any = [];
   section: any;
-  title: string = '';
-  alertStatus: string = '';
-  alertMessage: string = '';
 
   alert: boolean = false;
   status: boolean = false;
   isDialogOpen: boolean = false;
   isDeleteDialogOpen: boolean = false;
   isUpdating: boolean = false;
+
+  title: string = '';
+  alertStatus: string = '';
+  alertMessage: string = '';
+  search: string = '';
+  programSelected: string = '';
 
   constructor(
     private sectionService: SectionService,
@@ -68,7 +71,32 @@ export class SectionComponent implements OnInit {
     });
   };
 
-  onClickAdd = () => {
+  onChangeSearch = (searchTerm: string) => {
+    if (searchTerm != '') {
+      this.sections = this.sections.filter((sec: any) =>
+        sec.section.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      this.getAllSections();
+    }
+  };
+
+  onChangeProgram = (program: string) => {
+    this.sectionService.getAllSections().subscribe((data: any) => {
+      this.sections = data.sort((a: any, b: any) => a.sectionId - b.sectionId);
+      this.sections = this.sections.filter(
+        (sec: any) => sec.program.programCode == program
+      );
+    });
+  };
+
+  reset = () => {
+    this.search = '';
+    this.programSelected = '';
+    this.getAllSections();
+  };
+
+  onAdd = () => {
     this.title = 'Add Section';
     this.isDialogOpen = true;
     this.sectionForm.reset();

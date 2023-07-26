@@ -1,45 +1,62 @@
 <main>
   <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button class="request" title="Add Subject" (click)="onAddSchedule()">
+          <span class="material-symbols-rounded table-header-icon"> add </span>
+        </button>
+        <button class="reset" title="Reset" (click)="reset()">
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
+      <div class="filter">
+        <p-dropdown
+          [options]="days"
+          optionLabel="name"
+          placeholder="Filter by day"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="daySelected"
+          (ngModelChange)="onChangeDay($event)"
+        ></p-dropdown>
+        <div class="search-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [style]="{
+              width: '100%',
+              paddingLeft: '2.5rem'
+            }"
+            placeholder="Search"
+            [(ngModel)]="search"
+            (ngModelChange)="onChangeSearch($event)"
+          />
+        </div>
+      </div>
+    </div>
     <p-table
-      #dt1
       [value]="schedules"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
+      [tableStyle]="{ 'min-width': '80rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 20, 30]"
-      [globalFilterFields]="['subject.subjectTitle']"
     >
-      <ng-template pTemplate="caption">
-        <div class="table-header">
-          <button class="add" (click)="onAddSchedule()">ADD</button>
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{
-                width: '16rem',
-                paddingLeft: '2.5rem'
-              }"
-              (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search"
-            />
-          </span>
-        </div>
-      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 16%">Subject</th>
-          <th style="width: 12%">Day</th>
+          <th style="width: 22%">Subject</th>
+          <th style="width: 10%">Day</th>
           <th style="width: 12%">Start Time</th>
           <th style="width: 12%">End Time</th>
-          <th style="width: 12%">Section</th>
-          <th style="width: 12%">Room</th>
-          <th style="width: 12%">Status</th>
-          <th style="width: 12%">Actions</th>
+          <th style="width: 10%">Section</th>
+          <th style="width: 10%">Room</th>
+          <th style="width: 10%">Status</th>
+          <th style="width: 14%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-sched>
@@ -76,11 +93,7 @@
                 class="table-action edit"
                 (click)="onEditSchedule(sched)"
               >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Edit program"
-                  >edit</mat-icon
-                >
+                <span class="material-symbols-rounded"> edit </span>
               </button>
               <button
                 title="Delete"
@@ -89,11 +102,7 @@
                 }}"
                 (click)="onRemoveSchedule(sched)"
               >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Remove program"
-                  >delete</mat-icon
-                >
+                <span class="material-symbols-rounded"> delete </span>
               </button>
             </div>
           </td>

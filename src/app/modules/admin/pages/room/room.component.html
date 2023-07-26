@@ -1,7 +1,35 @@
 <main>
   <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button class="request" title="Add Subject" (click)="onAdd()">
+          <span class="material-symbols-rounded table-header-icon"> add </span>
+        </button>
+        <button class="reset" title="Reset" (click)="reset()">
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
+      <div class="filter">
+        <div class="search-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [style]="{
+              width: '100%',
+              paddingLeft: '2.5rem'
+            }"
+            placeholder="Search"
+            [(ngModel)]="search"
+            (ngModelChange)="onChangeSearch($event)"
+          />
+        </div>
+      </div>
+    </div>
     <p-table
-      #dt
       [value]="rooms"
       [paginator]="true"
       [rows]="5"
@@ -9,32 +37,12 @@
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 20, 30]"
-      [globalFilterFields]="['roomNumber']"
     >
-      <ng-template pTemplate="caption">
-        <div class="table-header">
-          <button class="add" (click)="onClickAdd()">ADD</button>
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{
-                width: '16rem',
-                paddingLeft: '2.5rem'
-              }"
-              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search"
-            />
-          </span>
-        </div>
-      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 20%">Room Number</th>
           <th style="width: 20%">Room Capacity</th>
-          <th style="width: 20%">Room Occupant</th>
+          <th style="width: 20%">No. of Students</th>
           <th style="width: 20%">Status</th>
           <th style="width: 20%">Actions</th>
         </tr>
@@ -51,28 +59,21 @@
           </td>
           <td>
             <div class="table-actions">
-              <button class="table-action edit" (click)="onClickEdit(room)">
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Edit program"
-                  >edit</mat-icon
-                >
-                <span>Edit</span>
+              <button
+                class="table-action edit"
+                (click)="onClickEdit(room)"
+                title="Edit"
+              >
+                <span class="material-symbols-rounded"> edit </span>
               </button>
               <button
                 class="table-action {{
                   !room.activeDeactive ? 'activate' : 'deactive'
                 }}"
                 (click)="onClickRemove(room)"
+                title="{{ !room.activeDeactive ? 'activate' : 'deactive' }}"
               >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Remove program"
-                  >block</mat-icon
-                >
-                <span>{{
-                  !room.activeDeactive ? "Activate" : "Deactivate"
-                }}</span>
+                <span class="material-symbols-rounded"> block </span>
               </button>
             </div>
           </td>
@@ -169,8 +170,10 @@
   <p-header>
     <div class="modal-title">Confirmation</div>
   </p-header>
-  Are you sure you want to
-  {{ status ? "activate" : "deactivate" }} this section?
+  <div class="modal-body">
+    Are you sure you want to
+    {{ status ? "activate" : "deactivate" }} this room?
+  </div>
   <div class="actions">
     <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
       Cancel

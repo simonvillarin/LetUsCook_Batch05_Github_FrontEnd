@@ -116,11 +116,7 @@ export class ScheduleComponent implements OnInit {
         });
         scheds.forEach((sched: any) => {
           temp.push({
-            title:
-              sched.subject.subjectTitle +
-              ` (${this.convertTime(sched.startTime)} - ${this.convertTime(
-                sched.endTime
-              )})`,
+            title: sched.subject.subjectTitle,
             date: startDate.toISOString().split('T')[0],
           });
         });

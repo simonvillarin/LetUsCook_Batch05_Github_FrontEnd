@@ -16,17 +16,17 @@ export class RoomComponent implements OnInit {
   roomForm: FormGroup;
   rooms: any[] = [];
   room: any;
-  isUpdating: boolean = false;
 
+  isUpdating: boolean = false;
   isDialogOpen: boolean = false;
   isDeleteDialogOpen: boolean = false;
-
-  title: string = '';
   status: boolean = false;
 
   alert: boolean = false;
   alertStatus: string = '';
   alertMessage: string = '';
+  title: string = '';
+  search: string = '';
 
   constructor(private roomService: RoomService, private fb: FormBuilder) {
     this.roomForm = fb.group({
@@ -53,7 +53,22 @@ export class RoomComponent implements OnInit {
     });
   };
 
-  onClickAdd = () => {
+  onChangeSearch = (searchTerm: string) => {
+    if (searchTerm != '') {
+      this.rooms = this.rooms.filter((room: any) =>
+        room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      this.getAllRooms();
+    }
+  };
+
+  reset = () => {
+    this.search = '';
+    this.getAllRooms();
+  };
+
+  onAdd = () => {
     this.title = 'Add Room';
     this.isDialogOpen = true;
     this.isUpdating = false;
@@ -72,6 +87,7 @@ export class RoomComponent implements OnInit {
     this.room = room;
     this.roomForm.patchValue({
       roomNumber: this.room.roomNumber,
+      roomCapacity: this.room.roomCapacity,
     });
   };
 

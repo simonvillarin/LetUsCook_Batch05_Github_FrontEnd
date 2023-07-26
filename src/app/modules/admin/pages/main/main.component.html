@@ -7,21 +7,11 @@
     <div class="close" (click)="closeMobileNav()">
       <span class="material-symbols-rounded"> close </span>
     </div>
-    <div
-      class="link"
-      routerLink="/admin/home"
-      routerLinkActive="link-active"
-      (click)="onChangeRoute('Home')"
-    >
+    <div class="link" routerLink="/admin/home" routerLinkActive="link-active">
       <span class="material-symbols-rounded"> home </span>
       <span>Home</span>
     </div>
-    <div
-      class="link"
-      routerLink="/admin/course"
-      routerLinkActive="link-active"
-      (click)="onChangeRoute('Course')"
-    >
+    <div class="link" routerLink="/admin/course" routerLinkActive="link-active">
       <span class="material-symbols-rounded"> menu_book </span>
       <span>Course</span>
     </div>
@@ -29,7 +19,6 @@
       class="link"
       routerLink="/admin/program"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Program')"
     >
       <span class="material-symbols-rounded"> description </span>
       <span>Program</span>
@@ -38,17 +27,11 @@
       class="link"
       routerLink="/admin/section"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Section')"
     >
       <span class="material-symbols-rounded"> safety_divider </span>
       <span>Section</span>
     </div>
-    <div
-      class="link"
-      routerLink="/admin/room"
-      routerLinkActive="link-active"
-      (click)="onChangeRoute('Room')"
-    >
+    <div class="link" routerLink="/admin/room" routerLinkActive="link-active">
       <span class="material-symbols-rounded"> meeting_room </span>
       <span>Room</span>
     </div>
@@ -56,7 +39,6 @@
       class="link"
       routerLink="/admin/professor"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Professor')"
     >
       <span class="material-symbols-rounded"> man_4 </span>
       <span>Professor</span>
@@ -65,17 +47,11 @@
       class="link"
       routerLink="/admin/student"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Student')"
     >
       <span class="material-symbols-rounded"> man </span>
       <span>Student</span>
     </div>
-    <div
-      class="link"
-      routerLink="/admin/parent"
-      routerLinkActive="link-active"
-      (click)="onChangeRoute('Parent')"
-    >
+    <div class="link" routerLink="/admin/parent" routerLinkActive="link-active">
       <span class="material-symbols-rounded"> escalator_warning </span>
       <span>Parent</span>
     </div>
@@ -88,7 +64,7 @@
       <div class="menu-icon" (click)="openMobileNav()">
         <span class="material-symbols-rounded"> menu </span>
       </div>
-      <div class="location">{{ route }}</div>
+      <div class="location">{{ getLocation() }}</div>
     </div>
     <div class="right-header">
       <button class="setup" (click)="openDialog()">SETUP</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,9 +8,6 @@ import {
 } from '@angular/forms';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-course',
@@ -18,36 +15,27 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
-  displayedColumns: string[] = [
-    'subjectCode',
-    'subjectTitle',
-    'units',
-    'preRequisites',
-    'type',
-    'status',
-    'actions',
-  ];
-  dataSource!: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
   courseForm: FormGroup;
   preRequisiteFormArray: FormArray;
 
+  subjects: any[] = [];
   subject: any;
-  subjects: any = [];
   programs: string[] = [];
   preRequisitesSelection: any = [];
   types = ['Major', 'Minor', 'Elective'];
 
+  isShowDropdown = false;
+  isShowMobileNav = false;
+  isShowNotifications = false;
   isDialogOpen: boolean = false;
   isDeleteDialogOpen: boolean = false;
   isUpdating: boolean = false;
   buttonClicked: boolean = false;
+  status: boolean = false;
 
   title: string = '';
-  status: boolean = false;
   search: string = '';
+  typeSelected: string = '';
 
   constructor(
     private courseService: CourseService,
@@ -74,11 +62,13 @@ export class CourseComponent implements OnInit {
   getAllSubjects = () => {
     this.courseService.getAllSubjects().subscribe((data: any) => {
       this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
-      this.dataSource = data.sort(
-        (a: any, b: any) => b.subjectId - a.subjectId
-      );
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
     });
   };
 
@@ -110,25 +100,37 @@ export class CourseComponent implements OnInit {
     return this.courseForm.get('type') as FormControl;
   }
 
-  searchFilter = (searchTerm: any) => {
+  onChangeSearch = (searchTerm: string) => {
     if (searchTerm != '') {
-      const sortData = this.subjects.filter(
-        (subject: any) =>
-          subject.subjectTitle
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          subject.subjectCode.toLowerCase().includes(searchTerm.toLowerCase())
+      this.subjects = this.subjects.filter((sub: any) =>
+        sub.subjectTitle.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      this.dataSource = sortData;
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
     } else {
-      this.dataSource = this.subjects;
+      this.getAllSubjects();
     }
   };
 
-  onClickAdd = () => {
+  onChangeType = (type: string) => {
+    this.courseService.getAllSubjects().subscribe((data: any) => {
+      this.subjects = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
+      sorData.map((data: any) => {
+        this.preRequisitesSelection.push({
+          name: data.subjectTitle,
+          value: data.subjectTitle,
+        });
+      });
+      this.subjects = this.subjects.filter((sub: any) => sub.type == type);
+    });
+  };
+
+  reset = () => {
+    this.search = '';
+    this.typeSelected = '';
+    this.getAllSubjects();
+  };
+
+  onAdd = () => {
     this.title = 'Add Subject';
     this.preRequisitesSelection = [];
     this.courseService.getAllSubjects().subscribe((data: any) => {
@@ -197,6 +199,7 @@ export class CourseComponent implements OnInit {
               this.subjects[index].type = type;
               this.isDialogOpen = false;
               this.courseForm.reset();
+              this.isUpdating = false;
             }
             this.getAllSubjects();
           });
@@ -264,7 +267,7 @@ export class CourseComponent implements OnInit {
     });
   };
 
-  onClickRemove = (subject: any) => {
+  onRemove = (subject: any) => {
     this.subject = subject;
     this.isDeleteDialogOpen = true;
     this.status = subject.activeDeactive;
@@ -279,7 +282,10 @@ export class CourseComponent implements OnInit {
     let payload = { activeDeactive: !this.subject.activeDeactive };
     this.courseService
       .updateSubject(this.subject.subjectId, payload)
-      .subscribe(() => this.getAllSubjects());
+      .subscribe(() => {
+        this.getAllSubjects();
+        this.status = !this.subject.activeDeactive;
+      });
   };
 
   clearForm = () => {

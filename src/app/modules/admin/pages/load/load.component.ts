@@ -47,9 +47,6 @@ export class LoadComponent implements OnInit {
     this.getAllRooms();
   }
 
-  title: string = '';
-  body: string = '';
-
   schedules: any[] = [];
   subjects: any = [];
   sections: any = [];
@@ -68,10 +65,16 @@ export class LoadComponent implements OnInit {
   isUpdatingSchedule: boolean = false;
   addScheduleDialog: boolean = false;
   confirmationDialog: boolean = false;
+  stat: boolean = false;
+
   alert: boolean = false;
   alertStatus: string = '';
   alertMessage: string = '';
-  stat: boolean = false;
+
+  title: string = '';
+  body: string = '';
+  search: string = '';
+  daySelected: string = '';
 
   get program() {
     return this.scheduleForm.get('program') as FormControl;
@@ -210,6 +213,42 @@ export class LoadComponent implements OnInit {
         (sub: any) => !exclusion.includes(sub)
       );
     });
+  };
+
+  onChangeSearch = (searchTerm: string) => {
+    if (searchTerm != '') {
+      this.schedules = this.schedules.filter((sched: any) =>
+        sched.subject.subjectTitle
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+    } else {
+      this.getScheduleById();
+    }
+  };
+
+  onChangeDay = (daySelected: any) => {
+    this.professorId = this.route.snapshot.params['id'];
+    this.scheduleService
+      .getScheduleById(this.professorId)
+      .subscribe((data: any) => {
+        this.schedules = data.sort((a: any, b: any) => b.schedId - a.schedId);
+        const scheds: any = [];
+        this.schedules.map((sched: any) => {
+          sched.days.map((day: any) => {
+            if (day == daySelected.name) {
+              scheds.push(sched);
+            }
+          });
+        });
+        this.schedules = scheds;
+      });
+  };
+
+  reset = () => {
+    this.search = '';
+    this.daySelected = '';
+    this.getAllSubjects();
   };
 
   onAddSchedule = () => {

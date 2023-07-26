@@ -25,8 +25,6 @@ import {
 })
 export class ProfessorComponent implements OnInit {
   visible: boolean = false;
-  schedulesDialog: boolean = false;
-  addScheduleDialog: boolean = false;
   confirmationDialog: boolean = false;
   isShowImage: boolean = false;
   professors: any[] = [];
@@ -41,42 +39,23 @@ export class ProfessorComponent implements OnInit {
   imagePreview: string | ArrayBuffer | null = null;
   professorForm: FormGroup;
 
-  search: string = '';
-  title: string = 'Add Professor';
-  body: string = '';
-  isUpdating: boolean = false;
-  deleteProfessor: boolean = false;
   alert: boolean = false;
   alertStatus: string = 'Success';
   alertMessage: string = 'Professor successfully added';
+
+  isUpdating: boolean = false;
+  deleteProfessor: boolean = false;
+  isUpdatingSchedule: boolean = false;
   stat: boolean = false;
 
-  scheduleForm: FormGroup;
-  schedules: any[] = [];
-  programs: any = [];
-  subjects: any = [];
-  days: any = [
-    { name: 'Monday', value: 'Monday' },
-    { name: 'Tuesday', value: 'Tuesday' },
-    { name: 'Wednesday', value: 'Wednesday' },
-    { name: 'Thursday', value: 'Thursday' },
-    { name: 'Friday', value: 'Friday' },
-    { name: 'Saturday', value: 'Saturday' },
-  ];
-  sections: any = [];
-  rooms: any = [];
-  selectedDays: any = [];
-
-  isUpdatingSchedule: boolean = false;
-  schedule: any = {};
+  title: string = 'Add Professor';
+  body: string = '';
+  search: string = '';
+  typeSelected: string = '';
 
   constructor(
     private fb: FormBuilder,
     private professorService: ProfessorService,
-    private scheduleService: ScheduleService,
-    private courseService: CourseService,
-    private sectionService: SectionService,
-    private roomService: RoomService,
     private router: Router
   ) {
     this.professorForm = fb.group({
@@ -105,90 +84,16 @@ export class ProfessorComponent implements OnInit {
       status: ['', [Validators.required]],
       image: [''],
     });
-    this.scheduleForm = fb.group({
-      subject: ['', Validators.required],
-      days: [new FormControl<any[] | null>(null), [Validators.required]],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
-      section: ['', Validators.required],
-      room: ['', Validators.required],
-      professorId: [''],
-    });
   }
 
   ngOnInit(): void {
     this.getAllProfessors();
-    this.getAllSubjects();
-    this.getAllSections();
-    this.getAllRooms();
   }
 
   getAllProfessors = () => {
     this.professorService.getAllProfessors().subscribe((data: any) => {
       this.professors = data.sort(
         (a: any, b: any) => a.professorId - b.professorId
-      );
-    });
-  };
-
-  getScheduleById = () => {
-    console.log(this.prof.professorId, 'is prof id');
-
-    this.scheduleService
-      .getScheduleById(this.prof.professorId)
-      .subscribe((data: any) => {
-        const sortData = data.sort((a: any, b: any) => b.schedId - a.schedId);
-        this.schedules = sortData;
-        this.filterSubjects();
-      });
-  };
-
-  getAllSubjects = () => {
-    this.courseService.getAllSubjects().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
-      let subjects: any = [];
-      sortData.map((sub: any) => {
-        subjects.push(sub.subjectTitle);
-      });
-      this.subjects = subjects;
-    });
-  };
-
-  getAllSections = () => {
-    this.sectionService.getAllSections().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
-      let sections: any = [];
-      sortData.map((sec: any) => {
-        sections.push(sec.section);
-      });
-      this.sections = sections;
-    });
-  };
-
-  getAllRooms = () => {
-    this.roomService.getAllRooms().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.roomId - a.roomId);
-      let rooms: any = [];
-      sortData.map((room: any) => {
-        rooms.push(room.roomNumber);
-      });
-      this.rooms = rooms;
-    });
-  };
-
-  filterSubjects = () => {
-    this.courseService.getAllSubjects().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
-      let subjects: any = [];
-      sortData.map((sub: any) => {
-        subjects.push(sub.subjectTitle);
-      });
-      this.subjects = subjects;
-      const exclusion = this.schedules.map(
-        (sub: any) => sub.subject.subjectTitle
-      );
-      this.subjects = this.subjects.filter(
-        (sub: any) => !exclusion.includes(sub)
       );
     });
   };
@@ -284,35 +189,37 @@ export class ProfessorComponent implements OnInit {
     return this.professorForm.get('image') as FormControl;
   }
 
-  get program() {
-    return this.scheduleForm.get('program') as FormControl;
-  }
+  onChangeSearch = (searchTerm: string) => {
+    if (searchTerm != '') {
+      this.professors = this.professors.filter(
+        (prof: any) =>
+          prof.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          prof.middlename.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          prof.lastname.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      this.getAllProfessors();
+    }
+  };
 
-  get subject() {
-    return this.scheduleForm.get('subject') as FormControl;
-  }
+  onChangeType = (type: string) => {
+    this.professorService.getAllProfessors().subscribe((data: any) => {
+      this.professors = data.sort(
+        (a: any, b: any) => a.professorId - b.professorId
+      );
+      this.professors = this.professors.filter(
+        (prof: any) => prof.status == type
+      );
+    });
+  };
 
-  get day() {
-    return this.scheduleForm.get('days') as FormControl;
-  }
+  reset = () => {
+    this.search = '';
+    this.typeSelected = '';
+    this.getAllProfessors();
+  };
 
-  get startTime() {
-    return this.scheduleForm.get('startTime') as FormControl;
-  }
-
-  get endTime() {
-    return this.scheduleForm.get('endTime') as FormControl;
-  }
-
-  get section() {
-    return this.scheduleForm.get('section') as FormControl;
-  }
-
-  get room() {
-    return this.scheduleForm.get('room') as FormControl;
-  }
-
-  onClickAdd() {
+  onAdd() {
     this.title = 'Add Professor';
     this.visible = true;
     this.imagePreview = null;
@@ -414,18 +321,21 @@ export class ProfessorComponent implements OnInit {
     this.confirmationDialog = true;
   };
 
+  onCloseDeleteDialog = () => {
+    this.confirmationDialog = false;
+  };
+
   onDeleteProfessor = () => {
     const payload = {
       activeDeactive: !this.professor.activeDeactive,
     };
     this.professorService
       .updateProfessor(this.professor.professorId, payload)
-      .subscribe();
-    const index = this.professors.findIndex(
-      (prof) => prof.professorId === this.professor.professorId
-    );
-    this.professors[index].activeDeactive = !this.professor.activeDeactive;
-    this.stat = !this.professor.activeDeactive;
+      .subscribe(() => {
+        this.getAllProfessors();
+        this.stat = !this.professor.activeDeactive;
+        this.confirmationDialog = false;
+      });
   };
 
   onSubmit = () => {
@@ -644,150 +554,5 @@ export class ProfessorComponent implements OnInit {
   onScheduleTable = (prof: any) => {
     this.prof = prof;
     this.router.navigate([`admin/professor/schedule/${this.prof.professorId}`]);
-  };
-
-  onAddSchedule = () => {
-    console.log(this.prof);
-    this.filterSubjects();
-    this.title = 'Add Schedule';
-    this.isUpdatingSchedule = false;
-    this.scheduleForm.reset();
-    this.addScheduleDialog = true;
-  };
-
-  onEditSchedule = (sched: any) => {
-    this.courseService.getAllSubjects().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
-      let subjects: any = [];
-      sortData.map((sub: any) => {
-        subjects.push(sub.subjectTitle);
-      });
-      this.subjects = subjects;
-      this.subjects = this.subjects.filter(
-        (sub: any) => sub == sched.subject.subjectTitle
-      );
-      this.title = 'Edit Schedule';
-      this.isUpdatingSchedule = true;
-      this.schedule = sched;
-      console.log(this.schedule, 'edit sched');
-      this.addScheduleDialog = true;
-      this.scheduleForm.patchValue({
-        subject: this.schedule.subject.subjectTitle,
-        days: this.schedule.days,
-        startTime: this.schedule.startTime,
-        endTime: this.schedule.endTime,
-        section: this.schedule.section.section,
-        room: this.schedule.room.roomNumber,
-      });
-    });
-  };
-
-  onCloseDialog = () => {
-    this.addScheduleDialog = false;
-  };
-
-  onRemoveSchedule = (sched: any) => {
-    this.schedule = sched;
-    this.deleteProfessor = false;
-    this.title = 'Remove Schedule';
-    this.body =
-      'Are you sure you want to remove this schedule from this professor?';
-    this.confirmationDialog = true;
-  };
-
-  onDelete = () => {
-    if (this.deleteProfessor) {
-      this.onDeleteProfessor();
-    } else {
-      this.schedule.schedId.map((id: number) => {
-        this.scheduleService.deleteSchedule(id).subscribe(() => {
-          this.getScheduleById();
-        });
-      });
-      this.confirmationDialog = false;
-    }
-  };
-
-  onSubmitSchedule = () => {
-    if (this.isUpdatingSchedule) {
-      if (this.scheduleForm.valid) {
-        const subject = this.scheduleForm.get('subject')?.value;
-        const days = this.scheduleForm.get('days')?.value;
-        const startTime = this.scheduleForm.get('startTime')?.value;
-        const endTime = this.scheduleForm.get('endTime')?.value;
-        const section = this.scheduleForm.get('section')?.value;
-        const room = this.scheduleForm.get('room')?.value;
-
-        const payload: any = {
-          schedId: this.schedule.schedId,
-          subject: subject,
-          days: days,
-          startTime: startTime,
-          endTime: endTime,
-          section: section,
-          room: room,
-          professorId: this.prof.professorId,
-        };
-        console.log(payload, ' is the payload');
-
-        this.scheduleService.updateSchedule(payload).subscribe((res: any) => {
-          console.log(res, 'res message');
-
-          if (res.message == 'Schedule already exist') {
-            this.alert = true;
-            setTimeout(() => {
-              this.alert = false;
-            }, 3000);
-            this.alertStatus = 'Error';
-            this.alertMessage = 'Schedule already exists';
-          } else {
-            this.getScheduleById();
-            this.addScheduleDialog = false;
-          }
-        });
-      } else {
-        this.scheduleForm.markAllAsTouched();
-      }
-    } else {
-      if (this.scheduleForm.valid) {
-        this.scheduleForm.patchValue({
-          professorId: this.prof.professorId,
-        });
-        this.scheduleService
-          .addSchedule(this.scheduleForm.value)
-          .subscribe((res: any) => {
-            if (res.message == 'Schedule already exist') {
-              this.alert = true;
-              setTimeout(() => {
-                this.alert = false;
-              }, 3000);
-              this.alertStatus = 'Error';
-              this.alertMessage = 'Schedule already taken';
-            } else if (
-              res.message == 'Please create start and end date of classes first'
-            ) {
-              this.alert = true;
-              setTimeout(() => {
-                this.alert = false;
-              }, 3000);
-              this.alertStatus = 'Error';
-              this.alertMessage =
-                'Please create start and end date of classes first';
-            } else {
-              this.getScheduleById();
-              this.alert = true;
-              setTimeout(() => {
-                this.alert = false;
-              }, 3000);
-              this.alertStatus = 'Success';
-              this.alertMessage = 'Section successfully added';
-              this.scheduleForm.reset();
-              this.addScheduleDialog = false;
-            }
-          });
-      } else {
-        this.scheduleForm.markAllAsTouched();
-      }
-    }
   };
 }

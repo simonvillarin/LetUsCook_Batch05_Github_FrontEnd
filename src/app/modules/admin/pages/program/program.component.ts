@@ -31,10 +31,13 @@ export class ProgramComponent implements OnInit {
   isShowMobileNav = false;
   isShowNotifications = false;
   isDialogOpen: boolean = false;
+  isDeleteDialogOpen: boolean = false;
   isUpdating: boolean = false;
+  status: boolean = false;
 
   title: string = '';
-  status: boolean = false;
+  search: string = '';
+  yearSelected: string = '';
 
   constructor(
     private programService: ProgramService,
@@ -132,6 +135,33 @@ export class ProgramComponent implements OnInit {
     });
   };
 
+  onChangeSearch = (searchTerm: string) => {
+    if (searchTerm != '') {
+      this.programs = this.programs.filter(
+        (prog: any) =>
+          prog.programTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          prog.programCode.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      this.getAllPrograms();
+    }
+  };
+
+  onChangeYear = (year: string) => {
+    this.programService.getAllPrograms().subscribe((data: any) => {
+      this.programs = data.sort((a: any, b: any) => b.programId - a.programId);
+      this.programs = this.programs.filter(
+        (prog: any) => prog.yearsToComplete == year
+      );
+    });
+  };
+
+  reset = () => {
+    this.search = '';
+    this.yearSelected = '';
+    this.getAllPrograms();
+  };
+
   addUnits(): void {
     this.units.push(this.fb.control(''));
     this.units.push(this.fb.control(''));
@@ -146,7 +176,7 @@ export class ProgramComponent implements OnInit {
     }
   }
 
-  onClickAdd = () => {
+  onAdd = () => {
     this.title = 'Add Program';
     this.isDialogOpen = true;
     this.units.clear();
@@ -289,28 +319,24 @@ export class ProgramComponent implements OnInit {
     this.isDialogOpen = true;
   };
 
-  onClickRemove = (program: any) => {
+  onCancelDeleteDialog = () => {
+    this.isDeleteDialogOpen = false;
+  };
+
+  onRemove = (program: any) => {
     this.program = program;
     this.status = program.status;
+    this.isDeleteDialogOpen = true;
+  };
 
-    Swal.fire({
-      title: !this.status ? 'Activate' : 'Deactivate',
-      text: `Are you sure to ${
-        !this.status ? 'active' : 'deactive'
-      } this program?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        let payload = { status: !this.program.status };
-        this.programService
-          .updateProgram(this.program.programId, payload)
-          .subscribe(() => this.getAllPrograms());
+  onDeleteProgram = () => {
+    let payload = { status: !this.program.status };
+    this.programService
+      .updateProgram(this.program.programId, payload)
+      .subscribe(() => {
+        this.getAllPrograms();
         this.status = !this.program.status;
-      }
-    });
+        this.isDeleteDialogOpen = false;
+      });
   };
 }

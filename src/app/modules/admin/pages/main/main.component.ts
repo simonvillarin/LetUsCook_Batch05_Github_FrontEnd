@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
 import { CalendarService } from 'src/app/shared/services/calendar/calendar.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-main',
@@ -34,6 +35,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     private adminService: AdminService,
     private calendarService: CalendarService,
+    private location: Location,
     private fb: FormBuilder
   ) {
     this.setupForm = fb.group({
@@ -63,6 +65,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.getAdminById();
     this.getCalendar();
+    this.getLocation();
   }
 
   getAdminById = () => {
@@ -80,6 +83,36 @@ export class MainComponent implements OnInit {
         this.isDialogOpen = true;
       }
     });
+  };
+
+  getLocation = () => {
+    const currentLocation = this.location.path();
+    const splitLocation = currentLocation.split('/');
+    const loc = splitLocation[splitLocation.length - 1];
+    const loc1 = splitLocation[splitLocation.length - 2];
+    if (loc == 'home') {
+      return 'Home';
+    } else if (loc == 'course') {
+      return 'Course';
+    } else if (loc == 'program') {
+      return 'Program';
+    } else if (loc == 'section') {
+      return 'Section';
+    } else if (loc == 'room') {
+      return 'Room';
+    } else if (loc == 'professor') {
+      return 'Professor';
+    } else if (loc == 'student') {
+      return 'Student';
+    } else if (loc == 'parent') {
+      return 'Parent';
+    }
+
+    if (loc1 == 'schedule') {
+      return 'Schedule';
+    } else {
+      return 'Section';
+    }
   };
 
   toggleShowDropdown = () => {

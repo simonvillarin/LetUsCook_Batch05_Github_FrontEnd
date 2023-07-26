@@ -1,42 +1,58 @@
 <main>
   <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button class="request" title="Add Subject" (click)="onAdd()">
+          <span class="material-symbols-rounded table-header-icon"> add </span>
+        </button>
+        <button class="reset" title="Reset" (click)="reset()">
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
+      <div class="filter">
+        <p-dropdown
+          [options]="years"
+          placeholder="Filter by year"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="yearSelected"
+          (ngModelChange)="onChangeYear($event)"
+        ></p-dropdown>
+        <div class="search-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [style]="{
+              width: '100%',
+              paddingLeft: '2.5rem'
+            }"
+            placeholder="Search"
+            [(ngModel)]="search"
+            (ngModelChange)="onChangeSearch($event)"
+          />
+        </div>
+      </div>
+    </div>
     <p-table
-      #dt
       [value]="programs"
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '85rem' }"
+      [tableStyle]="{ 'min-width': '80rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 20, 30]"
-      [globalFilterFields]="['programCode', 'programTitle']"
     >
-      <ng-template pTemplate="caption">
-        <div class="table-header">
-          <button class="add" (click)="onClickAdd()">ADD</button>
-          <span [style]="{ position: 'relative' }">
-            <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              placeholder="Search"
-              [style]="{
-                width: '16rem',
-                paddingLeft: '2.5rem'
-              }"
-              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search"
-            />
-          </span>
-        </div>
-      </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="min-width: 10%">Program Code</th>
-          <th style="min-width: 17%">Program Title</th>
-          <th style="min-width: 17%">Years to Complete</th>
-          <th style="min-width: 10%">Status</th>
-          <th style="min-width: 11%">Actions</th>
+          <th style="min-width: 12%">Program Code</th>
+          <th style="min-width: 52%">Program Title</th>
+          <th style="min-width: 12%">Years to Complete</th>
+          <th style="min-width: 12%">Status</th>
+          <th style="min-width: 12%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-program>
@@ -44,21 +60,6 @@
           <td>{{ program.programCode }}</td>
           <td>{{ program.programTitle }}</td>
           <td>{{ program.yearsToComplete }}</td>
-          <!-- <td>
-            <ng-container *ngFor="let item of program.majors"
-              >{{ item.subjectTitle }}<br
-            /></ng-container>
-          </td>
-          <td>
-            <ng-container *ngFor="let item of program.minors"
-              >{{ item.subjectTitle }}<br
-            /></ng-container>
-          </td>
-          <td>
-            <ng-container *ngFor="let item of program.electives"
-              >{{ item.subjectTitle }}<br
-            /></ng-container>
-          </td> -->
           <td>
             <div class="{{ program.status ? 'active' : 'inactive' }}">
               {{ program.status ? "Active" : "Inactive" }}
@@ -71,31 +72,16 @@
                 class="table-action edit"
                 (click)="onClickEdit(program)"
               >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Edit program"
-                  >edit</mat-icon
-                >
+                <span class="material-symbols-rounded"> edit </span>
               </button>
               <button
                 title="{{ !program.status ? 'Activate' : 'Deactivate' }}"
                 class="table-action {{
                   !program.status ? 'activate' : 'deactive'
                 }}"
-                (click)="onClickRemove(program)"
+                (click)="onRemove(program)"
               >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Remove program"
-                  *ngIf="program.status"
-                  >thumb_down</mat-icon
-                >
-                <mat-icon
-                  class="material-icons-outlined"
-                  pTooltip="Remove program"
-                  *ngIf="!program.status"
-                  >thumb_up</mat-icon
-                >
+                <span class="material-symbols-rounded"> block </span>
               </button>
             </div>
           </td>
@@ -256,4 +242,29 @@
       <button type="submit" class="action-btn submit">Save</button>
     </div>
   </form>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="isDeleteDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  <div class="modal-body">
+    Are you sure you want to {{ !status ? "activate" : "deactivate" }} this
+    subject?
+  </div>
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCancelDeleteDialog()">
+      Cancel
+    </button>
+    <button class="action-btn submit" (click)="onDeleteProgram()">
+      Confirm
+    </button>
+  </div>
 </p-dialog>

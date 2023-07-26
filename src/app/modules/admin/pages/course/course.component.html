@@ -1,14 +1,24 @@
 <main>
   <div class="table">
     <div class="table-header">
-      <button class="add" (click)="onClickAdd()">ADD</button>
+      <div class="btn-container">
+        <button class="request" title="Add Subject" (click)="onAdd()">
+          <span class="material-symbols-rounded table-header-icon"> add </span>
+        </button>
+        <button class="reset" title="Reset" (click)="reset()">
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
       <div class="filter">
         <p-dropdown
           [options]="types"
-          placeholder="Select a type"
+          placeholder="Filter by type"
           appendTo="body"
-          [style]="{ width: '16rem' }"
-          class="types"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="typeSelected"
+          (ngModelChange)="onChangeType($event)"
         ></p-dropdown>
         <div class="search-container">
           <i class="pi pi-search"></i>
@@ -16,83 +26,88 @@
             type="text"
             pInputText
             placeholder="Search"
-            class="search"
             [style]="{
-              width: '16rem',
+              width: '100%',
               paddingLeft: '2.5rem'
             }"
-            (ngModelChange)="searchFilter($event)"
+            placeholder="Search"
             [(ngModel)]="search"
+            (ngModelChange)="onChangeSearch($event)"
           />
         </div>
       </div>
     </div>
-    <table mat-table matSort [dataSource]="dataSource">
-      <ng-container matColumnDef="subjectCode">
-        <th mat-header-cell *matHeaderCellDef>Subject Code</th>
-        <td mat-cell *matCellDef="let element">{{ element.subjectCode }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="subjectTitle">
-        <th mat-header-cell *matHeaderCellDef>Subject Title</th>
-        <td mat-cell *matCellDef="let element">{{ element.subjectTitle }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="units">
-        <th mat-header-cell *matHeaderCellDef>Units</th>
-        <td mat-cell *matCellDef="let element">{{ element.units }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="preRequisites">
-        <th mat-header-cell *matHeaderCellDef>Prerequisites</th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngFor="let item of element.preRequisites"
-            >{{ item.subjectTitle }}<br
-          /></ng-container>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.type }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let element">
-          <div class="{{ element.activeDeactive ? 'active' : 'inactive' }}">
-            {{ element.activeDeactive ? "Active" : "Inactive" }}
-          </div>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-          <div class="table-actions">
-            <button class="table-action edit" (click)="onClickEdit(element)">
-              <mat-icon class="material-icons-outlined">edit</mat-icon>
-            </button>
-            <button
-              class="table-action {{
-                !element.activeDeactive ? 'activate' : 'deactive'
+    <p-table
+      [value]="subjects"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 12%">Subject Code</th>
+          <th style="width: 20%">Subject Title</th>
+          <th style="width: 12%">Units</th>
+          <th style="width: 20%">Prerequisites</th>
+          <th style="width: 12%">Type</th>
+          <th style="width: 12%">Status</th>
+          <th style="width: 12%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-sub>
+        <tr>
+          <td>{{ sub.subjectCode }}</td>
+          <td>{{ sub.subjectTitle }}</td>
+          <td>{{ sub.units }}</td>
+          <td>
+            <ng-container *ngFor="let item of sub.preRequisites"
+              >{{ item.subjectTitle }}<br
+            /></ng-container>
+          </td>
+          <td>
+            <div
+              class="type {{
+                sub.type == 'Major'
+                  ? 'major'
+                  : sub.type == 'Minor'
+                  ? 'minor'
+                  : 'elective'
               }}"
-              (click)="onClickRemove(element)"
             >
-              <mat-icon class="material-icons-outlined">block</mat-icon>
-            </button>
-          </div>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-    </mat-paginator>
+              {{ sub.type }}
+            </div>
+          </td>
+          <td>
+            <div class="{{ sub.activeDeactive ? 'active' : 'inactive' }}">
+              {{ sub.activeDeactive ? "Active" : "Inactive" }}
+            </div>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button
+                class="table-action edit"
+                (click)="onClickEdit(sub)"
+                title="Edit"
+              >
+                <span class="material-symbols-rounded"> edit </span>
+              </button>
+              <button
+                title="{{ !sub.activeDeactive ? 'Activate' : 'Deactive' }}"
+                class="table-action {{
+                  !sub.activeDeactive ? 'activate' : 'deactive'
+                }}"
+                (click)="onRemove(sub)"
+              >
+                <span class="material-symbols-rounded"> block </span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </main>
 <p-dialog
@@ -214,11 +229,13 @@
     <div class="modal-title">Confirmation</div>
   </p-header>
   <div class="modal-body">
-    Are you sure you want to
-    {{ !status ? "activate" : "deactivate" }} this subject?
+    Are you sure you want to {{ !status ? "activate" : "deactivate" }} this
+    subject?
   </div>
   <div class="actions">
-    <button class="action-btn cancel">Cancel</button>
+    <button class="action-btn cancel" (click)="onCloseDeleteDialog()">
+      Cancel
+    </button>
     <button class="action-btn submit" (click)="onDeleteSubject()">Yes</button>
   </div>
 </p-dialog>
