@@ -214,6 +214,13 @@ export class ApplyComponent implements OnInit {
   onSubmitStepTwo = () => {
     if (this.applyForm.valid) {
       this.studentInfo = this.applyForm.value;
+      this.studentInfo.birthdate = this.convertDateString(
+        this.studentInfo.birthdate
+      );
+      this.studentInfo.dateOfGraduation = this.convertDateString(
+        this.studentInfo.dateOfGraduation
+      );
+      console.log(this.studentInfo);
       this.stepThree = true;
       this.stepFour = false;
       this.stepOne = false;
@@ -255,4 +262,16 @@ export class ApplyComponent implements OnInit {
       }
     });
   };
+
+  convertDateString = (originalDate: string): string => {
+    const newDate = new Date(originalDate);
+    const year = newDate.getFullYear();
+    const month = this.formatWithLeadingZero(newDate.getMonth() + 1);
+    const day = this.formatWithLeadingZero(newDate.getDate());
+    return `${month}/${day}/${year}`;
+  };
+
+  formatWithLeadingZero(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
+  }
 }

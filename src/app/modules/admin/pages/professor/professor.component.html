@@ -230,7 +230,13 @@
       </div>
       <div class="input-group">
         <label>Birthday</label>
-        <input pInputText type="date" formControlName="birthdate" />
+        <p-calendar
+          formControlName="birthdate"
+          placeholder="Select your birthdate"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          [(ngModel)]="birthday"
+        ></p-calendar>
         <div
           *ngIf="birthdate.invalid && (birthdate?.dirty || birthdate?.touched)"
         >

@@ -139,6 +139,7 @@
           placeholder="Select start of enrollment date"
           [style]="{ width: '100%' }"
           appendTo="body"
+          [(ngModel)]="startEnrollement"
         ></p-calendar>
         <div
           *ngIf="
@@ -160,6 +161,7 @@
           placeholder="Select end of enrollment date"
           [style]="{ width: '100%' }"
           appendTo="body"
+          [(ngModel)]="endEnrollment"
         ></p-calendar>
         <div
           *ngIf="
@@ -181,6 +183,7 @@
           placeholder="Select start of classes date"
           [style]="{ width: '100%' }"
           appendTo="body"
+          [(ngModel)]="startClass"
         ></p-calendar>
         <div
           *ngIf="
@@ -201,6 +204,7 @@
           placeholder="Select end of classes date"
           [style]="{ width: '100%' }"
           appendTo="body"
+          [(ngModel)]="endClass"
         ></p-calendar>
         <div *ngIf="classEnd.invalid && (classEnd?.dirty || classEnd?.touched)">
           <small

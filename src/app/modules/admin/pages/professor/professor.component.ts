@@ -53,6 +53,8 @@ export class ProfessorComponent implements OnInit {
   search: string = '';
   typeSelected: string = '';
 
+  birthday: Date = new Date();
+
   constructor(
     private fb: FormBuilder,
     private professorService: ProfessorService,
@@ -276,7 +278,7 @@ export class ProfessorComponent implements OnInit {
     this.isShowImage = false;
     this.file = null;
     this.isUpdating = true;
-
+    this.birthday = new Date(prof.birthdate);
     this.professorForm.patchValue({
       firstname: prof.firstname,
       middlename: prof.middlename,
@@ -285,7 +287,6 @@ export class ProfessorComponent implements OnInit {
       fullname: 'fullname',
       gender: prof.gender,
       civilStatus: prof.civilStatus,
-      birthdate: prof.birthdate,
       birthplace: prof.birthplace,
       citizenship: prof.citizenship,
       religion: prof.religion,
@@ -350,7 +351,7 @@ export class ProfessorComponent implements OnInit {
       const suffix = this.professorForm.get('suffix')?.value;
       const gender = this.professorForm.get('gender')?.value;
       const civilStatus = this.professorForm.get('civilStatus')?.value;
-      const birthdate = this.professorForm.get('birthdate')?.value;
+      let birthdate = this.professorForm.get('birthdate')?.value;
       const birthplace = this.professorForm.get('birthplace')?.value;
       const citizenship = this.professorForm.get('citizenship')?.value;
       const religion = this.professorForm.get('religion')?.value;
@@ -387,6 +388,7 @@ export class ProfessorComponent implements OnInit {
         payload.civilStatus = civilStatus;
       }
       if (this.professor.birthdate != birthdate) {
+        birthdate.setDate(birthdate.getDate() + 1);
         payload.birthdate = birthdate;
       }
       if (this.professor.birthplace != birthplace) {
@@ -487,6 +489,11 @@ export class ProfessorComponent implements OnInit {
       }
     } else {
       if (this.professorForm.valid) {
+        let tempBday = this.professorForm.get('birthdate')?.value;
+        tempBday.setDate(tempBday.getDate() + 1);
+        this.professorForm.patchValue({
+          birthdate: tempBday,
+        });
         if (this.file != null) {
           const formData = new FormData();
           formData.append(
@@ -555,4 +562,16 @@ export class ProfessorComponent implements OnInit {
     this.prof = prof;
     this.router.navigate([`admin/professor/schedule/${this.prof.professorId}`]);
   };
+
+  convertDateString = (originalDate: string): string => {
+    const newDate = new Date(originalDate);
+    const year = newDate.getFullYear();
+    const month = this.formatWithLeadingZero(newDate.getMonth() + 1);
+    const day = this.formatWithLeadingZero(newDate.getDate());
+    return `${year}-${month}-${day}`;
+  };
+
+  formatWithLeadingZero(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
+  }
 }
