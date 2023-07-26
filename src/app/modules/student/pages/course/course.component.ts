@@ -25,7 +25,7 @@ export class CourseComponent {
   student: any = {};
   maxUnits: any;
 
-  isDialogOpen: boolean = false;
+  isDialogOpen: boolean = true;
   confirmationDialog: boolean = false;
   errorDialog: boolean = false;
   successDialog: boolean = false;

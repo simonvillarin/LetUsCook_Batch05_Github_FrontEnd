@@ -110,8 +110,10 @@ export class MainComponent implements OnInit {
 
     if (loc1 == 'schedule') {
       return 'Schedule';
-    } else {
+    } else if (loc == 'section') {
       return 'Section';
+    } else {
+      return 'Profile';
     }
   };
 
