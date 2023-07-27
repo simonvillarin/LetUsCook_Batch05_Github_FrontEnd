@@ -171,7 +171,7 @@ export class MainComponent implements OnInit {
     const year = newDate.getFullYear();
     const month = this.formatWithLeadingZero(newDate.getMonth() + 1);
     const day = this.formatWithLeadingZero(newDate.getDate());
-    return `${month}/${day}/${year}`;
+    return `${year}-${month}-${day}`;
   };
 
   formatWithLeadingZero(value: number): string {

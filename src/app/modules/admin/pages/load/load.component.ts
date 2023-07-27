@@ -11,6 +11,7 @@ import { ProfessorService } from 'src/app/shared/services/professor/professor.se
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { SectionService } from 'src/app/shared/services/section/section.service';
+import { endTimeValidator } from 'src/app/shared/validators/custom.validator';
 
 @Component({
   selector: 'app-load',
@@ -32,8 +33,8 @@ export class LoadComponent implements OnInit {
     this.scheduleForm = fb.group({
       subject: ['', Validators.required],
       days: [new FormControl<any[] | null>(null), [Validators.required]],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
+      startTime: ['', [Validators.required]],
+      endTime: ['', [Validators.required]],
       section: ['', Validators.required],
       room: ['', Validators.required],
       professorId: [this.professorId],
@@ -314,23 +315,32 @@ export class LoadComponent implements OnInit {
           room: room,
           professorId: this.prof.professorId,
         };
-        console.log(payload, ' is the payload');
+        if (startTime > endTime && endTime < startTime) {
+          this.alert = true;
+          setTimeout(() => {
+            this.alert = false;
+          }, 3000);
+          this.alertStatus = 'Error';
+          this.alertMessage = 'Time conflict with class time';
+        } else {
+          console.log('updated');
 
-        this.scheduleService.updateSchedule(payload).subscribe((res: any) => {
-          console.log(res, 'res message');
+          this.scheduleService.updateSchedule(payload).subscribe((res: any) => {
+            console.log(res, 'res message');
 
-          if (res.message == 'Schedule already exist') {
-            this.alert = true;
-            setTimeout(() => {
-              this.alert = false;
-            }, 3000);
-            this.alertStatus = 'Error';
-            this.alertMessage = 'Schedule already exists';
-          } else {
-            this.getScheduleById();
-            this.addScheduleDialog = false;
-          }
-        });
+            if (res.message == 'Schedule already exist') {
+              this.alert = true;
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Schedule already exists';
+            } else {
+              this.getScheduleById();
+              this.addScheduleDialog = false;
+            }
+          });
+        }
       } else {
         this.scheduleForm.markAllAsTouched();
       }
@@ -341,38 +351,50 @@ export class LoadComponent implements OnInit {
         this.scheduleForm.patchValue({
           professorId: this.prof.professorId,
         });
-        this.scheduleService
-          .addSchedule(this.scheduleForm.value)
-          .subscribe((res: any) => {
-            if (res.message == 'Schedule already exist') {
-              this.alert = true;
-              setTimeout(() => {
-                this.alert = false;
-              }, 3000);
-              this.alertStatus = 'Error';
-              this.alertMessage = 'Schedule already taken';
-            } else if (
-              res.message == 'Please create start and end date of classes first'
-            ) {
-              this.alert = true;
-              setTimeout(() => {
-                this.alert = false;
-              }, 3000);
-              this.alertStatus = 'Error';
-              this.alertMessage =
-                'Please create start and end date of classes first';
-            } else {
-              this.getScheduleById();
-              this.alert = true;
-              setTimeout(() => {
-                this.alert = false;
-              }, 3000);
-              this.alertStatus = 'Success';
-              this.alertMessage = 'Section successfully added';
-              this.scheduleForm.reset();
-              this.addScheduleDialog = false;
-            }
-          });
+        const startTime = this.scheduleForm.get('startTime')?.value;
+        const endTime = this.scheduleForm.get('endTime')?.value;
+        if (startTime > endTime && endTime < startTime) {
+          this.alert = true;
+          setTimeout(() => {
+            this.alert = false;
+          }, 3000);
+          this.alertStatus = 'Error';
+          this.alertMessage = 'Time conflict with class time';
+        } else {
+          this.scheduleService
+            .addSchedule(this.scheduleForm.value)
+            .subscribe((res: any) => {
+              if (res.message == 'Schedule already exist') {
+                this.alert = true;
+                setTimeout(() => {
+                  this.alert = false;
+                }, 3000);
+                this.alertStatus = 'Error';
+                this.alertMessage = 'Schedule already taken';
+              } else if (
+                res.message ==
+                'Please create start and end date of classes first'
+              ) {
+                this.alert = true;
+                setTimeout(() => {
+                  this.alert = false;
+                }, 3000);
+                this.alertStatus = 'Error';
+                this.alertMessage =
+                  'Please create start and end date of classes first';
+              } else {
+                this.getScheduleById();
+                this.alert = true;
+                setTimeout(() => {
+                  this.alert = false;
+                }, 3000);
+                this.alertStatus = 'Success';
+                this.alertMessage = 'Section successfully added';
+                this.scheduleForm.reset();
+                this.addScheduleDialog = false;
+              }
+            });
+        }
       } else {
         this.scheduleForm.markAllAsTouched();
       }

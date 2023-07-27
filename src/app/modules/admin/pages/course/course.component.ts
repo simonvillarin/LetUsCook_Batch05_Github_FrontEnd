@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { hasNegativeValue } from 'src/app/shared/validators/custom.validator';
 
 @Component({
   selector: 'app-course',
@@ -45,7 +46,7 @@ export class CourseComponent implements OnInit {
     this.courseForm = fb.group({
       subjectCode: ['', [Validators.required]],
       subjectTitle: ['', [Validators.required]],
-      units: ['', [Validators.required]],
+      units: ['', [Validators.required, hasNegativeValue()]],
       preRequisites: new FormControl<any[] | null>(null),
       type: ['', [Validators.required]],
     });

@@ -40,7 +40,7 @@ export class RoomComponent implements OnInit {
   }
 
   get roomCapacity() {
-    return this.roomForm.get('capacity') as FormControl;
+    return this.roomForm.get('roomCapacity') as FormControl;
   }
 
   ngOnInit(): void {

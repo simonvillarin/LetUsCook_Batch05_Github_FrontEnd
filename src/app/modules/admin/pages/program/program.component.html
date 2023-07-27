@@ -196,6 +196,18 @@
               [formControlName]="i"
             />
           </div>
+          <div *ngIf="units?.invalid && (units?.dirty || units?.touched)">
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="units?.errors?.['required']"
+              >Units is required</small
+            >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="units?.errors?.['minUnitsArray']"
+              >Units should be greater than 1</small
+            >
+          </div>
         </div>
       </div>
       <div class="input-group">

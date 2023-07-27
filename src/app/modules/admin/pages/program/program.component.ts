@@ -9,6 +9,7 @@ import {
 import { Subscription } from 'rxjs';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { minUnitsArrayValidator } from 'src/app/shared/validators/custom.validator';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -48,7 +49,7 @@ export class ProgramComponent implements OnInit {
       programCode: ['', [Validators.required]],
       programTitle: ['', [Validators.required]],
       yearsToComplete: ['', [Validators.required]],
-      units: this.fb.array([]),
+      units: this.fb.array([], minUnitsArrayValidator()),
       majors: new FormControl<any[] | null>(null),
       minors: new FormControl<any[] | null>(null),
       electives: new FormControl<any[] | null>(null),
