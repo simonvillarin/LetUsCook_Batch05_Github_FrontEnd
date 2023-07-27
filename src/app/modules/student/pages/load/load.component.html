@@ -1,1 +1,146 @@
-<p>load works!</p>
+<div class="table">
+  <p-tabView>
+    <p-tabPanel header="Attendance">
+      <div class="table-header">
+        <div class="btn-container">
+          <button class="reset table-header-btn" title="Reset">
+            <span class="material-symbols-rounded table-header-icon">
+              restart_alt
+            </span>
+          </button>
+        </div>
+        <div class="filter">
+          <p-dropdown
+            placeholder="Filter by remarks"
+            appendTo="body"
+            [style]="{
+            width: '16rem',
+          }"
+          ></p-dropdown>
+        </div>
+      </div>
+      <p-table [value]="attendance" [tableStyle]="{ 'min-width': '80rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 33.33%">Date</th>
+            <th style="width: 33.33%">Time</th>
+            <th style="width: 33.33%">Status</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-att>
+          <ng-container *ngIf="att.activeDeactive">
+            <tr>
+              <td>
+                {{ convertDate(att.date) }}
+              </td>
+              <td>
+                {{ convertTime(att.time) }}
+              </td>
+              <td>
+                <div
+                  *ngIf="att.status"
+                  class="status {{
+                    att.status == 'Present'
+                      ? 'present'
+                      : att.status == 'Absent'
+                      ? 'absent'
+                      : 'late'
+                  }}"
+                >
+                  {{ att.status }}
+                </div>
+                <div *ngIf="!att.status"></div>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="Evaluation Form" *ngIf="!isEvaluated">
+      <form
+        [formGroup]="evaluationForm"
+        (ngSubmit)="onSubmit()"
+        class="evalForm"
+      >
+        <div
+          class="question-container"
+          formArrayName="answers"
+          *ngFor="let answer of answers.controls; let i = index"
+        >
+          <p class="question">{{ i + 1 }}. {{ questions[i].sentence }}</p>
+          <div class="radio-container">
+            <ng-container *ngFor="let rating of questions[i].ratings">
+              <div class="radio-item">
+                <p-radioButton
+                  [inputId]="rating.key"
+                  [value]="rating"
+                  [formControlName]="i.toString()"
+                ></p-radioButton>
+                <label class="radio-label">{{ rating.name }}</label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="action eval">
+          <button type="submit" class="action-btn submit">Submit</button>
+        </div>
+      </form></p-tabPanel
+    >
+  </p-tabView>
+</div>
+
+<p-dialog
+  [(visible)]="confirmationDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Confirmation</div>
+  </p-header>
+  <div class="modal-body">Are you sure you want to submit this evaluation?</div>
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onClose()">Cancel</button>
+    <button class="action-btn submit" (click)="onConfirm()">Confirm</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="successDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Success</div>
+  </p-header>
+  <div class="modal-body">
+    Thank you for submitting your evaluation! We value your feedback.
+  </div>
+  <div class="actions">
+    <button class="action-btn submit" (click)="onOK()">OK</button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="errorDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Error</div>
+  </p-header>
+  <div class="modal-body">
+    Please make sure to fill in all the fields before submitting the form.
+  </div>
+  <div class="actions">
+    <button class="action-btn submit" (click)="onOKError()">OK</button>
+  </div>
+</p-dialog>

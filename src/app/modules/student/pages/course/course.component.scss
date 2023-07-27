@@ -187,42 +187,6 @@ img {
   background-color: var(--red);
 }
 
-.evalForm {
-  overflow-x: auto;
-}
-
-.question-container {
-  margin-bottom: 1rem;
-}
-
-.question {
-  width: 100%;
-  font-size: clamp(1rem, 0.9024rem + 0.4878vw, 1.25rem);
-  font-weight: 300;
-  margin-bottom: 0.5rem;
-}
-
-.radio-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 0.5rem;
-}
-
-.radio-item {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  gap: 0.5rem;
-}
-
-.radio-label {
-  font-weight: 300;
-}
-
-.eval {
-  margin-top: 1rem;
-}
-
 .card-container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);

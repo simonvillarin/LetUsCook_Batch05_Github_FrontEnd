@@ -176,46 +176,6 @@
 </main>
 
 <p-dialog
-  [(visible)]="isDialogOpen"
-  [modal]="true"
-  [breakpoints]="{ '960px': '75vw' }"
-  [style]="{ minWidth: '60vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="modal-title">Evaluation Form</div>
-  </p-header>
-
-  <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()" class="evalForm">
-    <div
-      class="question-container"
-      *ngFor="let question of evaluationQuestions; let i = index"
-    >
-      <p class="question">{{ i + 1 }}. {{ question.sentence }}</p>
-      <div class="radio-container">
-        <ng-container *ngFor="let rating of question.ratings">
-          <div class="radio-item">
-            <p-radioButton
-              [inputId]="rating.key"
-              [value]="rating"
-              [formControlName]="question.sentence"
-            ></p-radioButton>
-            <label [for]="rating.key" class="radio-label">{{
-              rating.name
-            }}</label>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-    <div class="actions eval">
-      <button class="action-btn cancel" (click)="onCloseEval()">Cancel</button>
-      <button type="submit" class="action-btn submit">Submit</button>
-    </div>
-  </form>
-</p-dialog>
-
-<p-dialog
   [(visible)]="confirmationDialog"
   [modal]="true"
   [breakpoints]="{ '960px': '75vw' }"

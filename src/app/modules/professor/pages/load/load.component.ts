@@ -124,7 +124,6 @@ export class LoadComponent implements OnInit {
     } else {
       zone = 'AM';
     }
-
     return hour + ':' + splitTime[1] + ' ' + zone;
   };
 

@@ -56,7 +56,6 @@ export class StudentComponent implements OnInit {
     private parentService: ParentService,
     private accountService: AccountService,
     private gradeService: GradeService,
-    private attendanceStudentService: AttendanceStudentService,
     private roomService: RoomService,
     private fb: FormBuilder,
     private datePipe: DatePipe
@@ -204,15 +203,6 @@ export class StudentComponent implements OnInit {
           dateModified: '',
         };
         this.gradeService.addGrade(payload).subscribe();
-        const payload1 = {
-          studentId: this.student.studentId,
-          subjectId: sched.subject.subjectId,
-          sem: this.student.sem,
-          yearLevel: this.student.yearLevel,
-          academicYear: this.student.academicYear,
-          status: '',
-        };
-        this.attendanceStudentService.addAttendance(payload1).subscribe();
       });
 
       const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);

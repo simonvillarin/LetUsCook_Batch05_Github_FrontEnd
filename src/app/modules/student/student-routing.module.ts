@@ -23,7 +23,7 @@ const routes: Routes = [
         component: CourseComponent,
       },
       {
-        path: 'course/:id',
+        path: 'course/:section',
         component: LoadComponent,
       },
       {

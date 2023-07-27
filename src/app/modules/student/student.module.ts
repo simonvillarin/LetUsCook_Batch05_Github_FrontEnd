@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
 import { CourseComponent } from './pages/course/course.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
@@ -19,6 +19,7 @@ import { StudentMainComponent } from './pages/student-main/student-main.componen
 import { GradeComponent } from './pages/grade/grade.component';
 import { LoadComponent } from './pages/load/load.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     CardModule,
     ReactiveFormsModule,
     SharedModule,
+    TabViewModule,
   ],
+  providers: [DatePipe],
 })
 export class StudentModule {}

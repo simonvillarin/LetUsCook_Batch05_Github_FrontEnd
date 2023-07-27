@@ -1,1 +1,87 @@
-<p>grade works!</p>
+<main>
+  <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button
+          class="reset table-header-btn"
+          title="Reset"
+          (click)="onReset()"
+        >
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
+      <div class="filter">
+        <p-dropdown
+          placeholder="Filter by school year"
+          appendTo="body"
+          [style]="{
+            width: '16rem',
+          }"
+        ></p-dropdown>
+      </div>
+    </div>
+    <p-table [value]="grades" [tableStyle]="{ 'min-width': '80rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%">Subject</th>
+          <th style="width: 10%">Prelim</th>
+          <th style="width: 10%">Midterm</th>
+          <th style="width: 10%">Final</th>
+          <th style="width: 20%">Comment</th>
+          <th style="width: 10%">Remarks</th>
+          <th style="width: 20%">Professor</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-grade>
+        <ng-container
+          *ngIf="
+            grade.status ||
+            grade.section.activeDeactive ||
+            grade.room.activeDeactive
+          "
+        >
+          <tr>
+            <td>{{ grade.subject.subjectTitle }}</td>
+            <td>
+              {{ grade.prelim || "-" }}
+            </td>
+            <td>
+              {{ grade.midterm || "-" }}
+            </td>
+            <td>
+              {{ grade.finals || "-" }}
+            </td>
+            <td>{{ grade.comment || "-" }}</td>
+            <td>
+              <div
+                class="{{
+                  grade.remarks > 74 ? 'remarks passed' : 'remarks failed'
+                }}"
+              >
+                {{ grade.remarks || "-" }}
+              </div>
+            </td>
+            <td>
+              <div class="prof-container">
+                <div class="avatar-container">
+                  <div class="avatar">
+                    <img
+                      src="{{
+                        grade.professor.image ||
+                          '../../../../../../../assets/images/blank-profile.jpg'
+                      }}"
+                      alt="Student Image"
+                    />
+                  </div>
+                </div>
+                <div class="prof-name">{{ grade.professor.fullname }}</div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+</main>

@@ -84,7 +84,7 @@ export class MainComponent implements OnInit {
   getCalendar = () => {
     this.calendarService.getCalendar().subscribe((data: any) => {
       this.calendar = data;
-      if (data[0].startClass == null) {
+      if (data.length > 0 && data[0].startClass == null) {
         this.isDialogOpen = true;
       }
     });
@@ -171,7 +171,7 @@ export class MainComponent implements OnInit {
     const year = newDate.getFullYear();
     const month = this.formatWithLeadingZero(newDate.getMonth() + 1);
     const day = this.formatWithLeadingZero(newDate.getDate());
-    return `${month}/${day}/${year}`;
+    return `${year}-${month}-${day}`;
   };
 
   formatWithLeadingZero(value: number): string {
@@ -208,7 +208,10 @@ export class MainComponent implements OnInit {
       } else {
         const payload: any = {};
         startEnrollment = this.convertDateString(startEnrollment);
-        if (this.calendar[0].startEnrollement != startEnrollment) {
+        if (
+          this.calendar.length > 0 &&
+          this.calendar[0].startEnrollement != startEnrollment
+        ) {
           startEnrollment = this.setupForm.get('startEnrollement')?.value;
           startEnrollment.setDate(startEnrollment.getDate() + 1);
           payload.startEnrollement = startEnrollment;
@@ -217,7 +220,10 @@ export class MainComponent implements OnInit {
           payload.endClass = endClass;
         }
         endEnrollment = this.convertDateString(endEnrollment);
-        if (this.calendar[0].endEnrollment != endEnrollment) {
+        if (
+          this.calendar.length > 0 &&
+          this.calendar[0].endEnrollment != endEnrollment
+        ) {
           endEnrollment = this.setupForm.get('endEnrollment')?.value;
           endEnrollment.setDate(endEnrollment.getDate() + 1);
           payload.startEnrollement = startEnrollment;
@@ -226,7 +232,10 @@ export class MainComponent implements OnInit {
           payload.endClass = endClass;
         }
         startClass = this.convertDateString(startClass);
-        if (this.calendar[0].startClass != startClass) {
+        if (
+          this.calendar.length > 0 &&
+          this.calendar[0].startClass != startClass
+        ) {
           startClass = this.setupForm.get('startClass')?.value;
           startClass.setDate(startClass.getDate() + 1);
           payload.startEnrollement = startEnrollment;
@@ -235,7 +244,7 @@ export class MainComponent implements OnInit {
           payload.endClass = endClass;
         }
         endClass = this.convertDateString(endClass);
-        if (this.calendar[0].endClass != endClass) {
+        if (this.calendar.length > 0 && this.calendar[0].endClass != endClass) {
           endClass = this.setupForm.get('endClass')?.value;
           endClass.setDate(endClass.getDate() + 1);
           payload.startEnrollement = startEnrollment;
