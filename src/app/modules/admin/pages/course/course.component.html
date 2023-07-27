@@ -169,12 +169,18 @@
           type="number"
           formControlName="units"
           placeholder="Units"
+          min="1"
         />
         <div *ngIf="units.invalid && (units?.dirty || units?.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="units?.errors?.['required']"
             >Number of units is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="units?.errors?.['negative']"
+            >Number of units cannot be less than 1</small
           >
         </div>
       </div>

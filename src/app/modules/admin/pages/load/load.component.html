@@ -191,6 +191,11 @@
             *ngIf="startTime?.errors?.['required']"
             >Please select a start time</small
           >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="startTime?.errors?.['endTimeLessThanStartTime']"
+            >Time conflict with end class</small
+          >
         </div>
       </div>
       <div class="input-group">
@@ -207,6 +212,11 @@
             [style]="{ color: 'var(--red)' }"
             *ngIf="endTime?.errors?.['required']"
             >Please select an end time</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="endTime?.errors?.['endTimeLessThanStartTime']"
+            >Time conflict with end class</small
           >
         </div>
       </div>

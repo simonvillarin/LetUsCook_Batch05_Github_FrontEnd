@@ -345,6 +345,16 @@
                 *ngIf="applyForm.get('birthdate')?.errors?.['required']"
                 >Date of birth is required</small
               >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="applyForm.get('birthdate')?.errors?.['futureDate']"
+                >You cannot select a future date</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="applyForm.get('birthdate')?.errors?.['underage']"
+                >We only accept applicants 17yr old and above</small
+              >
             </div>
           </div>
           <div class="input-group">
@@ -526,6 +536,11 @@
                 *ngIf="applyForm.get('zipcode')?.errors?.['required']"
                 >Zipcode is required</small
               >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="applyForm.get('zipcode')?.errors?.['maxLength']"
+                >Zipcode must be 4 digits</small
+              >
             </div>
           </div>
         </div>
@@ -538,10 +553,22 @@
             <label class="input-label">Telephone No:</label>
             <input
               pInputText
-              placeholder="Telephone No."
+              placeholder="XX-XXXX-XXXX"
               formControlName="telephone"
               pKeyFilter="int"
             />
+            <div
+              *ngIf="
+                (buttonClicked && applyForm.get('telephone')?.invalid) ||
+                applyForm.get('telephone')?.dirty
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="applyForm.get('telephone')?.errors?.['numberRange']"
+                >Invalid telephone number</small
+              >
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Mobile No:</label>
@@ -561,6 +588,11 @@
                 [style]="{ color: 'var(--red)' }"
                 *ngIf="applyForm.get('mobile')?.errors?.['required']"
                 >Mobile no. is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="applyForm.get('mobile')?.errors?.['mobileNoIsValid']"
+                >Invalid mobile number</small
               >
             </div>
           </div>

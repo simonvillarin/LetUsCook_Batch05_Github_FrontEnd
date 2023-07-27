@@ -40,7 +40,7 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 20%">Room Number</th>
+          <th style="width: 20%">Room Name</th>
           <th style="width: 20%">Room Capacity</th>
           <th style="width: 20%">No. of Students</th>
           <th style="width: 20%">Status</th>
@@ -110,10 +110,10 @@
     </div>
     <div class="form-group">
       <div class="input-group">
-        <label>Room Number:</label>
+        <label>Room Name:</label>
         <input
           pInputText
-          placeholder="Room Number"
+          placeholder="Room Name"
           formControlName="roomNumber"
         />
         <div
@@ -124,7 +124,7 @@
           <small
             [style]="{ color: 'var(--red)' }"
             *ngIf="roomNumber?.errors?.['required']"
-            >Room number is required</small
+            >Room name is required</small
           >
         </div>
       </div>
@@ -132,7 +132,7 @@
         <label>Room Capacity:</label>
         <input
           pInputText
-          placeholder="Room Number"
+          placeholder="Room Capacity"
           formControlName="roomCapacity"
           pInputText
           pKeyFilter="int"

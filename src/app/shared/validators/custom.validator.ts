@@ -38,6 +38,16 @@ export const hasSymbolValidator = (): ValidatorFn => {
   };
 };
 
+export const hasNegativeValue = (): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (value < 1) {
+      return { negative: true };
+    }
+    return null;
+  };
+};
+
 //Validate Mobile Number (forgot password)
 export const mobileNumberValidator = (): ValidatorFn => {
   const regexPattern = /^(09|\+639)\d{9}$/;
@@ -63,7 +73,8 @@ export const telephoneNumberValidator = (): ValidatorFn => {
     const value = control.value;
     if (
       (value && value.toString().length < 8) ||
-      value.toString().length > 10
+      value.toString().length > 10 ||
+      value.toString().length == 9
     ) {
       return { numberRange: true };
     }
@@ -85,6 +96,59 @@ export const birthdateValidator = (): ValidatorFn => {
     return null;
   };
 };
+// age >= 17
+export const ageValidator = (): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const selectedDate = control.value;
+    const today = new Date();
+    const selectedDateObj = new Date(selectedDate);
+
+    const ageDifferenceMs = today.getTime() - selectedDateObj.getTime();
+
+    const ageDifferenceYears = ageDifferenceMs / (1000 * 60 * 60 * 24 * 365);
+
+    if (ageDifferenceYears < 17) {
+      return { underage: true };
+    }
+
+    return null;
+  };
+};
+
+export function endTimeValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const startTime = control.get('startTime')?.value;
+    const endTime = control.get('endTime')?.value;
+
+    if (startTime && endTime) {
+      const start = new Date(`1970-01-01T${startTime}`);
+      const end = new Date(`1970-01-01T${endTime}`);
+      if (end < start) {
+        return { endTimeLessThanStartTime: true };
+      }
+    }
+
+    return null;
+  };
+}
+
+export function minUnitsArrayValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const unitsArray = control.value;
+    if (!Array.isArray(unitsArray)) {
+      return null;
+    }
+
+    for (const unit of unitsArray) {
+      const parsedUnit = Number(unit);
+      if (isNaN(parsedUnit) || parsedUnit < 1) {
+        return { minUnitsArray: true };
+      }
+    }
+
+    return null;
+  };
+}
 
 export function confirmPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {

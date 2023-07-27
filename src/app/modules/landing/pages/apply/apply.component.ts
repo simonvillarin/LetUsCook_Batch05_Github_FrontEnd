@@ -3,6 +3,13 @@ import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
+import {
+  ageValidator,
+  birthdateValidator,
+  mobileNumberValidator,
+  telephoneNumberValidator,
+  zipcodeValidator,
+} from 'src/app/shared/validators/custom.validator';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -63,7 +70,10 @@ export class ApplyComponent implements OnInit {
       gender: ['', [Validators.required]],
       civilStatus: ['', [Validators.required]],
       citizenship: ['', [Validators.required]],
-      birthdate: ['', [Validators.required]],
+      birthdate: [
+        '',
+        [Validators.required, birthdateValidator(), ageValidator()],
+      ],
       birthplace: ['', [Validators.required]],
       religion: ['', [Validators.required]],
       unit: ['', [Validators.required]],
@@ -72,9 +82,9 @@ export class ApplyComponent implements OnInit {
       barangay: ['', [Validators.required]],
       city: ['', [Validators.required]],
       province: ['', [Validators.required]],
-      zipcode: ['', [Validators.required]],
-      telephone: [''],
-      mobile: ['', [Validators.required]],
+      zipcode: ['', [Validators.required, zipcodeValidator()]],
+      telephone: ['', [telephoneNumberValidator()]],
+      mobile: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
       lastSchoolAttended: ['', [Validators.required]],
       programTaken: ['', [Validators.required]],

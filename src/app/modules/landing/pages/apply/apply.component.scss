@@ -244,6 +244,11 @@ span {
   gap: 0.25rem;
 }
 
+.input-group > div {
+  display: flex;
+  flex-direction: column;
+}
+
 .personal-container,
 .address-container,
 .contact-container,
