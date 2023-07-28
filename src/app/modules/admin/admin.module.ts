@@ -32,6 +32,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { LoadComponent } from './pages/load/load.component';
+import { ProfessorModule } from '../professor/professor.module';
+import { SectionLoadComponent } from './pages/section-load/section-load.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,8 @@ import { LoadComponent } from './pages/load/load.component';
     SectionComponent,
     RoomComponent,
     LoadComponent,
+    SectionLoadComponent,
+    AttendanceComponent,
   ],
   imports: [
     CommonModule,
@@ -71,6 +76,7 @@ import { LoadComponent } from './pages/load/load.component';
     TooltipModule,
     MatTableModule,
     MatPaginatorModule,
+    ProfessorModule,
   ],
 })
 export class AdminModule {}

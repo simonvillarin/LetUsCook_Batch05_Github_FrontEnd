@@ -8,6 +8,7 @@ import { StudentEvaluationComponent } from './pages/student-evaluation/student-e
 import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 import { CourseComponent } from './pages/course/course.component';
 import { LoadComponent } from './pages/load/load.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
         component: LoadComponent,
       },
       {
+        path: 'course/attendance/:id',
+        component: AttendanceComponent,
+      },
+      {
         path: 'schedule',
         component: ScheduleComponent,
       },
@@ -35,7 +40,7 @@ const routes: Routes = [
         component: ProfileComponent,
       },
       {
-        path: 'evaluation',
+        path: 'course/evaluation/:id',
         component: StudentEvaluationComponent,
       },
     ],

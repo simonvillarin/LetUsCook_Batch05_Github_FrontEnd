@@ -22,6 +22,7 @@ import { CourseComponent } from './pages/course/course.component';
 import { TabViewModule } from 'primeng/tabview';
 import { LoadComponent } from './pages/load/load.component';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     ProfMainComponent,
     CourseComponent,
     LoadComponent,
+    AttendanceComponent,
   ],
   imports: [
     ProfessorRoutingModule,

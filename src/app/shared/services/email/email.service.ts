@@ -16,4 +16,8 @@ export class EmailService {
   checkEmail = (email: string) => {
     return this.http.post(`${this.BASE_URL}/email`, email);
   };
+
+  sendEmail = (email: any) => {
+    return this.http.post(`${this.BASE_URL}/send/email`, email);
+  };
 }

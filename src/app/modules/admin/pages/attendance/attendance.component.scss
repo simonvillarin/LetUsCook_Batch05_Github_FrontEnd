@@ -35,10 +35,6 @@ tr td {
   text-align: center;
 }
 
-.td {
-  text-align: left;
-}
-
 .btn-container {
   display: flex;
   align-items: center;
@@ -137,23 +133,11 @@ img {
   font-size: 0.9375rem;
 }
 
-.strongly-agree {
+.present {
   background-color: var(--green);
 }
 
-.agree {
-  background-color: var(--light-blue);
-}
-
-.neutral {
-  background-color: var(--yellow);
-}
-
-.disagree {
-  background-color: var(--light-orange);
-}
-
-.strongly-disagree {
+.absent {
   background-color: var(--light-red);
 }
 
@@ -164,9 +148,5 @@ img {
 
   .filter {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .td {
-    padding-left: 5rem;
   }
 }

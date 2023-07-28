@@ -159,9 +159,7 @@ export class LoadComponent implements OnInit {
     this.scheduleService
       .getScheduleById(this.professorId)
       .subscribe((data: any) => {
-        const sortData = data.sort((a: any, b: any) => b.schedId - a.schedId);
-        this.schedules = sortData;
-        this.filterSubjects();
+        this.schedules = data.sort((a: any, b: any) => b.schedId - a.schedId);
         this.getProfessor();
       });
   };
@@ -199,21 +197,34 @@ export class LoadComponent implements OnInit {
     });
   };
 
-  filterSubjects = () => {
-    this.courseService.getAllSubjects().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
-      let subjects: any = [];
-      sortData.map((sub: any) => {
-        subjects.push(sub.subjectTitle);
+  filterRooms = () => {
+    this.roomService.getAllRooms().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.roomId - a.roomId);
+      let rooms: any = [];
+      sortData.map((room: any) => {
+        rooms.push(room.roomNumber);
       });
-      this.subjects = subjects;
+      this.rooms = rooms;
       const exclusion = this.schedules.map(
-        (sub: any) => sub.subject.subjectTitle
+        (sched: any) => sched.room.roomNumber
       );
-      this.subjects = this.subjects.filter(
-        (sub: any) => !exclusion.includes(sub)
-      );
+      this.rooms = this.rooms.filter((room: any) => !exclusion.includes(room));
     });
+  };
+
+  filterSections = () => {
+    this.sectionService.getAllSections().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
+      let sections: any = [];
+      sortData.map((sec: any) => {
+        sections.push(sec.section);
+      });
+      this.sections = sections;
+    });
+    const exclusion = this.schedules.map((sched: any) => sched.section.section);
+    this.sections = this.sections.filter(
+      (section: any) => !exclusion.includes(section)
+    );
   };
 
   onChangeSearch = (searchTerm: string) => {
@@ -253,8 +264,6 @@ export class LoadComponent implements OnInit {
   };
 
   onAddSchedule = () => {
-    console.log(this.professorId);
-    this.filterSubjects();
     this.title = 'Add Schedule';
     this.isUpdatingSchedule = false;
     this.scheduleForm.reset();
@@ -412,5 +421,9 @@ export class LoadComponent implements OnInit {
 
   onCloseDialog = () => {
     this.addScheduleDialog = false;
+  };
+
+  onBack = () => {
+    history.back();
   };
 }

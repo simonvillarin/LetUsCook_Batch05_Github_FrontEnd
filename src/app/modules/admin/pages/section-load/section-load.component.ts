@@ -9,10 +9,10 @@ import { EvalService } from 'src/app/shared/services/eval/eval.service';
 
 @Component({
   selector: 'app-load',
-  templateUrl: './load.component.html',
-  styleUrls: ['./load.component.scss'],
+  templateUrl: './section-load.component.html',
+  styleUrls: ['./section-load.component.scss'],
 })
-export class LoadComponent implements OnInit {
+export class SectionLoadComponent implements OnInit {
   @ViewChild('paginator', { static: true }) paginator: Paginator | undefined;
 
   gradesForm: FormGroup;
@@ -343,7 +343,7 @@ export class LoadComponent implements OnInit {
 
   onAttendance = (att: any) => {
     this.router.navigate([
-      `professor/course/attendance/${att.student.studentId}-${this.subjectId}`,
+      `admin/section/attendance/${att.student.studentId}-${this.subjectId}`,
     ]);
   };
 

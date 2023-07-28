@@ -106,6 +106,7 @@ button {
   gap: 0.5rem;
   color: var(--white);
 }
+.view,
 .edit,
 .deactive,
 .activate {
@@ -116,6 +117,10 @@ button {
 
 .activate {
   background-color: var(--green);
+}
+
+.view {
+  background-color: var(--light-orange);
 }
 
 .edit {

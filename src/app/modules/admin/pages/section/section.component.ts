@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
 import { SectionService } from 'src/app/shared/services/section/section.service';
 
@@ -35,6 +36,7 @@ export class SectionComponent implements OnInit {
   constructor(
     private sectionService: SectionService,
     private programService: ProgramService,
+    private router: Router,
     private fb: FormBuilder
   ) {
     this.sectionForm = this.fb.group({

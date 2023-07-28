@@ -13,6 +13,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { SectionComponent } from './pages/section/section.component';
 import { RoomComponent } from './pages/room/room.component';
 import { LoadComponent } from './pages/load/load.component';
+import { SectionLoadComponent } from './pages/section-load/section-load.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
 
 const routes: Routes = [
   {
@@ -60,8 +62,12 @@ const routes: Routes = [
         component: RoomComponent,
       },
       {
-        path: 'professor/schedule/:id',
-        component: LoadComponent,
+        path: 'section/:section',
+        component: SectionLoadComponent,
+      },
+      {
+        path: 'section/attendance/:id',
+        component: AttendanceComponent,
       },
     ],
   },
