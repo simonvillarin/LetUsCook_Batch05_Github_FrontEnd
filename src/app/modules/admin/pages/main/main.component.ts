@@ -10,8 +10,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
 import { CalendarService } from 'src/app/shared/services/calendar/calendar.service';
 import { Location } from '@angular/common';
-import { Subscription } from 'rxjs';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main',

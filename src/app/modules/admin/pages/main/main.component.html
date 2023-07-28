@@ -70,14 +70,11 @@
       <button class="setup" (click)="openDialog()">SETUP</button>
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
-          <img src="../../../../assets/images/itachi.jpg" alt="Profile Image" />
+          <img src="{{ userPic }}" alt="Profile Image" />
         </div>
         <div class="name">
           <div class="type">
-            <span
-              >{{ admin.firstname }} {{ admin.middlename }}
-              {{ admin.lastname }}</span
-            >
+            <span>{{ username }}</span>
             <div>Admin</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">
