@@ -51,16 +51,16 @@ export class AttendanceComponent implements OnInit {
       .getStudentByParentId(parentId)
       .subscribe((data: any) => {
         this.student = data;
-        this.getStudentAttendance();
+        // this.getStudentAttendance();
       });
   };
 
-  getStudentAttendance = () => {
-    this.studentAttendanceService
-      .getAttendanceById(this.student.studentId)
-      .subscribe((data) => {
-        this.attendance = data;
-        console.log(data);
-      });
-  };
+  // getStudentAttendance = () => {
+  //   this.studentAttendanceService
+  //     .getAttendanceById(this.student.studentId)
+  //     .subscribe((data) => {
+  //       this.attendance = data;
+  //       console.log(data);
+  //     });
+  // };
 }

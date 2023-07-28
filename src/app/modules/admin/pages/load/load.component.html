@@ -65,53 +65,55 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-sched>
-        <tr>
-          <td>{{ sched.subject.subjectTitle }}</td>
-          <td>
-            <ng-container *ngFor="let day of sched.days">{{
-              day == "Monday"
-                ? "M"
-                : day == "Tuesday"
-                ? "T"
-                : day == "Wednesday"
-                ? "W"
-                : day == "Thursday"
-                ? "Th"
-                : day == "Friday"
-                ? "F"
-                : "S"
-            }}</ng-container>
-          </td>
-          <td>{{ convertTime(sched.startTime) }}</td>
-          <td>{{ convertTime(sched.endTime) }}</td>
-          <td>{{ sched.section.section }}</td>
-          <td>{{ sched.room.roomNumber }}</td>
-          <td>
-            <div class="{{ sched.activeDeactive ? 'active' : 'inactive' }}">
-              {{ sched.activeDeactive ? "Active" : "Inactive" }}
-            </div>
-          </td>
-          <td>
-            <div class="table-actions">
-              <button
-                title="Edit"
-                class="table-action edit"
-                (click)="onEditSchedule(sched)"
-              >
-                <span class="material-symbols-rounded"> edit </span>
-              </button>
-              <button
-                title="Delete"
-                class="table-action {{
-                  !sched.activeDeactive ? 'activate' : 'deactive'
-                }}"
-                (click)="onRemoveSchedule(sched)"
-              >
-                <span class="material-symbols-rounded"> delete </span>
-              </button>
-            </div>
-          </td>
-        </tr>
+        <ng-container *ngIf="sched.activeDeactive">
+          <tr>
+            <td>{{ sched.subject.subjectTitle }}</td>
+            <td>
+              <ng-container *ngFor="let day of sched.days">{{
+                day == "Monday"
+                  ? "M"
+                  : day == "Tuesday"
+                  ? "T"
+                  : day == "Wednesday"
+                  ? "W"
+                  : day == "Thursday"
+                  ? "Th"
+                  : day == "Friday"
+                  ? "F"
+                  : "S"
+              }}</ng-container>
+            </td>
+            <td>{{ convertTime(sched.startTime) }}</td>
+            <td>{{ convertTime(sched.endTime) }}</td>
+            <td>{{ sched.section.section }}</td>
+            <td>{{ sched.room.roomNumber }}</td>
+            <td>
+              <div class="{{ sched.activeDeactive ? 'active' : 'inactive' }}">
+                {{ sched.activeDeactive ? "Active" : "Inactive" }}
+              </div>
+            </td>
+            <td>
+              <div class="table-actions">
+                <button
+                  title="Edit"
+                  class="table-action edit"
+                  (click)="onEditSchedule(sched)"
+                >
+                  <span class="material-symbols-rounded"> edit </span>
+                </button>
+                <button
+                  title="Delete"
+                  class="table-action {{
+                    !sched.activeDeactive ? 'activate' : 'deactive'
+                  }}"
+                  (click)="onRemoveSchedule(sched)"
+                >
+                  <span class="material-symbols-rounded"> delete </span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
       </ng-template>
     </p-table>
   </div>
@@ -151,6 +153,8 @@
           formControlName="subject"
           appendTo="body"
           [style]="{ width: '100%' }"
+          [(ngModel)]="subjectSelected"
+          (onChange)="onSubjectChange()"
         ></p-dropdown>
         <div *ngIf="subject?.invalid && (subject?.dirty || subject?.touched)">
           <small
@@ -241,6 +245,7 @@
           [options]="rooms"
           placeholder="Select a room"
           formControlName="room"
+          appendTo="body"
           [style]="{ width: '100%' }"
         ></p-dropdown>
       </div>

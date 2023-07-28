@@ -31,7 +31,7 @@ export class ScheduleService {
     return this.http.put(`${this.BASE_URL}/schedule`, schedule);
   };
 
-  deleteSchedule = (id: number) => {
+  deleteSchedule = (id: number[]) => {
     return this.http.delete(`${this.BASE_URL}/schedule/${id}`);
   };
 }
