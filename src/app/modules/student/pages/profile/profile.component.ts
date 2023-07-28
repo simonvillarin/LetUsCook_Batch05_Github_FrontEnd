@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AccountService } from 'src/app/shared/services/account/account.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
+import { ProfileService } from 'src/app/shared/services/profile/profile.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
 import {
   PasswordLengthValidator,
@@ -60,6 +61,7 @@ export class ProfileComponent implements OnInit {
     private studentService: StudentService,
     private authService: AuthService,
     private accountService: AccountService,
+    private profileService: ProfileService,
     private fb: FormBuilder
   ) {
     this.personalForm = fb.group({
@@ -131,6 +133,10 @@ export class ProfileComponent implements OnInit {
         this.imagePreview = data.image;
         this.bannerPreview = data.banner;
         this.student = data;
+        const username = this.student.firstname + ' ' + this.student.lastname;
+        this.profileService.setUsername(username);
+        const userPic = this.student.image;
+        this.profileService.setUserPic(userPic);
       });
   };
 
@@ -261,7 +267,10 @@ export class ProfileComponent implements OnInit {
     formData.append('image', this.fileImage);
     this.studentService
       .updateStudentWithImage(this.authService.getUserId(), formData)
-      .subscribe((res) => console.log(res));
+      .subscribe((res: any) => {
+        const userPic = res.message;
+        this.profileService.setUserPic(userPic);
+      });
   };
 
   onBannerChange = (event: any) => {
@@ -341,6 +350,11 @@ export class ProfileComponent implements OnInit {
       this.alertStatus = 'Success';
       this.alertMessage = 'Personal information successfully updated';
       this.editPersonal = false;
+      const username =
+        this.personalForm.get('firstname')?.value +
+        ' ' +
+        this.personalForm.get('lastname')?.value;
+      this.profileService.setUsername(username);
     } else {
       this.personalForm.markAllAsTouched();
     }
