@@ -62,6 +62,10 @@ const routes: Routes = [
         component: RoomComponent,
       },
       {
+        path: 'professor/schedule/:id',
+        component: LoadComponent,
+      },
+      {
         path: 'section/:section',
         component: SectionLoadComponent,
       },
