@@ -4,18 +4,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { GradesComponent } from './pages/grades/grades.component';
+import { ParentMainComponent } from './pages/parent-main/parent-main.component';
 const routes: Routes = [
   {
-    path: 'parent',
-    component: HomeComponent,
-  },
-  {
-    path: 'parent/grades',
-    component: GradesComponent,
-  },
-  {
-    path: 'parent/attendance',
-    component: AttendanceComponent,
+    path: '',
+    component: ParentMainComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'grades',
+        component: GradesComponent,
+      },
+      {
+        path: 'attendance',
+        component: AttendanceComponent,
+      },
+    ],
   },
 ];
 
