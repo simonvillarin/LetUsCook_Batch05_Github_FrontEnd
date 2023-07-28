@@ -9,7 +9,7 @@
     </div>
     <div
       class="link"
-      routerLink="/student/home"
+      routerLink="/parent/home"
       routerLinkActive="link-active"
       (click)="onChangeRoute('Home')"
     >
@@ -18,30 +18,21 @@
     </div>
     <div
       class="link"
-      routerLink="/student/course"
+      routerLink="/parent/attendance"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Course')"
+      (click)="onChangeRoute('Grade')"
     >
-      <span class="material-symbols-rounded"> menu_book </span>
-      <span>Course</span>
+      <span class="material-symbols-rounded"> calendar_month </span>
+      <span>Attendance</span>
     </div>
     <div
       class="link"
-      routerLink="/student/grades"
+      routerLink="/parent/grades"
       routerLinkActive="link-active"
       (click)="onChangeRoute('Grade')"
     >
       <span class="material-symbols-rounded"> grade </span>
       <span>Grade</span>
-    </div>
-    <div
-      class="link"
-      routerLink="/student/schedule"
-      routerLinkActive="link-active"
-      (click)="onChangeRoute('Schedule')"
-    >
-      <span class="material-symbols-rounded"> calendar_month </span>
-      <span>Schedule</span>
     </div>
   </nav>
 </div>
@@ -57,11 +48,11 @@
     <div class="right-header">
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
-          <img src="{{ userPic }}" alt="Profile Image" />
+          <img src="../../../../assets/images/itachi.jpg" alt="Profile Image" />
         </div>
         <div class="name">
           <div class="type">
-            <span>{{ username }}</span>
+            <span>Simon James Hatamosa Villarin</span>
             <div>Student</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">

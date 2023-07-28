@@ -48,11 +48,11 @@
     <div class="right-header">
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
-          <img src="../../../../assets/images/itachi.jpg" alt="Profile Image" />
+          <img src="{{ userPic }}" alt="Profile Image" />
         </div>
         <div class="name">
           <div class="type">
-            <span>Simon James Hatamosa Villarin</span>
+            <span>{{ username }}</span>
             <div>Professor</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">

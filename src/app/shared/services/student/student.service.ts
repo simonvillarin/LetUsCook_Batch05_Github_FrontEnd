@@ -19,6 +19,10 @@ export class StudentService {
     return this.http.get<Student>(`${this.BASE_URL}/student/${id}`);
   };
 
+  getStudentByParentId = (parentId: number): Observable<any> => {
+    return this.http.get<any>(`${this.BASE_URL}/student/parent/${parentId}`);
+  };
+
   getStudentByStudentNo = (studentNo: string): Observable<Student> => {
     return this.http.get<Student>(`${this.BASE_URL}/studentNo/${studentNo}`);
   };
