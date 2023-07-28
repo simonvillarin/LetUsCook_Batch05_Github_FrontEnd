@@ -229,6 +229,13 @@
           appendTo="body"
           [style]="{ width: '100%' }"
         ></p-dropdown>
+        <div *ngIf="section?.invalid && (section?.dirty || section?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="section?.errors?.['required']"
+            >Please select section</small
+          >
+        </div>
       </div>
       <div class="input-group">
         <label>Room:</label>
@@ -236,8 +243,16 @@
           [options]="rooms"
           placeholder="Select a room"
           formControlName="room"
+          appendTo="body"
           [style]="{ width: '100%' }"
         ></p-dropdown>
+        <div *ngIf="room?.invalid && (room?.dirty || room?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="room?.errors?.['required']"
+            >Please select room</small
+          >
+        </div>
       </div>
     </div>
     <div class="actions">

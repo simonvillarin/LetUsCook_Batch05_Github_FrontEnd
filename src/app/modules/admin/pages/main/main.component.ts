@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { AdminService } from 'src/app/shared/services/admin/admin.service';
 import { CalendarService } from 'src/app/shared/services/calendar/calendar.service';
 import { Location } from '@angular/common';
+import { ProfileService } from 'src/app/shared/services/profile/profile.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -35,11 +37,16 @@ export class MainComponent implements OnInit {
 
   setupForm: FormGroup;
 
+  username: string = '';
+  userPic: string = '';
+  subscription: Subscription | undefined;
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private adminService: AdminService,
     private calendarService: CalendarService,
+    private profileService: ProfileService,
     private location: Location,
     private fb: FormBuilder
   ) {
@@ -49,6 +56,12 @@ export class MainComponent implements OnInit {
       startClass: ['', [Validators.required]],
       endClass: ['', [Validators.required]],
     });
+    this.subscription = this.profileService.usernameSubject.subscribe(
+      (user) => (this.username = user)
+    );
+    this.subscription = this.profileService.userPicSubject.subscribe(
+      (user) => (this.userPic = user)
+    );
   }
 
   get enrolmentStart() {
@@ -78,13 +91,16 @@ export class MainComponent implements OnInit {
       .getAdminById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.admin = data;
+        this.username = this.admin.firstname + ' ' + this.admin.lastname;
+        this.userPic = this.admin.image;
       });
   };
 
   getCalendar = () => {
     this.calendarService.getCalendar().subscribe((data: any) => {
       this.calendar = data;
-      if (data.length > 0 && data[0].startClass == null) {
+      if (this.calendar.length == 0) {
+        console.log(this.calendar, 'calendar');
         this.isDialogOpen = true;
       }
     });
@@ -206,77 +222,104 @@ export class MainComponent implements OnInit {
         this.alertMessage =
           'Start class date should not be greater than end class date';
       } else {
-        const payload: any = {};
-        startEnrollment = this.convertDateString(startEnrollment);
-        if (
-          this.calendar.length > 0 &&
-          this.calendar[0].startEnrollement != startEnrollment
-        ) {
-          startEnrollment = this.setupForm.get('startEnrollement')?.value;
+        if (this.calendar.length == 0) {
           startEnrollment.setDate(startEnrollment.getDate() + 1);
-          payload.startEnrollement = startEnrollment;
-          payload.endEnrollment = endEnrollment;
-          payload.startClass = startClass;
-          payload.endClass = endClass;
-        }
-        endEnrollment = this.convertDateString(endEnrollment);
-        if (
-          this.calendar.length > 0 &&
-          this.calendar[0].endEnrollment != endEnrollment
-        ) {
-          endEnrollment = this.setupForm.get('endEnrollment')?.value;
           endEnrollment.setDate(endEnrollment.getDate() + 1);
-          payload.startEnrollement = startEnrollment;
-          payload.endEnrollment = endEnrollment;
-          payload.startClass = startClass;
-          payload.endClass = endClass;
-        }
-        startClass = this.convertDateString(startClass);
-        if (
-          this.calendar.length > 0 &&
-          this.calendar[0].startClass != startClass
-        ) {
-          startClass = this.setupForm.get('startClass')?.value;
           startClass.setDate(startClass.getDate() + 1);
-          payload.startEnrollement = startEnrollment;
-          payload.endEnrollment = endEnrollment;
-          payload.startClass = startClass;
-          payload.endClass = endClass;
-        }
-        endClass = this.convertDateString(endClass);
-        if (this.calendar.length > 0 && this.calendar[0].endClass != endClass) {
-          endClass = this.setupForm.get('endClass')?.value;
           endClass.setDate(endClass.getDate() + 1);
+          const payload: any = {};
           payload.startEnrollement = startEnrollment;
           payload.endEnrollment = endEnrollment;
           payload.startClass = startClass;
           payload.endClass = endClass;
-        }
-        console.log(payload);
-        this.calendarService.addCalendar(payload).subscribe(() => {
-          startEnrollment = '';
-          endEnrollment = '';
-          startClass = '';
-          endClass = '';
-          this.calendarService.getCalendar().subscribe((data: any) => {
-            this.calendar = data;
-            console.log(this.calendar);
-            if (data[0].startClass == null) {
-              this.isDialogOpen = true;
-            }
+          this.calendarService.addCalendar(payload).subscribe(() => {
+            startEnrollment = '';
+            endEnrollment = '';
+            startClass = '';
+            endClass = '';
+            this.calendarService.getCalendar().subscribe((data: any) => {
+              this.calendar = data;
+              console.log(this.calendar);
+              if (data[0].startClass == null) {
+                this.isDialogOpen = true;
+              }
+            });
+            this.startEnrollement = new Date();
+            this.endEnrollment = new Date();
+            this.startClass = new Date();
+            this.endClass = new Date();
           });
-          this.startEnrollement = new Date();
-          this.endEnrollment = new Date();
-          this.startClass = new Date();
-          this.endClass = new Date();
-        });
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-          this.isDialogOpen = false;
-        }, 3000);
-        this.alertStatus = 'Success';
-        this.alertMessage = 'School calendar saved successfully';
+          this.alert = true;
+          setTimeout(() => {
+            this.alert = false;
+            this.isDialogOpen = false;
+          }, 3000);
+          this.alertStatus = 'Success';
+          this.alertMessage = 'School calendar saved successfully';
+        } else {
+          const payload: any = {};
+          startEnrollment = this.convertDateString(startEnrollment);
+          if (this.calendar[0].startEnrollement != startEnrollment) {
+            startEnrollment = this.setupForm.get('startEnrollement')?.value;
+            startEnrollment.setDate(startEnrollment.getDate() + 1);
+            payload.startEnrollement = startEnrollment;
+            payload.endEnrollment = endEnrollment;
+            payload.startClass = startClass;
+            payload.endClass = endClass;
+          }
+          endEnrollment = this.convertDateString(endEnrollment);
+          if (this.calendar[0].endEnrollment != endEnrollment) {
+            endEnrollment = this.setupForm.get('endEnrollment')?.value;
+            endEnrollment.setDate(endEnrollment.getDate() + 1);
+            payload.startEnrollement = startEnrollment;
+            payload.endEnrollment = endEnrollment;
+            payload.startClass = startClass;
+            payload.endClass = endClass;
+          }
+          startClass = this.convertDateString(startClass);
+          if (this.calendar[0].startClass != startClass) {
+            startClass = this.setupForm.get('startClass')?.value;
+            startClass.setDate(startClass.getDate() + 1);
+            payload.startEnrollement = startEnrollment;
+            payload.endEnrollment = endEnrollment;
+            payload.startClass = startClass;
+            payload.endClass = endClass;
+          }
+          endClass = this.convertDateString(endClass);
+          if (this.calendar[0].endClass != endClass) {
+            endClass = this.setupForm.get('endClass')?.value;
+            endClass.setDate(endClass.getDate() + 1);
+            payload.startEnrollement = startEnrollment;
+            payload.endEnrollment = endEnrollment;
+            payload.startClass = startClass;
+            payload.endClass = endClass;
+          }
+          console.log(payload);
+          this.calendarService.addCalendar(payload).subscribe(() => {
+            startEnrollment = '';
+            endEnrollment = '';
+            startClass = '';
+            endClass = '';
+            this.calendarService.getCalendar().subscribe((data: any) => {
+              this.calendar = data;
+              console.log(this.calendar);
+              if (data[0].startClass == null) {
+                this.isDialogOpen = true;
+              }
+            });
+            this.startEnrollement = new Date();
+            this.endEnrollment = new Date();
+            this.startClass = new Date();
+            this.endClass = new Date();
+          });
+          this.alert = true;
+          setTimeout(() => {
+            this.alert = false;
+            this.isDialogOpen = false;
+          }, 3000);
+          this.alertStatus = 'Success';
+          this.alertMessage = 'School calendar saved successfully';
+        }
       }
     } else {
       this.setupForm.markAllAsTouched();
