@@ -1,27 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
+import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
+import { StudentService } from 'src/app/shared/services/student/student.service';
 
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.scss'],
 })
-export class AttendanceComponent {
+export class AttendanceComponent implements OnInit {
   attendance = [
     {
-      subject: 'Introduction to Programming',
-      status: 'Present',
-      uploadDate: 'July 1, 2023',
-    },
-    {
-      subject: 'Data Structures',
-      status: 'Present',
-      uploadDate: 'July 1, 2023',
-    },
-    {
-      subject: 'Ethics I',
-      status: 'Absent',
-      uploadDate: 'July 1, 2023',
+      subject: '',
+      status: '',
+      uploadDate: '',
     },
   ];
 
@@ -33,42 +27,40 @@ export class AttendanceComponent {
 
   termSelected: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  student: any = {};
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private studentService: StudentService,
+    private studentAttendanceService: AttendanceStudentService
+  ) {
     this.termSelected = fb.group({
       term: [''],
       period: [''],
     });
   }
 
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
+  ngOnInit(): void {
+    this.getStudentId();
+  }
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
+  getStudentId = () => {
+    const parentId = this.authService.getUserId();
+    this.studentService
+      .getStudentByParentId(parentId)
+      .subscribe((data: any) => {
+        this.student = data;
+        this.getStudentAttendance();
+      });
   };
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
-
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-  };
-
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
-  };
-
-  onTermChange = (term: any) => {
-    this.termsSelected = term.name;
-  };
-
-  onPeriodChange = (period: any) => {
-    this.periodSelected = period.name;
+  getStudentAttendance = () => {
+    this.studentAttendanceService
+      .getAttendanceById(this.student.studentId)
+      .subscribe((data) => {
+        this.attendance = data;
+        console.log(data);
+      });
   };
 }
