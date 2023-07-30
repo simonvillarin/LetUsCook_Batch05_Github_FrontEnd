@@ -27,6 +27,7 @@ export class ApplyComponent implements OnInit {
   stepThreeDone: boolean = false;
   programError: boolean = false;
   studentNoError: boolean = false;
+  existing: boolean = false;
   stepperNumber: number = 1;
   typeOfStudent: string = '';
   program: string = '';
@@ -171,6 +172,7 @@ export class ApplyComponent implements OnInit {
     if (typeOfStudent == 'New Student') {
       this.programError = false;
       this.studentNo == '';
+      this.existing = false;
     } else if (typeOfStudent == 'Existing Student') {
       this.studentNoError = false;
       this.program = '';
@@ -179,6 +181,7 @@ export class ApplyComponent implements OnInit {
       radioButtons.forEach((radio: any) => {
         this.renderer.setProperty(radio, 'checked', false);
       });
+      this.existing = true;
     }
   };
 
@@ -199,18 +202,28 @@ export class ApplyComponent implements OnInit {
       if (this.studentNo != '') {
         this.studentService
           .getStudentByStudentNo(this.studentNo)
-          .subscribe((data) => console.log(data));
+          .subscribe((res: any) => {
+            if (res == null) {
+              alert('null');
+            } else {
+              this.stepTwo = true;
+              this.stepThree = false;
+              this.stepFour = false;
+              this.stepOne = false;
+              this.stepperNumber = 2;
+              this.stepOneDone = true;
+              scroll(0, 0);
+            }
+          });
       } else {
-        console.log('New Student');
+        this.stepTwo = true;
+        this.stepThree = false;
+        this.stepFour = false;
+        this.stepOne = false;
+        this.stepperNumber = 2;
+        this.stepOneDone = true;
+        scroll(0, 0);
       }
-
-      this.stepTwo = true;
-      this.stepThree = false;
-      this.stepFour = false;
-      this.stepOne = false;
-      this.stepperNumber = 2;
-      this.stepOneDone = true;
-      scroll(0, 0);
     } else {
       if (this.program == '' && this.studentNo == '') {
         this.programError = true;

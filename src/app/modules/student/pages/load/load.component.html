@@ -3,7 +3,11 @@
     <p-tabPanel header="Attendance">
       <div class="table-header">
         <div class="btn-container">
-          <button class="reset table-header-btn" title="Reset">
+          <button
+            class="reset table-header-btn"
+            title="Reset"
+            (click)="onReset()"
+          >
             <span class="material-symbols-rounded table-header-icon">
               restart_alt
             </span>
@@ -11,47 +15,48 @@
         </div>
         <div class="filter">
           <p-dropdown
-            placeholder="Filter by remarks"
+            [options]="status"
+            placeholder="Filter by status"
             appendTo="body"
             [style]="{
             width: '16rem',
           }"
+            [(ngModel)]="attStatus"
+            (ngModelChange)="onChangeAttendance($event)"
           ></p-dropdown>
         </div>
       </div>
-      <p-table [value]="attendance" [tableStyle]="{ 'min-width': '80rem' }">
+      <p-table [value]="attendance" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 33.33%">Date</th>
-            <th style="width: 33.33%">Time</th>
-            <th style="width: 33.33%">Status</th>
+            <th style="width: 50%">Date</th>
+            <th style="width: 50%">Status</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-att>
           <ng-container *ngIf="att.activeDeactive">
-            <tr>
-              <td>
-                {{ convertDate(att.date) }}
-              </td>
-              <td>
-                {{ convertTime(att.time) }}
-              </td>
-              <td>
-                <div
-                  *ngIf="att.status"
-                  class="status {{
-                    att.status == 'Present'
-                      ? 'present'
-                      : att.status == 'Absent'
-                      ? 'absent'
-                      : 'late'
-                  }}"
-                >
-                  {{ att.status }}
-                </div>
-                <div *ngIf="!att.status"></div>
-              </td>
-            </tr>
+            <ng-container *ngIf="att.date"
+              ><tr>
+                <td>
+                  {{ convertDate(att.date) }}
+                </td>
+                <td>
+                  <div
+                    class="{{
+                      att.status == 'Present'
+                        ? 'status present'
+                        : att.status == 'Absent'
+                        ? 'status absent'
+                        : att.status == 'Late'
+                        ? 'status late'
+                        : ''
+                    }}"
+                  >
+                    {{ att.status || "-" }}
+                  </div>
+                </td>
+              </tr></ng-container
+            >
           </ng-container>
         </ng-template>
       </p-table>

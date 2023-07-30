@@ -45,6 +45,7 @@ export class AttendanceComponent implements OnInit {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
+        console.log(data);
       });
   };
 
@@ -90,32 +91,6 @@ export class AttendanceComponent implements OnInit {
     this.gradeSearch = '';
     this.att1 = '';
     this.getAttendance();
-  };
-
-  onChangeGradeSearch = (searchTerm: string) => {
-    if (searchTerm != '') {
-      this.attendance = this.attendance.filter(
-        (grade: any) =>
-          grade.student.firstname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.middlename
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.lastname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          (
-            grade.student.firstname.toLowerCase() +
-            ' ' +
-            grade.student.middlename.toLowerCase() +
-            '' +
-            grade.student.lastname.toLowerCase()
-          ).includes(searchTerm.toLowerCase())
-      );
-    } else {
-      this.getAttendance();
-    }
   };
 
   onBack = () => {

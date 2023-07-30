@@ -77,12 +77,14 @@
                 </td>
                 <td>
                   <div
-                    class="status {{
+                    class="{{
                       att.status == 'Present'
-                        ? 'present'
+                        ? 'status present'
                         : att.status == 'Absent'
-                        ? 'absent'
-                        : 'late'
+                        ? 'status absent'
+                        : att.status == 'Late'
+                        ? 'status late'
+                        : ''
                     }}"
                   >
                     {{ att.status || "-" }}
@@ -133,7 +135,6 @@
               [options]="remarks"
               placeholder="Filter by remarks"
               appendTo="body"
-              [style]="{ width: '100%' }"
               [(ngModel)]="remark"
               (ngModelChange)="onChangeRemarks($event)"
               [style]="{
@@ -161,14 +162,15 @@
           <ng-template pTemplate="header">
             <tr>
               <th style="width: 5%">Image</th>
-              <th style="width: 20%">Name</th>
-              <th style="width: 9%">Prelim</th>
-              <th style="width: 9%">Midterm</th>
-              <th style="width: 9%">Final</th>
+              <th style="width: 17%">Name</th>
+              <th style="width: 8%">Prelim</th>
+              <th style="width: 8%">Midterm</th>
+              <th style="width: 8%">Final</th>
+              <th style="width: 8%">GWA</th>
               <th style="width: 15%">Comment</th>
-              <th style="width: 9%">Remarks</th>
+              <th style="width: 8%">Remarks</th>
               <th style="width: 15%">Date Modified</th>
-              <th style="width: 9%">Action</th>
+              <th style="width: 8%">Action</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-grade>
@@ -200,11 +202,18 @@
                 <td>
                   {{ grade.finals || "-" }}
                 </td>
+                <td>
+                  {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
+                </td>
                 <td>{{ grade.comment || "-" }}</td>
                 <td>
                   <div
-                    class="status {{
-                      grade.remarks == 'Passed' ? 'present' : 'absent'
+                    class="{{
+                      grade.remarks == 'Passed'
+                        ? 'status present'
+                        : grade.remarks
+                        ? 'status absent'
+                        : ''
                     }}"
                   >
                     {{ grade.remarks || "-" }}

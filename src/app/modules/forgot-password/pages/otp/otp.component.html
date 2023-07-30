@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="card">
+    <div class="image-container">
+      <img src="../../../../../assets/images/person.png" alt="person" />
+    </div>
+    <p>
+      Please enter the verification code that was sent to your email address
+    </p>
+    <form [formGroup]="otpForm" (ngSubmit)="onSubmitOTP()">
+      <div *ngIf="alert" class="alert">
+        <span class="material-symbols-rounded"> error </span>
+        Invalid OTP Code
+      </div>
+      <div class="input-group">
+        <input
+          pInputText
+          class="email-input"
+          formControlName="otp"
+          pKeyFilter="int"
+        />
+        <div *ngIf="otp.invalid && (otp?.dirty || otp?.touched)">
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="otp?.errors?.['required']"
+            >OTP code is required</small
+          >
+        </div>
+      </div>
+      <div class="resend-container">
+        <span>Didn't receive an OTP? <span class="resent">Resend</span></span>
+      </div>
+      <button type="submit">Validate</button>
+    </form>
+  </div>
+</div>

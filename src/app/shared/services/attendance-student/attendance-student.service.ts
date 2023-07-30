@@ -29,6 +29,10 @@ export class AttendanceStudentService {
     );
   };
 
+  getAttendanceBySec = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.BASE_URL}/attendance/section/${id}`);
+  };
+
   addAttendance = (attendance: any) => {
     return this.http.post(`${this.BASE_URL}/attendance/student`, attendance);
   };

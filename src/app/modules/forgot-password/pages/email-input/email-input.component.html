@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="card" *ngIf="card1">
+  <div class="card">
     <div class="image-container">
       <img src="../../../../../assets/images/person.png" alt="person" />
     </div>
@@ -33,85 +33,6 @@
           Send Code</span
         >
       </button>
-    </form>
-  </div>
-
-  <div class="card" *ngIf="card2">
-    <div class="image-container">
-      <img src="../../../../../assets/images/person.png" alt="person" />
-    </div>
-    <p>
-      Please enter the verification code that was sent to your email address
-    </p>
-    <form [formGroup]="otpForm" (ngSubmit)="onSubmitOTP()">
-      <div *ngIf="alert" class="alert">
-        <span class="material-symbols-rounded"> error </span>
-        Invalid OTP Code
-      </div>
-      <div class="input-group">
-        <input
-          pInputText
-          class="email-input"
-          formControlName="otp"
-          pKeyFilter="int"
-        />
-        <div *ngIf="otp.invalid && (otp?.dirty || otp?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="otp?.errors?.['required']"
-            >OTP code is required</small
-          >
-        </div>
-      </div>
-      <div class="resend-container">
-        <span>Didn't receive an OTP? <span class="resent">Resend</span></span>
-      </div>
-      <button type="submit">Validate</button>
-    </form>
-  </div>
-
-  <div class="card" *ngIf="card3">
-    <div class="image-container">
-      <img src="../../../../../assets/images/reset.png" alt="person" />
-    </div>
-    <p>Reset Password</p>
-    <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
-      <div *ngIf="alert" class="alert success">
-        <span class="material-symbols-rounded"> check </span>
-        Password successfully updated
-      </div>
-      <div class="input-group">
-        <label>New Password</label>
-        <input pInputText class="email-input tl" formControlName="password" />
-        <div *ngIf="password.invalid && (password?.dirty || password?.touched)">
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="password?.errors?.['required']"
-            >New password is required</small
-          >
-        </div>
-      </div>
-      <div class="input-group">
-        <label>Confirm Password</label>
-        <input
-          pInputText
-          class="email-input tl"
-          formControlName="confirmPassword"
-        />
-        <div
-          *ngIf="
-            confirmPassword.invalid &&
-            (confirmPassword?.dirty || confirmPassword?.touched)
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="confirmPassword?.errors?.['required']"
-            >Confirm Password is required</small
-          >
-        </div>
-      </div>
-      <button type="submit">Submit</button>
     </form>
   </div>
 </div>

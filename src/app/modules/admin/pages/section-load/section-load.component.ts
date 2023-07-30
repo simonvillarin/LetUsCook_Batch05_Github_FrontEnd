@@ -23,6 +23,8 @@ export class SectionLoadComponent implements OnInit {
   grades: any = [];
   attendance: any = [];
   evaluations: any = [];
+  subjectsAttendance: any = [];
+  subjectsGrades: any = [];
   student: any = {};
   grade: any = {};
   att: any = {};
@@ -36,6 +38,8 @@ export class SectionLoadComponent implements OnInit {
   gradeSearch = '';
   attSearch = '';
   att1 = '';
+  subjectAttendance = '';
+  subjectGrade = '';
   date: any;
 
   constructor(
@@ -63,86 +67,79 @@ export class SectionLoadComponent implements OnInit {
     this.getParam();
     this.getGrades();
     this.getAttendance();
-    this.getEvaluations();
+    //  this.getEvaluations();
   }
 
   getParam = () => {
     const params = this.route.snapshot.params['section'];
     const splitParams = params.split('-');
     this.sectionId = splitParams[0];
-    this.subjectId = splitParams[1];
   };
 
   getGrades = () => {
-    this.gradeService
-      .getGradesBySection(this.sectionId, this.subjectId)
-      .subscribe((data: any) => {
-        this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+    this.gradeService.getGradesBySec(this.sectionId).subscribe((data: any) => {
+      this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+      const uniqueObj = this.getUniqueObjects(data);
+      const sortObj = uniqueObj.sort((a: any, b: any) => b.gradeId - a.gradeId);
+      this.subjectsGrades = [];
+      sortObj.map((obj: any) => {
+        this.subjectsGrades.push(obj.subject.subjectTitle);
       });
+      this.subjectGrade = this.subjectsGrades[0];
+      if (this.subjectGrade != null) {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.remarks == this.remark &&
+            grade.subject.subjectTitle == this.subjectGrade
+        );
+      } else {
+        this.grades = this.grades.filter(
+          (grade: any) => grade.remarks == this.remark
+        );
+      }
+    });
   };
 
   getAttendance = () => {
     this.attendanceStudentService
-      .getAttendanceBySection(this.sectionId, this.subjectId)
+      .getAttendanceBySec(this.sectionId)
       .subscribe((data: any) => {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
+        const uniqueObj = this.getUniqueObjects(data);
+        const sortObj = uniqueObj.sort(
+          (a: any, b: any) => b.attendanceId - a.attendanceId
+        );
+        this.subjectsAttendance = [];
+        sortObj.map((obj: any) => {
+          this.subjectsAttendance.push(obj.subject.subjectTitle);
+        });
+        this.subjectAttendance = this.subjectsAttendance[0];
+        this.attendance = this.attendance.filter(
+          (att: any) => att.subject.subjectTitle == this.subjectAttendance
+        );
       });
   };
 
-  getEvaluations = () => {
-    this.evalService
-      .getEvalBySubjectId(this.subjectId)
-      .subscribe((data: any) => {
-        this.evaluations = data.sort((a: any, b: any) => b.evalonId - a.evalId);
-      });
+  // getEvaluations = () => {
+  //   this.evalService
+  //     .getEvalBySubjectId(this.subjectId)
+  //     .subscribe((data: any) => {
+  //       this.evaluations = data.sort((a: any, b: any) => b.evalonId - a.evalId);
+  //     });
+  // };
+
+  isObjectUnique = (obj1: any, obj2: any) => {
+    return obj1.subject.subjectId === obj2.subject.subjectId;
   };
 
-  convertTime = (time: any) => {
-    if (time != null) {
-      const splitTime = time.split(':');
-      let hour;
-      let zone;
-      if (parseInt(splitTime[0]) == 13) {
-        hour = 1;
-      } else if (parseInt(splitTime[0]) == 13) {
-        hour = 1;
-      } else if (parseInt(splitTime[0]) == 14) {
-        hour = 2;
-      } else if (parseInt(splitTime[0]) == 15) {
-        hour = 3;
-      } else if (parseInt(splitTime[0]) == 16) {
-        hour = 4;
-      } else if (parseInt(splitTime[0]) == 17) {
-        hour = 5;
-      } else if (parseInt(splitTime[0]) == 18) {
-        hour = 6;
-      } else if (parseInt(splitTime[0]) == 19) {
-        hour = 7;
-      } else if (parseInt(splitTime[0]) == 20) {
-        hour = 8;
-      } else if (parseInt(splitTime[0]) == 21) {
-        hour = 9;
-      } else if (parseInt(splitTime[0]) == 22) {
-        hour = 10;
-      } else if (parseInt(splitTime[0]) == 23) {
-        hour = 11;
-      } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
-        hour = 12;
-      } else {
-        hour = splitTime[0];
-      }
-
-      if (parseInt(splitTime[0]) > 12) {
-        zone = 'PM';
-      } else {
-        zone = 'AM';
-      }
-      return hour + ':' + splitTime[1] + ' ' + zone;
-    } else {
-      return '-';
-    }
+  getUniqueObjects = (arr: any) => {
+    return arr.filter((item: any, index: any, self: any) => {
+      return (
+        self.findIndex((obj: any) => this.isObjectUnique(obj, item)) === index
+      );
+    });
   };
 
   convertDate = (dateStr: string) => {
@@ -172,25 +169,91 @@ export class SectionLoadComponent implements OnInit {
 
   onChangeGradeSearch = (searchTerm: string) => {
     if (searchTerm != '') {
-      this.grades = this.grades.filter(
-        (grade: any) =>
-          grade.student.firstname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.middlename
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.lastname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          (
-            grade.student.firstname.toLowerCase() +
-            ' ' +
-            grade.student.middlename.toLowerCase() +
-            '' +
-            grade.student.lastname.toLowerCase()
-          ).includes(searchTerm.toLowerCase())
-      );
+      if (this.remark != null && this.subjectGrade != null) {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            ((
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase()) &&
+              grade.remarks == this.remark &&
+              grade.subject.subjectTitle == this.subjectGrade)
+        );
+      } else if (this.remark != null) {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            ((
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase()) &&
+              grade.remarks == this.remark)
+        );
+      } else if (this.subjectGrade != null) {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            ((
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase()) &&
+              grade.subject.subjectTitle == this.subjectGrade)
+        );
+      } else {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            (
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase())
+        );
+      }
 
       this.attendance = this.attendance.filter(
         (grade: any) =>
@@ -203,13 +266,14 @@ export class SectionLoadComponent implements OnInit {
           grade.student.lastname
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
-          (
+          ((
             grade.student.firstname.toLowerCase() +
             ' ' +
             grade.student.middlename.toLowerCase() +
             '' +
             grade.student.lastname.toLowerCase()
-          ).includes(searchTerm.toLowerCase())
+          ).includes(searchTerm.toLowerCase()) &&
+            grade.subject.subjectTitle == this.subjectAttendance)
       );
 
       this.evaluations = this.evaluations.filter(
@@ -234,24 +298,30 @@ export class SectionLoadComponent implements OnInit {
     } else {
       this.getGrades();
       this.getAttendance();
-      this.getEvaluations();
+      // this.getEvaluations();
     }
   };
 
   onChangeRemarks = (remarks: string) => {
-    this.gradeService
-      .getGradesBySection(this.sectionId, this.subjectId)
-      .subscribe((data: any) => {
-        this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+    this.gradeService.getGradesBySec(this.sectionId).subscribe((data: any) => {
+      this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+      if (this.subjectGrade != null) {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.remarks == remarks &&
+            grade.subject.subjectTitle == this.subjectGrade
+        );
+      } else {
         this.grades = this.grades.filter(
           (grade: any) => grade.remarks == remarks
         );
-      });
+      }
+    });
   };
 
   onChangeAttendance = (status: string) => {
     this.attendanceStudentService
-      .getAttendanceBySection(this.sectionId, this.subjectId)
+      .getAttendanceBySec(this.sectionId)
       .subscribe((data: any) => {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
@@ -262,94 +332,54 @@ export class SectionLoadComponent implements OnInit {
       });
   };
 
+  onChangeSubjectAttendance = (subject: string) => {
+    this.attendanceStudentService
+      .getAttendanceBySec(this.sectionId)
+      .subscribe((data: any) => {
+        this.attendance = data.sort(
+          (a: any, b: any) => b.attendanceId - a.attendanceId
+        );
+        this.attendance = this.attendance.filter(
+          (att: any) => att.subject.subjectTitle == subject
+        );
+      });
+  };
+
+  onChangeSubjectGrades = (subject: string) => {
+    this.gradeService.getGradesBySec(this.sectionId).subscribe((data: any) => {
+      this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+      if (this.remark != null) {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.subject.subjectTitle == subject &&
+            grade.remarks == this.remark
+        );
+      } else {
+        this.grades = this.grades.filter(
+          (grade: any) => grade.subject.subjectTitle == subject
+        );
+      }
+    });
+  };
+
   onReset = () => {
     this.gradeSearch = '';
     this.att1 = '';
+    this.remark = '';
     this.getGrades();
     this.getAttendance();
     this.evaluations();
   };
 
-  onEdit = (grade: any) => {
-    this.grade = grade;
-    this.student = grade.student;
-    this.gradesForm.patchValue({
-      prelim: grade.prelim,
-      midterm: grade.midterm,
-      finals: grade.finals,
-      comment: grade.comment,
-    });
-    this.gradesDialog = true;
-  };
-
-  onEditAtt = (att: any) => {
-    this.att = att;
-    this.student = att.student;
-    this.attDialog = true;
-  };
-
-  onSubmit = () => {
-    const prelim = this.gradesForm.get('prelim')?.value || 0;
-    const midterm = this.gradesForm.get('midterm')?.value || 0;
-    const final = this.gradesForm.get('finals')?.value || 0;
-    let period = 1;
-    let sum = 0;
-    if (prelim != 0) {
-      sum += parseInt(prelim);
-    }
-    if (midterm != 0) {
-      period = 2;
-      sum += parseInt(midterm);
-    }
-    if (final != 0) {
-      period = 3;
-      sum += parseInt(final);
-    }
-    const avg = sum / period;
-
-    let remarks;
-    if (avg < 75) {
-      remarks = 'Failed';
-    } else if (avg >= 75) {
-      remarks = 'Passed';
-    }
-
-    const payload = {
-      prelim: prelim != 0 ? prelim : '',
-      midterm: midterm != 0 ? midterm : '',
-      finals: final != 0 ? final : '',
-      remarks: avg != 0 ? remarks : '',
-      comment: this.gradesForm.get('comment')?.value,
-    };
-
-    this.gradeService.updateGrade(this.grade.gradeId, payload).subscribe(() => {
-      this.getGrades();
-      this.gradesDialog = false;
-    });
-  };
-
-  onSubmitAttendance = () => {
-    const payload = {
-      date: this.date,
-      status: this.attendanceForm.get('status')?.value,
-    };
-    this.attendanceStudentService
-      .updateAttendance(this.att.attendanceId, payload)
-      .subscribe(() => {
-        this.getAttendance();
-        this.attDialog = false;
-      });
-  };
-
   onAttendance = (att: any) => {
     this.router.navigate([
-      `admin/section/attendance/${att.student.studentId}-${this.subjectId}`,
+      `admin/section/attendance/${att.student.studentId}-${att.subject.subjectId}`,
     ]);
   };
 
   onEval = (evaluation: any) => {
-    this.router.navigate([
-      `professor/course/evaluation/${evaluation.student.studentId}-${this.subjectId}`,
-    ]);
+    // this.router.navigate([
+    //   `professor/course/evaluation/${evaluation.student.studentId}-${this.subjectId}`,
+    // ]);
   };
 }

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ProfileService } from 'src/app/shared/services/profile/profile.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-student-main',
@@ -23,7 +24,8 @@ export class StudentMainComponent implements OnInit {
     private authService: AuthService,
     private studentService: StudentService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.subscription = this.profileService.usernameSubject.subscribe(
       (user) => (this.username = user)
@@ -76,5 +78,22 @@ export class StudentMainComponent implements OnInit {
     }
     this.router.navigate(['/']);
     this.isShowDropdown = false;
+  };
+
+  getLocation = () => {
+    const currentLocation = this.location.path();
+    const splitLocation = currentLocation.split('/');
+    const loc = splitLocation[splitLocation.length - 1];
+    if (loc == 'home') {
+      return 'Home';
+    } else if (loc == 'calendar') {
+      return 'Calendar';
+    } else if (loc == 'profile') {
+      return 'Profile';
+    } else if (loc == 'grades') {
+      return 'Grades';
+    } else {
+      return 'Course';
+    }
   };
 }

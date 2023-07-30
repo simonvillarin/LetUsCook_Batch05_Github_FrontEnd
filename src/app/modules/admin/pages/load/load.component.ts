@@ -62,7 +62,7 @@ export class LoadComponent implements OnInit {
     { name: 'Friday', value: 'Friday' },
     { name: 'Saturday', value: 'Saturday' },
   ];
-
+  subjectSelected: string = '';
   isUpdatingSchedule: boolean = false;
   addScheduleDialog: boolean = false;
   confirmationDialog: boolean = false;
@@ -159,7 +159,9 @@ export class LoadComponent implements OnInit {
     this.scheduleService
       .getScheduleById(this.professorId)
       .subscribe((data: any) => {
-        this.schedules = data.sort((a: any, b: any) => b.schedId - a.schedId);
+        this.schedules = data.sort(
+          (a: any, b: any) => b.schedId[0] - a.schedId[0]
+        );
         this.getProfessor();
       });
   };
@@ -197,36 +199,6 @@ export class LoadComponent implements OnInit {
     });
   };
 
-  filterRooms = () => {
-    this.roomService.getAllRooms().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.roomId - a.roomId);
-      let rooms: any = [];
-      sortData.map((room: any) => {
-        rooms.push(room.roomNumber);
-      });
-      this.rooms = rooms;
-      const exclusion = this.schedules.map(
-        (sched: any) => sched.room.roomNumber
-      );
-      this.rooms = this.rooms.filter((room: any) => !exclusion.includes(room));
-    });
-  };
-
-  filterSections = () => {
-    this.sectionService.getAllSections().subscribe((data: any) => {
-      const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
-      let sections: any = [];
-      sortData.map((sec: any) => {
-        sections.push(sec.section);
-      });
-      this.sections = sections;
-    });
-    const exclusion = this.schedules.map((sched: any) => sched.section.section);
-    this.sections = this.sections.filter(
-      (section: any) => !exclusion.includes(section)
-    );
-  };
-
   onChangeSearch = (searchTerm: string) => {
     if (searchTerm != '') {
       this.schedules = this.schedules.filter((sched: any) =>
@@ -239,12 +211,51 @@ export class LoadComponent implements OnInit {
     }
   };
 
+  onSubjectChange = () => {
+    // filter room
+    this.roomService.getAllRooms().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.roomId - a.roomId);
+      let rooms: any = [];
+      sortData.map((room: any) => {
+        rooms.push(room.roomNumber);
+      });
+      this.rooms = rooms;
+      const tempRoom: any = [];
+      this.schedules.map((data: any) => {
+        if (data.subject.subjectTitle === this.subjectSelected) {
+          tempRoom.push(data.room.roomNumber);
+        }
+      });
+      this.rooms = this.rooms.filter((room: any) => !tempRoom.includes(room));
+    });
+    // filter section
+    this.sectionService.getAllSections().subscribe((data: any) => {
+      const sortData = data.sort((a: any, b: any) => b.sectionId - a.sectionId);
+      let sections: any = [];
+      sortData.map((sec: any) => {
+        sections.push(sec.section);
+      });
+      this.sections = sections;
+      const tempSection: any = [];
+      this.schedules.map((data: any) => {
+        if (data.subject.subjectTitle === this.subjectSelected) {
+          tempSection.push(data.section.section);
+        }
+      });
+      this.sections = this.sections.filter(
+        (sec: any) => !tempSection.includes(sec)
+      );
+    });
+  };
+
   onChangeDay = (daySelected: any) => {
     this.professorId = this.route.snapshot.params['id'];
     this.scheduleService
       .getScheduleById(this.professorId)
       .subscribe((data: any) => {
-        this.schedules = data.sort((a: any, b: any) => b.schedId - a.schedId);
+        this.schedules = data.sort(
+          (a: any, b: any) => b.schedId[0] - a.schedId[0]
+        );
         const scheds: any = [];
         this.schedules.map((sched: any) => {
           sched.days.map((day: any) => {
@@ -265,6 +276,7 @@ export class LoadComponent implements OnInit {
 
   onAddSchedule = () => {
     this.title = 'Add Schedule';
+    this.getScheduleById();
     this.isUpdatingSchedule = false;
     this.scheduleForm.reset();
     this.addScheduleDialog = true;
@@ -411,12 +423,10 @@ export class LoadComponent implements OnInit {
   };
 
   onDelete = () => {
-    this.schedule.schedId.map((id: number) => {
-      this.scheduleService.deleteSchedule(id).subscribe(() => {
-        this.getScheduleById();
-      });
+    this.scheduleService.deleteSchedule(this.schedule.schedId).subscribe(() => {
+      this.getScheduleById();
+      this.confirmationDialog = false;
     });
-    this.confirmationDialog = false;
   };
 
   onCloseDialog = () => {

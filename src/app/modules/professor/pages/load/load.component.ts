@@ -170,47 +170,111 @@ export class LoadComponent implements OnInit {
     return '-';
   };
 
+  getAverage = (prelim: any, midterm: any, final: any) => {
+    let sum = 0;
+    let period = 1;
+    if (prelim != null) {
+      sum += parseFloat(prelim);
+    }
+    if (midterm != null) {
+      period = 2;
+      sum += parseFloat(midterm);
+    }
+    if (final != null) {
+      period = 3;
+      sum += parseFloat(final);
+    }
+    const avg = sum / period;
+    return avg != 0 ? parseFloat(avg.toFixed(2)) : '-';
+  };
+
   onChangeGradeSearch = (searchTerm: string) => {
     if (searchTerm != '') {
-      this.grades = this.grades.filter(
-        (grade: any) =>
-          grade.student.firstname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.middlename
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.lastname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          (
-            grade.student.firstname.toLowerCase() +
-            ' ' +
-            grade.student.middlename.toLowerCase() +
-            '' +
-            grade.student.lastname.toLowerCase()
-          ).includes(searchTerm.toLowerCase())
-      );
+      if (this.remark != '') {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            ((
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase()) &&
+              grade.remarks == this.remark)
+        );
+      } else {
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            (
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase())
+        );
+      }
 
-      this.attendance = this.attendance.filter(
-        (grade: any) =>
-          grade.student.firstname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.middlename
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          grade.student.lastname
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          (
-            grade.student.firstname.toLowerCase() +
-            ' ' +
-            grade.student.middlename.toLowerCase() +
-            '' +
-            grade.student.lastname.toLowerCase()
-          ).includes(searchTerm.toLowerCase())
-      );
+      if (this.att1 != '') {
+        this.attendance = this.attendance.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            ((
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase()) &&
+              grade.status == this.att1)
+        );
+      } else {
+        this.attendance = this.attendance.filter(
+          (grade: any) =>
+            grade.student.firstname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.middlename
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            grade.student.lastname
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            (
+              grade.student.firstname.toLowerCase() +
+              ' ' +
+              grade.student.middlename.toLowerCase() +
+              '' +
+              grade.student.lastname.toLowerCase()
+            ).includes(searchTerm.toLowerCase())
+        );
+      }
 
       this.evaluations = this.evaluations.filter(
         (grade: any) =>
@@ -232,8 +296,21 @@ export class LoadComponent implements OnInit {
           ).includes(searchTerm.toLowerCase())
       );
     } else {
-      this.getGrades();
-      this.getAttendance();
+      if (this.remark != '') {
+        this.grades = this.grades.filter(
+          (grade: any) => grade.remarks == this.remark
+        );
+      } else {
+        this.getGrades();
+      }
+      if (this.att1 != '') {
+        this.attendance = this.attendance.filter(
+          (att: any) => att.status == this.att1
+        );
+      } else {
+        this.getAttendance();
+      }
+
       this.getEvaluations();
     }
   };
@@ -243,9 +320,32 @@ export class LoadComponent implements OnInit {
       .getGradesBySection(this.sectionId, this.subjectId)
       .subscribe((data: any) => {
         this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
-        this.grades = this.grades.filter(
-          (grade: any) => grade.remarks == remarks
-        );
+        if (this.gradeSearch != '') {
+          this.grades = this.grades.filter(
+            (grade: any) =>
+              (grade.remarks == remarks &&
+                grade.student.firstname
+                  .toLowerCase()
+                  .includes(this.gradeSearch.toLowerCase())) ||
+              grade.student.middlename
+                .toLowerCase()
+                .includes(this.gradeSearch.toLowerCase()) ||
+              grade.student.lastname
+                .toLowerCase()
+                .includes(this.gradeSearch.toLowerCase()) ||
+              (
+                grade.student.firstname.toLowerCase() +
+                ' ' +
+                grade.student.middlename.toLowerCase() +
+                '' +
+                grade.student.lastname.toLowerCase()
+              ).includes(this.gradeSearch.toLowerCase())
+          );
+        } else {
+          this.grades = this.grades.filter(
+            (grade: any) => grade.remarks == remarks
+          );
+        }
       });
   };
 
@@ -256,9 +356,32 @@ export class LoadComponent implements OnInit {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
-        this.attendance = this.attendance.filter(
-          (att: any) => att.status == status
-        );
+        if (this.gradeSearch != '') {
+          this.attendance = this.attendance.filter(
+            (grade: any) =>
+              grade.student.firstname
+                .toLowerCase()
+                .includes(this.gradeSearch.toLowerCase()) ||
+              grade.student.middlename
+                .toLowerCase()
+                .includes(this.gradeSearch.toLowerCase()) ||
+              grade.student.lastname
+                .toLowerCase()
+                .includes(this.gradeSearch.toLowerCase()) ||
+              ((
+                grade.student.firstname.toLowerCase() +
+                ' ' +
+                grade.student.middlename.toLowerCase() +
+                '' +
+                grade.student.lastname.toLowerCase()
+              ).includes(this.gradeSearch.toLowerCase()) &&
+                grade.status == this.att1)
+          );
+        } else {
+          this.attendance = this.attendance.filter(
+            (att: any) => att.status == status
+          );
+        }
       });
   };
 
@@ -295,15 +418,15 @@ export class LoadComponent implements OnInit {
     let period = 1;
     let sum = 0;
     if (prelim != 0) {
-      sum += parseInt(prelim);
+      sum += parseFloat(prelim);
     }
     if (midterm != 0) {
       period = 2;
-      sum += parseInt(midterm);
+      sum += parseFloat(midterm);
     }
     if (final != 0) {
       period = 3;
-      sum += parseInt(final);
+      sum += parseFloat(final);
     }
     const avg = sum / period;
 

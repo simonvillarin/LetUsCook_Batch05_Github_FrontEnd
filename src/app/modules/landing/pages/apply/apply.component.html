@@ -127,611 +127,31 @@
     </div>
   </div>
 
-  <div class="stepper-2" *ngIf="stepperNumber == 2">
-    <div class="choosen">
-      You have chosen <span>{{ program }}</span>
-    </div>
-    <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepTwo()">
-      <div class="level">
-        <div class="input-group">
-          <label class="input-label">Year Level:</label>
-          <p-dropdown
-            [options]="levels"
-            placeholder="Please select year level"
-            [style]="{ width: '100%' }"
-            formControlName="yearLevel"
-          ></p-dropdown>
-          <div
-            *ngIf="
-              (buttonClicked && applyForm.get('yearLevel')?.invalid) ||
-              applyForm.get('yearLevel')?.dirty
-            "
-          >
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="applyForm.get('yearLevel')?.errors?.['required']"
-              >Please select year Level</small
-            >
-          </div>
-        </div>
-        <div class="input-group">
-          <label class="input-label">Term:</label>
-          <p-dropdown
-            [options]="terms"
-            placeholder="Please select term"
-            [style]="{ width: '100%' }"
-            formControlName="sem"
-          ></p-dropdown>
-          <div
-            *ngIf="
-              (buttonClicked && applyForm.get('sem')?.invalid) ||
-              applyForm.get('sem')?.dirty
-            "
-          >
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="applyForm.get('sem')?.errors?.['required']"
-              >Please select term</small
-            >
-          </div>
-        </div>
-        <div class="input-group">
-          <label class="input-label">School Year:</label>
-          <p-dropdown
-            [options]="schoolYear"
-            placeholder="Please select school year"
-            [style]="{ width: '100%' }"
-            formControlName="academicYear"
-          ></p-dropdown>
-          <div
-            *ngIf="
-              (buttonClicked && applyForm.get('academicYear')?.invalid) ||
-              applyForm.get('academicYear')?.dirty
-            "
-          >
-            <small
-              [style]="{ color: 'var(--red)' }"
-              *ngIf="applyForm.get('academicYear')?.errors?.['required']"
-              >Please select school level</small
-            >
-          </div>
-        </div>
+  <ng-container *ngIf="!existing">
+    <div class="stepper-2" *ngIf="stepperNumber == 2">
+      <div class="choosen">
+        You have chosen <span>{{ program }}</span>
       </div>
-
-      <div class="personal-container">
-        <h3 class="title">Student's Information</h3>
-
-        <div class="personal-1">
-          <div class="input-group">
-            <label class="input-label">First Name:</label>
-            <input
-              pInputText
-              placeholder="First Name"
-              formControlName="firstname"
-              required
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('firstname')?.invalid) ||
-                applyForm.get('firstname')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('firstname')?.errors?.['required']"
-                >First name is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Middle Name:</label>
-            <input
-              pInputText
-              placeholder="Middle Name"
-              formControlName="middlename"
-            />
-          </div>
-          <div class="input-group">
-            <label class="input-label">Last Name:</label>
-            <input
-              pInputText
-              placeholder="Last Name"
-              formControlName="lastname"
-              required
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('lastname')?.invalid) ||
-                applyForm.get('lastname')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('lastname')?.errors?.['required']"
-                >Last name is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Suffix:</label>
-            <input
-              pInputText
-              placeholder="(e.g. Jr.)"
-              formControlName="suffix"
-            />
-          </div>
-        </div>
-
-        <div class="personal-2">
-          <div class="input-group">
-            <label class="input-label">Gender:</label>
-            <p-dropdown
-              [options]="genders"
-              placeholder="Gender"
-              [style]="{ width: '100%' }"
-              formControlName="gender"
-            ></p-dropdown>
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('gender')?.invalid) ||
-                applyForm.get('gender')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('gender')?.errors?.['required']"
-                >Please select a gender</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Civil Status:</label>
-            <p-dropdown
-              [options]="civilStatus"
-              placeholder="Civil Status"
-              [style]="{ width: '100%' }"
-              formControlName="civilStatus"
-            ></p-dropdown>
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('civilStatus')?.invalid) ||
-                applyForm.get('civilStatus')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('civilStatus')?.errors?.['required']"
-                >Please select a civil status</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Citizenship:</label>
-            <input
-              pInputText
-              placeholder="Citizenship"
-              formControlName="citizenship"
-              required
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('citizenship')?.invalid) ||
-                applyForm.get('citizenship')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('citizenship')?.errors?.['required']"
-                >Citizenship is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Date of Birth:</label>
-            <p-calendar
-              formControlName="birthdate"
-              placeholder="Select date of birth"
-              [style]="{ width: '100%' }"
-              appendTo="body"
-            ></p-calendar>
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('birthdate')?.invalid) ||
-                applyForm.get('birthdate')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('birthdate')?.errors?.['required']"
-                >Date of birth is required</small
-              >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('birthdate')?.errors?.['futureDate']"
-                >You cannot select a future date</small
-              >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('birthdate')?.errors?.['underage']"
-                >We only accept applicants 17yr old and above</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Birthplace:</label>
-            <input
-              pInputText
-              placeholder="Birthplace"
-              formControlName="birthplace"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('birthplace')?.invalid) ||
-                applyForm.get('birthplace')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('birthplace')?.errors?.['required']"
-                >Birthplace is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Religion:</label>
-            <input
-              pInputText
-              placeholder="Religion"
-              formControlName="religion"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('religion')?.invalid) ||
-                applyForm.get('religion')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('religion')?.errors?.['required']"
-                >Religion is required</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="address-container">
-        <h3 class="title">Address Information</h3>
-        <div class="address-1">
-          <div class="input-group">
-            <label class="input-label">Unit #:</label>
-            <input pInputText placeholder="Unit #" formControlName="unit" />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('unit')?.invalid) ||
-                applyForm.get('unit')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('unit')?.errors?.['required']"
-                >Unit number is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Street:</label>
-            <input
-              pInputText
-              placeholder="Street name"
-              formControlName="street"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('street')?.invalid) ||
-                applyForm.get('street')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('street')?.errors?.['required']"
-                >Street name is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Subdivision / Village / Bldg:</label>
-            <input
-              pInputText
-              placeholder="Subdivision / Village / Bldg."
-              formControlName="subdivision"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('subdivision')?.invalid) ||
-                applyForm.get('subdivision')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('subdivision')?.errors?.['required']"
-                >Subdivision / Village / Bldg. is required</small
-              >
-            </div>
-          </div>
-        </div>
-        <div class="address-2">
-          <div class="input-group">
-            <label class="input-label">Barangay:</label>
-            <input
-              pInputText
-              placeholder="Barangay"
-              formControlName="barangay"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('barangay')?.invalid) ||
-                applyForm.get('barangay')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('barangay')?.errors?.['required']"
-                >Barangay is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">City / Municipality:</label>
-            <input pInputText placeholder="City" formControlName="city" />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('city')?.invalid) ||
-                applyForm.get('city')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('city')?.errors?.['required']"
-                >City / Municipality is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Province:</label>
-            <input
-              pInputText
-              placeholder="Province"
-              formControlName="province"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('province')?.invalid) ||
-                applyForm.get('province')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('province')?.errors?.['required']"
-                >Province is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Zipcode:</label>
-            <input
-              pInputText
-              placeholder="xxxx"
-              formControlName="zipcode"
-              pKeyFilter="int"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('zipcode')?.invalid) ||
-                applyForm.get('zipcode')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('zipcode')?.errors?.['required']"
-                >Zipcode is required</small
-              >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('zipcode')?.errors?.['maxLength']"
-                >Zipcode must be 4 digits</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-container">
-        <h3 class="title">Contact Details</h3>
-        <div class="contact">
-          <div class="input-group">
-            <label class="input-label">Telephone No:</label>
-            <input
-              pInputText
-              placeholder="XX-XXXX-XXXX"
-              formControlName="telephone"
-              pKeyFilter="int"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('telephone')?.invalid) ||
-                applyForm.get('telephone')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('telephone')?.errors?.['numberRange']"
-                >Invalid telephone number</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Mobile No:</label>
-            <input
-              pInputText
-              placeholder="09XXxxxxxxx"
-              formControlName="mobile"
-              pKeyFilter="int"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('mobile')?.invalid) ||
-                applyForm.get('mobile')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('mobile')?.errors?.['required']"
-                >Mobile no. is required</small
-              >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('mobile')?.errors?.['mobileNoIsValid']"
-                >Invalid mobile number</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Email Address:</label>
-            <input
-              pInputText
-              placeholder="example@domain.com"
-              formControlName="email"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('email')?.invalid) ||
-                applyForm.get('email')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('email')?.errors?.['required']"
-                >Email adddress is required</small
-              >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('email')?.errors?.['email']"
-                >Incorrect email format</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="school-container">
-        <h3 class="title">Last School Attended</h3>
-        <div class="school-1">
-          <div class="input-group">
-            <label class="input-label">Name of School:</label>
-            <input
-              pInputText
-              placeholder="Name of School"
-              formControlName="lastSchoolAttended"
-            />
-            <div
-              *ngIf="
-                (buttonClicked &&
-                  applyForm.get('lastSchoolAttended')?.invalid) ||
-                applyForm.get('lastSchoolAttended')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('lastSchoolAttended')?.errors?.['required']"
-                >School name is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label"
-              >Program / Track & Strand / Specialization:</label
-            >
-            <input
-              pInputText
-              placeholder="Program or Track"
-              formControlName="programTaken"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('programTaken')?.invalid) ||
-                applyForm.get('programTaken')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('programTaken')?.errors?.['required']"
-                >Program or track is required</small
-              >
-            </div>
-          </div>
-        </div>
-        <div class="school-2">
-          <div class="input-group">
-            <label class="input-label">Date of Graduation:</label>
-            <p-calendar
-              formControlName="dateOfGraduation"
-              placeholder="Select date of graduation"
-              [style]="{ width: '100%' }"
-              appendTo="body"
-            ></p-calendar>
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('dateOfGraduation')?.invalid) ||
-                applyForm.get('dateOfGraduation')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('dateOfGraduation')?.errors?.['required']"
-                >Date of Graduation is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">School Year:</label>
-            <p-dropdown
-              [options]="schoolYears"
-              placeholder="Please select school level"
-              [style]="{ width: '100%' }"
-              formControlName="lastSchoolYear"
-            ></p-dropdown>
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('lastSchoolYear')?.invalid) ||
-                applyForm.get('lastSchoolYear')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('lastSchoolYear')?.errors?.['required']"
-                >School year is required</small
-              >
-            </div>
-          </div>
+      <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepTwo()">
+        <div class="level">
           <div class="input-group">
             <label class="input-label">Year Level:</label>
             <p-dropdown
-              [options]="yearLevels"
+              [options]="levels"
               placeholder="Please select year level"
               [style]="{ width: '100%' }"
-              formControlName="lastYearLevel"
+              formControlName="yearLevel"
             ></p-dropdown>
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('lastYearLevel')?.invalid) ||
-                applyForm.get('lastYearLevel')?.dirty
+                (buttonClicked && applyForm.get('yearLevel')?.invalid) ||
+                applyForm.get('yearLevel')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('lastYearLevel')?.errors?.['required']"
-                >Year level is required</small
+                *ngIf="applyForm.get('yearLevel')?.errors?.['required']"
+                >Please select year Level</small
               >
             </div>
           </div>
@@ -741,139 +161,727 @@
               [options]="terms"
               placeholder="Please select term"
               [style]="{ width: '100%' }"
-              formControlName="lastSem"
+              formControlName="sem"
             ></p-dropdown>
-          </div>
-        </div>
-      </div>
-      <div class="emergency-container">
-        <h3 class="title">Emergency Contact</h3>
-        <div class="emergency-1">
-          <div class="input-group">
-            <label class="input-label">First Name:</label>
-            <input
-              pInputText
-              placeholder="First Name"
-              formControlName="parentFirstname"
-            />
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('parentFirstname')?.invalid) ||
-                applyForm.get('parentFirstname')?.dirty
+                (buttonClicked && applyForm.get('sem')?.invalid) ||
+                applyForm.get('sem')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('parentFirstname')?.errors?.['required']"
-                >First name is required</small
+                *ngIf="applyForm.get('sem')?.errors?.['required']"
+                >Please select term</small
               >
             </div>
           </div>
           <div class="input-group">
-            <label class="input-label">Middle Name:</label>
-            <input
-              pInputText
-              placeholder="Middle Name"
-              formControlName="parentMiddlename"
-            />
-          </div>
-          <div class="input-group">
-            <label class="input-label">Last Name:</label>
-            <input
-              pInputText
-              placeholder="Last Name"
-              formControlName="parentLastname"
-            />
+            <label class="input-label">School Year:</label>
+            <p-dropdown
+              [options]="schoolYear"
+              placeholder="Please select school year"
+              [style]="{ width: '100%' }"
+              formControlName="academicYear"
+            ></p-dropdown>
             <div
               *ngIf="
-                (buttonClicked && applyForm.get('parentLastname')?.invalid) ||
-                applyForm.get('parentLastname')?.dirty
+                (buttonClicked && applyForm.get('academicYear')?.invalid) ||
+                applyForm.get('academicYear')?.dirty
               "
             >
               <small
                 [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('parentLastname')?.errors?.['required']"
-                >Last name is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Suffix:</label>
-            <input
-              pInputText
-              placeholder="(e.g. Jr.)"
-              formControlName="parentSuffix"
-            />
-          </div>
-        </div>
-        <div class="emergency-2">
-          <div class="input-group">
-            <label class="input-label">Complete Address:</label>
-            <input
-              pInputText
-              placeholder="Complete Address"
-              formControlName="parentAddress"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('parentAddress')?.invalid) ||
-                applyForm.get('parentAddress')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('parentAddress')?.errors?.['required']"
-                >Complete Address is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Contact No:</label>
-            <input
-              pInputText
-              placeholder="Contact No."
-              formControlName="parentContact"
-              pKeyFilter="int"
-            />
-            <div
-              *ngIf="
-                (buttonClicked && applyForm.get('parentContact')?.invalid) ||
-                applyForm.get('parentContact')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('parentContact')?.errors?.['required']"
-                >Contact no. is required</small
-              >
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Relationship:</label>
-            <input
-              pInputText
-              placeholder="Relationship"
-              formControlName="parentRelationship"
-            />
-            <div
-              *ngIf="
-                (buttonClicked &&
-                  applyForm.get('parentRelationship')?.invalid) ||
-                applyForm.get('parentRelationship')?.dirty
-              "
-            >
-              <small
-                [style]="{ color: 'var(--red)' }"
-                *ngIf="applyForm.get('parentRelationship')?.errors?.['required']"
-                >Relationship is required</small
+                *ngIf="applyForm.get('academicYear')?.errors?.['required']"
+                >Please select school level</small
               >
             </div>
           </div>
         </div>
-      </div>
-      <button type="submit">Next Step</button>
-    </form>
-  </div>
+
+        <div class="personal-container">
+          <h3 class="title">Student's Information</h3>
+
+          <div class="personal-1">
+            <div class="input-group">
+              <label class="input-label">First Name:</label>
+              <input
+                pInputText
+                placeholder="First Name"
+                formControlName="firstname"
+                required
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('firstname')?.invalid) ||
+                  applyForm.get('firstname')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('firstname')?.errors?.['required']"
+                  >First name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Middle Name:</label>
+              <input
+                pInputText
+                placeholder="Middle Name"
+                formControlName="middlename"
+              />
+            </div>
+            <div class="input-group">
+              <label class="input-label">Last Name:</label>
+              <input
+                pInputText
+                placeholder="Last Name"
+                formControlName="lastname"
+                required
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('lastname')?.invalid) ||
+                  applyForm.get('lastname')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('lastname')?.errors?.['required']"
+                  >Last name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Suffix:</label>
+              <input
+                pInputText
+                placeholder="(e.g. Jr.)"
+                formControlName="suffix"
+              />
+            </div>
+          </div>
+
+          <div class="personal-2">
+            <div class="input-group">
+              <label class="input-label">Gender:</label>
+              <p-dropdown
+                [options]="genders"
+                placeholder="Gender"
+                [style]="{ width: '100%' }"
+                formControlName="gender"
+              ></p-dropdown>
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('gender')?.invalid) ||
+                  applyForm.get('gender')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('gender')?.errors?.['required']"
+                  >Please select a gender</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Civil Status:</label>
+              <p-dropdown
+                [options]="civilStatus"
+                placeholder="Civil Status"
+                [style]="{ width: '100%' }"
+                formControlName="civilStatus"
+              ></p-dropdown>
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('civilStatus')?.invalid) ||
+                  applyForm.get('civilStatus')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('civilStatus')?.errors?.['required']"
+                  >Please select a civil status</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Citizenship:</label>
+              <input
+                pInputText
+                placeholder="Citizenship"
+                formControlName="citizenship"
+                required
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('citizenship')?.invalid) ||
+                  applyForm.get('citizenship')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('citizenship')?.errors?.['required']"
+                  >Citizenship is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Date of Birth:</label>
+              <p-calendar
+                formControlName="birthdate"
+                placeholder="Select date of birth"
+                [style]="{ width: '100%' }"
+                appendTo="body"
+              ></p-calendar>
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('birthdate')?.invalid) ||
+                  applyForm.get('birthdate')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('birthdate')?.errors?.['required']"
+                  >Date of birth is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('birthdate')?.errors?.['futureDate']"
+                  >You cannot select a future date</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('birthdate')?.errors?.['underage']"
+                  >We only accept applicants 17yr old and above</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Birthplace:</label>
+              <input
+                pInputText
+                placeholder="Birthplace"
+                formControlName="birthplace"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('birthplace')?.invalid) ||
+                  applyForm.get('birthplace')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('birthplace')?.errors?.['required']"
+                  >Birthplace is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Religion:</label>
+              <input
+                pInputText
+                placeholder="Religion"
+                formControlName="religion"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('religion')?.invalid) ||
+                  applyForm.get('religion')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('religion')?.errors?.['required']"
+                  >Religion is required</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="address-container">
+          <h3 class="title">Address Information</h3>
+          <div class="address-1">
+            <div class="input-group">
+              <label class="input-label">Unit #:</label>
+              <input pInputText placeholder="Unit #" formControlName="unit" />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('unit')?.invalid) ||
+                  applyForm.get('unit')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('unit')?.errors?.['required']"
+                  >Unit number is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Street:</label>
+              <input
+                pInputText
+                placeholder="Street name"
+                formControlName="street"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('street')?.invalid) ||
+                  applyForm.get('street')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('street')?.errors?.['required']"
+                  >Street name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Subdivision / Village / Bldg:</label>
+              <input
+                pInputText
+                placeholder="Subdivision / Village / Bldg."
+                formControlName="subdivision"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('subdivision')?.invalid) ||
+                  applyForm.get('subdivision')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('subdivision')?.errors?.['required']"
+                  >Subdivision / Village / Bldg. is required</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="address-2">
+            <div class="input-group">
+              <label class="input-label">Barangay:</label>
+              <input
+                pInputText
+                placeholder="Barangay"
+                formControlName="barangay"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('barangay')?.invalid) ||
+                  applyForm.get('barangay')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('barangay')?.errors?.['required']"
+                  >Barangay is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">City / Municipality:</label>
+              <input pInputText placeholder="City" formControlName="city" />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('city')?.invalid) ||
+                  applyForm.get('city')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('city')?.errors?.['required']"
+                  >City / Municipality is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Province:</label>
+              <input
+                pInputText
+                placeholder="Province"
+                formControlName="province"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('province')?.invalid) ||
+                  applyForm.get('province')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('province')?.errors?.['required']"
+                  >Province is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Zipcode:</label>
+              <input
+                pInputText
+                placeholder="xxxx"
+                formControlName="zipcode"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('zipcode')?.invalid) ||
+                  applyForm.get('zipcode')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('zipcode')?.errors?.['required']"
+                  >Zipcode is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('zipcode')?.errors?.['maxLength']"
+                  >Zipcode must be 4 digits</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-container">
+          <h3 class="title">Contact Details</h3>
+          <div class="contact">
+            <div class="input-group">
+              <label class="input-label">Telephone No:</label>
+              <input
+                pInputText
+                placeholder="XX-XXXX-XXXX"
+                formControlName="telephone"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('telephone')?.invalid) ||
+                  applyForm.get('telephone')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('telephone')?.errors?.['numberRange']"
+                  >Invalid telephone number</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Mobile No:</label>
+              <input
+                pInputText
+                placeholder="09XXxxxxxxx"
+                formControlName="mobile"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('mobile')?.invalid) ||
+                  applyForm.get('mobile')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('mobile')?.errors?.['required']"
+                  >Mobile no. is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('mobile')?.errors?.['mobileNoIsValid']"
+                  >Invalid mobile number</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Email Address:</label>
+              <input
+                pInputText
+                placeholder="example@domain.com"
+                formControlName="email"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('email')?.invalid) ||
+                  applyForm.get('email')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('email')?.errors?.['required']"
+                  >Email adddress is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('email')?.errors?.['email']"
+                  >Incorrect email format</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="school-container">
+          <h3 class="title">Last School Attended</h3>
+          <div class="school-1">
+            <div class="input-group">
+              <label class="input-label">Name of School:</label>
+              <input
+                pInputText
+                placeholder="Name of School"
+                formControlName="lastSchoolAttended"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked &&
+                    applyForm.get('lastSchoolAttended')?.invalid) ||
+                  applyForm.get('lastSchoolAttended')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('lastSchoolAttended')?.errors?.['required']"
+                  >School name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label"
+                >Program / Track & Strand / Specialization:</label
+              >
+              <input
+                pInputText
+                placeholder="Program or Track"
+                formControlName="programTaken"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('programTaken')?.invalid) ||
+                  applyForm.get('programTaken')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('programTaken')?.errors?.['required']"
+                  >Program or track is required</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="school-2">
+            <div class="input-group">
+              <label class="input-label">Date of Graduation:</label>
+              <p-calendar
+                formControlName="dateOfGraduation"
+                placeholder="Select date of graduation"
+                [style]="{ width: '100%' }"
+                appendTo="body"
+              ></p-calendar>
+              <div
+                *ngIf="
+                  (buttonClicked &&
+                    applyForm.get('dateOfGraduation')?.invalid) ||
+                  applyForm.get('dateOfGraduation')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('dateOfGraduation')?.errors?.['required']"
+                  >Date of Graduation is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">School Year:</label>
+              <p-dropdown
+                [options]="schoolYears"
+                placeholder="Please select school level"
+                [style]="{ width: '100%' }"
+                formControlName="lastSchoolYear"
+              ></p-dropdown>
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('lastSchoolYear')?.invalid) ||
+                  applyForm.get('lastSchoolYear')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('lastSchoolYear')?.errors?.['required']"
+                  >School year is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Year Level:</label>
+              <p-dropdown
+                [options]="yearLevels"
+                placeholder="Please select year level"
+                [style]="{ width: '100%' }"
+                formControlName="lastYearLevel"
+              ></p-dropdown>
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('lastYearLevel')?.invalid) ||
+                  applyForm.get('lastYearLevel')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('lastYearLevel')?.errors?.['required']"
+                  >Year level is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Term:</label>
+              <p-dropdown
+                [options]="terms"
+                placeholder="Please select term"
+                [style]="{ width: '100%' }"
+                formControlName="lastSem"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="emergency-container">
+          <h3 class="title">Emergency Contact</h3>
+          <div class="emergency-1">
+            <div class="input-group">
+              <label class="input-label">First Name:</label>
+              <input
+                pInputText
+                placeholder="First Name"
+                formControlName="parentFirstname"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked &&
+                    applyForm.get('parentFirstname')?.invalid) ||
+                  applyForm.get('parentFirstname')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentFirstname')?.errors?.['required']"
+                  >First name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Middle Name:</label>
+              <input
+                pInputText
+                placeholder="Middle Name"
+                formControlName="parentMiddlename"
+              />
+            </div>
+            <div class="input-group">
+              <label class="input-label">Last Name:</label>
+              <input
+                pInputText
+                placeholder="Last Name"
+                formControlName="parentLastname"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('parentLastname')?.invalid) ||
+                  applyForm.get('parentLastname')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentLastname')?.errors?.['required']"
+                  >Last name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Suffix:</label>
+              <input
+                pInputText
+                placeholder="(e.g. Jr.)"
+                formControlName="parentSuffix"
+              />
+            </div>
+          </div>
+          <div class="emergency-2">
+            <div class="input-group">
+              <label class="input-label">Complete Address:</label>
+              <input
+                pInputText
+                placeholder="Complete Address"
+                formControlName="parentAddress"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('parentAddress')?.invalid) ||
+                  applyForm.get('parentAddress')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentAddress')?.errors?.['required']"
+                  >Complete Address is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Contact No:</label>
+              <input
+                pInputText
+                placeholder="Contact No."
+                formControlName="parentContact"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('parentContact')?.invalid) ||
+                  applyForm.get('parentContact')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentContact')?.errors?.['required']"
+                  >Contact no. is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Relationship:</label>
+              <input
+                pInputText
+                placeholder="Relationship"
+                formControlName="parentRelationship"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked &&
+                    applyForm.get('parentRelationship')?.invalid) ||
+                  applyForm.get('parentRelationship')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentRelationship')?.errors?.['required']"
+                  >Relationship is required</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit">Next Step</button>
+      </form>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="existing">
+    <div class="stepper-2" *ngIf="stepperNumber == 2">dasdasd</div>
+  </ng-container>
 
   <div class="stepper-3" *ngIf="stepperNumber == 3">
     <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepThree()">

@@ -8,14 +8,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
-import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CardModule } from 'primeng/card';
 import { StudentEvaluationComponent } from './pages/student-evaluation/student-evaluation.component';
-import { EvaluationDialogComponent } from './components/evaluation-dialog/evaluation-dialog.component';
-import { EvaluationFormDialogComponent } from './components/evaluation-form-dialog/evaluation-form-dialog.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 import { CourseComponent } from './pages/course/course.component';
@@ -29,11 +25,7 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
     HomeComponent,
     ScheduleComponent,
     ProfileComponent,
-    EditDialogComponent,
-    UploadDialogComponent,
     StudentEvaluationComponent,
-    EvaluationDialogComponent,
-    EvaluationFormDialogComponent,
     ProfMainComponent,
     CourseComponent,
     LoadComponent,

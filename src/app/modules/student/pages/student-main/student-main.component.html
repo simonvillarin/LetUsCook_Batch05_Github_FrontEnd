@@ -7,12 +7,7 @@
     <div class="close" (click)="closeMobileNav()">
       <span class="material-symbols-rounded"> close </span>
     </div>
-    <div
-      class="link"
-      routerLink="/student/home"
-      routerLinkActive="link-active"
-      (click)="onChangeRoute('Home')"
-    >
+    <div class="link" routerLink="/student/home" routerLinkActive="link-active">
       <span class="material-symbols-rounded"> home </span>
       <span>Home</span>
     </div>
@@ -20,7 +15,6 @@
       class="link"
       routerLink="/student/course"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Course')"
     >
       <span class="material-symbols-rounded"> menu_book </span>
       <span>Course</span>
@@ -29,16 +23,14 @@
       class="link"
       routerLink="/student/grades"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Grade')"
     >
       <span class="material-symbols-rounded"> grade </span>
-      <span>Grade</span>
+      <span>Grades</span>
     </div>
     <div
       class="link"
-      routerLink="/student/schedule"
+      routerLink="/student/calendar"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Schedule')"
     >
       <span class="material-symbols-rounded"> calendar_month </span>
       <span>Schedule</span>
@@ -52,12 +44,17 @@
       <div class="menu-icon" (click)="openMobileNav()">
         <span class="material-symbols-rounded"> menu </span>
       </div>
-      <div class="location">{{ route }}</div>
+      <div class="location">{{ getLocation() }}</div>
     </div>
     <div class="right-header">
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
-          <img src="{{ userPic }}" alt="Profile Image" />
+          <img
+            src="{{
+              userPic || '../../../../../../../assets/images/blank-profile.jpg'
+            }}"
+            alt="Profile Image"
+          />
         </div>
         <div class="name">
           <div class="type">

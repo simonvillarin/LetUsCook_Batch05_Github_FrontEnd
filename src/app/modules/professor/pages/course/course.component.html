@@ -1,109 +1,46 @@
 <main>
   <div class="card-container">
     <ng-container *ngFor="let load of load.schedules; index as i">
-      <div class="card" (click)="onStudentsTable(load)">
-        <div class="card-image">
-          <img
-            src="../../../../../assets/images/banner2.jpg"
-            alt="Card Image"
-          />
-        </div>
-        <div class="card-body">
-          <div class="title">{{ load.subject.subjectTitle }}</div>
-          <div class="schedule">
-            <ng-container *ngFor="let day of load.days">{{
-              day == "Monday"
-                ? "M"
-                : day == "Tuesday"
-                ? "T"
-                : day == "Wednesday"
-                ? "W"
-                : day == "Thursday"
-                ? "Th"
-                : day == "Friday"
-                ? "F"
-                : "S"
-            }}</ng-container>
-            ({{ convertTime(load.startTime) }} -
-            {{ convertTime(load.endTime) }})
-          </div>
-        </div>
-        <div class="card-footer">
-          <div>Section: {{ load.section.section }}</div>
-          <div>Room: {{ load.room.roomNumber }}</div>
-        </div>
-      </div>
+      <ng-container *ngIf="load.activeDeactive">
+        <ng-container *ngIf="load.subject.activeDeactive">
+          <ng-container *ngIf="load.section.activeDeactive">
+            <ng-container>
+              <div class="card" (click)="onStudentsTable(load)">
+                <div class="card-image">
+                  <img
+                    src="../../../../../assets/images/banner2.jpg"
+                    alt="Card Image"
+                  />
+                </div>
+                <div class="card-body">
+                  <div class="title">{{ load.subject.subjectTitle }}</div>
+                  <div class="schedule">
+                    <ng-container *ngFor="let day of load.days">{{
+                      day == "Monday"
+                        ? "M"
+                        : day == "Tuesday"
+                        ? "T"
+                        : day == "Wednesday"
+                        ? "W"
+                        : day == "Thursday"
+                        ? "Th"
+                        : day == "Friday"
+                        ? "F"
+                        : "S"
+                    }}</ng-container>
+                    ({{ convertTime(load.startTime) }} -
+                    {{ convertTime(load.endTime) }})
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div>Section: {{ load.section.section }}</div>
+                  <div>Room: {{ load.room.roomNumber }}</div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </ng-container>
   </div>
 </main>
-
-<p-dialog
-  [(visible)]="loadDialog"
-  [modal]="true"
-  [breakpoints]="{ '960px': '80vw' }"
-  [style]="{ width: '80vw' }"
-  [draggable]="false"
-  [resizable]="false"
-  [maximizable]="true"
->
-  <p-header>
-    <div class="modal-title">
-      <!-- {{ load.schedules.subject.subjectTitle }} -->
-    </div>
-  </p-header>
-  <p-tabView>
-    <p-tabPanel header="Attendance"> </p-tabPanel>
-    <p-tabPanel header="Grades">
-      <div class="table">
-        <p-table
-          #dt
-          [value]="loadTable"
-          [paginator]="true"
-          [rows]="5"
-          [showCurrentPageReport]="true"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [rowsPerPageOptions]="[10, 20, 30]"
-          [globalFilterFields]="['subject.subjectTitle']"
-        >
-          <ng-template pTemplate="caption">
-            <div class="table-header">
-              <span [style]="{ position: 'relative' }">
-                <i class="pi pi-search"></i>
-                <input
-                  type="text"
-                  pInputText
-                  placeholder="Search"
-                  [style]="{
-                    width: '16rem',
-                    paddingLeft: '2.5rem'
-                  }"
-                  (input)="
-                    dt.filterGlobal($any($event.target).value, 'contains')
-                  "
-                  placeholder="Search"
-                />
-              </span>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 16%">Name</th>
-              <th style="width: 16%">Prelim</th>
-              <th style="width: 16%">Midterm</th>
-              <th style="width: 16%">Finals</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-student>
-            <tr>
-              <td>{{ student.firstname }}</td>
-              <td>90</td>
-              <td>90</td>
-              <td>90</td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </p-tabPanel>
-  </p-tabView>
-</p-dialog>

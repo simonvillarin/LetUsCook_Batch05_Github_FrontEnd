@@ -54,13 +54,4 @@ export class AttendanceComponent implements OnInit {
         //this.getStudentAttendance();
       });
   };
-
-  //   getStudentAttendance = () => {
-  //     this.studentAttendanceService
-  //       .getAttendanceById(this.student.studentId)
-  //       .subscribe((data) => {
-  //         this.attendance = data;
-  //         console.log(data);
-  //       });
-  //   };
 }

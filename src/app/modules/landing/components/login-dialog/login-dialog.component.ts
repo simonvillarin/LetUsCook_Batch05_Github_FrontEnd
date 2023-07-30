@@ -84,7 +84,7 @@ export class LoginDialogComponent {
   };
 
   forgot = () => {
-    this.router.navigate(['/forgot-password']);
+    this.router.navigate(['/forgot-password/email']);
     this.close();
   };
 }

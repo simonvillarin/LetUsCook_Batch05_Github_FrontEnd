@@ -14,15 +14,14 @@
               </span>
             </button>
           </div>
-          <div class="filter">
+          <div class="filter f">
             <p-dropdown
-              [options]="atts"
-              placeholder="Filter by status"
+              [options]="subjectsAttendance"
               appendTo="body"
-              [(ngModel)]="att1"
-              (ngModelChange)="onChangeAttendance($event)"
+              [(ngModel)]="subjectAttendance"
+              (ngModelChange)="onChangeSubjectAttendance($event)"
               [style]="{
-            width: '100%',
+            width: '16rem',
           }"
             ></p-dropdown>
             <div class="search-container">
@@ -46,10 +45,9 @@
           <ng-template pTemplate="header">
             <tr>
               <th style="width: 10%">Image</th>
-              <th style="width: 25%">Name</th>
-              <th style="width: 16%">Date</th>
-              <th style="width: 20%">Status</th>
-              <th style="width: 18%">Action</th>
+              <th style="width: 40%">Name</th>
+              <th style="width: 25%">Subject Title</th>
+              <th style="width: 25%">Action</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-att>
@@ -72,22 +70,7 @@
                   {{ att.student.firstname }} {{ att.student.middlename }}
                   {{ att.student.lastname }} {{ att.student.suffix }}
                 </td>
-                <td>
-                  {{ convertDate1() }}
-                </td>
-                <td>
-                  <div
-                    class="status {{
-                      att.status == 'Present'
-                        ? 'present'
-                        : att.status == 'Absent'
-                        ? 'absent'
-                        : 'late'
-                    }}"
-                  >
-                    {{ att.status || "-" }}
-                  </div>
-                </td>
+                <td>{{ att.subject.subjectTitle }}</td>
                 <td>
                   <div class="table-actions">
                     <button
@@ -97,15 +80,6 @@
                     >
                       <span class="material-symbols-rounded table-icon">
                         calendar_month
-                      </span>
-                    </button>
-                    <button
-                      class="table-btn edit"
-                      title="Edit"
-                      (click)="onEditAtt(att)"
-                    >
-                      <span class="material-symbols-rounded table-icon">
-                        edit
                       </span>
                     </button>
                   </div>
@@ -130,10 +104,18 @@
           </div>
           <div class="filter">
             <p-dropdown
+              [options]="subjectsGrades"
+              appendTo="body"
+              [(ngModel)]="subjectGrade"
+              (ngModelChange)="onChangeSubjectGrades($event)"
+              [style]="{
+            width: '16rem',
+          }"
+            ></p-dropdown>
+            <p-dropdown
               [options]="remarks"
               placeholder="Filter by remarks"
               appendTo="body"
-              [style]="{ width: '100%' }"
               [(ngModel)]="remark"
               (ngModelChange)="onChangeRemarks($event)"
               [style]="{
@@ -168,7 +150,6 @@
               <th style="width: 15%">Comment</th>
               <th style="width: 9%">Remarks</th>
               <th style="width: 15%">Date Modified</th>
-              <th style="width: 9%">Action</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-grade>
@@ -203,27 +184,18 @@
                 <td>{{ grade.comment || "-" }}</td>
                 <td>
                   <div
-                    class="status {{
-                      grade.remarks == 'Passed' ? 'present' : 'absent'
+                    class=" {{
+                      grade.remarks == 'Passed'
+                        ? 'status present'
+                        : grade.remarks
+                        ? 'status absent'
+                        : ''
                     }}"
                   >
                     {{ grade.remarks || "-" }}
                   </div>
                 </td>
                 <td>{{ convertDate(grade.dateModified) || "-" }}</td>
-                <td>
-                  <div class="table-actions">
-                    <button
-                      class="table-btn edit"
-                      title="Edit"
-                      (click)="onEdit(grade)"
-                    >
-                      <span class="material-symbols-rounded table-icon">
-                        edit
-                      </span>
-                    </button>
-                  </div>
-                </td>
               </tr>
             </ng-container>
           </ng-template>
@@ -259,7 +231,7 @@
   </p-header>
 
   <div>
-    <form [formGroup]="gradesForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="gradesForm">
       <div class="form-group">
         <div class="input-groups">
           <div class="input-group">
@@ -334,7 +306,7 @@
   </p-header>
 
   <div>
-    <form [formGroup]="attendanceForm" (ngSubmit)="onSubmitAttendance()">
+    <form [formGroup]="attendanceForm">
       <div class="form-group">
         <div class="input-group">
           <label>Student's Attendance Status</label>

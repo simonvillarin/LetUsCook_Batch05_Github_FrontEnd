@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
 export class UnauthorizedComponent {
   onClickHome = () => {
     history.back();
+    console.log('hello');
   };
 }

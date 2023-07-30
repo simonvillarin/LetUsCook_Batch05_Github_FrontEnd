@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
 import { EvalService } from 'src/app/shared/services/eval/eval.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class LoadComponent implements OnInit {
 
   attendance: any = [];
   subjectId: any;
+  sectionId: any;
   eval: any = {};
   questions = [
     {
@@ -133,16 +135,19 @@ export class LoadComponent implements OnInit {
       ],
     },
   ];
+  status = ['Present', 'Absent', 'Late'];
 
   confirmationDialog = false;
   successDialog = false;
   errorDialog = false;
   isEvaluated = false;
 
+  attStatus = '';
   title = '';
   body = '';
 
   constructor(
+    private attendanceStudentService: AttendanceStudentService,
     private datePipe: DatePipe,
     private fb: FormBuilder,
     private evalService: EvalService,
@@ -163,8 +168,26 @@ export class LoadComponent implements OnInit {
       this.answers.push(this.fb.control(''));
     });
     this.getParam();
+    this.getAttendance();
     this.getEvalByStudent();
   }
+
+  getParam = () => {
+    const params = this.route.snapshot.params['section'];
+    const splitParams = params.split('-');
+    this.sectionId = splitParams[0];
+    this.subjectId = splitParams[1];
+  };
+
+  getAttendance = () => {
+    this.attendanceStudentService
+      .getAttendanceBySection(this.sectionId, this.subjectId)
+      .subscribe((data: any) => {
+        this.attendance = data.sort(
+          (a: any, b: any) => b.attendanceId - a.attendanceId
+        );
+      });
+  };
 
   getEvalByStudent = () => {
     this.evalService
@@ -179,10 +202,22 @@ export class LoadComponent implements OnInit {
       });
   };
 
-  getParam = () => {
-    const params = this.route.snapshot.params['section'];
-    const splitParams = params.split('-');
-    this.subjectId = splitParams[1];
+  onChangeAttendance = (att: string) => {
+    this.attendanceStudentService
+      .getAttendanceBySection(this.sectionId, this.subjectId)
+      .subscribe((data: any) => {
+        this.attendance = data.sort(
+          (a: any, b: any) => b.attendanceId - a.attendanceId
+        );
+        this.attendance = this.attendance.filter(
+          (att: any) => att.status == att
+        );
+      });
+  };
+
+  onReset = () => {
+    this.attStatus = '';
+    this.getAttendance();
   };
 
   convertDate = (dateStr: string) => {
@@ -191,48 +226,6 @@ export class LoadComponent implements OnInit {
       return this.datePipe.transform(date, 'MMMM d, y');
     }
     return '-';
-  };
-
-  convertTime = (time: any) => {
-    const splitTime = time.split(':');
-    let hour;
-    let zone;
-    if (parseInt(splitTime[0]) == 13) {
-      hour = 1;
-    } else if (parseInt(splitTime[0]) == 13) {
-      hour = 1;
-    } else if (parseInt(splitTime[0]) == 14) {
-      hour = 2;
-    } else if (parseInt(splitTime[0]) == 15) {
-      hour = 3;
-    } else if (parseInt(splitTime[0]) == 16) {
-      hour = 4;
-    } else if (parseInt(splitTime[0]) == 17) {
-      hour = 5;
-    } else if (parseInt(splitTime[0]) == 18) {
-      hour = 6;
-    } else if (parseInt(splitTime[0]) == 19) {
-      hour = 7;
-    } else if (parseInt(splitTime[0]) == 20) {
-      hour = 8;
-    } else if (parseInt(splitTime[0]) == 21) {
-      hour = 9;
-    } else if (parseInt(splitTime[0]) == 22) {
-      hour = 10;
-    } else if (parseInt(splitTime[0]) == 23) {
-      hour = 11;
-    } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
-      hour = 12;
-    } else {
-      hour = splitTime[0];
-    }
-
-    if (parseInt(splitTime[0]) > 12) {
-      zone = 'PM';
-    } else {
-      zone = 'AM';
-    }
-    return hour + ':' + splitTime[1] + ' ' + zone;
   };
 
   onSubmit = () => {

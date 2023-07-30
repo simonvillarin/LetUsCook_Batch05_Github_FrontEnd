@@ -207,4 +207,8 @@ export class SectionComponent implements OnInit {
       this.section = null;
     }
   };
+
+  onView = (section: any) => {
+    this.router.navigate([`admin/section/${section.sectionId}`]);
+  };
 }

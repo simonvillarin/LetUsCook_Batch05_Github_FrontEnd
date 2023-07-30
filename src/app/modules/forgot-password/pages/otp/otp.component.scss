@@ -41,26 +41,6 @@ form {
   gap: 1rem;
 }
 
-.input-container {
-  position: relative;
-  width: 100%;
-}
-
-.icon {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.icon > span {
-  color: var(--primary);
-}
-
 .input-group {
   display: flex;
   flex-direction: column;

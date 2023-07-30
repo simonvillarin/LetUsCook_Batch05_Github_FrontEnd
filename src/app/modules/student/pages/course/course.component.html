@@ -70,67 +70,73 @@
         <ng-container
           *ngIf="sched.room.roomCapacity >= sched.room.numOfStudents"
         >
-          <tr>
-            <td>
-              <p-tableCheckbox [value]="sched"></p-tableCheckbox>
-            </td>
-            <td>
-              <div class="subject-container">
-                <div>{{ sched.subject.subjectTitle }}</div>
-                <div class="subject-description">
-                  <div
-                    class="type {{
-                      sched.subject.type == 'Major'
-                        ? 'major'
-                        : sched.subject.type == 'Minor'
-                        ? 'minor'
-                        : 'elective'
-                    }}"
-                  >
-                    {{ sched.subject.type }}
-                  </div>
-                  <div class="units">{{ sched.subject.units }} units</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <ng-container *ngFor="let day of sched.days">{{
-                day == "Monday"
-                  ? "M"
-                  : day == "Tuesday"
-                  ? "T"
-                  : day == "Wednesday"
-                  ? "W"
-                  : day == "Thursday"
-                  ? "Th"
-                  : day == "Friday"
-                  ? "F"
-                  : "S"
-              }}</ng-container>
-            </td>
-            <td>
-              {{ convertTime(sched.startTime) }} -
-              {{ convertTime(sched.endTime) }}
-            </td>
-            <td>{{ sched.room.roomNumber }}</td>
-            <td>{{ sched.section.section }}</td>
-            <td>
-              <div class="professor-container">
-                <div class="avatar-container">
-                  <div class="avatar">
-                    <img
-                      src="{{
-                        sched.professor.image ||
-                          '../../../../../../../assets/images/blank-profile.jpg'
-                      }}"
-                      alt="Prof Image"
-                    />
-                  </div>
-                </div>
-                <div class="name">{{ sched.professor.fullname }}</div>
-              </div>
-            </td>
-          </tr>
+          <ng-container *ngIf="sched.activeDeactive">
+            <ng-container *ngIf="sched.subject.activeDeactive">
+              <ng-container *ngIf="sched.section.activeDeactive">
+                <tr>
+                  <td>
+                    <p-tableCheckbox [value]="sched"></p-tableCheckbox>
+                  </td>
+                  <td>
+                    <div class="subject-container">
+                      <div>{{ sched.subject.subjectTitle }}</div>
+                      <div class="subject-description">
+                        <div
+                          class="type {{
+                            sched.subject.type == 'Major'
+                              ? 'major'
+                              : sched.subject.type == 'Minor'
+                              ? 'minor'
+                              : 'elective'
+                          }}"
+                        >
+                          {{ sched.subject.type }}
+                        </div>
+                        <div class="units">{{ sched.subject.units }} units</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <ng-container *ngFor="let day of sched.days">{{
+                      day == "Monday"
+                        ? "M"
+                        : day == "Tuesday"
+                        ? "T"
+                        : day == "Wednesday"
+                        ? "W"
+                        : day == "Thursday"
+                        ? "Th"
+                        : day == "Friday"
+                        ? "F"
+                        : "S"
+                    }}</ng-container>
+                  </td>
+                  <td>
+                    {{ convertTime(sched.startTime) }} -
+                    {{ convertTime(sched.endTime) }}
+                  </td>
+                  <td>{{ sched.room.roomNumber }}</td>
+                  <td>{{ sched.section.section }}</td>
+                  <td>
+                    <div class="professor-container">
+                      <div class="avatar-container">
+                        <div class="avatar">
+                          <img
+                            src="{{
+                              sched.professor.image ||
+                                '../../../../../../../assets/images/blank-profile.jpg'
+                            }}"
+                            alt="Prof Image"
+                          />
+                        </div>
+                      </div>
+                      <div class="name">{{ sched.professor.fullname }}</div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </ng-container>
         </ng-container>
       </ng-template>
     </p-table>
@@ -138,38 +144,48 @@
   <div class="table" *ngIf="hasSchedule">
     <div class="card-container">
       <ng-container *ngFor="let load of sched; index as i">
-        <div class="card" (click)="onStudentsTable(load)">
-          <div class="card-image">
-            <img
-              src="../../../../../assets/images/banner2.jpg"
-              alt="Card Image"
-            />
-          </div>
-          <div class="card-body">
-            <div class="title">{{ load.subject.subjectTitle }}</div>
-            <div class="schedule">
-              <ng-container *ngFor="let day of load.days">{{
-                day == "Monday"
-                  ? "M"
-                  : day == "Tuesday"
-                  ? "T"
-                  : day == "Wednesday"
-                  ? "W"
-                  : day == "Thursday"
-                  ? "Th"
-                  : day == "Friday"
-                  ? "F"
-                  : "S"
-              }}</ng-container>
-              ({{ convertTime(load.startTime) }} -
-              {{ convertTime(load.endTime) }})
-            </div>
-          </div>
-          <div class="card-footer">
-            <div>Section: {{ load.section.section }}</div>
-            <div>Room: {{ load.room.roomNumber }}</div>
-          </div>
-        </div>
+        <ng-container *ngIf="load.activeDeactive">
+          <ng-container *ngIf="load.subject.activeDeactive">
+            <ng-container *ngIf="load.section.activeDeactive">
+              <ng-container
+                *ngIf="load.room.roomCapacity >= load.room.numOfStudents"
+              >
+                <div class="card" (click)="onStudentsTable(load)">
+                  <div class="card-image">
+                    <img
+                      src="../../../../../assets/images/banner2.jpg"
+                      alt="Card Image"
+                    />
+                  </div>
+                  <div class="card-body">
+                    <div class="title">{{ load.subject.subjectTitle }}</div>
+                    <div class="schedule">
+                      <ng-container *ngFor="let day of load.days">{{
+                        day == "Monday"
+                          ? "M"
+                          : day == "Tuesday"
+                          ? "T"
+                          : day == "Wednesday"
+                          ? "W"
+                          : day == "Thursday"
+                          ? "Th"
+                          : day == "Friday"
+                          ? "F"
+                          : "S"
+                      }}</ng-container>
+                      ({{ convertTime(load.startTime) }} -
+                      {{ convertTime(load.endTime) }})
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div>Section: {{ load.section.section }}</div>
+                    <div>Room: {{ load.room.roomNumber }}</div>
+                  </div>
+                </div></ng-container
+              >
+            </ng-container>
+          </ng-container>
+        </ng-container>
       </ng-container>
     </div>
   </div>

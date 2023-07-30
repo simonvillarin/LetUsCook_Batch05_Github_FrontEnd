@@ -11,7 +11,6 @@
       class="link"
       routerLink="/professor/home"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Home')"
     >
       <span class="material-symbols-rounded"> home </span>
       <span>Home</span>
@@ -20,16 +19,14 @@
       class="link"
       routerLink="/professor/course"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Course')"
     >
       <span class="material-symbols-rounded"> menu_book </span>
       <span>Course</span>
     </div>
     <div
       class="link"
-      routerLink="/professor/schedule"
+      routerLink="/professor/calendar"
       routerLinkActive="link-active"
-      (click)="onChangeRoute('Schedule')"
     >
       <span class="material-symbols-rounded"> calendar_month </span>
       <span>Calendar</span>
@@ -43,12 +40,17 @@
       <div class="menu-icon" (click)="openMobileNav()">
         <span class="material-symbols-rounded"> menu </span>
       </div>
-      <div class="location">{{ route }}</div>
+      <div class="location">{{ getLocation() }}</div>
     </div>
     <div class="right-header">
       <div class="profile">
         <div class="avatar" (click)="toggleShowDropdown()">
-          <img src="{{ userPic }}" alt="Profile Image" />
+          <img
+            src="{{
+              userPic || '../../../../../../../assets/images/blank-profile.jpg'
+            }}"
+            alt="Profile Image"
+          />
         </div>
         <div class="name">
           <div class="type">

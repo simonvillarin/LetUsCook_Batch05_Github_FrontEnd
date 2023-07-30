@@ -31,7 +31,7 @@ const routes: Routes = [
         component: GradeComponent,
       },
       {
-        path: 'schedule',
+        path: 'calendar',
         component: ScheduleComponent,
       },
       {

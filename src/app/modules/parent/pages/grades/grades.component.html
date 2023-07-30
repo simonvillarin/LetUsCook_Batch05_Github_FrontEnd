@@ -35,35 +35,18 @@
     <p-table [value]="grades" [tableStyle]="{ 'min-width': '80rem' }">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 5%">Image</th>
-          <th style="width: 20%">Name</th>
-          <th style="width: 9%">Prelim</th>
-          <th style="width: 9%">Midterm</th>
-          <th style="width: 9%">Final</th>
-          <th style="width: 15%">Comment</th>
-          <th style="width: 9%">Remarks</th>
+          <th style="width: 20%">Subject</th>
+          <th style="width: 10%">Prelim</th>
+          <th style="width: 10%">Midterm</th>
+          <th style="width: 10%">Final</th>
+          <th style="width: 16%">Comment</th>
+          <th style="width: 10%">Remarks</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-grade>
         <ng-container *ngIf="grade.status">
           <tr>
-            <td>
-              <div class="avatar-container">
-                <div class="avatar">
-                  <img
-                    src="{{
-                      grade.student.image ||
-                        '../../../../../../../assets/images/blank-profile.jpg'
-                    }}"
-                    alt="Student Image"
-                  />
-                </div>
-              </div>
-            </td>
-            <td>
-              {{ grade.student.firstname }} {{ grade.student.middlename }}
-              {{ grade.student.lastname }} {{ grade.student.suffix }}
-            </td>
+            <td>{{ grade.subject.subjectTitle }}</td>
             <td>
               {{ grade.prelim || "-" }}
             </td>
@@ -74,7 +57,15 @@
               {{ grade.finals || "-" }}
             </td>
             <td>{{ grade.comment || "-" }}</td>
-            <td>{{ grade.remarks || "-" }}</td>
+            <td>
+              <div
+                class="status {{
+                  grade.remarks == 'Passed' ? 'present' : 'absent'
+                }}"
+              >
+                {{ grade.remarks || "-" }}
+              </div>
+            </td>
           </tr>
         </ng-container>
       </ng-template>

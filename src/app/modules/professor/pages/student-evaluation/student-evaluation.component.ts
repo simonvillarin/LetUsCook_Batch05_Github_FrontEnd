@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { SelectItemGroup } from 'primeng/api';
-import { EvaluationDialogComponent } from '../../components/evaluation-dialog/evaluation-dialog.component';
-import { EvaluationFormDialogComponent } from '../../components/evaluation-form-dialog/evaluation-form-dialog.component';
 import { EvalService } from 'src/app/shared/services/eval/eval.service';
 import { ActivatedRoute } from '@angular/router';
 @Component({

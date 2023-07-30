@@ -25,24 +25,9 @@
           [(ngModel)]="att1"
           (ngModelChange)="onChangeAttendance($event)"
           [style]="{
-            width: '100%',
+            width: '16rem',
           }"
         ></p-dropdown>
-        <div class="search-container">
-          <i class="pi pi-search"></i>
-          <input
-            type="text"
-            pInputText
-            placeholder="Search"
-            [style]="{
-              width: '100%',
-              paddingLeft: '2.5rem'
-            }"
-            placeholder="Search"
-            [(ngModel)]="gradeSearch"
-            (ngModelChange)="onChangeGradeSearch($event)"
-          />
-        </div>
       </div>
     </div>
     <p-table [value]="attendance" [tableStyle]="{ 'min-width': '80rem' }">
@@ -56,41 +41,43 @@
       </ng-template>
       <ng-template pTemplate="body" let-att>
         <ng-container *ngIf="att.activeDeactive">
-          <tr>
-            <td>
-              <div class="avatar-container">
-                <div class="avatar">
-                  <img
-                    src="{{
-                      att.student.image ||
-                        '../../../../../../../assets/images/blank-profile.jpg'
-                    }}"
-                    alt="Student Image"
-                  />
+          <ng-container *ngIf="att.date">
+            <tr>
+              <td>
+                <div class="avatar-container">
+                  <div class="avatar">
+                    <img
+                      src="{{
+                        att.student.image ||
+                          '../../../../../../../assets/images/blank-profile.jpg'
+                      }}"
+                      alt="Student Image"
+                    />
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td>
-              {{ att.student.firstname }} {{ att.student.middlename }}
-              {{ att.student.lastname }} {{ att.student.suffix }}
-            </td>
-            <td>
-              {{ convertDate1() }}
-            </td>
-            <td>
-              <div
-                class="status {{
-                  att.status == 'Present'
-                    ? 'present'
-                    : att.status == 'Absent'
-                    ? 'absent'
-                    : 'late'
-                }}"
-              >
-                {{ att.status || "-" }}
-              </div>
-            </td>
-          </tr>
+              </td>
+              <td>
+                {{ att.student.firstname }} {{ att.student.middlename }}
+                {{ att.student.lastname }} {{ att.student.suffix }}
+              </td>
+              <td>
+                {{ convertDate(att.date) }}
+              </td>
+              <td>
+                <div
+                  class="status {{
+                    att.status == 'Present'
+                      ? 'present'
+                      : att.status == 'Absent'
+                      ? 'absent'
+                      : 'late'
+                  }}"
+                >
+                  {{ att.status || "-" }}
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </ng-container>
       </ng-template>
     </p-table>

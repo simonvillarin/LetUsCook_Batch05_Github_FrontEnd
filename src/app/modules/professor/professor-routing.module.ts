@@ -32,7 +32,7 @@ const routes: Routes = [
         component: AttendanceComponent,
       },
       {
-        path: 'schedule',
+        path: 'calendar',
         component: ScheduleComponent,
       },
       {

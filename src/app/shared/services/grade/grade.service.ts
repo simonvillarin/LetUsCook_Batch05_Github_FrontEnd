@@ -24,6 +24,10 @@ export class GradeService {
     );
   };
 
+  getGradesBySec = (id: number): Observable<any> => {
+    return this.http.get<any[]>(`${this.BASE_URL}/grades/${id}`);
+  };
+
   addGrade = (grade: any) => {
     return this.http.post(`${this.BASE_URL}/grade`, grade);
   };

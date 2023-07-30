@@ -141,12 +141,12 @@ img {
   background-color: var(--light-red);
 }
 
+.late {
+  background-color: var(--orange);
+}
+
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;
-  }
-
-  .filter {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

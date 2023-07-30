@@ -261,6 +261,10 @@ label {
   }
 
   .filter {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .f {
     grid-template-columns: repeat(2, 1fr);
   }
 }
