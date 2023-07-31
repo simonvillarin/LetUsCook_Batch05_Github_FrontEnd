@@ -35,6 +35,7 @@ import { LoadComponent } from './pages/load/load.component';
 import { ProfessorModule } from '../professor/professor.module';
 import { SectionLoadComponent } from './pages/section-load/section-load.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
+import { ProgramLoadComponent } from './pages/program-load/program-load.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
     LoadComponent,
     SectionLoadComponent,
     AttendanceComponent,
+    ProgramLoadComponent,
   ],
   imports: [
     CommonModule,
