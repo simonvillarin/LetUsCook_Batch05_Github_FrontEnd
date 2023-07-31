@@ -43,6 +43,9 @@ export class LoadComponent implements OnInit {
   days: any = [];
 
   canEditAttendance: boolean = false;
+  alert: boolean = false;
+  alertStatus: string = '';
+  alertMessage: string = '';
 
   constructor(
     private gradeService: GradeService,
@@ -122,58 +125,12 @@ export class LoadComponent implements OnInit {
       });
   };
 
-  convertTime = (time: any) => {
-    if (time != null) {
-      const splitTime = time.split(':');
-      let hour;
-      let zone;
-      if (parseInt(splitTime[0]) == 13) {
-        hour = 1;
-      } else if (parseInt(splitTime[0]) == 13) {
-        hour = 1;
-      } else if (parseInt(splitTime[0]) == 14) {
-        hour = 2;
-      } else if (parseInt(splitTime[0]) == 15) {
-        hour = 3;
-      } else if (parseInt(splitTime[0]) == 16) {
-        hour = 4;
-      } else if (parseInt(splitTime[0]) == 17) {
-        hour = 5;
-      } else if (parseInt(splitTime[0]) == 18) {
-        hour = 6;
-      } else if (parseInt(splitTime[0]) == 19) {
-        hour = 7;
-      } else if (parseInt(splitTime[0]) == 20) {
-        hour = 8;
-      } else if (parseInt(splitTime[0]) == 21) {
-        hour = 9;
-      } else if (parseInt(splitTime[0]) == 22) {
-        hour = 10;
-      } else if (parseInt(splitTime[0]) == 23) {
-        hour = 11;
-      } else if (parseInt(splitTime[0]) == 24 || splitTime[0] == '00') {
-        hour = 12;
-      } else {
-        hour = splitTime[0];
-      }
-
-      if (parseInt(splitTime[0]) > 12) {
-        zone = 'PM';
-      } else {
-        zone = 'AM';
-      }
-      return hour + ':' + splitTime[1] + ' ' + zone;
-    } else {
-      return '-';
-    }
-  };
-
   convertDate = (dateStr: string) => {
     const date = new Date(dateStr);
     if (date.getFullYear() > 2022) {
       return this.datePipe.transform(date, 'MMMM d, y');
     }
-    return '-';
+    return '';
   };
 
   convertDate1 = () => {
@@ -182,7 +139,7 @@ export class LoadComponent implements OnInit {
       this.date = this.datePipe.transform(date, 'yyyy-MM-dd');
       return this.datePipe.transform(date, 'MMMM d, y');
     }
-    return '-';
+    return '';
   };
 
   convertDate2 = () => {
@@ -190,7 +147,7 @@ export class LoadComponent implements OnInit {
     if (date.getFullYear() > 2022) {
       return this.datePipe.transform(date, 'yyyy-MM-dd');
     }
-    return '-';
+    return '';
   };
 
   getAverage = (prelim: any, midterm: any, final: any) => {
@@ -425,6 +382,7 @@ export class LoadComponent implements OnInit {
       finals: grade.finals,
       comment: grade.comment,
     });
+    this.alert = false;
     this.gradesDialog = true;
   };
 
@@ -476,10 +434,38 @@ export class LoadComponent implements OnInit {
       comment: this.gradesForm.get('comment')?.value,
     };
 
-    this.gradeService.updateGrade(this.grade.gradeId, payload).subscribe(() => {
-      this.getGrades();
-      this.gradesDialog = false;
-    });
+    if (midterm != 0 && prelim == 0) {
+      this.alert = true;
+      this.alertMessage = 'Please add grade in prelim period first';
+      this.alertStatus = 'Error';
+      setTimeout(() => (this.alert = false), 3000);
+    } else if (final != 0 && prelim == 0) {
+      this.alert = true;
+      this.alertMessage = 'Please add grade in prelim period first';
+      this.alertStatus = 'Error';
+      setTimeout(() => (this.alert = false), 3000);
+    } else if (final != 0 && midterm == 0) {
+      this.alert = true;
+      this.alertMessage = 'Please add grade in midterm period first';
+      this.alertStatus = 'Error';
+      setTimeout(() => (this.alert = false), 3000);
+    } else if (final != 0 && prelim == 0 && midterm == 0) {
+      this.alert = true;
+      this.alertMessage = 'Please add grade in prelim and midterm period first';
+      this.alertStatus = 'Error';
+      setTimeout(() => (this.alert = false), 3000);
+    } else {
+      this.gradeService
+        .updateGrade(this.grade.gradeId, payload)
+        .subscribe(() => {
+          this.getGrades();
+          this.alert = true;
+          this.alertMessage = "Student's grade successully updated";
+          this.alertStatus = 'Success';
+          setTimeout(() => (this.alert = false), 3000);
+          this.gradesDialog = false;
+        });
+    }
   };
 
   onSubmitAttendance = () => {

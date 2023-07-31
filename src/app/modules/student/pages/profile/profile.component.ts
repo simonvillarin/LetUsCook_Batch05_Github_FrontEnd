@@ -286,7 +286,7 @@ export class ProfileComponent implements OnInit {
     formData.append('banner', this.fileBanner);
     this.studentService
       .updateStudentBanner(this.authService.getUserId(), formData)
-      .subscribe((res) => console.log(res));
+      .subscribe();
   };
 
   onEditPersonal = () => {

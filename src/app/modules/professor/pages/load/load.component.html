@@ -22,8 +22,9 @@
               [(ngModel)]="att1"
               (ngModelChange)="onChangeAttendance($event)"
               [style]="{
-            width: '100%',
-          }"
+                width: '100%',
+                minWidth: '16rem'
+              }"
             ></p-dropdown>
             <div class="search-container">
               <i class="pi pi-search"></i>
@@ -33,6 +34,7 @@
                 placeholder="Search"
                 [style]="{
                   width: '100%',
+                  minWidth: '16rem',
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"
@@ -140,8 +142,9 @@
               [(ngModel)]="remark"
               (ngModelChange)="onChangeRemarks($event)"
               [style]="{
-            width: '100%',
-          }"
+                width: '100%',
+                minWidth: '16rem'
+              }"
             ></p-dropdown>
             <div class="search-container">
               <i class="pi pi-search"></i>
@@ -151,6 +154,7 @@
                 placeholder="Search"
                 [style]="{
                   width: '100%',
+                  minWidth: '16rem',
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"
@@ -196,18 +200,18 @@
                   {{ grade.student.lastname }} {{ grade.student.suffix }}
                 </td>
                 <td>
-                  {{ grade.prelim || "-" }}
+                  {{ grade.prelim }}
                 </td>
                 <td>
-                  {{ grade.midterm || "-" }}
+                  {{ grade.midterm }}
                 </td>
                 <td>
-                  {{ grade.finals || "-" }}
+                  {{ grade.finals }}
                 </td>
                 <td>
                   {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
                 </td>
-                <td>{{ grade.comment || "-" }}</td>
+                <td>{{ grade.comment }}</td>
                 <td>
                   <div
                     class="{{
@@ -221,7 +225,7 @@
                     {{ grade.remarks || "-" }}
                   </div>
                 </td>
-                <td>{{ convertDate(grade.dateModified) || "-" }}</td>
+                <td>{{ convertDate(grade.dateModified) }}</td>
                 <td>
                   <div class="table-actions">
                     <button
@@ -261,6 +265,7 @@
               placeholder="Search"
               [style]="{
                 width: '100%',
+                minWidth: '16rem',
                 paddingLeft: '2.5rem'
               }"
               placeholder="Search"
@@ -346,6 +351,20 @@
 
   <div>
     <form [formGroup]="gradesForm" (ngSubmit)="onSubmit()">
+      <div
+        class="alert {{
+          alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+        }}"
+        *ngIf="alert"
+      >
+        <span class="material-icons-outlined" *ngIf="alertStatus == 'Error'"
+          >error</span
+        >
+        <span class="material-icons-outlined" *ngIf="alertStatus == 'Success'"
+          >check</span
+        >
+        {{ alertMessage }}
+      </div>
       <div class="form-group">
         <div class="input-groups">
           <div class="input-group">
@@ -376,7 +395,7 @@
             />
           </div>
         </div>
-        <div class="input-group">
+        <div class="input-group ig">
           <label>Comment</label>
           <textarea
             rows="5"

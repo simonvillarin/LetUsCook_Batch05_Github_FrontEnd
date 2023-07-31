@@ -256,6 +256,29 @@ label {
   background-color: var(--orange);
 }
 
+.ig {
+  margin-top: 1rem;
+}
+
+.alert {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  color: var(--white);
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  background-color: var(--green);
+}
+
+.alert-error {
+  background-color: var(--red);
+}
+
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;

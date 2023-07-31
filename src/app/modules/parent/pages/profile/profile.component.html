@@ -1,0 +1,56 @@
+<main>
+  <div class="profile-header">
+    <div class="profile-upper">
+      <img
+        src="{{
+          bannerPreview ||
+            '../../../../../../../assets/images/profile-banner.jpg'
+        }}"
+        alt="Banner Image"
+        class="banner"
+      />
+      <div class="profile">
+        <div class="profile-img-container">
+          <div class="profile-img">
+            <img
+              src="{{
+                imagePreview ||
+                  '../../../../../../../assets/images/blank-profile.jpg'
+              }}"
+              alt="Profile Image"
+            />
+          </div>
+          <div class="edit-icon-container">
+            <div class="edit-icon">
+              <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
+              <input
+                type="file"
+                class="file"
+                accept="image/*"
+                (change)="onImageChange($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="name">
+          <h3>{{ parent.firstname }} {{ parent.lastname }}</h3>
+          <span>{{ parent.parentNo }}</span>
+        </div>
+      </div>
+      <div class="edit-banner-icon">
+        <mat-icon class="material-icons-outlined">photo_camera</mat-icon>
+        <span>Edit cover photo</span>
+        <input
+          type="file"
+          class="file"
+          accept="image/*"
+          (change)="onBannerChange($event)"
+        />
+      </div>
+    </div>
+    <div class="profile-lower">
+      <span>Educate University</span>
+    </div>
+  </div>
+  <div class="profile-body"></div>
+</main>

@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { GradesComponent } from './pages/grades/grades.component';
 import { ParentMainComponent } from './pages/parent-main/parent-main.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'attendance',
         component: AttendanceComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
       },
     ],
   },

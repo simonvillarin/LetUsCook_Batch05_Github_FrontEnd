@@ -23,6 +23,14 @@ export class ParentService {
     return this.http.post<Response>(`${this.BASE_URL}/parent`, parent);
   }
 
+  updateImage = (id: number, parent: any) => {
+    return this.http.put(`${this.BASE_URL}/parent/images/${id}`, parent);
+  };
+
+  updateBanner = (id: number, parent: any) => {
+    return this.http.put(`${this.BASE_URL}/parent/banner/${id}`, parent);
+  };
+
   updateParent(parentId: number, parent: any) {
     return this.http.put<Response>(
       `${this.BASE_URL}/parent/${parentId}`,
