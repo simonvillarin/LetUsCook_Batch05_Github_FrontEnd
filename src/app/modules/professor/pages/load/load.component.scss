@@ -256,6 +256,20 @@ label {
   background-color: var(--orange);
 }
 
+.eval-active {
+  animation: animate 1s infinite;
+}
+
+@keyframes animate {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
 .ig {
   margin-top: 1rem;
 }

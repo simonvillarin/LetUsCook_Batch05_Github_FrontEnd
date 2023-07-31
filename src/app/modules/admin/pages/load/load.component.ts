@@ -11,7 +11,6 @@ import { ProfessorService } from 'src/app/shared/services/professor/professor.se
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { SectionService } from 'src/app/shared/services/section/section.service';
-import { endTimeValidator } from 'src/app/shared/validators/custom.validator';
 
 @Component({
   selector: 'app-load',

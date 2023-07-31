@@ -321,8 +321,8 @@ export class ProfessorComponent implements OnInit {
     this.stat = !this.professor.activeDeactive;
     this.title = !this.stat ? 'Deactivate Professor' : 'Activate Professor';
     this.body = this.stat
-      ? 'Are you sure you want to deactivate this professor?'
-      : 'Are you sure you want to activate this professor?';
+      ? 'Are you sure you want to activate this professor?'
+      : 'Are you sure you want to deactivate this professor?';
     this.confirmationDialog = true;
   };
 

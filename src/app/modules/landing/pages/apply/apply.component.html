@@ -691,6 +691,11 @@
                   *ngIf="applyForm.get('dateOfGraduation')?.errors?.['required']"
                   >Date of Graduation is required</small
                 >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('dateOfGraduation')?.errors?.['futureDate']"
+                  >Invalid date of graduation</small
+                >
               </div>
             </div>
             <div class="input-group">

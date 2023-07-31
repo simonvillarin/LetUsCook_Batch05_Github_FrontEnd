@@ -7,11 +7,10 @@ import { DatePipe } from '@angular/common';
 import { ParentService } from 'src/app/shared/services/parent/parent.service';
 import { AccountService } from 'src/app/shared/services/account/account.service';
 import { Paginator } from 'primeng/paginator';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { GradeService } from 'src/app/shared/services/grade/grade.service';
 import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
-import { EmailService } from 'src/app/shared/services/email/email.service';
+import { EvalsService } from 'src/app/shared/services/evals/evals.service';
 
 @Component({
   selector: 'app-student',
@@ -59,6 +58,7 @@ export class StudentComponent implements OnInit {
     private gradeService: GradeService,
     private roomService: RoomService,
     private attendanceStudentService: AttendanceStudentService,
+    private evalService: EvalsService,
     private fb: FormBuilder,
     private datePipe: DatePipe
   ) {
@@ -216,6 +216,16 @@ export class StudentComponent implements OnInit {
           status: '',
         };
         this.attendanceStudentService.addAttendance(payload1).subscribe();
+
+        const payload2 = {
+          section: sched.section.section,
+          subjectId: sched.subject.subjectId,
+        };
+        console.log(payload2);
+
+        this.evalService
+          .addEval(payload2)
+          .subscribe((res) => console.log(res, 'res'));
       });
 
       const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);
@@ -320,7 +330,6 @@ export class StudentComponent implements OnInit {
 
   onCloseDeleteDialog = () => {
     this.isConfirmDialogOpen = false;
-    this.student = null;
   };
 
   onDeleteApplication = (application: any) => {
