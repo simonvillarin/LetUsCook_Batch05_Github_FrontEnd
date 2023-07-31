@@ -1,7 +1,9 @@
 import { ApplicationService } from './../../../../shared/services/application/application.service';
 import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ParentService } from 'src/app/shared/services/parent/parent.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { StudentHistoryService } from 'src/app/shared/services/student-history/student-history.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
 import {
   ageValidator,
@@ -28,17 +30,22 @@ export class ApplyComponent implements OnInit {
   programError: boolean = false;
   studentNoError: boolean = false;
   existing: boolean = false;
+  invalid: boolean = false;
   stepperNumber: number = 1;
   typeOfStudent: string = '';
   program: string = '';
   studentNo: string = '';
+  studNo: string = '';
   applyForm: FormGroup;
+  existForm: FormGroup;
   buttonClicked: boolean = false;
   studentInfo: any = {};
   programs: any[] = [];
+  studentId: any;
+  parentId: any;
 
-  terms = ['First Term', 'Second Term'];
-  levels = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
+  terms: any = [];
+  levels: any = [];
   yearLevels = [
     'Grade 12',
     'First Year',
@@ -48,14 +55,16 @@ export class ApplyComponent implements OnInit {
   ];
   schoolYear: string[] = [];
   schoolYears: string[] = [];
-  genders = ['Male', 'Female'];
+  genders = ['Male', 'Female', 'Others'];
   civilStatus = ['Single', 'Married', 'Divorced', 'Widowed'];
 
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
+    private parentService: ParentService,
     private studentService: StudentService,
+    private studentHistoryService: StudentHistoryService,
     private appService: ApplicationService,
     private programService: ProgramService
   ) {
@@ -99,6 +108,23 @@ export class ApplyComponent implements OnInit {
       parentSuffix: [''],
       parentAddress: ['', [Validators.required]],
       parentContact: ['', [Validators.required]],
+      parentEmail: ['', [Validators.required, Validators.email]],
+      parentRelationship: ['', [Validators.required]],
+    });
+    this.existForm = fb.group({
+      yearLevel: [''],
+      sem: [''],
+      academicYear: [''],
+      telephone: [''],
+      mobile: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      parentFirstname: ['', [Validators.required]],
+      parentMiddlename: [''],
+      parentLastname: ['', [Validators.required]],
+      parentSuffix: [''],
+      parentAddress: ['', [Validators.required]],
+      parentContact: ['', [Validators.required]],
+      parentEmail: ['', [Validators.required, Validators.email]],
       parentRelationship: ['', [Validators.required]],
     });
   }
@@ -194,28 +220,165 @@ export class ApplyComponent implements OnInit {
   onChangeStudentNo = (studentNo: any) => {
     if (studentNo != '') {
       this.studentNoError = false;
+      this.invalid = false;
     }
   };
 
   onSubmitStepOne = () => {
     if (this.program != '' || this.studentNo != '') {
       if (this.studentNo != '') {
-        this.studentService
+        this.studentHistoryService
           .getStudentByStudentNo(this.studentNo)
           .subscribe((res: any) => {
-            if (res == null) {
-              alert('null');
+            if (res.length == 0) {
+              this.invalid = true;
             } else {
-              this.stepTwo = true;
-              this.stepThree = false;
-              this.stepFour = false;
-              this.stepOne = false;
-              this.stepperNumber = 2;
-              this.stepOneDone = true;
-              scroll(0, 0);
+              let firstYearFirstTerm: boolean = false;
+              let firstYearSecondTerm: boolean = false;
+              let secondYearFirstTerm: boolean = false;
+              let secondYearSecondTerm: boolean = false;
+              let thirdYearFirstTerm: boolean = false;
+              let thirdYearSecondTerm: boolean = false;
+              let fourthYearFirstTerm: boolean = false;
+              let fourthYearSecondYear: boolean = false;
+              let year: string;
+              let term: string;
+              res.map((obj: any) => {
+                if (
+                  obj.student.yearLevel == 'First Year' &&
+                  obj.student.sem == 'First Term'
+                ) {
+                  firstYearFirstTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'First Year' &&
+                  obj.student.sem == 'Second Term'
+                ) {
+                  firstYearSecondTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'Second Year' &&
+                  obj.student.sem == 'First Term'
+                ) {
+                  secondYearFirstTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'Second Year' &&
+                  obj.student.sem == 'Second Term'
+                ) {
+                  secondYearSecondTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'Third Year' &&
+                  obj.student.sem == 'First Term'
+                ) {
+                  thirdYearFirstTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'Third Year' &&
+                  obj.student.sem == 'Second Term'
+                ) {
+                  thirdYearSecondTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'Fourth Year' &&
+                  obj.student.sem == 'First Term'
+                ) {
+                  fourthYearFirstTerm = true;
+                } else if (
+                  obj.student.yearLevel == 'Fourth Year' &&
+                  obj.student.sem == 'Second Term'
+                ) {
+                  fourthYearSecondYear = true;
+                }
+              });
+              const status = [
+                firstYearFirstTerm,
+                firstYearSecondTerm,
+                secondYearFirstTerm,
+                secondYearSecondTerm,
+                thirdYearFirstTerm,
+                thirdYearSecondTerm,
+                fourthYearFirstTerm,
+                fourthYearSecondYear,
+              ];
+              let completed = 0;
+              status.map((stat: boolean) => {
+                if (stat) {
+                  completed += 1;
+                  return;
+                }
+              });
+              if (completed == 1) {
+                year = 'First Year';
+                term = 'Second Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              } else if (completed == 2) {
+                year = 'Second Year';
+                term = 'First Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              } else if (completed == 3) {
+                year = 'Second Year';
+                term = 'Second Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              } else if (completed == 4) {
+                year = 'Third Year';
+                term = 'First Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              } else if (completed == 5) {
+                year = 'Third Year';
+                term = 'Second Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              } else if (completed == 6) {
+                year = 'Fourth Year';
+                term = 'First Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              } else if (completed == 7) {
+                year = 'Fourth Year';
+                term = 'Second Term';
+                this.levels.push(year);
+                this.terms.push(term);
+              }
+              this.studNo = res[0].student.studentNo;
+              this.studentId = res[0].student.studentId;
+              this.parentService
+                .getParentById(res[0].student.parentId)
+                .subscribe((data: any) => {
+                  this.parentId = data.parentId;
+                  this.existForm.patchValue({
+                    yearLevel: this.levels[0],
+                    sem: this.terms[0],
+                    academicYear: this.schoolYear[0],
+                    telephone: res[0].student.telephone,
+                    mobile: res[0].student.mobile,
+                    email: res[0].student.email,
+                    parentFirstname: data.firstname,
+                    parentMiddlename: data.middlename,
+                    parentLastname: data.lastname,
+                    parentSuffix: data.suffix,
+                    parentAddress: data.address,
+                    parentEmail: data.email,
+                    parentContact: data.contact,
+                    parentRelationship: data.relationship,
+                  });
+                  this.programService
+                    .getProgramById(res[0].student.programId)
+                    .subscribe((data: any) => {
+                      this.program = data.programTitle;
+                      this.stepTwo = true;
+                      this.stepThree = false;
+                      this.stepFour = false;
+                      this.stepOne = false;
+                      this.stepperNumber = 2;
+                      this.stepOneDone = true;
+                      scroll(0, 0);
+                    });
+                });
             }
           });
       } else {
+        this.terms.push('First Term');
+        this.levels.push('First Year');
         this.stepTwo = true;
         this.stepThree = false;
         this.stepFour = false;
@@ -235,15 +398,21 @@ export class ApplyComponent implements OnInit {
   };
 
   onSubmitStepTwo = () => {
-    if (this.applyForm.valid) {
-      this.studentInfo = this.applyForm.value;
+    this.applyForm.patchValue({
+      yearLevel: this.levels[0],
+      sem: this.terms[0],
+      academicYear: this.yearLevels[0],
+    });
+    if (this.applyForm.valid || this.existForm.valid) {
       this.studentInfo.birthdate = this.convertDateString(
         this.studentInfo.birthdate
       );
       this.studentInfo.dateOfGraduation = this.convertDateString(
         this.studentInfo.dateOfGraduation
       );
-      console.log(this.studentInfo);
+      this.studentInfo = this.existForm.value;
+      this.studentInfo = this.applyForm.value;
+
       this.stepThree = true;
       this.stepFour = false;
       this.stepOne = false;
@@ -261,29 +430,40 @@ export class ApplyComponent implements OnInit {
     this.applyForm.patchValue({
       programCode: this.program,
     });
-
-    Swal.fire({
-      title: 'Validate',
-      text: 'Are you sure to send this application?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No',
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.appService.addApplication(this.applyForm.value).subscribe(() => {
-          this.stepFour = true;
-          this.stepOne = false;
-          this.stepTwo = false;
-          this.stepThree = false;
-          this.stepperNumber = 4;
-          this.stepThreeDone = true;
-          scroll(0, 0);
-          this.applyForm.reset();
+    if (this.existing) {
+      const payload = {
+        yearLevel: this.studentInfo.yearLevel,
+        sem: this.studentInfo.sem,
+        academicYear: this.studentInfo.academicYear,
+        schedId: [],
+      };
+      this.studentService
+        .updateStudent(this.studentId, payload)
+        .subscribe(() => {
+          const payload1 = {
+            firstname: this.studentInfo.parentFirstname,
+            middlename: this.studentInfo.middlename,
+            lastname: this.studentInfo.lastname,
+            suffix: this.studentInfo.suffix,
+            address: this.studentInfo.parentAddress,
+            email: this.studentInfo.parentEmail,
+            contact: this.studentInfo.parentContact,
+            relationship: this.studentInfo.parentRelationship,
+          };
+          this.parentService.updateParent(this.parentId, payload1).subscribe();
         });
-      }
-    });
+    } else {
+      this.appService.addApplication(this.applyForm.value).subscribe();
+    }
+    this.stepFour = true;
+    this.stepOne = false;
+    this.stepTwo = false;
+    this.stepThree = false;
+    this.stepperNumber = 4;
+    this.stepThreeDone = true;
+    scroll(0, 0);
+    this.existForm.reset();
+    this.applyForm.reset();
   };
 
   convertDateString = (originalDate: string): string => {

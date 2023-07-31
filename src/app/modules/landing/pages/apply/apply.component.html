@@ -120,6 +120,7 @@
           (ngModelChange)="onChangeStudentNo($event)"
           [class.error]="studentNoError"
         />
+        <div class="alert" *ngIf="invalid">Invalid Student Number</div>
       </div>
       <button *ngIf="typeOfStudent != ''" (click)="onSubmitStepOne()">
         Next Step
@@ -138,7 +139,6 @@
             <label class="input-label">Year Level:</label>
             <p-dropdown
               [options]="levels"
-              placeholder="Please select year level"
               [style]="{ width: '100%' }"
               formControlName="yearLevel"
             ></p-dropdown>
@@ -159,7 +159,6 @@
             <label class="input-label">Term:</label>
             <p-dropdown
               [options]="terms"
-              placeholder="Please select term"
               [style]="{ width: '100%' }"
               formControlName="sem"
             ></p-dropdown>
@@ -180,7 +179,6 @@
             <label class="input-label">School Year:</label>
             <p-dropdown
               [options]="schoolYear"
-              placeholder="Please select school year"
               [style]="{ width: '100%' }"
               formControlName="academicYear"
             ></p-dropdown>
@@ -613,12 +611,12 @@
                 <small
                   [style]="{ color: 'var(--red)' }"
                   *ngIf="applyForm.get('email')?.errors?.['required']"
-                  >Email adddress is required</small
+                  >Email address is required</small
                 >
                 <small
                   [style]="{ color: 'var(--red)' }"
                   *ngIf="applyForm.get('email')?.errors?.['email']"
-                  >Incorrect email format</small
+                  >Invalid email address</small
                 >
               </div>
             </div>
@@ -831,6 +829,31 @@
               </div>
             </div>
             <div class="input-group">
+              <label class="input-label">Email Address:</label>
+              <input
+                pInputText
+                placeholder="Email Address"
+                formControlName="parentEmail"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && applyForm.get('parentEmail')?.invalid) ||
+                  applyForm.get('parentEmail')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentEmail')?.errors?.['required']"
+                  >Email address is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentEmail')?.errors?.['email']"
+                  >Invalid email address</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
               <label class="input-label">Contact No:</label>
               <input
                 pInputText
@@ -880,11 +903,549 @@
   </ng-container>
 
   <ng-container *ngIf="existing">
-    <div class="stepper-2" *ngIf="stepperNumber == 2">dasdasd</div>
+    <div class="stepper-2" *ngIf="stepperNumber == 2">
+      <div class="choosen">
+        Course: <span>{{ program }}</span>
+      </div>
+      <div class="info-container">
+        <div class="input-group">
+          <label class="input-label">Student No:</label>
+          <div>
+            <div class="input">{{ studNo }}</div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Year Level:</label>
+          <p-dropdown
+            [options]="levels"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Term:</label>
+          <p-dropdown
+            [options]="terms"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+        </div>
+        <div class="input-group">
+          <label class="input-label">School Year:</label>
+          <p-dropdown
+            [options]="schoolYear"
+            [style]="{ width: '100%' }"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <form [formGroup]="existForm" (ngSubmit)="onSubmitStepTwo()">
+        <div class="contact-container">
+          <h3 class="title">Contact Details</h3>
+          <div class="contact">
+            <div class="input-group">
+              <label class="input-label">Telephone No:</label>
+              <input
+                pInputText
+                placeholder="XX-XXXX-XXXX"
+                formControlName="telephone"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('telephone')?.invalid) ||
+                  existForm.get('telephone')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('telephone')?.errors?.['numberRange']"
+                  >Invalid telephone number</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Mobile No:</label>
+              <input
+                pInputText
+                placeholder="09XXxxxxxxx"
+                formControlName="mobile"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('mobile')?.invalid) ||
+                  existForm.get('mobile')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('mobile')?.errors?.['required']"
+                  >Mobile no. is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('mobile')?.errors?.['mobileNoIsValid']"
+                  >Invalid mobile number</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Email Address:</label>
+              <input
+                pInputText
+                placeholder="example@domain.com"
+                formControlName="email"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('email')?.invalid) ||
+                  existForm.get('email')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('email')?.errors?.['required']"
+                  >Email address is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('email')?.errors?.['email']"
+                  >Invalid email address</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="emergency-container">
+          <h3 class="title">Emergency Contact</h3>
+          <div class="emergency-1">
+            <div class="input-group">
+              <label class="input-label">First Name:</label>
+              <input
+                pInputText
+                placeholder="First Name"
+                formControlName="parentFirstname"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked &&
+                    existForm.get('parentFirstname')?.invalid) ||
+                  existForm.get('parentFirstname')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentFirstname')?.errors?.['required']"
+                  >First name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Middle Name:</label>
+              <input
+                pInputText
+                placeholder="Middle Name"
+                formControlName="parentMiddlename"
+              />
+            </div>
+            <div class="input-group">
+              <label class="input-label">Last Name:</label>
+              <input
+                pInputText
+                placeholder="Last Name"
+                formControlName="parentLastname"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('parentLastname')?.invalid) ||
+                  existForm.get('parentLastname')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentLastname')?.errors?.['required']"
+                  >Last name is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Suffix:</label>
+              <input
+                pInputText
+                placeholder="(e.g. Jr.)"
+                formControlName="parentSuffix"
+              />
+            </div>
+          </div>
+          <div class="emergency-2">
+            <div class="input-group">
+              <label class="input-label">Complete Address:</label>
+              <input
+                pInputText
+                placeholder="Complete Address"
+                formControlName="parentAddress"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('parentAddress')?.invalid) ||
+                  existForm.get('parentAddress')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentAddress')?.errors?.['required']"
+                  >Complete Address is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Email Address:</label>
+              <input
+                pInputText
+                placeholder="Email Address"
+                formControlName="parentEmail"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('parentEmail')?.invalid) ||
+                  existForm.get('parentEmail')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentEmail')?.errors?.['required']"
+                  >Email address is required</small
+                >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentEmail')?.errors?.['email']"
+                  >Invalid email address</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Contact No:</label>
+              <input
+                pInputText
+                placeholder="Contact No."
+                formControlName="parentContact"
+                pKeyFilter="int"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked && existForm.get('parentContact')?.invalid) ||
+                  existForm.get('parentContact')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentContact')?.errors?.['required']"
+                  >Contact no. is required</small
+                >
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Relationship:</label>
+              <input
+                pInputText
+                placeholder="Relationship"
+                formControlName="parentRelationship"
+              />
+              <div
+                *ngIf="
+                  (buttonClicked &&
+                    existForm.get('parentRelationship')?.invalid) ||
+                  existForm.get('parentRelationship')?.dirty
+                "
+              >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="existForm.get('parentRelationship')?.errors?.['required']"
+                  >Relationship is required</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit">Next Step</button>
+      </form>
+    </div>
   </ng-container>
 
   <div class="stepper-3" *ngIf="stepperNumber == 3">
-    <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepThree()">
+    <ng-container *ngIf="!existing">
+      <form [formGroup]="applyForm" (ngSubmit)="onSubmitStepThree()">
+        <div class="level">
+          <div class="input-group">
+            <label class="input-label">Year Level:</label>
+            <div>
+              <div class="input">{{ studentInfo.yearLevel }}</div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Term:</label>
+            <div>
+              <div class="input">{{ studentInfo.sem }}</div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">School Year:</label>
+            <div>
+              <div class="input">{{ studentInfo.academicYear }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="personal-container">
+          <h3 class="title">Student's Information</h3>
+
+          <div class="personal-1">
+            <div class="input-group">
+              <label class="input-label">First Name:</label>
+              <div>
+                <div class="input">{{ studentInfo.firstname }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Middle Name:</label>
+              <div>
+                <div class="input">{{ studentInfo.middlename }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Last Name:</label>
+              <div>
+                <div class="input">{{ studentInfo.lastname }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Suffix:</label>
+              <div>
+                <div class="input">{{ studentInfo.suffix }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="personal-2">
+            <div class="input-group">
+              <label class="input-label">Gender:</label>
+              <div>
+                <div class="input">{{ studentInfo.gender }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Civil Status:</label>
+              <div>
+                <div class="input">{{ studentInfo.civilStatus }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Citizenship:</label>
+              <div>
+                <div class="input">{{ studentInfo.citizenship }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Date of Birth:</label>
+              <div>
+                <div class="input">{{ studentInfo.birthdate }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Birthplace:</label>
+              <div>
+                <div class="input">{{ studentInfo.birthplace }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Religion:</label>
+              <div>
+                <div class="input">{{ studentInfo.religion }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="address-container">
+          <h3 class="title">Address Information</h3>
+          <div class="address-1">
+            <div class="input-group">
+              <label class="input-label">Unit #:</label>
+              <div>
+                <div class="input">{{ studentInfo.unit }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Street:</label>
+              <div>
+                <div class="input">{{ studentInfo.street }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Subdivision / Village / Bldg:</label>
+              <div>
+                <div class="input">{{ studentInfo.subdivision }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="address-2">
+            <div class="input-group">
+              <label class="input-label">Barangay:</label>
+              <div>
+                <div class="input">{{ studentInfo.barangay }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">City / Municipality:</label>
+              <div>
+                <div class="input">{{ studentInfo.city }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Province:</label>
+              <div>
+                <div class="input">{{ studentInfo.province }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Zipcode:</label>
+              <div>
+                <div class="input">{{ studentInfo.zipcode }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-container">
+          <h3 class="title">Contact Details</h3>
+          <div class="contact">
+            <div class="input-group">
+              <label class="input-label">Telephone No:</label>
+              <div>
+                <div class="input">{{ studentInfo.telephone }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Mobile No:</label>
+              <div>
+                <div class="input">{{ studentInfo.mobile }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Email Address:</label>
+              <div>
+                <div class="input">{{ studentInfo.email }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="school-container">
+          <h3 class="title">Last School Attended</h3>
+          <div class="school-1">
+            <div class="input-group">
+              <label class="input-label">Name of School:</label>
+              <div>
+                <div class="input">{{ studentInfo.lastSchoolAttended }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label"
+                >Program / Track & Strand / Specialization:</label
+              >
+              <div>
+                <div class="input">{{ studentInfo.programTaken }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="school-2">
+            <div class="input-group">
+              <label class="input-label">Date of Graduation:</label>
+              <div>
+                <div class="input">{{ studentInfo.dateOfGraduation }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">School Year:</label>
+              <div>
+                <div class="input">{{ studentInfo.lastSchoolYear }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Year Level:</label>
+              <div>
+                <div class="input">{{ studentInfo.lastYearLevel }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Term:</label>
+              <div>
+                <div class="input">{{ studentInfo.lastSem }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="emergency-container">
+          <h3 class="title">Emergency Contact</h3>
+          <div class="emergency-1">
+            <div class="input-group">
+              <label class="input-label">First Name:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentFirstname }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Middle Name:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentMiddlename }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Last Name:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentLastname }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Suffix:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentSuffix }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="emergency-2">
+            <div class="input-group">
+              <label class="input-label">Complete Address:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentAddress }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Email Address:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentEmail }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Contact No:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentContact }}</div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Relationship:</label>
+              <div>
+                <div class="input">{{ studentInfo.parentRelationship }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button (click)="onSubmitStepThree()">Next Step</button>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="existing">
       <div class="level">
         <div class="input-group">
           <label class="input-label">Year Level:</label>
@@ -906,181 +1467,89 @@
         </div>
       </div>
 
-      <div class="personal-container">
-        <h3 class="title">Student's Information</h3>
-
-        <div class="personal-1">
-          <div class="input-group">
-            <label class="input-label">First Name:</label>
-            <div class="input">{{ studentInfo.firstname }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Middle Name:</label>
-            <div class="input">{{ studentInfo.middlename }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Last Name:</label>
-            <div class="input">{{ studentInfo.lastname }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Suffix:</label>
-            <div class="input">{{ studentInfo.suffix }}</div>
-          </div>
-        </div>
-
-        <div class="personal-2">
-          <div class="input-group">
-            <label class="input-label">Gender:</label>
-            <div class="input">{{ studentInfo.gender }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Civil Status:</label>
-            <div class="input">{{ studentInfo.civilStatus }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Citizenship:</label>
-            <div class="input">{{ studentInfo.citizenship }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Date of Birth:</label>
-            <div class="input">{{ studentInfo.birthdate }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Birthplace:</label>
-            <div class="input">{{ studentInfo.birthplace }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Religion:</label>
-            <div class="input">{{ studentInfo.religion }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="address-container">
-        <h3 class="title">Address Information</h3>
-        <div class="address-1">
-          <div class="input-group">
-            <label class="input-label">Unit #:</label>
-            <div class="input">{{ studentInfo.unit }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Street:</label>
-            <div class="input">{{ studentInfo.street }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Subdivision / Village / Bldg:</label>
-            <div class="input">{{ studentInfo.subdivision }}</div>
-          </div>
-        </div>
-        <div class="address-2">
-          <div class="input-group">
-            <label class="input-label">Barangay:</label>
-            <div class="input">{{ studentInfo.barangay }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">City / Municipality:</label>
-            <div class="input">{{ studentInfo.city }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Province:</label>
-            <div class="input">{{ studentInfo.province }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Zipcode:</label>
-            <div class="input">{{ studentInfo.zipcode }}</div>
-          </div>
-        </div>
-      </div>
-
       <div class="contact-container">
         <h3 class="title">Contact Details</h3>
         <div class="contact">
           <div class="input-group">
             <label class="input-label">Telephone No:</label>
-            <div class="input">{{ studentInfo.telephone }}</div>
+            <div>
+              <div class="input">{{ studentInfo.telephone }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Mobile No:</label>
-            <div class="input">{{ studentInfo.mobile }}</div>
+            <div>
+              <div class="input">{{ studentInfo.mobile }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Email Address:</label>
-            <div class="input">{{ studentInfo.email }}</div>
+            <div>
+              <div class="input">{{ studentInfo.email }}</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="school-container">
-        <h3 class="title">Last School Attended</h3>
-        <div class="school-1">
-          <div class="input-group">
-            <label class="input-label">Name of School:</label>
-            <div class="input">{{ studentInfo.lastSchoolAttended }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label"
-              >Program / Track & Strand / Specialization:</label
-            >
-            <div class="input">{{ studentInfo.programTaken }}</div>
-          </div>
-        </div>
-        <div class="school-2">
-          <div class="input-group">
-            <label class="input-label">Date of Graduation:</label>
-            <div class="input">{{ studentInfo.dateOfGraduation }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">School Year:</label>
-            <div class="input">{{ studentInfo.lastSchoolYear }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Year Level:</label>
-            <div class="input">{{ studentInfo.lastYearLevel }}</div>
-          </div>
-          <div class="input-group">
-            <label class="input-label">Term:</label>
-            <div class="input">{{ studentInfo.lastSem }}</div>
-          </div>
-        </div>
-      </div>
       <div class="emergency-container">
         <h3 class="title">Emergency Contact</h3>
         <div class="emergency-1">
           <div class="input-group">
             <label class="input-label">First Name:</label>
-            <div class="input">{{ studentInfo.parentFirstname }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentFirstname }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Middle Name:</label>
-            <div class="input">{{ studentInfo.parentMiddlename }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentMiddlename }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Last Name:</label>
-            <div class="input">{{ studentInfo.parentLastname }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentLastname }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Suffix:</label>
-            <div class="input">{{ studentInfo.parentSuffix }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentSuffix }}</div>
+            </div>
           </div>
         </div>
         <div class="emergency-2">
           <div class="input-group">
             <label class="input-label">Complete Address:</label>
-            <div class="input">{{ studentInfo.parentAddress }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentAddress }}</div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Email Address:</label>
+            <div>
+              <div class="input">{{ studentInfo.parentEmail }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Contact No:</label>
-            <div class="input">{{ studentInfo.parentContact }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentContact }}</div>
+            </div>
           </div>
           <div class="input-group">
             <label class="input-label">Relationship:</label>
-            <div class="input">{{ studentInfo.parentRelationship }}</div>
+            <div>
+              <div class="input">{{ studentInfo.parentRelationship }}</div>
+            </div>
           </div>
         </div>
       </div>
       <button (click)="onSubmitStepThree()">Next Step</button>
-    </form>
+    </ng-container>
   </div>
+
   <div class="stepper-4" *ngIf="stepperNumber == 4">
     <div>
       <div class="sentence">

@@ -12,4 +12,8 @@ export class StudentHistoryService {
   getStudentHistoryById = (id: number): Observable<any[]> => {
     return this.http.get<any[]>(`${this.BASE_URL}/shs/${id}`);
   };
+
+  getStudentByStudentNo = (studentNo: any): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.BASE_URL}/shs/student/${studentNo}`);
+  };
 }
