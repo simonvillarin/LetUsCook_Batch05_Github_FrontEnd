@@ -198,6 +198,7 @@ export class StudentComponent implements OnInit {
           prelim: '',
           midterm: '',
           finals: '',
+          yearLevel: this.student.yearLevel,
           sem: this.student.sem,
           academicYear: this.student.academicYear,
           comment: '',

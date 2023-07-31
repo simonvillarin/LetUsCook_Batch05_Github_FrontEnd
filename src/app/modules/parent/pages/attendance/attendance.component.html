@@ -1,57 +1,72 @@
 <main>
-  <div class="box">
-    <div class="header">
-      <div class="title">
-        <div class="subject">Attendance of student</div>
-        <div class="header-action">
-          <form [formGroup]="termSelected">
-            <p-dropdown
-              formControlName="term"
-              [options]="terms"
-              optionLabel="name"
-              [style]="{ width: '11rem' }"
-            ></p-dropdown>
-            <p-dropdown
-              formControlName="period"
-              [options]="period"
-              optionLabel="name"
-              [style]="{ width: '11rem' }"
-            ></p-dropdown>
-          </form>
-        </div>
-      </div>
-      <!-- change information according to what the user selected in the dropdown -->
-      <div class="subtitle">
-        S.Y. 2023-2024 {{ termsSelected }}: {{ periodSelected }}
-      </div>
-    </div>
-    <div class="content">
-      <div class="table">
-        <p-table
-          [value]="attendance"
-          [paginator]="true"
-          [rows]="5"
-          [showCurrentPageReport]="true"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [rowsPerPageOptions]="[10, 25, 50]"
+  <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button
+          class="reset table-header-btn"
+          title="Reset"
+          (click)="onReset()"
         >
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 30%">Subject</th>
-              <th style="width: 30%">Status</th>
-              <th style="width: 40%">Upload Date</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-attend>
-            <tr>
-              <td>{{ attend.subject.subjectTitle }}</td>
-              <td>{{ attend.attendanceId }}</td>
-              <td>{{ attend.date }}</td>
-            </tr>
-          </ng-template>
-        </p-table>
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
+      <div class="filter">
+        <p-dropdown
+          [options]="subjects"
+          appendTo="body"
+          [(ngModel)]="subject"
+          (ngModelChange)="onChangeSubject($event)"
+          [style]="{
+           width: '100%',
+          }"
+        ></p-dropdown>
+        <p-dropdown
+          [options]="atts"
+          placeholder="Filter by status"
+          appendTo="body"
+          [(ngModel)]="att1"
+          (ngModelChange)="onChangeAttendance($event)"
+          [style]="{
+            width: '100%',
+          }"
+        ></p-dropdown>
       </div>
     </div>
+    <p-table [value]="attendance" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 33.33%">Subject Title</th>
+          <th style="width: 33.33%">Date</th>
+          <th style="width: 33.33%">Status</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-att>
+        <ng-container *ngIf="att.activeDeactive">
+          <ng-container *ngIf="att.status">
+            <tr>
+              <td>{{ att.subject.subjectTitle }}</td>
+              <td>
+                {{ att.date }}
+              </td>
+              <td>
+                <div
+                  class="status {{
+                    att.status == 'Present'
+                      ? 'present'
+                      : att.status == 'Absent'
+                      ? 'absent'
+                      : 'late'
+                  }}"
+                >
+                  {{ att.status || "-" }}
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </p-table>
   </div>
 </main>

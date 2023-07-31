@@ -14,6 +14,10 @@ export class AttendanceStudentService {
     return this.http.get<any[]>(`${this.BASE_URL}/attendance/student/all`);
   };
 
+  getAttendanceByStudentId = (id: number): Observable<any[]> => {
+    return this.http.get<any[]>(`${this.BASE_URL}/attendance/student/${id}`);
+  };
+
   getAttendanceById = (id: number, subjectId: number): Observable<any[]> => {
     return this.http.get<any[]>(
       `${this.BASE_URL}/attendance/student/${id}/${subjectId}`

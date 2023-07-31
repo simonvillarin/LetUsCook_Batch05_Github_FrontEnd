@@ -6,7 +6,7 @@ main {
 
 .table {
   padding: 1.5rem;
-  overflow-x: auto;
+  overflow: auto;
 }
 
 .table-header {
@@ -99,6 +99,13 @@ tr td {
   background-color: var(--light-red);
 }
 
+.prof-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .avatar-container {
   display: flex;
   justify-content: center;
@@ -120,56 +127,7 @@ img {
   object-fit: cover;
 }
 
-.modal-title {
-  font-size: clamp(1.125rem, 0.8811rem + 1.2195vw, 2rem);
-  font-weight: 300;
-}
-
-.modal-body {
-  font-size: clamp(1rem, 0.9286rem + 0.3571vw, 1.25rem);
-  font-weight: 300;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.action-btn {
-  width: 7.5rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0.5rem;
-  padding: 0.625rem;
-  font-size: 1rem;
-  color: var(--white);
-  background-color: var(--primary);
-  border-radius: 0.25rem;
-  transition: background-color 300ms ease-in;
-  cursor: pointer;
-}
-
-.submit:hover,
-.submit:focus {
-  background-color: var(--darker-primary);
-}
-
-.cancel {
-  color: var(--red);
-  background-color: var(--white);
-  border: 1px solid var(--red);
-}
-
-.cancel:hover,
-.cancel:focus {
-  color: var(--white);
-  background-color: var(--red);
-}
-
-.status {
+.remarks {
   width: 5rem;
   margin: 0 auto;
   padding: 0.25rem;
@@ -178,77 +136,12 @@ img {
   font-size: 0.9375rem;
 }
 
-.active {
+.passed {
   background-color: var(--green);
 }
 
-.inactive {
-  background-color: var(--red);
-}
-
-.avatar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-}
-
-.avatar {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.dialog {
-  font-size: clamp(1.125rem, 0.9464rem + 0.8929vw, 1.75rem);
-  font-weight: 300;
-}
-
-.ava {
-  width: 3rem;
-  height: 3rem;
-}
-
-form {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.form-group {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-}
-
-.input-groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-label {
-  font-size: 0.935rem;
-}
-
-.present {
-  background-color: var(--green);
-}
-
-.absent {
+.failed {
   background-color: var(--light-red);
-}
-
-.late {
-  background-color: var(--light-orange);
 }
 
 @media screen and (min-width: 768px) {
