@@ -61,35 +61,37 @@
         </ng-template>
       </p-table>
     </p-tabPanel>
-    <p-tabPanel header="Evaluation Form" *ngIf="!isEvaluated">
-      <form
-        [formGroup]="evaluationForm"
-        (ngSubmit)="onSubmit()"
-        class="evalForm"
-      >
-        <div
-          class="question-container"
-          formArrayName="answers"
-          *ngFor="let answer of answers.controls; let i = index"
+    <ng-container *ngIf="!isEvaluated">
+      <p-tabPanel header="Evaluation Form" *ngIf="evals.activeDeactive">
+        <form
+          [formGroup]="evaluationForm"
+          (ngSubmit)="onSubmit()"
+          class="evalForm"
         >
-          <p class="question">{{ i + 1 }}. {{ questions[i].sentence }}</p>
-          <div class="radio-container">
-            <ng-container *ngFor="let rating of questions[i].ratings">
-              <div class="radio-item">
-                <p-radioButton
-                  [inputId]="rating.key"
-                  [value]="rating"
-                  [formControlName]="i.toString()"
-                ></p-radioButton>
-                <label class="radio-label">{{ rating.name }}</label>
-              </div>
-            </ng-container>
+          <div
+            class="question-container"
+            formArrayName="answers"
+            *ngFor="let answer of answers.controls; let i = index"
+          >
+            <p class="question">{{ i + 1 }}. {{ questions[i].sentence }}</p>
+            <div class="radio-container">
+              <ng-container *ngFor="let rating of questions[i].ratings">
+                <div class="radio-item">
+                  <p-radioButton
+                    [inputId]="rating.key"
+                    [value]="rating"
+                    [formControlName]="i.toString()"
+                  ></p-radioButton>
+                  <label class="radio-label">{{ rating.name }}</label>
+                </div>
+              </ng-container>
+            </div>
           </div>
-        </div>
-        <div class="action eval">
-          <button type="submit" class="action-btn submit">Submit</button>
-        </div>
-      </form></p-tabPanel
+          <div class="action eval">
+            <button type="submit" class="action-btn submit">Submit</button>
+          </div>
+        </form>
+      </p-tabPanel></ng-container
     >
   </p-tabView>
 </div>

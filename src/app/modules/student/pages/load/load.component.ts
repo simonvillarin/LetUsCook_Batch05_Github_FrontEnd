@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
 import { EvalService } from 'src/app/shared/services/eval/eval.service';
+import { EvalsService } from 'src/app/shared/services/evals/evals.service';
 
 @Component({
   selector: 'app-load',
@@ -24,6 +25,7 @@ export class LoadComponent implements OnInit {
   subjectId: any;
   sectionId: any;
   eval: any = {};
+  evals: any = {};
   questions = [
     {
       sentence:
@@ -152,6 +154,7 @@ export class LoadComponent implements OnInit {
     private fb: FormBuilder,
     private evalService: EvalService,
     private authService: AuthService,
+    private evalsService: EvalsService,
     private route: ActivatedRoute
   ) {
     this.evaluationForm = this.fb.group({
@@ -170,6 +173,7 @@ export class LoadComponent implements OnInit {
     this.getParam();
     this.getAttendance();
     this.getEvalByStudent();
+    this.getEvals();
   }
 
   getParam = () => {
@@ -187,6 +191,12 @@ export class LoadComponent implements OnInit {
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
       });
+  };
+
+  getEvals = () => {
+    this.evalsService
+      .getEval(this.subjectId, this.sectionId)
+      .subscribe((data) => (this.evals = data));
   };
 
   getEvalByStudent = () => {

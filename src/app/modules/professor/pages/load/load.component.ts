@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { EvalService } from 'src/app/shared/services/eval/eval.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { EvalsService } from 'src/app/shared/services/evals/evals.service';
 
 @Component({
   selector: 'app-load',
@@ -35,12 +36,14 @@ export class LoadComponent implements OnInit {
 
   gradesDialog: boolean = false;
   attDialog: boolean = false;
+  evalDialog: boolean = false;
 
   gradeSearch = '';
   attSearch = '';
   att1 = '';
   date: any;
   days: any = [];
+  evals: any = {};
 
   canEditAttendance: boolean = false;
   alert: boolean = false;
@@ -51,6 +54,7 @@ export class LoadComponent implements OnInit {
     private gradeService: GradeService,
     private attendanceStudentService: AttendanceStudentService,
     private evalService: EvalService,
+    private evalsService: EvalsService,
     private authService: AuthService,
     private scheduleService: ScheduleService,
     private route: ActivatedRoute,
@@ -76,6 +80,7 @@ export class LoadComponent implements OnInit {
     this.getAttendance();
     this.getEvaluations();
     this.getSchedule();
+    this.getEvals();
   }
 
   getParam = () => {
@@ -115,6 +120,12 @@ export class LoadComponent implements OnInit {
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
       });
+  };
+
+  getEvals = () => {
+    this.evalsService
+      .getEval(this.subjectId, this.sectionId)
+      .subscribe((data) => (this.evals = data));
   };
 
   getEvaluations = () => {
@@ -491,5 +502,25 @@ export class LoadComponent implements OnInit {
     this.router.navigate([
       `professor/course/evaluation/${evaluation.student.studentId}-${this.subjectId}`,
     ]);
+  };
+
+  onActive = () => {
+    this.evalDialog = true;
+  };
+
+  onCancelEval = () => {
+    this.evalDialog = false;
+  };
+
+  onActivate = () => {
+    const payload = {
+      activeDeactive: !this.evals.activeDeactive,
+    };
+    console.log(this.evals.evalId);
+
+    this.evalsService.updateEval(this.evals.evalId, payload).subscribe(() => {
+      this.evalDialog = false;
+      this.getEvals();
+    });
   };
 }

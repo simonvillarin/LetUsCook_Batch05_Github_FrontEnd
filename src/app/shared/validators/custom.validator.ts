@@ -115,23 +115,6 @@ export const ageValidator = (): ValidatorFn => {
   };
 };
 
-export function endTimeValidator(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const startTime = control.get('startTime')?.value;
-    const endTime = control.get('endTime')?.value;
-
-    if (startTime && endTime) {
-      const start = new Date(`1970-01-01T${startTime}`);
-      const end = new Date(`1970-01-01T${endTime}`);
-      if (end < start) {
-        return { endTimeLessThanStartTime: true };
-      }
-    }
-
-    return null;
-  };
-}
-
 export function minUnitsArrayValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const unitsArray = control.value;

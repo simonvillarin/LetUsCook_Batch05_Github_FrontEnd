@@ -101,7 +101,7 @@ export class ApplyComponent implements OnInit {
       lastYearLevel: ['', [Validators.required]],
       lastSchoolYear: ['', [Validators.required]],
       lastSem: [''],
-      dateOfGraduation: ['', [Validators.required]],
+      dateOfGraduation: ['', [Validators.required, birthdateValidator()]],
       parentFirstname: ['', [Validators.required]],
       parentMiddlename: [''],
       parentLastname: ['', [Validators.required]],
@@ -112,18 +112,18 @@ export class ApplyComponent implements OnInit {
       parentRelationship: ['', [Validators.required]],
     });
     this.existForm = fb.group({
-      yearLevel: [''],
-      sem: [''],
-      academicYear: [''],
-      telephone: [''],
-      mobile: ['', Validators.required],
+      yearLevel: ['', [Validators.required]],
+      sem: ['', [Validators.required]],
+      academicYear: ['', [Validators.required]],
+      telephone: ['', [telephoneNumberValidator()]],
+      mobile: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
       parentFirstname: ['', [Validators.required]],
       parentMiddlename: [''],
       parentLastname: ['', [Validators.required]],
       parentSuffix: [''],
       parentAddress: ['', [Validators.required]],
-      parentContact: ['', [Validators.required]],
+      parentContact: ['', [Validators.required, mobileNumberValidator()]],
       parentEmail: ['', [Validators.required, Validators.email]],
       parentRelationship: ['', [Validators.required]],
     });
@@ -404,14 +404,14 @@ export class ApplyComponent implements OnInit {
       academicYear: this.yearLevels[0],
     });
     if (this.applyForm.valid || this.existForm.valid) {
+      this.studentInfo = this.existForm.value;
+      this.studentInfo = this.applyForm.value;
       this.studentInfo.birthdate = this.convertDateString(
         this.studentInfo.birthdate
       );
       this.studentInfo.dateOfGraduation = this.convertDateString(
         this.studentInfo.dateOfGraduation
       );
-      this.studentInfo = this.existForm.value;
-      this.studentInfo = this.applyForm.value;
 
       this.stepThree = true;
       this.stepFour = false;
