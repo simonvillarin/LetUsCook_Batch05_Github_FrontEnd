@@ -37,6 +37,7 @@
           <th style="width: 25%">Name</th>
           <th style="width: 16%">Date</th>
           <th style="width: 20%">Status</th>
+          <th style="width: 20%">Action</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-att>
@@ -76,6 +77,19 @@
                   {{ att.status || "-" }}
                 </div>
               </td>
+              <td>
+                <div class="table-actions">
+                  <button
+                    class="table-btn edit"
+                    title="Edit"
+                    (click)="onEditAtt(att)"
+                  >
+                    <span class="material-symbols-rounded table-icon">
+                      edit
+                    </span>
+                  </button>
+                </div>
+              </td>
             </tr></ng-container
           >
         </ng-container>
@@ -83,3 +97,37 @@
     </p-table>
   </div>
 </main>
+<p-dialog
+  [(visible)]="attDialog"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header> <p>Student's Attendance Status</p></p-header>
+  <div>
+    <form [formGroup]="attendanceForm" (ngSubmit)="onSubmitAttendance()">
+      <div class="form-group">
+        <div class="input-group">
+          <p-dropdown
+            [options]="atts"
+            placeholder="Select student' attendance status"
+            appendTo="body"
+            [style]="{
+            width: '100%',
+
+          }"
+            formControlName="status"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn cancel" type="button" (click)="onCancel()">
+          Cancel
+        </button>
+        <button class="action-btn submit" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</p-dialog>

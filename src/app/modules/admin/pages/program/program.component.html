@@ -68,6 +68,13 @@
           <td>
             <div class="table-actions">
               <button
+                class="table-action view"
+                title="View"
+                (click)="onView(program)"
+              >
+                <span class="material-symbols-rounded"> visibility </span>
+              </button>
+              <button
                 title="Edit"
                 class="table-action edit"
                 (click)="onClickEdit(program)"

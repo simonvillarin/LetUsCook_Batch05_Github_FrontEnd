@@ -250,6 +250,11 @@
             *ngIf="birthdate?.errors?.['futureDate']"
             >You cannot select a future date</small
           >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="birthdate?.errors?.['underage']"
+            >We only accept applicants 17yrs old and above</small
+          >
         </div>
       </div>
       <div class="input-group">

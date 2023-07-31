@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
@@ -43,6 +44,7 @@ export class ProgramComponent implements OnInit {
   constructor(
     private programService: ProgramService,
     private subjectService: CourseService,
+    private router: Router,
     private fb: FormBuilder
   ) {
     this.programForm = fb.group({
@@ -339,5 +341,10 @@ export class ProgramComponent implements OnInit {
         this.status = !this.program.status;
         this.isDeleteDialogOpen = false;
       });
+  };
+
+  onView = (program: any) => {
+    console.log(program, 'program');
+    this.router.navigate([`admin/program/${program.programId}`]);
   };
 }
