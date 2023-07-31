@@ -663,6 +663,11 @@
               >
               <small
                 [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasNumber']"
+                >Password should contain atleast one number</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
                 *ngIf="newPassword?.errors?.['hasSymbol']"
                 >Password should contain at least one special character</small
               >

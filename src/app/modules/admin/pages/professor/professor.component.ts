@@ -16,6 +16,7 @@ import {
   mobileNumberValidator,
   telephoneNumberValidator,
   birthdateValidator,
+  ageValidator,
 } from 'src/app/shared/validators/custom.validator';
 
 @Component({
@@ -69,7 +70,10 @@ export class ProfessorComponent implements OnInit {
       gender: ['', [Validators.required]],
       civilStatus: ['', [Validators.required]],
       citizenship: ['', [Validators.required]],
-      birthdate: ['', [Validators.required, birthdateValidator()]],
+      birthdate: [
+        '',
+        [Validators.required, birthdateValidator(), ageValidator()],
+      ],
       birthplace: ['', [Validators.required]],
       religion: ['', [Validators.required]],
       unit: ['', [Validators.required]],
@@ -79,7 +83,7 @@ export class ProfessorComponent implements OnInit {
       city: ['', [Validators.required]],
       province: ['', [Validators.required]],
       zipcode: ['', [Validators.required, zipcodeValidator()]],
-      telephone: ['' /*[telephoneNumberValidator()]*/],
+      telephone: ['', [telephoneNumberValidator()]],
       mobile: ['', [Validators.required, mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
       work: ['', [Validators.required]],

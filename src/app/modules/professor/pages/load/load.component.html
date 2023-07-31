@@ -101,15 +101,17 @@
                         calendar_month
                       </span>
                     </button>
-                    <button
-                      class="table-btn edit"
-                      title="Edit"
-                      (click)="onEditAtt(att)"
-                    >
-                      <span class="material-symbols-rounded table-icon">
-                        edit
-                      </span>
-                    </button>
+                    <ng-container *ngIf="canEditAttendance">
+                      <button
+                        class="table-btn edit"
+                        title="Edit"
+                        (click)="onEditAtt(att)"
+                      >
+                        <span class="material-symbols-rounded table-icon">
+                          edit
+                        </span>
+                      </button>
+                    </ng-container>
                   </div>
                 </td>
               </tr>
@@ -385,7 +387,13 @@
         </div>
       </div>
       <div class="actions">
-        <button class="action-btn cancel" type="button">Cancel</button>
+        <button
+          class="action-btn cancel"
+          type="button"
+          (click)="onCancelGrade()"
+        >
+          Cancel
+        </button>
         <button class="action-btn submit" type="submit">Submit</button>
       </div>
     </form>
@@ -435,7 +443,9 @@
         </div>
       </div>
       <div class="actions">
-        <button class="action-btn cancel" type="button">Cancel</button>
+        <button class="action-btn cancel" type="button" (click)="onCancel()">
+          Cancel
+        </button>
         <button class="action-btn submit" type="submit">Submit</button>
       </div>
     </form>

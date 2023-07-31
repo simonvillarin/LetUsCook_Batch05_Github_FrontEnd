@@ -8,6 +8,14 @@ import {
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/shared/services/account/account.service';
 import { EmailService } from 'src/app/shared/services/email/email.service';
+import {
+  PasswordLengthValidator,
+  confirmPasswordValidator,
+  hasLowercaseValidator,
+  hasNumberValidator,
+  hasSymbolValidator,
+  hasUppercaseValidator,
+} from 'src/app/shared/validators/custom.validator';
 
 @Component({
   selector: 'app-reset-password',
@@ -26,14 +34,30 @@ export class ResetPasswordComponent {
     private router: Router,
     private accountService: AccountService
   ) {
-    this.passwordForm = fb.group({
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
-    });
+    this.passwordForm = fb.group(
+      {
+        newPassword: [
+          '',
+          [
+            Validators.required,
+            PasswordLengthValidator(),
+            hasNumberValidator(),
+            hasLowercaseValidator(),
+            hasUppercaseValidator(),
+            hasSymbolValidator(),
+          ],
+        ],
+        confirmPassword: [
+          '',
+          [Validators.required, confirmPasswordValidator()],
+        ],
+      },
+      { validators: confirmPasswordValidator() }
+    );
   }
 
   get password() {
-    return this.passwordForm.get('password') as FormControl;
+    return this.passwordForm.get('newPassword') as FormControl;
   }
 
   get confirmPassword() {
@@ -54,7 +78,7 @@ export class ResetPasswordComponent {
       if (id) {
         this.accountService
           .updateAccount(parseInt(id), {
-            password: this.passwordForm.get('password')?.value,
+            password: this.passwordForm.get('newPassword')?.value,
           })
           .subscribe();
         this.alert = true;

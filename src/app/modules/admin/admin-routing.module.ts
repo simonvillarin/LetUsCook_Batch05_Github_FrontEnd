@@ -15,6 +15,7 @@ import { RoomComponent } from './pages/room/room.component';
 import { LoadComponent } from './pages/load/load.component';
 import { SectionLoadComponent } from './pages/section-load/section-load.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
+import { ProgramLoadComponent } from './pages/program-load/program-load.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'program',
         component: ProgramComponent,
+      },
+      {
+        path: 'program/:program',
+        component: ProgramLoadComponent,
       },
       {
         path: 'parent',

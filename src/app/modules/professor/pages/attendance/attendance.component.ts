@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
 
@@ -10,7 +10,9 @@ import { AttendanceStudentService } from 'src/app/shared/services/attendance-stu
   styleUrls: ['./attendance.component.scss'],
 })
 export class AttendanceComponent implements OnInit {
+  attendanceForm: FormGroup;
   attendance: any = [];
+  att: any;
   atts = ['Present', 'Absent', 'Late'];
 
   id: any;
@@ -20,11 +22,18 @@ export class AttendanceComponent implements OnInit {
   gradeSearch = '';
   att1 = '';
 
+  attDialog: boolean = false;
+
   constructor(
     private attendanceStudentService: AttendanceStudentService,
     private route: ActivatedRoute,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private fb: FormBuilder
+  ) {
+    this.attendanceForm = fb.group({
+      status: [''],
+    });
+  }
 
   ngOnInit(): void {
     this.getParam();
@@ -45,6 +54,7 @@ export class AttendanceComponent implements OnInit {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
+        console.log(this.attendance);
       });
   };
 
@@ -120,5 +130,27 @@ export class AttendanceComponent implements OnInit {
 
   onBack = () => {
     history.back();
+  };
+
+  onCancel = () => {
+    this.attDialog = false;
+  };
+
+  onEditAtt = (attendance: any) => {
+    console.log(attendance);
+    this.att = attendance;
+    this.attDialog = true;
+  };
+
+  onSubmitAttendance = () => {
+    const payload = {
+      status: this.attendanceForm.get('status')?.value,
+    };
+    this.attendanceStudentService
+      .updateAttendance(this.att.attendanceId, payload)
+      .subscribe(() => {
+        this.getAttendance();
+        this.attDialog = false;
+      });
   };
 }

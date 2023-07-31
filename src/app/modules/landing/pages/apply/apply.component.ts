@@ -107,7 +107,7 @@ export class ApplyComponent implements OnInit {
       parentLastname: ['', [Validators.required]],
       parentSuffix: [''],
       parentAddress: ['', [Validators.required]],
-      parentContact: ['', [Validators.required]],
+      parentContact: ['', [Validators.required, mobileNumberValidator()]],
       parentEmail: ['', [Validators.required, Validators.email]],
       parentRelationship: ['', [Validators.required]],
     });
