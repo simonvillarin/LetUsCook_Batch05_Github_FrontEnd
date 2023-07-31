@@ -1,0 +1,166 @@
+<main>
+  <p-tabView>
+    <p-tabPanel header="Majors">
+      <div class="table">
+        <div class="table-header">
+          <div class="search-container">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              placeholder="Search"
+              [(ngModel)]="search"
+              (ngModelChange)="onChangeSearchMajor($event)"
+            />
+          </div>
+        </div>
+        <p-table
+          [value]="majors"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '80rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 20, 30]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="min-width: 12%">Program Code</th>
+              <th style="min-width: 52%">Program Title</th>
+              <th style="min-width: 12%">Units</th>
+              <th style="min-width: 12%">Pre-requisites</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-major>
+            <tr>
+              <td>{{ major.subjectCode }}</td>
+              <td>{{ major.subjectTitle }}</td>
+              <td>{{ major.units }}</td>
+              <td>
+                <ng-container *ngIf="major.preRequisites.length == 0">
+                  None
+                </ng-container>
+                <ng-container *ngFor="let item of major.preRequisites">
+                  {{ item.subjectTitle }}<br />
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Minors"
+      ><div class="table">
+        <div class="table-header">
+          <div class="search-container">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              placeholder="Search"
+              [(ngModel)]="search"
+              (ngModelChange)="onChangeSearchMinor($event)"
+            />
+          </div>
+        </div>
+        <p-table
+          [value]="minors"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '80rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 20, 30]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="min-width: 12%">Program Code</th>
+              <th style="min-width: 52%">Program Title</th>
+              <th style="min-width: 12%">Units</th>
+              <th style="min-width: 12%">Pre-requisites</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-minor>
+            <tr>
+              <td>{{ minor.subjectCode }}</td>
+              <td>{{ minor.subjectTitle }}</td>
+              <td>{{ minor.units }}</td>
+              <td>
+                <ng-container *ngIf="minor.preRequisites.length == 0">
+                  None
+                </ng-container>
+                <ng-container *ngFor="let item of minor.preRequisites">
+                  {{ item.subjectTitle }}<br />
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Electives"
+      ><div class="table">
+        <div class="table-header">
+          <div class="search-container">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search"
+              [style]="{
+                width: '16rem',
+                paddingLeft: '2.5rem'
+              }"
+              placeholder="Search"
+              [(ngModel)]="search"
+              (ngModelChange)="onChangeSearchElective($event)"
+            />
+          </div>
+        </div>
+        <p-table
+          [value]="electives"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [tableStyle]="{ 'min-width': '80rem' }"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10, 20, 30]"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="min-width: 12%">Program Code</th>
+              <th style="min-width: 52%">Program Title</th>
+              <th style="min-width: 12%">Units</th>
+              <th style="min-width: 12%">Pre-requisites</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-elective>
+            <tr>
+              <td>{{ elective.subjectCode }}</td>
+              <td>{{ elective.subjectTitle }}</td>
+              <td>{{ elective.units }}</td>
+              <td>
+                <ng-container *ngIf="elective.preRequisites.length == 0">
+                  None
+                </ng-container>
+                <ng-container *ngFor="let item of elective.preRequisites">
+                  {{ item.subjectTitle }}<br />
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</main>

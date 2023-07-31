@@ -6,6 +6,8 @@ import { Paginator } from 'primeng/paginator';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EvalService } from 'src/app/shared/services/eval/eval.service';
+import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-load',
@@ -20,6 +22,7 @@ export class LoadComponent implements OnInit {
 
   sectionId: any;
   subjectId: any;
+  schedule: any;
   grades: any = [];
   attendance: any = [];
   evaluations: any = [];
@@ -37,11 +40,16 @@ export class LoadComponent implements OnInit {
   attSearch = '';
   att1 = '';
   date: any;
+  days: any = [];
+
+  canEditAttendance: boolean = false;
 
   constructor(
     private gradeService: GradeService,
     private attendanceStudentService: AttendanceStudentService,
     private evalService: EvalService,
+    private authService: AuthService,
+    private scheduleService: ScheduleService,
     private route: ActivatedRoute,
     private datePipe: DatePipe,
     private router: Router,
@@ -64,6 +72,7 @@ export class LoadComponent implements OnInit {
     this.getGrades();
     this.getAttendance();
     this.getEvaluations();
+    this.getSchedule();
   }
 
   getParam = () => {
@@ -71,6 +80,20 @@ export class LoadComponent implements OnInit {
     const splitParams = params.split('-');
     this.sectionId = splitParams[0];
     this.subjectId = splitParams[1];
+  };
+
+  getSchedule = () => {
+    const profId = this.authService.getUserId();
+    this.scheduleService.getScheduleById(profId).subscribe((data: any) => {
+      this.schedule = data;
+      this.schedule = this.schedule.filter(
+        (sched: any) => sched.subject.subjectId == this.subjectId
+      );
+      this.schedule.map((sub: any) => this.days.push(sub.days));
+      let today = new Date();
+      const day: any = this.datePipe.transform(today, 'EEEE');
+      this.canEditAttendance = this.days[0].includes(day);
+    });
   };
 
   getGrades = () => {
@@ -403,6 +426,14 @@ export class LoadComponent implements OnInit {
       comment: grade.comment,
     });
     this.gradesDialog = true;
+  };
+
+  onCancelGrade = () => {
+    this.gradesDialog = false;
+  };
+
+  onCancel = () => {
+    this.attDialog = false;
   };
 
   onEditAtt = (att: any) => {

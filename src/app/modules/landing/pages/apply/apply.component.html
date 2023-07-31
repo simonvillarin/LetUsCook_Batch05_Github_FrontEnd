@@ -872,6 +872,11 @@
                   *ngIf="applyForm.get('parentContact')?.errors?.['required']"
                   >Contact no. is required</small
                 >
+                <small
+                  [style]="{ color: 'var(--red)' }"
+                  *ngIf="applyForm.get('parentContact')?.errors?.['mobileNoIsValid']"
+                  >Invalid mobile number</small
+                >
               </div>
             </div>
             <div class="input-group">

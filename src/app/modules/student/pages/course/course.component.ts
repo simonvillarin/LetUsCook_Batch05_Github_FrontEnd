@@ -73,7 +73,7 @@ export class CourseComponent {
       .getScheduleByStudentId(this.studentId)
       .subscribe((data: any) => {
         this.schedules = data;
-        console.log(data);
+        console.log(this.schedules, 'is the schedule');
       });
   };
 
