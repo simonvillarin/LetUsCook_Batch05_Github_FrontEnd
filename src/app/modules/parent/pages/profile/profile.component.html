@@ -52,5 +52,330 @@
       <span>Educate University</span>
     </div>
   </div>
-  <div class="profile-body"></div>
+  <div class="profile-body">
+    <div class="pb">
+      <div class="form-header" [class.alert-false]="!alertPersonal">
+        <div
+          class="alert {{
+            alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+          }}"
+          *ngIf="alertPersonal"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Error'"
+            >error</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Success'"
+            >check</mat-icon
+          >
+          {{ alertMessage }}
+        </div>
+        <button class="edit" (click)="onEditPersonal()">
+          <mat-icon class="material-icons-outlined">edit</mat-icon>
+          <span>Edit</span>
+        </button>
+      </div>
+      <form [formGroup]="personalForm" (ngSubmit)="onSubmitPersonal()">
+        <div class="form-group">
+          <div class="input-group">
+            <label class="input-label">First Name:</label>
+            <input
+              pInputText
+              placeholder="First Name"
+              formControlName="firstname"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">
+              {{ parent.firstname }}
+            </div>
+            <div
+              *ngIf="
+                firstName?.invalid && (firstName?.dirty || firstName?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="firstName?.errors?.['required']"
+                >First name is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Middle Name:</label>
+            <input
+              pInputText
+              placeholder="Middle Name"
+              formControlName="middlename"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">
+              {{ parent.middlename }}
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Last Name:</label>
+            <input
+              pInputText
+              placeholder="Last Name"
+              formControlName="lastname"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">
+              {{ parent.lastname }}
+            </div>
+            <div
+              *ngIf="
+                lastName?.invalid && (lastName?.dirty || lastName?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="lastName?.errors?.['required']"
+                >Last name is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Suffix:</label>
+            <input
+              pInputText
+              placeholder="(e.g. Jr.)"
+              formControlName="suffix"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ parent.suffix }}</div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Address:</label>
+            <input
+              pInputText
+              placeholder="Address"
+              formControlName="address"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ parent.address }}</div>
+            <div
+              *ngIf="address?.invalid && (address?.dirty || address?.touched)"
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="address?.errors?.['required']"
+                >Address is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Contact:</label>
+            <input
+              pInputText
+              type="text"
+              placeholder="09XXxxxxxxx"
+              formControlName="contact"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ parent.contact }}</div>
+            <div
+              *ngIf="contact?.invalid && (contact?.dirty || contact?.touched)"
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="contact?.errors?.['required']"
+                >Contact no. is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="contact?.errors?.['mobileNoIsValid']"
+                >Incorrect mobile no. format</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Email Address:</label>
+            <input
+              pInputText
+              placeholder="example@domain.com"
+              formControlName="email"
+              *ngIf="editPersonal"
+            />
+            <div class="box" *ngIf="!editPersonal">{{ parent.email }}</div>
+            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="email?.errors?.['required']"
+                >Email adddress is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="email?.errors?.['email']"
+                >Incorrect email format</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="btn" *ngIf="editPersonal">
+          <button type="submit" class="submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+    <div class="pb">
+      <div class="form-header" [class.alert-false]="!alertPassword">
+        <div
+          class="alert {{
+            alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+          }}"
+          *ngIf="alertPassword"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Error'"
+            >error</mat-icon
+          >
+          <mat-icon
+            class="material-icons-outlined"
+            *ngIf="alertStatus == 'Success'"
+            >check</mat-icon
+          >
+          {{ alertMessage }}
+        </div>
+        <button class="edit" (click)="onEditPassword()">
+          <mat-icon class="material-icons-outlined">edit</mat-icon>
+          <span>Edit</span>
+        </button>
+      </div>
+      <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+        <div class="form-group fg">
+          <div class="input-group">
+            <label>Current Password:</label>
+            <div class="input-grp" *ngIf="editPassword">
+              <input
+                pInputText
+                type="{{ isCurrentPasswordHidden ? 'text' : 'password' }}"
+                formControlName="currentPassword"
+                placeholder="Current Password"
+                *ngIf="editPassword"
+              />
+              <div (click)="toggleCurrentPassword()" *ngIf="editPassword">
+                <span class="material-symbols-rounded mask-icon">
+                  {{
+                    !isCurrentPasswordHidden ? "visibility_off" : "visibility"
+                  }}
+                </span>
+              </div>
+            </div>
+            <div class="box" *ngIf="!editPassword"></div>
+            <div
+              *ngIf="
+                currentPassword?.invalid &&
+                (currentPassword?.dirty || currentPassword?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="currentPassword?.errors?.['required']"
+                >Current password is required</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label>New Password:</label>
+            <div class="input-grp" *ngIf="editPassword">
+              <input
+                pInputText
+                type="{{ isNewPasswordHidden ? 'text' : 'password' }}"
+                formControlName="newPassword"
+                placeholder="New Password"
+                *ngIf="editPassword"
+              />
+              <div (click)="toggleNewPassword()" *ngIf="editPassword">
+                <span class="material-symbols-rounded mask-icon">
+                  {{ !isNewPasswordHidden ? "visibility_off" : "visibility" }}
+                </span>
+              </div>
+            </div>
+            <div class="box" *ngIf="!editPassword"></div>
+            <div
+              *ngIf="
+                newPassword?.invalid &&
+                (newPassword?.dirty || newPassword?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['required']"
+                >New password is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['passwordLength']"
+                >Password should be at least 8 characters long</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasUppercase']"
+                >Password should contain at least one uppercase letter</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasLowercase']"
+                >Password should contain at least one lowercase letter</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasNumber']"
+                >Password should contain atleast one number</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="newPassword?.errors?.['hasSymbol']"
+                >Password should contain at least one special character</small
+              >
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Confirm Password:</label>
+            <div class="input-grp" *ngIf="editPassword">
+              <input
+                pInputText
+                type="{{ isConfirmPasswordHidden ? 'text' : 'password' }}"
+                formControlName="confirmPassword"
+                placeholder="Confirm Password"
+                *ngIf="editPassword"
+              />
+              <div (click)="toggleConfirmPassword()" *ngIf="editPassword">
+                <span class="material-symbols-rounded mask-icon">
+                  {{
+                    !isConfirmPasswordHidden ? "visibility_off" : "visibility"
+                  }}
+                </span>
+              </div>
+            </div>
+            <div class="box" *ngIf="!editPassword"></div>
+            <div
+              *ngIf="
+                confirmPassword?.invalid &&
+                (confirmPassword?.dirty || confirmPassword?.touched)
+              "
+            >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="confirmPassword?.errors?.['required']"
+                >Confirm password is required</small
+              >
+              <small
+                [style]="{ color: 'var(--red)' }"
+                *ngIf="confirmPassword?.errors?.['passwordMismatch']"
+                >Passwords does not match</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="btn button" *ngIf="editPassword">
+          <button type="submit" class="submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </main>

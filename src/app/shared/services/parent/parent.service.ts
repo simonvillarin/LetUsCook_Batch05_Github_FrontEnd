@@ -27,6 +27,10 @@ export class ParentService {
     return this.http.put(`${this.BASE_URL}/parent/images/${id}`, parent);
   };
 
+  updateParentWithImage = (id: number, student: any) => {
+    return this.http.put(`${this.BASE_URL}/parent/img/${id}`, student);
+  };
+
   updateBanner = (id: number, parent: any) => {
     return this.http.put(`${this.BASE_URL}/parent/banner/${id}`, parent);
   };
