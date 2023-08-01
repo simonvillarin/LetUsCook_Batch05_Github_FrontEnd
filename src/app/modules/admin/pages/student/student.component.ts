@@ -11,6 +11,7 @@ import { GradeService } from 'src/app/shared/services/grade/grade.service';
 import { AttendanceStudentService } from 'src/app/shared/services/attendance-student/attendance-student.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { EvalsService } from 'src/app/shared/services/evals/evals.service';
+import { PdfService } from 'src/app/shared/services/pdf/pdf.service';
 
 @Component({
   selector: 'app-student',
@@ -58,6 +59,7 @@ export class StudentComponent implements OnInit {
     private gradeService: GradeService,
     private roomService: RoomService,
     private attendanceStudentService: AttendanceStudentService,
+    private pdfService: PdfService,
     private evalService: EvalsService,
     private fb: FormBuilder,
     private datePipe: DatePipe
@@ -138,10 +140,11 @@ export class StudentComponent implements OnInit {
   };
 
   onApproval = (student: any) => {
-    this.student = student;
-    this.schedules = student.tempSched;
-    console.log(student);
-    this.scheduleDialog = true;
+    if (this.selectedSchedules.length > 0) {
+      this.student = student;
+      this.schedules = student.tempSched;
+      this.scheduleDialog = true;
+    }
   };
 
   onCloseSchedTable = () => {
@@ -176,6 +179,8 @@ export class StudentComponent implements OnInit {
           schedId.push(id);
         });
       });
+
+      this.pdfService.generatePDF(this.student.studentId).subscribe();
 
       const payload = {
         schedId: schedId,
@@ -340,8 +345,6 @@ export class StudentComponent implements OnInit {
   };
 
   onEditApplication = (application: any) => {
-    console.log(application, 'is the application');
-
     this.application = application;
     this.confirmTitle = 'Approve';
     this.isEditing = true;
