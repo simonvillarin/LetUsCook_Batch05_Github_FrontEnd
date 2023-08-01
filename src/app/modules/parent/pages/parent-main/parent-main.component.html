@@ -43,15 +43,14 @@
         <div class="avatar" (click)="toggleShowDropdown()">
           <img
             src="{{
-              this.image ||
-                '../../../../../../../assets/images/blank-profile.jpg'
+              image || '../../../../../../../assets/images/blank-profile.jpg'
             }}"
             alt="Profile Image"
           />
         </div>
         <div class="name">
           <div class="type">
-            <span>{{ this.name }}</span>
+            <span>{{ name }}</span>
             <div>Parent</div>
           </div>
           <div class="arrow" (click)="toggleShowDropdown()">

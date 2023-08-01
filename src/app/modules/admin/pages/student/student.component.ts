@@ -12,6 +12,7 @@ import { AttendanceStudentService } from 'src/app/shared/services/attendance-stu
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { EvalsService } from 'src/app/shared/services/evals/evals.service';
 import { PdfService } from 'src/app/shared/services/pdf/pdf.service';
+import { EmailService } from 'src/app/shared/services/email/email.service';
 
 @Component({
   selector: 'app-student',
@@ -61,6 +62,7 @@ export class StudentComponent implements OnInit {
     private attendanceStudentService: AttendanceStudentService,
     private pdfService: PdfService,
     private evalService: EvalsService,
+    private emailService: EmailService,
     private fb: FormBuilder,
     private datePipe: DatePipe
   ) {
@@ -79,9 +81,6 @@ export class StudentComponent implements OnInit {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
         (a: any, b: any) => a.applicationId - b.applicationId
-      );
-      this.applications = this.applications.filter(
-        (app: any) => app.status == false
       );
     });
   };
@@ -255,61 +254,51 @@ export class StudentComponent implements OnInit {
 
   onRemoveStudent = () => {
     const payload = {
-      programCode: this.student.program.programCode,
-      yearLevel: this.student.yearLevel,
-      sem: this.student.sem,
-      academicYear: this.student.academicYear,
-      firstname: this.student.firstname,
-      middlename: this.student.middlename,
-      lastname: this.student.lastname,
-      suffix: this.student.suffix,
-      gender: this.student.gender,
-      civilStatus: this.student.civilStatus,
-      birthdate: this.student.birthdate,
-      birthplace: this.student.birthplace,
-      citizenship: this.student.citizenship,
-      religion: this.student.religion,
-      unit: this.student.unit,
-      street: this.student.street,
-      subdivision: this.student.subdivision,
-      barangay: this.student.barangay,
-      city: this.student.city,
-      province: this.student.province,
-      zipcode: this.student.zipcode,
-      telephone: this.student.telephone,
-      mobile: this.student.mobile,
-      email: this.student.email,
-      lastSchoolAttended: this.student.lastSchoolAttended,
-      programTaken: this.student.programTaken,
-      lastSem: this.student.lastSem,
-      lastYearLevel: this.student.lastYearLevel,
-      lastSchoolYear: this.student.lastSchoolYear,
-      dateOfGraduation: this.student.dateOfGraduation,
-      parentFirstname: this.student.parent.firstname,
-      parentMiddlename: this.student.parent.middlename,
-      parentLastname: this.student.parent.lastname,
-      parentSuffix: this.student.parent.suffix,
-      parentAddress: this.student.parent.address,
-      parentContact: this.student.parent.contact,
-      parentRelationship: this.student.parent.relationship,
       status: false,
     };
 
-    this.applicationService.addApplication(payload).subscribe(() => {
-      this.accountService.deleteAccount(this.student.studentId).subscribe();
-      this.accountService
-        .deleteAccount(this.student.parent.parentId)
-        .subscribe();
-      this.parentService.deleteParent(this.student.parent.parentId).subscribe();
-      this.studentService
-        .deleteStudent(this.student.studentId)
-        .subscribe(() => {
+    this.applicationService
+      .updateApplication(this.student.appId, payload)
+      .subscribe((res) => {
+        this.accountService.deleteAccount(this.student.studentId).subscribe();
+        this.accountService
+          .deleteAccount(this.student.parent.parentId)
+          .subscribe();
+        this.parentService
+          .deleteParent(this.student.parent.parentId)
+          .subscribe();
+        this.studentService.deleteStudent(this.student.studentId).subscribe();
+        const emailPayload = {
+          email: this.application.email,
+          subject: 'Update on Your Application to Educate University',
+          body:
+            'Dear ' +
+            this.application.firstname +
+            ',' +
+            '\n\n' +
+            'I hope this email finds you well. I am writing to inform you about the status of your application to Educate University. After careful consideration and review by our admissions committee, we regret to inform you that we are unable to offer you a place as a student in the upcoming academic year. ' +
+            '\n' +
+            'Please know that our admissions process is highly competitive, and we receive many exceptional applications each year. While we recognize your accomplishments and strengths, we had to make difficult decisions due to the limited number of available spaces. ' +
+            '\n' +
+            'We understand that this may be disappointing news, and we want to assure you that this decision does not reflect on your abilities or potential. Many factors contribute to our selection process, and we encourage you to explore other educational opportunities that align with your goals and aspirations. ' +
+            '\n\n' +
+            'Once again, thank you for considering Educate University. We wish you all the success and fulfillment in your academic and personal pursuits.' +
+            '\n\n' +
+            'With warm regards,' +
+            '\n\n' +
+            'Simon Villarin' +
+            '\n' +
+            'School Registrar' +
+            '\n' +
+            'Educate University',
+        };
+        this.emailService.sendEmail(emailPayload).subscribe(() => {
           this.getAllStudents();
           this.getAllApplications();
         });
 
-      this.isRemoveDialogOpen = false;
-    });
+        this.isRemoveDialogOpen = false;
+      });
   };
 
   onClickActive = (student: any) => {
@@ -373,11 +362,40 @@ export class StudentComponent implements OnInit {
           this.getAllApplications();
         });
     } else {
+      const payload = {
+        status: this.isEditing,
+      };
       this.applicationService
-        .deleteApplication(this.application.appId)
+        .updateApplication(this.application.appId, payload)
         .subscribe(() => {
-          this.isConfirmDialogOpen = false;
-          this.getAllApplications();
+          const emailPayload = {
+            email: this.application.email,
+            subject: 'Update on Your Application to Educate University',
+            body:
+              'Dear ' +
+              this.application.firstname +
+              ',' +
+              '\n\n' +
+              'I hope this email finds you well. I am writing to inform you about the status of your application to Educate University. After careful consideration and review by our admissions committee, we regret to inform you that we are unable to offer you a place as a student in the upcoming academic year. ' +
+              '\n' +
+              'Please know that our admissions process is highly competitive, and we receive many exceptional applications each year. While we recognize your accomplishments and strengths, we had to make difficult decisions due to the limited number of available spaces. ' +
+              '\n' +
+              'We understand that this may be disappointing news, and we want to assure you that this decision does not reflect on your abilities or potential. Many factors contribute to our selection process, and we encourage you to explore other educational opportunities that align with your goals and aspirations. ' +
+              '\n\n' +
+              'Once again, thank you for considering Educate University. We wish you all the success and fulfillment in your academic and personal pursuits.' +
+              '\n\n' +
+              'With warm regards,' +
+              '\n\n' +
+              'Simon Villarin' +
+              '\n' +
+              'School Registrar' +
+              '\n' +
+              'Educate University',
+          };
+          this.emailService.sendEmail(emailPayload).subscribe(() => {
+            this.getAllApplications();
+            this.isConfirmDialogOpen = false;
+          });
         });
     }
   };
