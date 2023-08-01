@@ -10,6 +10,8 @@ export class HomeComponent {
   isShowMobileNav = false;
   isShowNotifications = false;
 
+  date: Date | undefined;
+
   toggleShowDropdown = () => {
     this.isShowDropdown = !this.isShowDropdown;
     this.isShowMobileNav = false;

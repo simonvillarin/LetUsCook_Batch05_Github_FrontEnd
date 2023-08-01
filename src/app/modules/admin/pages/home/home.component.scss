@@ -1,19 +1,113 @@
 @import "../../../../../variables.scss";
 
 main {
-  height: calc(100vh - 4rem);
+  min-height: calc(100vh - 4rem);
   background-color: var(--light-grayish-blue);
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
+  gap: 1rem;
+}
+
+.first-container {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 1rem;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 0.25rem;
+  gap: 5rem;
+}
+
+.image-container {
+  width: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
+  height: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.welcome-label-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem 2rem 2rem;
+}
+
+.welcome-label {
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.name-label {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem;
+}
+
+.number-label {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.counter-container {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 1.5rem;
+}
+
+.counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 2rem 5rem;
+  background-color: var(--white);
+  border-radius: 0.25rem;
+  gap: 4rem;
 }
 
 .chart-container {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 0.8fr 0.8fr;
   gap: 1.5rem;
 }
 
-.chart {
+.pie-chart {
+  height: 585px;
+  width: 500px;
   padding: 1.5rem;
   background-color: var(--white);
   border-radius: 0.25rem;
+  text-align: center;
+}
+
+.pchart {
+  height: 100%;
+  width: 100%;
+}
+
+.line-chart {
+  height: 585px;
+  width: 1035px;
+  padding: 1.5rem;
+  background-color: var(--white);
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
+.course-label {
+  font-size: 2rem;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Student } from '../../models/student';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,56 @@ export class StudentService {
   getAllStudents = (): Observable<Student[]> => {
     return this.http.get<Student[]>(`${this.BASE_URL}/students`);
   };
+
+  getRandomColor = () => {
+    const minBrightness = 168;
+    const maxBrightness = 218;
+
+    const randomRGBValue = (min: any, max: any) =>
+      Math.floor(Math.random() * (max - min + 1)) + min;
+
+    const r = randomRGBValue(minBrightness, maxBrightness);
+    const g = randomRGBValue(minBrightness, maxBrightness);
+    const b = randomRGBValue(minBrightness, maxBrightness);
+
+    const randomColor = `rgb(${r}, ${g}, ${b})`;
+
+    return { randomColor };
+  };
+
+  getGenderCount(): Observable<any> {
+    const colors: any[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      colors.push(this.getRandomColor().randomColor);
+    }
+
+    return this.getAllStudents().pipe(
+      map((students: any[]) => {
+        let genderCount = {
+          labels: ['Male', 'Female', 'Others'],
+          datasets: [
+            {
+              data: [0, 0, 0],
+              backgroundColor: colors,
+            },
+          ],
+        };
+
+        students.forEach((student) => {
+          if (student.gender === 'Male') {
+            genderCount.datasets[0].data[0]++;
+          } else if (student.gender === 'Female') {
+            genderCount.datasets[0].data[1]++;
+          } else if (student.gender === 'Others') {
+            genderCount.datasets[0].data[2]++;
+          }
+        });
+
+        return genderCount;
+      })
+    );
+  }
 
   getStudentById = (id: number): Observable<Student> => {
     return this.http.get<Student>(`${this.BASE_URL}/student/${id}`);

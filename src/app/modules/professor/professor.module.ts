@@ -9,6 +9,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CalendarModule } from 'primeng/calendar';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CardModule } from 'primeng/card';
 import { StudentEvaluationComponent } from './pages/student-evaluation/student-evaluation.component';
@@ -39,6 +40,7 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
     MessagesModule,
     ToastModule,
     MatDialogModule,
+    CalendarModule,
     FullCalendarModule,
     CardModule,
     InputTextareaModule,
