@@ -353,12 +353,6 @@ export class StudentComponent implements OnInit {
           this.studentService.addStudent(this.application).subscribe(() => {
             this.getAllStudents();
           });
-          this.applicationService
-            .deleteApplication(this.application.appId)
-            .subscribe(() => {
-              this.isConfirmDialogOpen = false;
-              this.getAllApplications();
-            });
           this.getAllApplications();
         });
     } else {
