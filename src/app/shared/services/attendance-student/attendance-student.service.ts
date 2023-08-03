@@ -37,6 +37,12 @@ export class AttendanceStudentService {
     return this.http.get<any[]>(`${this.BASE_URL}/attendance/section/${id}`);
   };
 
+  getAttendance = (sectionId: number, subjectId: number) => {
+    return this.http.get(
+      `${this.BASE_URL}/attendance/students/${sectionId}/${subjectId}`
+    );
+  };
+
   addAttendance = (attendance: any) => {
     return this.http.post(`${this.BASE_URL}/attendance/student`, attendance);
   };

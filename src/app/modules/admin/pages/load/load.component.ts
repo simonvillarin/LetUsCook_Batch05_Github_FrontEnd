@@ -335,6 +335,8 @@ export class LoadComponent implements OnInit {
           room: room,
           professorId: this.prof.professorId,
         };
+        console.log(payload);
+
         if (startTime > endTime && endTime < startTime) {
           this.alert = true;
           setTimeout(() => {
