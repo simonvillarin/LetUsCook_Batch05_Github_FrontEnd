@@ -235,111 +235,79 @@ export class ApplyComponent implements OnInit {
             if (res.length == 0) {
               this.invalid = true;
             } else {
-              let firstYearFirstTerm: boolean = false;
-              let firstYearSecondTerm: boolean = false;
-              let secondYearFirstTerm: boolean = false;
-              let secondYearSecondTerm: boolean = false;
-              let thirdYearFirstTerm: boolean = false;
-              let thirdYearSecondTerm: boolean = false;
-              let fourthYearFirstTerm: boolean = false;
-              let fourthYearSecondYear: boolean = false;
-              let year: string;
-              let term: string;
-              res.map((obj: any) => {
-                if (
-                  obj.student.yearLevel == 'First Year' &&
-                  obj.student.sem == 'First Term'
-                ) {
-                  firstYearFirstTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'First Year' &&
-                  obj.student.sem == 'Second Term'
-                ) {
-                  firstYearSecondTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'Second Year' &&
-                  obj.student.sem == 'First Term'
-                ) {
-                  secondYearFirstTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'Second Year' &&
-                  obj.student.sem == 'Second Term'
-                ) {
-                  secondYearSecondTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'Third Year' &&
-                  obj.student.sem == 'First Term'
-                ) {
-                  thirdYearFirstTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'Third Year' &&
-                  obj.student.sem == 'Second Term'
-                ) {
-                  thirdYearSecondTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'Fourth Year' &&
-                  obj.student.sem == 'First Term'
-                ) {
-                  fourthYearFirstTerm = true;
-                } else if (
-                  obj.student.yearLevel == 'Fourth Year' &&
-                  obj.student.sem == 'Second Term'
-                ) {
-                  fourthYearSecondYear = true;
-                }
-              });
-              const status = [
-                firstYearFirstTerm,
-                firstYearSecondTerm,
-                secondYearFirstTerm,
-                secondYearSecondTerm,
-                thirdYearFirstTerm,
-                thirdYearSecondTerm,
-                fourthYearFirstTerm,
-                fourthYearSecondYear,
-              ];
-              let completed = 0;
-              status.map((stat: boolean) => {
-                if (stat) {
-                  completed += 1;
-                  return;
-                }
-              });
-              if (completed == 1) {
+              const largestId = res.reduce(
+                (prev: any, curr: any) =>
+                  curr.historyId > prev.historyId ? curr : prev,
+                res[0]
+              );
+              let year = '';
+              let term = '';
+
+              if (
+                largestId.yearLevel == 'First Year' &&
+                largestId.sem == 'First Term'
+              ) {
                 year = 'First Year';
                 term = 'Second Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
-              } else if (completed == 2) {
+              } else if (
+                largestId.yearLevel == 'First Year' &&
+                largestId.sem == 'Second Term'
+              ) {
                 year = 'Second Year';
                 term = 'First Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
-              } else if (completed == 3) {
+              } else if (
+                largestId.yearLevel == 'Second Year' &&
+                largestId.sem == 'First Term'
+              ) {
                 year = 'Second Year';
                 term = 'Second Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
-              } else if (completed == 4) {
+              } else if (
+                largestId.yearLevel == 'Second Year' &&
+                largestId.sem == 'Second Term'
+              ) {
                 year = 'Third Year';
                 term = 'First Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
-              } else if (completed == 5) {
+              } else if (
+                largestId.yearLevel == 'Third Year' &&
+                largestId.sem == 'First Term'
+              ) {
                 year = 'Third Year';
                 term = 'Second Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
-              } else if (completed == 6) {
+              } else if (
+                largestId.yearLevel == 'Third Year' &&
+                largestId.sem == 'Second Term'
+              ) {
                 year = 'Fourth Year';
                 term = 'First Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
-              } else if (completed == 7) {
+              } else if (
+                largestId.yearLevel == 'Fourth Year' &&
+                largestId.sem == 'First Term'
+              ) {
                 year = 'Fourth Year';
                 term = 'Second Term';
+
                 this.levels.push(year);
                 this.terms.push(term);
+              } else {
+                alert('Graduate');
               }
               this.studNo = res[0].student.studentNo;
               this.studentId = res[0].student.studentId;

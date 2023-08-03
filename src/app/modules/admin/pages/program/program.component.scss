@@ -89,6 +89,10 @@ button {
   font-size: 0.9375rem;
 }
 
+.view {
+  background-color: var(--light-orange);
+}
+
 .active {
   background-color: var(--green);
 }
@@ -106,6 +110,7 @@ button {
 }
 .edit,
 .deactive,
+.view,
 .activate {
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -140,6 +145,12 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.unit-input {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
 }
 
 .fg {
@@ -253,9 +264,5 @@ label {
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;
-  }
-
-  .filter {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

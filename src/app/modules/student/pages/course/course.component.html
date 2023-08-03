@@ -13,6 +13,7 @@
           <span class="material-symbols-rounded"> restart_alt </span>
         </button>
       </div>
+
       <div class="filter">
         <p-dropdown
           [options]="sections"
@@ -41,6 +42,13 @@
           />
         </div>
       </div>
+    </div>
+    <div class="units-container">
+      <div class="selected-unit">
+        Total units selected: {{ getTotalUnits() }}
+      </div>
+      <div class="minimum-unit">Minimum units required: {{ minUnits }}</div>
+      <div class="maximum-unit">Maximum units required: {{ maxUnits }}</div>
     </div>
     <p-table
       [(selection)]="selectedSchedules"
