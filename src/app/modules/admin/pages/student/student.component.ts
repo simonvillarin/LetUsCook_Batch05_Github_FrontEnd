@@ -47,6 +47,10 @@ export class StudentComponent implements OnInit {
   scheduleDialog: boolean = false;
   status: boolean = false;
 
+  alert: boolean = false;
+  alertStatus: string = '';
+  alertMessage: string = '';
+
   yearLevels = ['First Year', 'Second Year', 'Fourth Year', 'Fifth Year'];
   terms = ['First Term', 'Second Term'];
 
@@ -139,11 +143,9 @@ export class StudentComponent implements OnInit {
   };
 
   onApproval = (student: any) => {
-    if (this.selectedSchedules.length > 0) {
-      this.student = student;
-      this.schedules = student.tempSched;
-      this.scheduleDialog = true;
-    }
+    this.student = student;
+    this.schedules = student.tempSched;
+    this.scheduleDialog = true;
   };
 
   onCloseSchedTable = () => {
@@ -171,80 +173,76 @@ export class StudentComponent implements OnInit {
   };
 
   onApprove = () => {
-    if (this.selectedSchedules.length > 0) {
-      const schedId: any = [];
-      this.selectedSchedules.map((sched: any) => {
-        sched.schedId.map((id: number) => {
-          schedId.push(id);
-        });
+    const schedId: any = [];
+    this.schedules.map((sched: any) => {
+      sched.schedId.map((id: number) => {
+        schedId.push(id);
+      });
+    });
+
+    this.pdfService.generatePDF(this.student.studentId).subscribe();
+
+    const payload = {
+      schedId: schedId,
+      tempSchedId: [],
+    };
+
+    this.studentService
+      .updateStudent(this.student.studentId, payload)
+      .subscribe(() => {
+        this.getAllStudents();
+        this.isApprovalDialogOpen = false;
+        this.scheduleDialog = false;
       });
 
-      this.pdfService.generatePDF(this.student.studentId).subscribe();
-
+    this.schedules.map((sched: any) => {
       const payload = {
-        schedId: schedId,
-        tempSchedId: [],
+        professorId: sched.professor.professorId,
+        studentId: this.student.studentId,
+        subjectId: sched.subject.subjectId,
+        prelim: '',
+        midterm: '',
+        finals: '',
+        yearLevel: this.student.yearLevel,
+        sem: this.student.sem,
+        academicYear: this.student.academicYear,
+        comment: '',
+        remarks: '',
+        dateModified: '',
       };
+      this.gradeService.addGrade(payload).subscribe();
 
-      this.studentService
-        .updateStudent(this.student.studentId, payload)
-        .subscribe(() => {
-          this.getAllStudents();
-          this.isApprovalDialogOpen = false;
-          this.scheduleDialog = false;
-        });
+      const payload1 = {
+        studentId: this.student.studentId,
+        subjectId: sched.subject.subjectId,
+        sem: this.student.sem,
+        yearLevel: this.student.yearLevel,
+        academicYear: this.student.academicYear,
+        status: '',
+      };
+      this.attendanceStudentService.addAttendance(payload1).subscribe();
 
-      this.selectedSchedules.map((sched: any) => {
-        const payload = {
-          professorId: sched.professor.professorId,
-          studentId: this.student.studentId,
-          subjectId: sched.subject.subjectId,
-          prelim: '',
-          midterm: '',
-          finals: '',
-          yearLevel: this.student.yearLevel,
-          sem: this.student.sem,
-          academicYear: this.student.academicYear,
-          comment: '',
-          remarks: '',
-          dateModified: '',
+      const payload2 = {
+        section: sched.section.section,
+        subjectId: sched.subject.subjectId,
+      };
+      console.log(payload2);
+
+      this.evalService
+        .addEval(payload2)
+        .subscribe((res) => console.log(res, 'res'));
+    });
+
+    const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);
+    uniqueRooms.map((room: any) => {
+      this.roomService.getRoomById(room.room.roomId).subscribe((data: any) => {
+        let numOfStudents = data.numOfStudents + 1;
+        let payload = {
+          numOfStudents: numOfStudents,
         };
-        this.gradeService.addGrade(payload).subscribe();
-
-        const payload1 = {
-          studentId: this.student.studentId,
-          subjectId: sched.subject.subjectId,
-          sem: this.student.sem,
-          yearLevel: this.student.yearLevel,
-          academicYear: this.student.academicYear,
-          status: '',
-        };
-        this.attendanceStudentService.addAttendance(payload1).subscribe();
-
-        const payload2 = {
-          section: sched.section.section,
-          subjectId: sched.subject.subjectId,
-        };
-        console.log(payload2);
-
-        this.evalService
-          .addEval(payload2)
-          .subscribe((res) => console.log(res, 'res'));
+        this.roomService.updateRoom(room.room.roomId, payload).subscribe();
       });
-
-      const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);
-      uniqueRooms.map((room: any) => {
-        this.roomService
-          .getRoomById(room.room.roomId)
-          .subscribe((data: any) => {
-            let numOfStudents = data.numOfStudents + 1;
-            let payload = {
-              numOfStudents: numOfStudents,
-            };
-            this.roomService.updateRoom(room.room.roomId, payload).subscribe();
-          });
-      });
-    }
+    });
   };
 
   onClickRemove = (student: any) => {

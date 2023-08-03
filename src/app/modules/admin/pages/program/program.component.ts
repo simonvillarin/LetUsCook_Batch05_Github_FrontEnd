@@ -20,7 +20,6 @@ import Swal from 'sweetalert2';
 })
 export class ProgramComponent implements OnInit {
   programForm: FormGroup;
-  yearsToCompleteSubscription: Subscription;
 
   programs: any[] = [];
   majorSubjects: any = [];
@@ -50,17 +49,25 @@ export class ProgramComponent implements OnInit {
     this.programForm = fb.group({
       programCode: ['', [Validators.required]],
       programTitle: ['', [Validators.required]],
-      yearsToComplete: ['', [Validators.required]],
-      units: this.fb.array([], minUnitsArrayValidator()),
+      firstYearFirstSemMin: ['', [Validators.required]],
+      firstYearFirstSemMax: ['', [Validators.required]],
+      firstYearSecondSemMin: ['', [Validators.required]],
+      firstYearSecondSemMax: ['', [Validators.required]],
+      secondYearFirstSemMin: ['', [Validators.required]],
+      secondYearFirstSemMax: ['', [Validators.required]],
+      secondYearSecondSemMin: ['', [Validators.required]],
+      secondYearSecondSemMax: ['', [Validators.required]],
+      thirdYearFirstSemMin: ['', [Validators.required]],
+      thirdYearFirstSemMax: ['', [Validators.required]],
+      thirdYearSecondSemMin: ['', [Validators.required]],
+      thirdYearSecondSemMax: ['', [Validators.required]],
+      fourthYearFirstSemMin: ['', [Validators.required]],
+      fourthYearFirstSemMax: ['', [Validators.required]],
+      fourthYearSecondSemMin: ['', [Validators.required]],
+      fourthYearSecondSemMax: ['', [Validators.required]],
       majors: new FormControl<any[] | null>(null),
       minors: new FormControl<any[] | null>(null),
       electives: new FormControl<any[] | null>(null),
-    });
-
-    this.yearsToCompleteSubscription = this.programForm.controls[
-      'yearsToComplete'
-    ].valueChanges.subscribe((value) => {
-      this.onYearsToCompleteChange(value);
     });
   }
 
@@ -79,12 +86,68 @@ export class ProgramComponent implements OnInit {
     return this.programForm.get('programTitle') as FormControl;
   }
 
-  get yearsToComplete() {
-    return this.programForm.get('yearsToComplete') as FormControl;
+  get firstYearFirstSemMin() {
+    return this.programForm.get('firstYearFirstSemMin') as FormControl;
   }
 
-  get units(): FormArray {
-    return this.programForm.get('units') as FormArray;
+  get firstYearFirstSemMax() {
+    return this.programForm.get('firstYearFirstSemMax') as FormControl;
+  }
+
+  get firstYearSecondSemMin() {
+    return this.programForm.get('firstYearSecondSemMin') as FormControl;
+  }
+
+  get firstYearSecondSemMax() {
+    return this.programForm.get('firstYearSecondSemMax') as FormControl;
+  }
+
+  get secondYearFirstSemMin() {
+    return this.programForm.get('secondYearFirstSemMin') as FormControl;
+  }
+
+  get secondYearFirstSemMax() {
+    return this.programForm.get('secondYearFirstSemMax') as FormControl;
+  }
+
+  get secondYearSecondSemMin() {
+    return this.programForm.get('secondYearSecondSemMin') as FormControl;
+  }
+
+  get secondYearSecondSemMax() {
+    return this.programForm.get('secondYearSecondSemMax') as FormControl;
+  }
+
+  get thirdYearFirstSemMin() {
+    return this.programForm.get('thirdYearFirstSemMin') as FormControl;
+  }
+
+  get thirdYearFirstSemMax() {
+    return this.programForm.get('thirdYearFirstSemMax') as FormControl;
+  }
+
+  get thirdYearSecondSemMin() {
+    return this.programForm.get('thirdYearSecondSemMin') as FormControl;
+  }
+
+  get thirdYearSecondSemMax() {
+    return this.programForm.get('thirdYearSecondSemMax') as FormControl;
+  }
+
+  get fourthYearFirstSemMin() {
+    return this.programForm.get('fourthYearFirstSemMin') as FormControl;
+  }
+
+  get fourthYearFirstSemMax() {
+    return this.programForm.get('fourthYearFirstSemMax') as FormControl;
+  }
+
+  get fourthYearSecondSemMin() {
+    return this.programForm.get('fourthYearSecondSemMin') as FormControl;
+  }
+
+  get fourthYearSecondSemMax() {
+    return this.programForm.get('fourthYearSecondSemMax') as FormControl;
   }
 
   get majors() {
@@ -102,6 +165,7 @@ export class ProgramComponent implements OnInit {
   getAllPrograms = () => {
     this.programService.getAllPrograms().subscribe((data: any) => {
       this.programs = data.sort((a: any, b: any) => b.programId - a.programId);
+      console.log(this.programs);
     });
   };
 
@@ -165,24 +229,9 @@ export class ProgramComponent implements OnInit {
     this.getAllPrograms();
   };
 
-  addUnits(): void {
-    this.units.push(this.fb.control(''));
-    this.units.push(this.fb.control(''));
-  }
-
-  onYearsToCompleteChange(value: any) {
-    if (value != null) {
-      this.units.clear();
-      for (let i = 0; i < value; i++) {
-        this.addUnits();
-      }
-    }
-  }
-
   onAdd = () => {
     this.title = 'Add Program';
     this.isDialogOpen = true;
-    this.units.clear();
     this.programForm.reset();
     this.programForm.markAsUntouched();
   };
@@ -196,8 +245,54 @@ export class ProgramComponent implements OnInit {
       if (this.programForm.valid) {
         const programCode = this.programForm.get('programCode')?.value;
         const programTitle = this.programForm.get('programTitle')?.value;
-        const yearsToComplete = this.programForm.get('yearsToComplete')?.value;
-        const units = this.programForm.get('units')?.value;
+        const firstYearFirstSemMin = this.programForm.get(
+          'firstYearFirstSemMin'
+        )?.value;
+        const firstYearFirstSemMax = this.programForm.get(
+          'firstYearFirstSemMax'
+        )?.value;
+        const firstYearSecondSemMin = this.programForm.get(
+          'firstYearSecondSemMin'
+        )?.value;
+        const firstYearSecondSemMax = this.programForm.get(
+          'firstYearSecondSemMax'
+        )?.value;
+        const secondYearFirstSemMin = this.programForm.get(
+          'secondYearFirstSemMin'
+        )?.value;
+        const secondYearFirstSemMax = this.programForm.get(
+          'secondYearFirstSemMax'
+        )?.value;
+        const secondYearSecondSemMin = this.programForm.get(
+          'secondYearSecondSemMin'
+        )?.value;
+        const secondYearSecondSemMax = this.programForm.get(
+          'secondYearSecondSemMax'
+        )?.value;
+        const thirdYearFirstSemMin = this.programForm.get(
+          'thirdYearFirstSemMin'
+        )?.value;
+        const thirdYearFirstSemMax = this.programForm.get(
+          'thirdYearFirstSemMax'
+        )?.value;
+        const thirdYearSecondSemMin = this.programForm.get(
+          'thirdYearSecondSemMin'
+        )?.value;
+        const thirdYearSecondSemMax = this.programForm.get(
+          'thirdYearSecondSemMax'
+        )?.value;
+        const fourthYearFirstSemMin = this.programForm.get(
+          'fourthYearFirstSemMin'
+        )?.value;
+        const fourthYearFirstSemMax = this.programForm.get(
+          'fourthYearFirstSemMax'
+        )?.value;
+        const fourthYearSecondSemMin = this.programForm.get(
+          'fourthYearSecondSemMin'
+        )?.value;
+        const fourthYearSecondSemMax = this.programForm.get(
+          'fourthYearSecondSemMax'
+        )?.value;
         const majors = this.programForm.get('majors')?.value;
         const minors = this.programForm.get('minors')?.value;
         const electives = this.programForm.get('electives')?.value;
@@ -223,11 +318,53 @@ export class ProgramComponent implements OnInit {
         if (this.program.programTitle != programTitle) {
           payload.programTitle = programTitle;
         }
-        if (this.program.yearsToComplete != yearsToComplete) {
-          payload.yearsToComplete = yearsToComplete;
+        if (this.program.firstYearFirstSemMin != firstYearFirstSemMin) {
+          payload.firstYearFirstSemMin = firstYearFirstSemMin;
         }
-        if (this.program.units != units) {
-          payload.units = units;
+        if (this.program.firstYearFirstSemMax != firstYearFirstSemMax) {
+          payload.firstYearFirstSemMax = firstYearFirstSemMax;
+        }
+        if (this.program.firstYearSecondSemMin != firstYearSecondSemMin) {
+          payload.firstYearSecondSemMin = firstYearSecondSemMin;
+        }
+        if (this.program.firstYearSecondSemMax != firstYearSecondSemMax) {
+          payload.firstYearSecondSemMax = firstYearSecondSemMax;
+        }
+        if (this.program.secondYearFirstSemMin != secondYearFirstSemMin) {
+          payload.secondYearFirstSemMin = secondYearFirstSemMin;
+        }
+        if (this.program.secondYearFirstSemMax != secondYearFirstSemMax) {
+          payload.secondYearFirstSemMax = secondYearFirstSemMax;
+        }
+        if (this.program.secondYearSecondSemMin != secondYearSecondSemMin) {
+          payload.secondYearSecondSemMin = secondYearSecondSemMin;
+        }
+        if (this.program.secondYearSecondSemMax != secondYearSecondSemMax) {
+          payload.secondYearSecondSemMax = secondYearSecondSemMax;
+        }
+        if (this.program.thirdYearFirstSemMin != thirdYearFirstSemMin) {
+          payload.thirdYearFirstSemMin = thirdYearFirstSemMin;
+        }
+        if (this.program.thirdYearFirstSemMax != thirdYearFirstSemMax) {
+          payload.thirdYearFirstSemMax = thirdYearFirstSemMax;
+        }
+        if (this.program.thirdYearSecondSemMin != thirdYearSecondSemMin) {
+          payload.thirdYearSecondSemMin = thirdYearSecondSemMin;
+        }
+        if (this.program.thirdYearSecondSemMax != thirdYearSecondSemMax) {
+          payload.thirdYearSecondSemMax = thirdYearSecondSemMax;
+        }
+        if (this.program.fourthYearFirstSemMin != fourthYearFirstSemMin) {
+          payload.fourthYearFirstSemMin = fourthYearFirstSemMin;
+        }
+        if (this.program.fourthYearFirstSemMax != fourthYearFirstSemMax) {
+          payload.fourthYearFirstSemMax = fourthYearFirstSemMax;
+        }
+        if (this.program.fourthYearSecondSemMin != fourthYearSecondSemMin) {
+          payload.fourthYearSecondSemMin = fourthYearSecondSemMin;
+        }
+        if (this.program.fourthYearSecondSemMax != fourthYearSecondSemMax) {
+          payload.fourthYearSecondSemMax = fourthYearSecondSemMax;
         }
         if (subjectMajors != majors) {
           payload.majors = majors;
@@ -278,17 +415,19 @@ export class ProgramComponent implements OnInit {
         };
         console.log(payload);
 
-        this.programService.addProgram(payload).subscribe((res: any) => {
-          if (res.message == 'Program Code already exist') {
-            alert('Program Code already exist');
-          } else if (res.message == 'Program Title already exist') {
-            alert('Program Title already exist');
-          } else {
-            this.getAllPrograms();
-            this.isDialogOpen = false;
-            this.programForm.reset();
-          }
-        });
+        this.programService
+          .addProgram(this.programForm.value)
+          .subscribe((res: any) => {
+            if (res.message == 'Program Code already exist') {
+              alert('Program Code already exist');
+            } else if (res.message == 'Program Title already exist') {
+              alert('Program Title already exist');
+            } else {
+              this.getAllPrograms();
+              this.isDialogOpen = false;
+              this.programForm.reset();
+            }
+          });
       } else {
         this.programForm.markAllAsTouched();
       }
@@ -298,7 +437,6 @@ export class ProgramComponent implements OnInit {
   onClickEdit = (program: any) => {
     this.title = 'Edit Program';
     this.isUpdating = true;
-    this.units.clear();
     this.program = program;
     const subjectMajors: any = [];
     program.majors.map((sub: any) => subjectMajors.push(sub.subjectTitle));
@@ -313,8 +451,22 @@ export class ProgramComponent implements OnInit {
     this.programForm.patchValue({
       programCode: program.programCode,
       programTitle: program.programTitle,
-      yearsToComplete: program.yearsToComplete,
-      units: program.units,
+      firstYearFirstSemMin: program.firstYearFirstSemMin,
+      firstYearFirstSemMax: program.firstYearFirstSemMax,
+      firstYearSecondSemMin: program.firstYearSecondSemMin,
+      firstYearSecondSemMax: program.firstYearSecondSemMax,
+      secondYearFirstSemMin: program.secondYearFirstSemMin,
+      secondYearFirstSemMax: program.secondYearFirstSemMax,
+      secondYearSecondSemMin: program.secondYearSecondSemMin,
+      secondYearSecondSemMax: program.secondYearSecondSemMax,
+      thirdYearFirstSemMin: program.thirdYearFirstSemMin,
+      thirdYearFirstSemMax: program.thirdYearFirstSemMax,
+      thirdYearSecondSemMin: program.thirdYearSecondSemMin,
+      thirdYearSecondSemMax: program.thirdYearSecondSemMax,
+      fourthYearFirstSemMin: program.fourthYearFirstSemMin,
+      fourthYearFirstSemMax: program.fourthYearFirstSemMax,
+      fourthYearSecondSemMin: program.fourthYearSecondSemMin,
+      fourthYearSecondSemMax: program.fourthYearSecondSemMax,
       majors: subjectMajors,
       minors: subjectMinors,
       electives: subjectElectives,

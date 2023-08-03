@@ -485,9 +485,9 @@ export class ProfessorComponent implements OnInit {
               this.alertMessage = 'Email address already exists';
               setTimeout(() => (this.alert = false), 3000);
             } else {
+              this.visible = false;
               this.getAllProfessors();
               this.professorForm.reset();
-              this.visible = false;
             }
           });
       }
@@ -524,11 +524,12 @@ export class ProfessorComponent implements OnInit {
                 this.professorForm.patchValue({
                   image: this.imagePreview,
                 });
-                this.getAllProfessors();
                 this.alert = true;
                 this.alertStatus = 'Success';
                 this.alertMessage = 'Professor successfully added';
                 setTimeout(() => (this.alert = false), 3000);
+                this.visible = false;
+                this.getAllProfessors();
                 this.professorForm.reset();
               }
             });
@@ -547,11 +548,12 @@ export class ProfessorComponent implements OnInit {
                 this.alertMessage = 'Email address already exists';
                 setTimeout(() => (this.alert = false), 3000);
               } else {
-                this.getAllProfessors();
                 this.alert = true;
                 this.alertStatus = 'Success';
                 this.alertMessage = 'Professor successfully added';
                 setTimeout(() => (this.alert = false), 3000);
+                this.visible = false;
+                this.getAllProfessors();
                 this.professorForm.reset();
               }
             });

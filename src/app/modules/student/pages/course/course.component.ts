@@ -23,7 +23,10 @@ export class CourseComponent {
   selectedSection: any;
   studentId: any;
   student: any = {};
+  program: any = {};
+  minUnits: any;
   maxUnits: any;
+  totalUnits: any;
 
   isDialogOpen: boolean = true;
   confirmationDialog: boolean = false;
@@ -58,9 +61,12 @@ export class CourseComponent {
       .subscribe((data: any) => {
         this.student = data;
         this.sched = data.schedules;
+        this.selectedSchedules = [];
         data.tempSched.map((sched: any) => {
           this.selectedSchedules.push(sched);
         });
+        console.log(this.selectedSchedules);
+
         this.getProgram();
         if (this.student.schedules.length > 0) {
           this.hasSchedule = true;
@@ -73,7 +79,6 @@ export class CourseComponent {
       .getScheduleByStudentId(this.studentId)
       .subscribe((data: any) => {
         this.schedules = data;
-        console.log(this.schedules, 'is the schedule');
       });
   };
 
@@ -93,30 +98,40 @@ export class CourseComponent {
       .subscribe((data: any) => {
         const yearLevel = this.student.yearLevel;
         const sem = this.student.sem;
-        let maxUnitsIndex = 0;
         if (yearLevel == 'First Year' && sem == 'First Term') {
-          maxUnitsIndex = 0;
+          this.minUnits = data.firstYearFirstSemMin;
+          this.maxUnits = data.firstYearFirstSemMax;
         } else if (yearLevel == 'First Year' && sem == 'Second Term') {
-          maxUnitsIndex = 1;
+          this.minUnits = data.firstYearSecondSemMin;
+          this.maxUnits = data.firstYearSecondSemMax;
         } else if (yearLevel == 'Second Year' && sem == 'First Term') {
-          maxUnitsIndex = 2;
+          this.minUnits = data.secondYearFirstSemMin;
+          this.maxUnits = data.secondYearFirstSemMax;
         } else if (yearLevel == 'Second Year' && sem == 'Second Term') {
-          maxUnitsIndex = 3;
+          this.minUnits = data.secondYearSecondSemMin;
+          this.maxUnits = data.secondYearSecondSemMax;
         } else if (yearLevel == 'Third Year' && sem == 'First Term') {
-          maxUnitsIndex = 4;
+          this.minUnits = data.thirdYearFirstSemMin;
+          this.maxUnits = data.thirdYearFirstSemMax;
         } else if (yearLevel == 'Third Year' && sem == 'Second Term') {
-          maxUnitsIndex = 5;
+          this.minUnits = data.thirdYearSecondSemMin;
+          this.maxUnits = data.thirdYearSecondSemMax;
         } else if (yearLevel == 'Fourth Year' && sem == 'First Term') {
-          maxUnitsIndex = 6;
+          this.minUnits = data.fourthYearFirstSemMin;
+          this.maxUnits = data.fourthYearFirstSemMax;
         } else if (yearLevel == 'Fourth Year' && sem == 'Second Term') {
-          maxUnitsIndex = 7;
-        } else if (yearLevel == 'Fifth Year' && sem == 'First Term') {
-          maxUnitsIndex = 8;
-        } else if (yearLevel == 'Fifth Year' && sem == 'Second Term') {
-          maxUnitsIndex = 9;
+          this.minUnits = data.fourthYearSecondSemMin;
+          this.maxUnits = data.fourthYearSecondSemMax;
         }
-        this.maxUnits = data.units[maxUnitsIndex];
       });
+  };
+
+  getTotalUnits = () => {
+    this.totalUnits = this.selectedSchedules.reduce(
+      (prev: any, curr: any) => prev + curr.subject.units,
+      0
+    );
+    return this.totalUnits;
   };
 
   onSearchChange = (searchTerm: string) => {
@@ -234,23 +249,26 @@ export class CourseComponent {
 
   onRequest = () => {
     const schedId: any = [];
-    let totalUnits = 0;
     this.selectedSchedules.map((sched: any) => {
       sched.schedId.map((id: number) => {
         schedId.push(id);
       });
     });
-    const uniqueObjects = this.getUniqueObjects(this.selectedSchedules);
-    uniqueObjects.map((obj: any) => {
-      totalUnits += obj.subject.units;
-    });
     const hasDuplicate = this.hasDuplicateSubjectId(this.selectedSchedules);
 
-    if (totalUnits > this.maxUnits) {
+    if (this.totalUnits < this.minUnits) {
       this.confirmationDialog = false;
       this.errorMessage =
-        'The maximum number of units required for your year level and term is only' +
-        this.maxUnits;
+        'The minimum number of units required for your year level and term is only at ' +
+        this.minUnits +
+        ' units';
+      this.errorDialog = true;
+    } else if (this.totalUnits > this.maxUnits) {
+      this.confirmationDialog = false;
+      this.errorMessage =
+        'The maximum number of units required for your year level and term is only at ' +
+        this.maxUnits +
+        ' units';
       this.errorDialog = true;
     } else if (hasDuplicate) {
       this.confirmationDialog = false;

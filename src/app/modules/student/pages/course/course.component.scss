@@ -17,6 +17,35 @@ main {
   margin-bottom: 1rem;
 }
 
+.units-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.selected-unit,
+.minimum-unit,
+.maximum-unit {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  color: var(--white);
+}
+
+.selected-unit {
+  background-color: var(--yellow);
+}
+
+.minimum-unit {
+  background-color: var(--orange);
+}
+
+.maximum-unit {
+  background-color: var(--light-red);
+}
+
 .pi-search {
   position: absolute;
   top: 50%;
@@ -273,6 +302,14 @@ img {
 
   .card-container {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .units-container {
+    flex-direction: row;
+  }
+
+  .units-container > div {
+    width: auto;
   }
 }
 

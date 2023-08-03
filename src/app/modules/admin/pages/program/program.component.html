@@ -12,14 +12,6 @@
         </button>
       </div>
       <div class="filter">
-        <p-dropdown
-          [options]="years"
-          placeholder="Filter by year"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-          [(ngModel)]="yearSelected"
-          (ngModelChange)="onChangeYear($event)"
-        ></p-dropdown>
         <div class="search-container">
           <i class="pi pi-search"></i>
           <input
@@ -28,6 +20,7 @@
             placeholder="Search"
             [style]="{
               width: '100%',
+              minWidth: '16rem',
               paddingLeft: '2.5rem'
             }"
             placeholder="Search"
@@ -42,7 +35,7 @@
       [paginator]="true"
       [rows]="5"
       [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '80rem' }"
+      [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [rowsPerPageOptions]="[10, 20, 30]"
     >
@@ -50,7 +43,6 @@
         <tr>
           <th style="min-width: 12%">Program Code</th>
           <th style="min-width: 52%">Program Title</th>
-          <th style="min-width: 12%">Years to Complete</th>
           <th style="min-width: 12%">Status</th>
           <th style="min-width: 12%">Actions</th>
         </tr>
@@ -59,7 +51,6 @@
         <tr>
           <td>{{ program.programCode }}</td>
           <td>{{ program.programTitle }}</td>
-          <td>{{ program.yearsToComplete }}</td>
           <td>
             <div class="{{ program.status ? 'active' : 'inactive' }}">
               {{ program.status ? "Active" : "Inactive" }}
@@ -149,70 +140,324 @@
           >
         </div>
       </div>
-      <div class="input-group">
-        <label>Years to Complete</label>
-        <p-dropdown
-          [options]="years"
-          placeholder="Select years to complete"
-          formControlName="yearsToComplete"
-          appendTo="body"
-          [style]="{ width: '100%' }"
-        ></p-dropdown>
-        <div
-          *ngIf="
-            yearsToComplete?.invalid &&
-            (yearsToComplete?.dirty || yearsToComplete?.touched)
-          "
-        >
-          <small
-            [style]="{ color: 'var(--red)' }"
-            *ngIf="yearsToComplete?.errors?.['required']"
-            >Please select years to complete</small
+      <div class="unit-input">
+        <div class="input-group">
+          <label>First Year First Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="firstYearFirstSemMin"
+            placeholder="First Year First Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              firstYearFirstSemMin?.invalid &&
+              (firstYearFirstSemMin?.dirty || firstYearFirstSemMin?.touched)
+            "
           >
-        </div>
-      </div>
-      <div class="fg">
-        <div
-          class="input-group"
-          formArrayName="units"
-          *ngFor="let unit of units.controls; let i = index"
-        >
-          <label class="{{ i % 2 != 0 ? 'd-none' : '' }}"
-            >{{
-              i == 0
-                ? "First Year"
-                : i == 2
-                ? "Second Year"
-                : i == 4
-                ? "Third Year"
-                : i == 6
-                ? "Fourth Year"
-                : ""
-            }}
-            Units to Complete</label
-          >
-          <div class="ig">
-            <label>{{
-              i % 2 == 0 ? "First Term Units" : "Second Term Units"
-            }}</label>
-            <input
-              pInputText
-              placeholder="{{
-                i % 2 == 0 ? 'First term' : 'Second term'
-              }} units"
-              [formControlName]="i"
-            />
-          </div>
-          <div *ngIf="units?.invalid && (units?.dirty || units?.touched)">
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="units?.errors?.['required']"
-              >Units is required</small
+              *ngIf="firstYearFirstSemMin?.errors?.['required']"
+              >First year first sem minimum units required</small
             >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>First Year First Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="firstYearFirstSemMax"
+            placeholder="First Year First Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              firstYearFirstSemMax?.invalid &&
+              (firstYearFirstSemMax?.dirty || firstYearFirstSemMax?.touched)
+            "
+          >
             <small
               [style]="{ color: 'var(--red)' }"
-              *ngIf="units?.errors?.['minUnitsArray']"
-              >Units should be greater than 1</small
+              *ngIf="firstYearFirstSemMax?.errors?.['required']"
+              >First year first sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>First Year Second Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="firstYearSecondSemMin"
+            placeholder="First Year Second Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              firstYearSecondSemMin?.invalid &&
+              (firstYearSecondSemMin?.dirty || firstYearSecondSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="firstYearSecondSemMin?.errors?.['required']"
+              >First year second sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>First Year Second Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="firstYearSecondSemMax"
+            placeholder="First Year Second Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              firstYearSecondSemMax?.invalid &&
+              (firstYearSecondSemMax?.dirty || firstYearSecondSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="firstYearSecondSemMax?.errors?.['required']"
+              >First year second sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Second Year First Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="secondYearFirstSemMin"
+            placeholder="Second Year First Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              secondYearFirstSemMin?.invalid &&
+              (secondYearFirstSemMin?.dirty || secondYearFirstSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="secondYearFirstSemMin?.errors?.['required']"
+              >Second year first sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Second Year First Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="secondYearFirstSemMax"
+            placeholder="Second Year First Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              secondYearFirstSemMax?.invalid &&
+              (secondYearFirstSemMax?.dirty || secondYearFirstSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="secondYearFirstSemMax?.errors?.['required']"
+              >Second year first sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Second Year Second Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="secondYearSecondSemMin"
+            placeholder="Second Year Second Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              secondYearSecondSemMin?.invalid &&
+              (secondYearSecondSemMin?.dirty || secondYearSecondSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="secondYearSecondSemMin?.errors?.['required']"
+              >Second year second sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Second Year Second Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="secondYearSecondSemMax"
+            placeholder="Second Year Second Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              secondYearSecondSemMax?.invalid &&
+              (secondYearSecondSemMax?.dirty || secondYearSecondSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="secondYearSecondSemMax?.errors?.['required']"
+              >Second year second sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Third Year First Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="thirdYearFirstSemMin"
+            placeholder="Third Year First Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              thirdYearFirstSemMin?.invalid &&
+              (thirdYearFirstSemMin?.dirty || thirdYearFirstSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="thirdYearFirstSemMin?.errors?.['required']"
+              >Third year first sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Third Year First Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="thirdYearFirstSemMax"
+            placeholder="Third Year First Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              thirdYearFirstSemMax?.invalid &&
+              (thirdYearFirstSemMax?.dirty || thirdYearFirstSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="thirdYearFirstSemMax?.errors?.['required']"
+              >Third year first sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Third Year Second Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="thirdYearSecondSemMin"
+            placeholder="Third Year Second Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              thirdYearSecondSemMin?.invalid &&
+              (thirdYearSecondSemMin?.dirty || thirdYearSecondSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="thirdYearSecondSemMin?.errors?.['required']"
+              >Third year second sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Third Year Second Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="thirdYearSecondSemMax"
+            placeholder="Third Year Second Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              thirdYearSecondSemMax?.invalid &&
+              (thirdYearSecondSemMax?.dirty || thirdYearSecondSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="thirdYearSecondSemMax?.errors?.['required']"
+              >Third year second sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Fourth Year First Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="fourthYearFirstSemMin"
+            placeholder="Fourth Year First Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              fourthYearFirstSemMin?.invalid &&
+              (fourthYearFirstSemMin?.dirty || fourthYearFirstSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="fourthYearFirstSemMin?.errors?.['required']"
+              >Fourth year first sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Fourth Year First Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="fourthYearFirstSemMax"
+            placeholder="Fourth Year First Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              fourthYearFirstSemMax?.invalid &&
+              (fourthYearFirstSemMax?.dirty || fourthYearFirstSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="fourthYearFirstSemMax?.errors?.['required']"
+              >Fourth year first sem maximum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Fourth Year Second Sem Minimum units:</label>
+          <input
+            pInputText
+            formControlName="fourthYearSecondSemMin"
+            placeholder="Fourth Year Second Sem Minimum units"
+          />
+          <div
+            *ngIf="
+              fourthYearSecondSemMin?.invalid &&
+              (fourthYearSecondSemMin?.dirty || fourthYearSecondSemMin?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="fourthYearSecondSemMin?.errors?.['required']"
+              >Fourth year second sem minimum units required</small
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Fourth Year Second Sem Maximum units:</label>
+          <input
+            pInputText
+            formControlName="fourthYearSecondSemMax"
+            placeholder="Fourth Year Second Sem Maximum units"
+          />
+          <div
+            *ngIf="
+              fourthYearSecondSemMax?.invalid &&
+              (fourthYearSecondSemMax?.dirty || fourthYearSecondSemMax?.touched)
+            "
+          >
+            <small
+              [style]="{ color: 'var(--red)' }"
+              *ngIf="fourthYearSecondSemMax?.errors?.['required']"
+              >Fourth year second sem maximum units required</small
             >
           </div>
         </div>
