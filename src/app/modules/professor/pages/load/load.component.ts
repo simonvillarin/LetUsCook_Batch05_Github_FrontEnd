@@ -81,6 +81,7 @@ export class LoadComponent implements OnInit {
     this.getEvaluations();
     this.getSchedule();
     this.getEvals();
+    this.addStudentToAttendance();
   }
 
   getParam = () => {
@@ -134,6 +135,12 @@ export class LoadComponent implements OnInit {
       .subscribe((data: any) => {
         this.evaluations = data.sort((a: any, b: any) => b.evalonId - a.evalId);
       });
+  };
+
+  addStudentToAttendance = () => {
+    this.attendanceStudentService
+      .getAttendance(this.sectionId, this.subjectId)
+      .subscribe();
   };
 
   convertDate = (dateStr: string) => {

@@ -212,16 +212,6 @@ export class StudentComponent implements OnInit {
       };
       this.gradeService.addGrade(payload).subscribe();
 
-      const payload1 = {
-        studentId: this.student.studentId,
-        subjectId: sched.subject.subjectId,
-        sem: this.student.sem,
-        yearLevel: this.student.yearLevel,
-        academicYear: this.student.academicYear,
-        status: '',
-      };
-      this.attendanceStudentService.addAttendance(payload1).subscribe();
-
       const payload2 = {
         section: sched.section.section,
         subjectId: sched.subject.subjectId,

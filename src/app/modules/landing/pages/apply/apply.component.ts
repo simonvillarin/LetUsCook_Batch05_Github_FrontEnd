@@ -201,6 +201,7 @@ export class ApplyComponent implements OnInit {
       this.programError = false;
       this.studentNo == '';
       this.existing = false;
+      this.yearLevels = ['Grade 12'];
     } else if (typeOfStudent == 'Existing Student') {
       this.studentNoError = false;
       this.program = '';
