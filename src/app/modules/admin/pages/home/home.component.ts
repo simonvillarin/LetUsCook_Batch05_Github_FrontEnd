@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   professorPerDeptOptions: any;
   studentPerRoom: any;
   studentStatusPie: any;
+  yearLevel: any;
 
   constructor(
     private authService: AuthService,
@@ -62,6 +63,7 @@ export class HomeComponent implements OnInit {
     this.getStudentStatus();
     this.getNumStudentsPerCourseBar();
     this.getStudentPerRoom();
+    this.getYearLevel();
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -138,6 +140,7 @@ export class HomeComponent implements OnInit {
       });
 
       this.programs = {
+     
         labels: labels,
         datasets: [
           {
@@ -162,26 +165,8 @@ export class HomeComponent implements OnInit {
   };
 
   getStudentStatus = () => {
-    this.applicationService.getAllApplications().subscribe((data) => {
-      console.log(data);
-
-      const labels = data.map((item: any) => item.status);
-
-      const colors: any = [];
-
-      data.map((student: any) => {
-        colors.push(this.getRandomColor().randomColor);
-      });
-
-      this.studentStatusPie = {
-        labels: labels,
-        datasets: [
-          {
-            data: 'values',
-            backgroundColor: colors,
-          },
-        ],
-      };
+    this.applicationService.getStatusCount().subscribe((data) => {
+      this.studentStatusPie = data;
     });
   };
 
@@ -194,6 +179,7 @@ export class HomeComponent implements OnInit {
           arr.push(item.schedules);
         }
       });
+      
       arr.map((sched: any) => {
         sched.map((sub: any) => {
           let isExist = false;
@@ -226,6 +212,7 @@ export class HomeComponent implements OnInit {
       });
 
       this.studentBar = {
+        responsive: true,
         labels: labels,
         datasets: [
           {
@@ -262,6 +249,12 @@ export class HomeComponent implements OnInit {
       };
     });
   };
+
+  getYearLevel = () => {
+    this.studentService.getYearLevelCount().subscribe((data) => {
+      this.yearLevel = data;
+    })
+  }
 
   getRandomColor = () => {
     const minBrightness = 168;

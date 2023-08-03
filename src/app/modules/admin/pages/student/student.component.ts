@@ -139,11 +139,9 @@ export class StudentComponent implements OnInit {
   };
 
   onApproval = (student: any) => {
-    if (this.selectedSchedules.length > 0) {
-      this.student = student;
-      this.schedules = student.tempSched;
-      this.scheduleDialog = true;
-    }
+    this.student = student;
+    this.schedules = student.tempSched;
+    this.scheduleDialog = true;
   };
 
   onCloseSchedTable = () => {

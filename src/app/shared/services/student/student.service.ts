@@ -59,8 +59,47 @@ export class StudentService {
             genderCount.datasets[0].data[2]++;
           }
         });
-
+        
         return genderCount;
+        
+      })
+    );
+  }
+
+  getYearLevelCount(): Observable<any> {
+    const colors: any[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      colors.push(this.getRandomColor().randomColor);
+    }
+
+    return this.getAllStudents().pipe(
+      map((students: any[]) => {
+        let yearLvlCount = {
+          labels: ['First Year', 'Second Year', 'Third Year', 'Fourth Year'],
+          datasets: [
+            {
+              label: 'Number of Students',
+              data: [0, 0, 0, 0],
+              backgroundColor: colors,
+            },
+          ],
+        };
+
+        students.forEach((student) => {
+          if (student.yearLevel === 'First Year') {
+            yearLvlCount.datasets[0].data[0]++;
+          } else if (student.yearLevel === 'Second Year') {
+            yearLvlCount.datasets[0].data[1]++;
+          } else if (student.yearLevel === 'Third Year') {
+            yearLvlCount.datasets[0].data[2]++;
+          } else if (student.yearLevel === 'Fourth Year') {
+            yearLvlCount.datasets[0].data[3]++;
+          }
+        });
+        
+        return yearLvlCount;
+        
       })
     );
   }
