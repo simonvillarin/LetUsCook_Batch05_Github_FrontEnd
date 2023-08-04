@@ -42,6 +42,8 @@
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"
+                [(ngModel)]="search"
+                (ngModelChange)="onSearchChange($event)"
               />
             </div>
           </div>
@@ -177,6 +179,8 @@
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"
+                [(ngModel)]="search1"
+                (ngModelChange)="onSearch1Change($event)"
               />
             </div>
           </div>
@@ -197,7 +201,9 @@
               <th style="width: 12%">Program</th>
               <th style="width: 14%">Year Level</th>
               <th style="width: 14%">Term</th>
+              <th style="width: 14%">Type</th>
               <th style="width: 15%">Enrolled Date</th>
+              <th style="width: 14%">Status</th>
               <th style="width: 15%">Actions</th>
             </tr>
           </ng-template>
@@ -223,7 +229,29 @@
               <td>{{ student.program.programCode }}</td>
               <td>{{ student.yearLevel }}</td>
               <td>{{ student.sem }}</td>
+              <td>
+                <div
+                  class="status {{
+                    student.type == 'Regular'
+                      ? 'activate'
+                      : student.type == 'Irregular'
+                      ? 'pending'
+                      : ''
+                  }}"
+                >
+                  {{ student.type }}
+                </div>
+              </td>
               <td>{{ convertDate(student.dateEnrolled) }}</td>
+              <td>
+                <div
+                  class="status {{
+                    student.activeDeactive ? 'activate' : 'deactive'
+                  }}"
+                >
+                  {{ student.activeDeactive ? "Active" : "Inactive" }}
+                </div>
+              </td>
               <td>
                 <div class="table-actions">
                   <ng-container *ngIf="student.tempSched.length > 0">
@@ -237,6 +265,7 @@
                   >
 
                   <button
+                    *ngIf="canActivateDeactive(student)"
                     class="table-action {{
                       !student.activeDeactive ? 'activate' : 'deactive'
                     }}"

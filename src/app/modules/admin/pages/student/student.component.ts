@@ -36,6 +36,8 @@ export class StudentComponent implements OnInit {
   termSelectedStudent: string = '';
   yearLevelSelectedApplication: string = '';
   termSelectedApplication: string = '';
+  search: string = '';
+  search1: string = '';
 
   isInputDisabled: boolean = true;
   isDialogOpen: boolean = false;
@@ -46,6 +48,7 @@ export class StudentComponent implements OnInit {
   isApprovalDialogOpen: boolean = false;
   scheduleDialog: boolean = false;
   status: boolean = false;
+  canEdit: boolean = false;
 
   alert: boolean = false;
   alertStatus: string = '';
@@ -81,6 +84,7 @@ export class StudentComponent implements OnInit {
     this.getAllApplications();
     this.getAllStudents();
   }
+
   getAllApplications = () => {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
@@ -179,9 +183,6 @@ export class StudentComponent implements OnInit {
         schedId.push(id);
       });
     });
-
-    this.pdfService.generatePDF(this.student.studentId).subscribe();
-
     const payload = {
       schedId: schedId,
       tempSchedId: [],
@@ -211,7 +212,6 @@ export class StudentComponent implements OnInit {
         dateModified: '',
       };
       this.gradeService.addGrade(payload).subscribe();
-
       const payload2 = {
         section: sched.section.section,
         subjectId: sched.subject.subjectId,
@@ -222,7 +222,6 @@ export class StudentComponent implements OnInit {
         .addEval(payload2)
         .subscribe((res) => console.log(res, 'res'));
     });
-
     const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);
     uniqueRooms.map((room: any) => {
       this.roomService.getRoomById(room.room.roomId).subscribe((data: any) => {
@@ -233,6 +232,7 @@ export class StudentComponent implements OnInit {
         this.roomService.updateRoom(room.room.roomId, payload).subscribe();
       });
     });
+    this.pdfService.generatePDF(this.student.studentId).subscribe();
   };
 
   onClickRemove = (student: any) => {
@@ -242,20 +242,28 @@ export class StudentComponent implements OnInit {
 
   onRemoveStudent = () => {
     const payload = {
-      status: false,
+      status: '',
+    };
+
+    const payload2 = {
+      activeDeactive: false,
     };
 
     this.applicationService
       .updateApplication(this.student.appId, payload)
       .subscribe((res) => {
-        this.accountService.deleteAccount(this.student.studentId).subscribe();
         this.accountService
-          .deleteAccount(this.student.parent.parentId)
+          .updateAccount(this.student.studentId, payload2)
+          .subscribe();
+        this.accountService
+          .updateAccount(this.student.parent.parentId, payload2)
           .subscribe();
         this.parentService
-          .deleteParent(this.student.parent.parentId)
+          .updateParent(this.student.parent.parentId, payload2)
           .subscribe();
-        this.studentService.deleteStudent(this.student.studentId).subscribe();
+        this.studentService
+          .updateStudent(this.student.studentId, payload2)
+          .subscribe();
         const emailPayload = {
           email: this.application.email,
           subject: 'Update on Your Application to Educate University',
@@ -299,19 +307,38 @@ export class StudentComponent implements OnInit {
     const payload = {
       activeDeactive: !this.student.activeDeactive,
     };
+    console.log(payload);
+
     this.studentService
       .updateStudent(this.student.studentId, payload)
       .subscribe(() => {
         this.parentService
           .updateParent(this.student.parent.parentId, payload)
           .subscribe();
+        this.accountService
+          .updateAccount(this.student.studentId, payload)
+          .subscribe();
+        this.accountService
+          .updateAccount(this.student.parent.parentId, payload)
+          .subscribe();
         this.getAllStudents();
         this.isDeleteDialogOpen = false;
       });
   };
 
+  canActivateDeactive = (student: any) => {
+    const hasPendingOrRejectedApp = this.applications.some((app: any) => {
+      return (
+        student.appId === app.appId &&
+        (app.status == false || app.status === null)
+      );
+    });
+    return !hasPendingOrRejectedApp;
+  };
+
   onCloseDeleteDialog = () => {
     this.isConfirmDialogOpen = false;
+    this.isDeleteDialogOpen = false;
   };
 
   onDeleteApplication = (application: any) => {
@@ -338,11 +365,30 @@ export class StudentComponent implements OnInit {
         .updateApplication(this.application.appId, payload)
         .subscribe(() => {
           this.isConfirmDialogOpen = false;
-          this.studentService.addStudent(this.application).subscribe(() => {
-            this.getAllStudents();
-          });
+
           this.getAllApplications();
         });
+
+      let isExist = false;
+      let studentId = 0;
+      this.students.map((student: any) => {
+        if (student.appId == this.application.appId) {
+          studentId = student.studentId;
+          isExist = true;
+          return;
+        }
+      });
+
+      if (isExist) {
+        const payload1 = {
+          activeDeactive: true,
+        };
+        this.studentService.updateStudent(studentId, payload1).subscribe();
+      } else {
+        this.studentService.addStudent(this.application).subscribe(() => {
+          this.getAllStudents();
+        });
+      }
     } else {
       const payload = {
         status: this.isEditing,
@@ -454,24 +500,47 @@ export class StudentComponent implements OnInit {
     });
   };
 
-  refreshStudent = () => {
-    this.yearLevelSelectedStudent = '';
-    this.termSelectedStudent = '';
-    this.studentService.getAllStudents().subscribe((data: any) => {
-      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
-    });
-  };
-
-  refreshApplication = () => {
-    this.yearLevelSelectedApplication = '';
-    this.termSelectedApplication = '';
+  onSearchChange = (searchTerm: string) => {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
         (a: any, b: any) => a.applicationId - b.applicationId
       );
       this.applications = this.applications.filter(
-        (app: any) => app.status == false
+        (app: any) =>
+          app.firstname
+            .toLowerCase()
+            .includes(searchTerm.toLocaleLowerCase()) ||
+          app.middlename
+            .toLowerCase()
+            .includes(searchTerm.toLocaleLowerCase()) ||
+          app.lastname.toLowerCase().includes(searchTerm.toLocaleLowerCase())
       );
     });
+  };
+
+  onSearch1Change = (searchTerm: string) => {
+    this.studentService.getAllStudents().subscribe((data: any) => {
+      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+      this.students = this.students.filter(
+        (stud: any) =>
+          stud.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          stud.middlename.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          stud.lastname.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  };
+
+  refreshStudent = () => {
+    this.yearLevelSelectedStudent = '';
+    this.termSelectedStudent = '';
+    this.getAllStudents();
+    this.search1 = '';
+  };
+
+  refreshApplication = () => {
+    this.yearLevelSelectedApplication = '';
+    this.termSelectedApplication = '';
+    this.getAllApplications();
+    this.search = '';
   };
 }
