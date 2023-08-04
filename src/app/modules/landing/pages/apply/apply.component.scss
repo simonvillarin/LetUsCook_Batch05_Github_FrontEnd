@@ -425,8 +425,7 @@ span {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .school-1,
-  .school-2 {
+  .school-1 {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -470,7 +469,7 @@ span {
   }
 
   .school-2 {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .stepper-4 > div {
