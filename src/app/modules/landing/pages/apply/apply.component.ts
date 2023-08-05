@@ -310,41 +310,6 @@ export class ApplyComponent implements OnInit {
               } else {
                 alert('Graduate');
               }
-              this.studNo = res[0].student.studentNo;
-              this.studentId = res[0].student.studentId;
-              this.parentService
-                .getParentById(res[0].student.parentId)
-                .subscribe((data: any) => {
-                  this.parentId = data.parentId;
-                  this.existForm.patchValue({
-                    yearLevel: this.levels[0],
-                    sem: this.terms[0],
-                    academicYear: this.schoolYear[0],
-                    telephone: res[0].student.telephone,
-                    mobile: res[0].student.mobile,
-                    email: res[0].student.email,
-                    parentFirstname: data.firstname,
-                    parentMiddlename: data.middlename,
-                    parentLastname: data.lastname,
-                    parentSuffix: data.suffix,
-                    parentAddress: data.address,
-                    parentEmail: data.email,
-                    parentContact: data.contact,
-                    parentRelationship: data.relationship,
-                  });
-                  this.programService
-                    .getProgramById(res[0].student.programId)
-                    .subscribe((data: any) => {
-                      this.program = data.programTitle;
-                      this.stepTwo = true;
-                      this.stepThree = false;
-                      this.stepFour = false;
-                      this.stepOne = false;
-                      this.stepperNumber = 2;
-                      this.stepOneDone = true;
-                      scroll(0, 0);
-                    });
-                });
             }
           });
       } else {
