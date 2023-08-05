@@ -16,4 +16,8 @@ export class StudentHistoryService {
   getStudentByStudentNo = (studentNo: any): Observable<any[]> => {
     return this.http.get<any[]>(`${this.BASE_URL}/shs/student/${studentNo}`);
   };
+
+  addStudentHistory = (student: any) => {
+    return this.http.post(`${this.BASE_URL}/sh`, student);
+  };
 }

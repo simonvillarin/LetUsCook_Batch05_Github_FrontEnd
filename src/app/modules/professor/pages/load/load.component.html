@@ -56,67 +56,69 @@
           </ng-template>
           <ng-template pTemplate="body" let-att>
             <ng-container *ngIf="att.activeDeactive">
-              <tr>
-                <td>
-                  <div class="avatar-container">
-                    <div class="avatar">
-                      <img
-                        src="{{
-                          att.student.image ||
-                            '../../../../../../../assets/images/blank-profile.jpg'
-                        }}"
-                        alt="Student Image"
-                      />
+              <ng-container *ngIf="!att.date">
+                <tr>
+                  <td>
+                    <div class="avatar-container">
+                      <div class="avatar">
+                        <img
+                          src="{{
+                            att.student.image ||
+                              '../../../../../../../assets/images/blank-profile.jpg'
+                          }}"
+                          alt="Student Image"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  {{ att.student.firstname }} {{ att.student.middlename }}
-                  {{ att.student.lastname }} {{ att.student.suffix }}
-                </td>
-                <td>
-                  {{ convertDate1() }}
-                </td>
-                <td>
-                  <div
-                    class="{{
-                      att.status == 'Present'
-                        ? 'status present'
-                        : att.status == 'Absent'
-                        ? 'status absent'
-                        : att.status == 'Late'
-                        ? 'status late'
-                        : ''
-                    }}"
-                  >
-                    {{ att.status || "-" }}
-                  </div>
-                </td>
-                <td>
-                  <div class="table-actions">
-                    <button
-                      class="table-btn schedule"
-                      title="Edit"
-                      (click)="onAttendance(att)"
+                  </td>
+                  <td>
+                    {{ att.student.firstname }} {{ att.student.middlename }}
+                    {{ att.student.lastname }} {{ att.student.suffix }}
+                  </td>
+                  <td>
+                    {{ convertDate(att.date) }}
+                  </td>
+                  <td>
+                    <div
+                      class="{{
+                        att.status == 'Present'
+                          ? 'status present'
+                          : att.status == 'Absent'
+                          ? 'status absent'
+                          : att.status == 'Late'
+                          ? 'status late'
+                          : ''
+                      }}"
                     >
-                      <span class="material-symbols-rounded table-icon">
-                        calendar_month
-                      </span>
-                    </button>
-                    <ng-container *ngIf="canEditAttendance">
+                      {{ att.status }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="table-actions">
                       <button
-                        class="table-btn edit"
+                        class="table-btn schedule"
                         title="Edit"
-                        (click)="onEditAtt(att)"
+                        (click)="onAttendance(att)"
                       >
                         <span class="material-symbols-rounded table-icon">
-                          edit
+                          calendar_month
                         </span>
                       </button>
-                    </ng-container>
-                  </div>
-                </td>
-              </tr>
+                      <ng-container *ngIf="canEditAttendance">
+                        <button
+                          class="table-btn edit"
+                          title="Edit"
+                          (click)="onEditAtt(att)"
+                        >
+                          <span class="material-symbols-rounded table-icon">
+                            edit
+                          </span>
+                        </button>
+                      </ng-container>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
           </ng-template>
         </p-table>

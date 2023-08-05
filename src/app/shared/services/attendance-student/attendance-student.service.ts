@@ -43,6 +43,10 @@ export class AttendanceStudentService {
     );
   };
 
+  getAttendanceByDay = () => {
+    return this.http.get(`${this.BASE_URL}/attendance/students/day`);
+  };
+
   addAttendance = (attendance: any) => {
     return this.http.post(`${this.BASE_URL}/attendance/student`, attendance);
   };

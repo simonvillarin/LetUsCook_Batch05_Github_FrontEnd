@@ -13,6 +13,7 @@ import { RoomService } from 'src/app/shared/services/room/room.service';
 import { EvalsService } from 'src/app/shared/services/evals/evals.service';
 import { PdfService } from 'src/app/shared/services/pdf/pdf.service';
 import { EmailService } from 'src/app/shared/services/email/email.service';
+import { StudentHistoryService } from 'src/app/shared/services/student-history/student-history.service';
 
 @Component({
   selector: 'app-student',
@@ -36,6 +37,8 @@ export class StudentComponent implements OnInit {
   termSelectedStudent: string = '';
   yearLevelSelectedApplication: string = '';
   termSelectedApplication: string = '';
+  search: string = '';
+  search1: string = '';
 
   isInputDisabled: boolean = true;
   isDialogOpen: boolean = false;
@@ -46,6 +49,7 @@ export class StudentComponent implements OnInit {
   isApprovalDialogOpen: boolean = false;
   scheduleDialog: boolean = false;
   status: boolean = false;
+  canEdit: boolean = false;
 
   alert: boolean = false;
   alertStatus: string = '';
@@ -67,6 +71,7 @@ export class StudentComponent implements OnInit {
     private pdfService: PdfService,
     private evalService: EvalsService,
     private emailService: EmailService,
+    private studentHistoryService: StudentHistoryService,
     private fb: FormBuilder,
     private datePipe: DatePipe
   ) {
@@ -81,6 +86,7 @@ export class StudentComponent implements OnInit {
     this.getAllApplications();
     this.getAllStudents();
   }
+
   getAllApplications = () => {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
@@ -179,9 +185,6 @@ export class StudentComponent implements OnInit {
         schedId.push(id);
       });
     });
-
-    this.pdfService.generatePDF(this.student.studentId).subscribe();
-
     const payload = {
       schedId: schedId,
       tempSchedId: [],
@@ -212,27 +215,34 @@ export class StudentComponent implements OnInit {
       };
       this.gradeService.addGrade(payload).subscribe();
 
+      const payload1 = {
+        studentId: this.student.studentId,
+        subjectId: sched.subject.subjectId,
+        sem: this.student.sem,
+        yearLevel: this.student.yearLevel,
+        academicYear: this.student.academicYear,
+      };
+      this.attendanceStudentService.addAttendance(payload1).subscribe();
+
       const payload2 = {
         section: sched.section.section,
         subjectId: sched.subject.subjectId,
       };
-      console.log(payload2);
-
-      this.evalService
-        .addEval(payload2)
-        .subscribe((res) => console.log(res, 'res'));
+      this.evalService.addEval(payload2).subscribe();
     });
-
     const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);
+    console.log(uniqueRooms);
     uniqueRooms.map((room: any) => {
       this.roomService.getRoomById(room.room.roomId).subscribe((data: any) => {
         let numOfStudents = data.numOfStudents + 1;
         let payload = {
           numOfStudents: numOfStudents,
         };
+        console.log(payload);
         this.roomService.updateRoom(room.room.roomId, payload).subscribe();
       });
     });
+    this.pdfService.generatePDF(this.student.studentId).subscribe();
   };
 
   onClickRemove = (student: any) => {
@@ -242,51 +252,114 @@ export class StudentComponent implements OnInit {
 
   onRemoveStudent = () => {
     const payload = {
-      status: false,
+      status: '',
     };
 
+    let yearLevel = '';
+    let sem = '';
+    if (
+      this.student.yearLevel == 'First Year' &&
+      this.student.sem == 'First Term'
+    ) {
+      yearLevel = 'First Year';
+      sem = 'First Term';
+    } else if (
+      this.student.yearLevel == 'First Year' &&
+      this.student.sem == 'Second Term'
+    ) {
+      yearLevel = 'First Year';
+      sem = 'First Term';
+    } else if (
+      this.student.yearLevel == 'Second Year' &&
+      this.student.sem == 'First Term'
+    ) {
+      yearLevel = 'First Year';
+      sem = 'First Term';
+    } else if (
+      this.student.yearLevel == 'Second Year' &&
+      this.student.sem == 'Second Term'
+    ) {
+      yearLevel = 'Second Year';
+      sem = 'First Term';
+    } else if (
+      this.student.yearLevel == 'Third Year' &&
+      this.student.sem == 'First Term'
+    ) {
+      yearLevel = 'Second Year';
+      sem = 'Second Term';
+    } else if (
+      this.student.yearLevel == 'Third Year' &&
+      this.student.sem == 'Second Term'
+    ) {
+      yearLevel = 'Third Year';
+      sem = 'First Term';
+    } else if (
+      this.student.yearLevel == 'Fourth Year' &&
+      this.student.sem == 'First Term'
+    ) {
+      yearLevel = 'Third Year';
+      sem = 'First Term';
+    } else {
+      yearLevel = 'Fourth Year';
+      sem = 'Second Term';
+    }
+
+    const payload1 = {
+      activeDeactive: false,
+      schedId: [],
+      tempSchedId: [],
+      yearLevel: yearLevel,
+      sem: sem,
+      academicYear: this.student.academicYear,
+    };
     this.applicationService
       .updateApplication(this.student.appId, payload)
-      .subscribe((res) => {
-        this.accountService.deleteAccount(this.student.studentId).subscribe();
+      .subscribe(() => {
         this.accountService
-          .deleteAccount(this.student.parent.parentId)
-          .subscribe();
-        this.parentService
-          .deleteParent(this.student.parent.parentId)
-          .subscribe();
-        this.studentService.deleteStudent(this.student.studentId).subscribe();
-        const emailPayload = {
-          email: this.application.email,
-          subject: 'Update on Your Application to Educate University',
-          body:
-            'Dear ' +
-            this.application.firstname +
-            ',' +
-            '\n\n' +
-            'I hope this email finds you well. I am writing to inform you about the status of your application to Educate University. After careful consideration and review by our admissions committee, we regret to inform you that we are unable to offer you a place as a student in the upcoming academic year. ' +
-            '\n' +
-            'Please know that our admissions process is highly competitive, and we receive many exceptional applications each year. While we recognize your accomplishments and strengths, we had to make difficult decisions due to the limited number of available spaces. ' +
-            '\n' +
-            'We understand that this may be disappointing news, and we want to assure you that this decision does not reflect on your abilities or potential. Many factors contribute to our selection process, and we encourage you to explore other educational opportunities that align with your goals and aspirations. ' +
-            '\n\n' +
-            'Once again, thank you for considering Educate University. We wish you all the success and fulfillment in your academic and personal pursuits.' +
-            '\n\n' +
-            'With warm regards,' +
-            '\n\n' +
-            'Simon Villarin' +
-            '\n' +
-            'School Registrar' +
-            '\n' +
-            'Educate University',
-        };
-        this.emailService.sendEmail(emailPayload).subscribe(() => {
-          this.getAllStudents();
-          this.getAllApplications();
-        });
-
-        this.isRemoveDialogOpen = false;
+          .updateAccount(this.student.studentId, payload1)
+          .subscribe(() => {
+            this.accountService
+              .updateAccount(this.student.parent.parentId, payload1)
+              .subscribe(() => {
+                this.parentService
+                  .updateParent(this.student.parent.parentId, payload1)
+                  .subscribe(() => {
+                    this.studentService
+                      .updateStudent(this.student.studentId, payload1)
+                      .subscribe(() => {
+                        this.getAllStudents();
+                        this.getAllApplications();
+                        this.isRemoveDialogOpen = false;
+                      });
+                  });
+              });
+          });
       });
+    const emailPayload = {
+      email: this.application.email,
+      subject: 'Update on Your Application to Educate University',
+      body:
+        'Dear ' +
+        this.application.firstname +
+        ',' +
+        '\n\n' +
+        'I hope this email finds you well. I am writing to inform you about the status of your application to Educate University. After careful consideration and review by our admissions committee, we regret to inform you that we are unable to offer you a place as a student in the upcoming academic year. ' +
+        '\n' +
+        'Please know that our admissions process is highly competitive, and we receive many exceptional applications each year. While we recognize your accomplishments and strengths, we had to make difficult decisions due to the limited number of available spaces. ' +
+        '\n' +
+        'We understand that this may be disappointing news, and we want to assure you that this decision does not reflect on your abilities or potential. Many factors contribute to our selection process, and we encourage you to explore other educational opportunities that align with your goals and aspirations. ' +
+        '\n\n' +
+        'Once again, thank you for considering Educate University. We wish you all the success and fulfillment in your academic and personal pursuits.' +
+        '\n\n' +
+        'With warm regards,' +
+        '\n\n' +
+        'Simon Villarin' +
+        '\n' +
+        'School Registrar' +
+        '\n' +
+        'Educate University',
+    };
+    // this.emailService.sendEmail(emailPayload).subscribe(() => {});
   };
 
   onClickActive = (student: any) => {
@@ -304,14 +377,34 @@ export class StudentComponent implements OnInit {
       .subscribe(() => {
         this.parentService
           .updateParent(this.student.parent.parentId, payload)
-          .subscribe();
-        this.getAllStudents();
-        this.isDeleteDialogOpen = false;
+          .subscribe(() => {
+            this.accountService
+              .updateAccount(this.student.studentId, payload)
+              .subscribe(() => {
+                this.accountService
+                  .updateAccount(this.student.parent.parentId, payload)
+                  .subscribe(() => {
+                    this.getAllStudents();
+                    this.isDeleteDialogOpen = false;
+                  });
+              });
+          });
       });
+  };
+
+  canActivateDeactive = (student: any) => {
+    const hasPendingOrRejectedApp = this.applications.some((app: any) => {
+      return (
+        student.appId === app.appId &&
+        (app.status == false || app.status === null)
+      );
+    });
+    return !hasPendingOrRejectedApp;
   };
 
   onCloseDeleteDialog = () => {
     this.isConfirmDialogOpen = false;
+    this.isDeleteDialogOpen = false;
   };
 
   onDeleteApplication = (application: any) => {
@@ -333,16 +426,118 @@ export class StudentComponent implements OnInit {
       const payload = {
         status: true,
       };
-      this.application.schedId = [];
       this.applicationService
         .updateApplication(this.application.appId, payload)
         .subscribe(() => {
           this.isConfirmDialogOpen = false;
-          this.studentService.addStudent(this.application).subscribe(() => {
-            this.getAllStudents();
-          });
           this.getAllApplications();
         });
+
+      let isExist = false;
+      let student: any = {};
+      this.students.map((stud: any) => {
+        if (stud.studentId == this.application.studentId) {
+          student = stud;
+          isExist = true;
+          return;
+        }
+      });
+      if (isExist) {
+        let yearLevel = '';
+        let sem = '';
+        if (student.yearLevel == 'First Year' && student.sem == 'First Term') {
+          yearLevel = 'First Year';
+          sem = 'Second Term';
+        } else if (
+          student.yearLevel == 'First Year' &&
+          student.sem == 'Second Term'
+        ) {
+          yearLevel = 'Second Year';
+          sem = 'First Term';
+        } else if (
+          student.yearLevel == 'Second Year' &&
+          student.sem == 'First Term'
+        ) {
+          yearLevel = 'Second Year';
+          sem = 'Second Term';
+        } else if (
+          student.yearLevel == 'Second Year' &&
+          student.sem == 'Second Term'
+        ) {
+          yearLevel = 'Third Year';
+          sem = 'First Term';
+        } else if (
+          student.yearLevel == 'Third Year' &&
+          student.sem == 'First Term'
+        ) {
+          yearLevel = 'Third Year';
+          sem = 'Second Term';
+        } else if (
+          student.yearLevel == 'Third Year' &&
+          student.sem == 'Second Term'
+        ) {
+          yearLevel = 'Fourth Year';
+          sem = 'First Term';
+        } else if (
+          student.yearLevel == 'Fourth Year' &&
+          student.sem == 'First Term'
+        ) {
+          yearLevel = 'Fourth Year';
+          sem = 'Second Term';
+        } else {
+          yearLevel = 'Fourth Year';
+          sem = 'Second Term';
+        }
+        const payload1 = {
+          activeDeactive: true,
+          schedId: [],
+          tempSchedId: [],
+          yearLevel: yearLevel,
+          sem: sem,
+          academicYear: this.application.academicYear,
+          appId: this.application.appId,
+        };
+
+        this.studentService
+          .getStudentById(this.application.studentId)
+          .subscribe((data: any) => {
+            const schedules: any = [];
+            data.schedules.forEach((sched: any) => {
+              sched.schedId.forEach((s: any) => {
+                schedules.push(s);
+              });
+            });
+            console.log(schedules);
+
+            const payload2 = {
+              studentId: data.studentId,
+              schedId: schedules,
+              yearLevel: data.yearLevel,
+              sem: data.sem,
+              academicYear: data.academicYear,
+            };
+            this.studentHistoryService
+              .addStudentHistory(payload2)
+              .subscribe((res) => console.log(res));
+          });
+        this.studentService
+          .updateStudent(student.studentId, payload1)
+          .subscribe(() => {
+            this.accountService
+              .updateAccount(student.studentId, payload1)
+              .subscribe(() => {
+                this.accountService
+                  .updateAccount(student.parent.parentId, payload1)
+                  .subscribe(() => {
+                    this.getAllStudents();
+                  });
+              });
+          });
+      } else {
+        this.studentService.addStudent(this.application).subscribe(() => {
+          this.getAllStudents();
+        });
+      }
     } else {
       const payload = {
         status: this.isEditing,
@@ -454,24 +649,47 @@ export class StudentComponent implements OnInit {
     });
   };
 
-  refreshStudent = () => {
-    this.yearLevelSelectedStudent = '';
-    this.termSelectedStudent = '';
-    this.studentService.getAllStudents().subscribe((data: any) => {
-      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
-    });
-  };
-
-  refreshApplication = () => {
-    this.yearLevelSelectedApplication = '';
-    this.termSelectedApplication = '';
+  onSearchChange = (searchTerm: string) => {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
         (a: any, b: any) => a.applicationId - b.applicationId
       );
       this.applications = this.applications.filter(
-        (app: any) => app.status == false
+        (app: any) =>
+          app.firstname
+            .toLowerCase()
+            .includes(searchTerm.toLocaleLowerCase()) ||
+          app.middlename
+            .toLowerCase()
+            .includes(searchTerm.toLocaleLowerCase()) ||
+          app.lastname.toLowerCase().includes(searchTerm.toLocaleLowerCase())
       );
     });
+  };
+
+  onSearch1Change = (searchTerm: string) => {
+    this.studentService.getAllStudents().subscribe((data: any) => {
+      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+      this.students = this.students.filter(
+        (stud: any) =>
+          stud.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          stud.middlename.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          stud.lastname.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  };
+
+  refreshStudent = () => {
+    this.yearLevelSelectedStudent = '';
+    this.termSelectedStudent = '';
+    this.getAllStudents();
+    this.search1 = '';
+  };
+
+  refreshApplication = () => {
+    this.yearLevelSelectedApplication = '';
+    this.termSelectedApplication = '';
+    this.getAllApplications();
+    this.search = '';
   };
 }

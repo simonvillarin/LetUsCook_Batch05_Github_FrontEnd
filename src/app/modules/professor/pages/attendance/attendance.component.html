@@ -62,19 +62,21 @@
                 {{ att.student.lastname }} {{ att.student.suffix }}
               </td>
               <td>
-                {{ convertDate1() }}
+                {{ convertDate(att.date) }}
               </td>
               <td>
                 <div
-                  class="status {{
+                  class="{{
                     att.status == 'Present'
-                      ? 'present'
+                      ? 'status present'
                       : att.status == 'Absent'
-                      ? 'absent'
-                      : 'late'
+                      ? 'status absent'
+                      : att.status == 'Late'
+                      ? 'status late'
+                      : ''
                   }}"
                 >
-                  {{ att.status || "-" }}
+                  {{ att.status }}
                 </div>
               </td>
               <td>

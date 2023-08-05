@@ -81,7 +81,6 @@ export class LoadComponent implements OnInit {
     this.getEvaluations();
     this.getSchedule();
     this.getEvals();
-    this.addStudentToAttendance();
   }
 
   getParam = () => {
@@ -99,9 +98,7 @@ export class LoadComponent implements OnInit {
         (sched: any) => sched.subject.subjectId == this.subjectId
       );
       this.schedule.map((sub: any) => this.days.push(sub.days));
-      let today = new Date();
-      const day: any = this.datePipe.transform(today, 'EEEE');
-      this.canEditAttendance = this.days[0].includes(day);
+      this.validateDay();
     });
   };
 
@@ -137,10 +134,26 @@ export class LoadComponent implements OnInit {
       });
   };
 
-  addStudentToAttendance = () => {
-    this.attendanceStudentService
-      .getAttendance(this.sectionId, this.subjectId)
-      .subscribe();
+  validateDay = () => {
+    let today = new Date();
+    const day: any = this.datePipe.transform(today, 'EEEE');
+    this.canEditAttendance = this.days[0].includes(day);
+    console.log(this.canEditAttendance);
+
+    if (this.canEditAttendance) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  getDateToday = (att: any) => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    return att === formattedDate;
   };
 
   convertDate = (dateStr: string) => {
@@ -488,7 +501,6 @@ export class LoadComponent implements OnInit {
 
   onSubmitAttendance = () => {
     const payload = {
-      date: this.date,
       status: this.attendanceForm.get('status')?.value,
     };
     this.attendanceStudentService

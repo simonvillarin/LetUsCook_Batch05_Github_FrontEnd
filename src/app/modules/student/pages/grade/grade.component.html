@@ -14,15 +14,17 @@
       </div>
       <div class="filter">
         <p-dropdown
-          placeholder="Filter by school year"
+          [options]="schoolYears"
+          placeholder="Filter by year and term"
           appendTo="body"
           [style]="{
-            width: '16rem',
+            width: '100%',
+            minWidth: '16rem',
           }"
         ></p-dropdown>
       </div>
     </div>
-    <p-table [value]="grades" [tableStyle]="{ 'min-width': '80rem' }">
+    <!-- <p-table [value]="grades" [tableStyle]="{ 'min-width': '80rem' }">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 20%">Subject</th>
@@ -86,6 +88,35 @@
           </ng-container>
         </ng-container>
       </ng-template>
-    </p-table>
+    </p-table> -->
+    <div class="card-container">
+      <div class="card" *ngFor="let grade of grades">
+        <div class="card-header">
+          <div class="title">{{ grade.subject.subjectTitle }}</div>
+          <div class="subtitle">
+            {{ grade.professor.fullname }} -
+            {{ convertDate(grade.dateModified) }}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-head">
+            <div class="grade-title">PRELIM</div>
+            <div class="grade-title">MIDTERM</div>
+            <div class="grade-title">FINALS</div>
+          </div>
+          <div class="card-content">
+            <div class="grade">{{ convertGrade(grade.prelim) }}</div>
+            <div class="grade">{{ convertGrade(grade.midterm) }}</div>
+            <div class="grade">{{ convertGrade(grade.finals) }}</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="final">Final Grade</div>
+          <div class="grade">
+            {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
