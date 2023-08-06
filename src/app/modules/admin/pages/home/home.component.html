@@ -1,11 +1,62 @@
 <main>
-  <div class="chart-container">
-    <div class="chart">
-      <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+  <div class="container">
+    <div class="welcome-container">
+      <div class="image-container">
+        <img
+          src="{{
+            userPic || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Profile Image"
+        />
+      </div>
+      <div class="welcome-label-container">
+        <label class="welcome-label">WELCOME BACK!</label>
+        <label class="name-label">{{ admin.firstname }}</label>
+      </div>
     </div>
-    <div class="chart">
-      <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+    <div class="counter-container">
+      <div class="counter">
+        <label class="total-label">Total Students</label>
+        <label class="number-label">{{ student }}</label>
+      </div>
+      <div class="counter">
+        <label class="total-label">Total Professors</label>
+        <label class="number-label">{{ professor }}</label>
+      </div>
+      <div class="counter">
+        <label class="total-label">Total Programs</label>
+        <label class="number-label">{{ program }}</label>
+      </div>
+      <div class="counter">
+        <label class="total-label">Total Courses</label>
+        <label class="number-label">{{ course }}</label>
+      </div>
     </div>
   </div>
-  <div></div>
+  <div class="chart-container">
+    <div class="pie-chart">
+      <label class="chart-label">Courses Per Program</label>
+      <p-chart type="pie" [data]="programs" class="pchart"></p-chart>
+    </div>
+    <div class="bar-chart">
+      <label class="chart-label">Student Per Room</label>
+      <p-chart type="bar" [data]="studentPerRoom"></p-chart>
+    </div>
+    <div class="pie-chart">
+      <label class="chart-label">Student Status</label>
+      <p-chart type="pie" [data]="studentStatusPie" class="pchart"></p-chart>
+    </div>
+    <div class="bar-chart">
+      <label class="chart-label">Student Per Course</label>
+      <p-chart type="bar" [data]="studentBar"></p-chart>
+    </div>
+    <div class="pie-chart">
+      <label class="chart-label">Gender</label>
+      <p-chart type="pie" [data]="gender" class="pchart"></p-chart>
+    </div>
+    <div class="bar-chart">
+      <label class="chart-label">Student Per Year Level</label>
+      <p-chart type="bar" [data]="yearLevel"></p-chart>
+    </div>
+  </div>
 </main>
