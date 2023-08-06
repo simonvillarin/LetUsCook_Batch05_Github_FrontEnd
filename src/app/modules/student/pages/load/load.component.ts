@@ -148,6 +148,10 @@ export class LoadComponent implements OnInit {
   title = '';
   body = '';
 
+  present = 0;
+  absent = 0;
+  late = 0;
+
   constructor(
     private attendanceStudentService: AttendanceStudentService,
     private datePipe: DatePipe,
@@ -190,6 +194,16 @@ export class LoadComponent implements OnInit {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
+        const present = this.attendance.filter(
+          (att: any) => att.status == 'Present'
+        );
+        this.present = present.length;
+        const absent = this.attendance.filter(
+          (att: any) => att.status == 'Absent'
+        );
+        this.absent = absent.length;
+        const late = this.attendance.filter((att: any) => att.status == 'Late');
+        this.late = late.length;
       });
   };
 

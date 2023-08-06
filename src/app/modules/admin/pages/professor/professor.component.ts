@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CourseService } from 'src/app/shared/services/course/course.service';
+import { EmailService } from 'src/app/shared/services/email/email.service';
 import { ProfessorService } from 'src/app/shared/services/professor/professor.service';
 import { RoomService } from 'src/app/shared/services/room/room.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
@@ -59,7 +60,8 @@ export class ProfessorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private professorService: ProfessorService,
-    private router: Router
+    private router: Router,
+    private emailService: EmailService
   ) {
     this.professorForm = fb.group({
       firstname: ['', [Validators.required]],
@@ -531,6 +533,40 @@ export class ProfessorComponent implements OnInit {
                 this.visible = false;
                 this.getAllProfessors();
                 this.professorForm.reset();
+
+                const split = res.message.split('-');
+                const body =
+                  'Dear Professor ' +
+                  this.professorForm.get('lastname')?.value +
+                  ',\r\n' +
+                  '\r\n' +
+                  'Congratulations and a warm welcome to Educate University! We are delighted to inform you that you have been appointed as a professor in our esteemed institution. Your expertise and dedication stood out among many applicants, and we are thrilled to have you join our academic community.\r\n' +
+                  '\r\n' +
+                  "As a professor at Educate University, you play a crucial role in shaping the minds of our students and contributing to the advancement of knowledge within your field of expertise. Your passion for teaching and commitment to academic excellence align perfectly with our institution's values.\r\n" +
+                  '\r\n' +
+                  'Here are your login credentials to access your school account:\r\n' +
+                  '\r\n' +
+                  'Username: ' +
+                  split[0].getUsername() +
+                  '\r\n' +
+                  'Password: ' +
+                  split[1].getPass() +
+                  '\n' +
+                  '\r\n' +
+                  'Upon logging in, change your password to something more secure and memorable.' +
+                  '\r\n' +
+                  'Webisite Link: http://localhost:4200';
+                '\r\n\n' +
+                  'Best regards, \n' +
+                  'Simon James Villarin \n' +
+                  'School Administrator';
+
+                const payload = {
+                  sendTo: this.professorForm.get('email')?.value,
+                  body: body,
+                  subject: 'Welcome Abord',
+                };
+                this.emailService.sendEmail(payload).subscribe();
               }
             });
         } else {
@@ -555,6 +591,40 @@ export class ProfessorComponent implements OnInit {
                 this.visible = false;
                 this.getAllProfessors();
                 this.professorForm.reset();
+
+                const split = res.message.split('-');
+                const body =
+                  'Dear Professor ' +
+                  this.professorForm.get('lastname')?.value +
+                  ',\r\n' +
+                  '\r\n' +
+                  'Congratulations and a warm welcome to Educate University! We are delighted to inform you that you have been appointed as a professor in our esteemed institution. Your expertise and dedication stood out among many applicants, and we are thrilled to have you join our academic community.\r\n' +
+                  '\r\n' +
+                  "As a professor at Educate University, you play a crucial role in shaping the minds of our students and contributing to the advancement of knowledge within your field of expertise. Your passion for teaching and commitment to academic excellence align perfectly with our institution's values.\r\n" +
+                  '\r\n' +
+                  'Here are your login credentials to access your school account:\r\n' +
+                  '\r\n' +
+                  'Username: ' +
+                  split[0].getUsername() +
+                  '\r\n' +
+                  'Password: ' +
+                  split[1].getPass() +
+                  '\n' +
+                  '\r\n' +
+                  'Upon logging in, change your password to something more secure and memorable.' +
+                  '\r\n' +
+                  'Webisite Link: http://localhost:4200';
+                '\r\n\n' +
+                  'Best regards, \n' +
+                  'Simon James Villarin \n' +
+                  'School Administrator';
+
+                const payload = {
+                  sendTo: this.professorForm.get('email')?.value,
+                  body: body,
+                  subject: 'Welcome Abord',
+                };
+                this.emailService.sendEmail(payload).subscribe();
               }
             });
         }

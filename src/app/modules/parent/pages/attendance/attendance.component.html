@@ -1,72 +1,42 @@
 <main>
   <div class="table">
-    <div class="table-header">
-      <div class="btn-container">
-        <button
-          class="reset table-header-btn"
-          title="Reset"
-          (click)="onReset()"
-        >
-          <span class="material-symbols-rounded table-header-icon">
-            restart_alt
-          </span>
-        </button>
-      </div>
-      <div class="filter">
-        <p-dropdown
-          [options]="subjects"
-          appendTo="body"
-          [(ngModel)]="subject"
-          (ngModelChange)="onChangeSubject($event)"
-          [style]="{
-           width: '100%',
-          }"
-        ></p-dropdown>
-        <p-dropdown
-          [options]="atts"
-          placeholder="Filter by status"
-          appendTo="body"
-          [(ngModel)]="att1"
-          (ngModelChange)="onChangeAttendance($event)"
-          [style]="{
-            width: '100%',
-          }"
-        ></p-dropdown>
-      </div>
+    <div class="card-container">
+      <ng-container *ngFor="let student of students">
+        <div class="card">
+          <div class="card-banner">
+            <img
+              src="{{
+                student.banner ||
+                  '../../../../../../../assets/images/profile-banner.jpg'
+              }}"
+              alt=""
+            />
+            <div class="profile-img">
+              <img
+                src="{{
+                  student.image ||
+                    '../../../../../../../assets/images/blank-profile.jpg'
+                }}"
+                alt="Profile Image"
+              />
+            </div>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li>
+                Name: {{ student.firstname }} {{ student.middlename }}
+                {{ student.lastname }}
+                {{ student.suffix }}
+              </li>
+              <li>Program: {{ student.program.programTitle }}</li>
+              <li>Year Level: {{ student.yearLevel }}</li>
+              <li>Term: {{ student.sem }}</li>
+              <li>Academic Year: {{ student.academicYear }}</li>
+            </ul>
+            <button (click)="view(student.studentId)">View Attendance</button>
+          </div>
+        </div>
+      </ng-container>
     </div>
-    <p-table [value]="attendance" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 33.33%">Subject Title</th>
-          <th style="width: 33.33%">Date</th>
-          <th style="width: 33.33%">Status</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-att>
-        <ng-container *ngIf="att.activeDeactive">
-          <ng-container *ngIf="att.status">
-            <tr>
-              <td>{{ att.subject.subjectTitle }}</td>
-              <td>
-                {{ att.date }}
-              </td>
-              <td>
-                <div
-                  class="status {{
-                    att.status == 'Present'
-                      ? 'present'
-                      : att.status == 'Absent'
-                      ? 'absent'
-                      : 'late'
-                  }}"
-                >
-                  {{ att.status || "-" }}
-                </div>
-              </td>
-            </tr>
-          </ng-container>
-        </ng-container>
-      </ng-template>
-    </p-table>
   </div>
 </main>

@@ -22,6 +22,10 @@ export class AttendanceComponent implements OnInit {
   gradeSearch = '';
   att1 = '';
 
+  present = 0;
+  absent = 0;
+  late = 0;
+
   attDialog: boolean = false;
 
   constructor(
@@ -54,7 +58,16 @@ export class AttendanceComponent implements OnInit {
         this.attendance = data.sort(
           (a: any, b: any) => b.attendanceId - a.attendanceId
         );
-        console.log(this.attendance);
+        const present = this.attendance.filter(
+          (att: any) => att.status == 'Present'
+        );
+        this.present = present.length;
+        const absent = this.attendance.filter(
+          (att: any) => att.status == 'Absent'
+        );
+        this.absent = absent.length;
+        const late = this.attendance.filter((att: any) => att.status == 'Late');
+        this.late = late.length;
       });
   };
 

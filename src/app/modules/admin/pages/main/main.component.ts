@@ -115,9 +115,9 @@ export class MainComponent implements OnInit {
       return 'Home';
     } else if (loc == 'course') {
       return 'Course';
-    } else if (loc == 'program') {
+    } else if (loc == 'program' || loc1 == 'program') {
       return 'Program';
-    } else if (loc == 'section') {
+    } else if (loc == 'section' || loc1 == 'section') {
       return 'Section';
     } else if (loc == 'room') {
       return 'Room';

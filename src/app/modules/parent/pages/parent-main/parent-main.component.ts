@@ -84,11 +84,12 @@ export class ParentMainComponent implements OnInit {
     const currentLocation = this.location.path();
     const splitLocation = currentLocation.split('/');
     const loc = splitLocation[splitLocation.length - 1];
+    const loc1 = splitLocation[splitLocation.length - 2];
     if (loc == 'home') {
       return 'Home';
     } else if (loc == 'profile') {
       return 'Profile';
-    } else if (loc == 'grades') {
+    } else if (loc == 'grades' || loc1 == 'grades') {
       return 'Grades';
     } else {
       return 'Attendance';

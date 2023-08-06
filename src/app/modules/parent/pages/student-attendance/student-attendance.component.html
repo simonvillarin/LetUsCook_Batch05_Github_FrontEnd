@@ -19,13 +19,24 @@
       </div>
       <div class="filter">
         <p-dropdown
+          [options]="subjects"
+          appendTo="body"
+          [(ngModel)]="subject"
+          (ngModelChange)="onChangeSubject($event)"
+          [style]="{
+            width: '100%',
+            minWidth: '16rem'
+          }"
+        ></p-dropdown>
+        <p-dropdown
           [options]="atts"
           placeholder="Filter by status"
           appendTo="body"
           [(ngModel)]="att1"
           (ngModelChange)="onChangeAttendance($event)"
           [style]="{
-            width: '16rem',
+            width: '100%',
+            minWidth: '16rem'
           }"
         ></p-dropdown>
       </div>
@@ -38,9 +49,9 @@
     <p-table [value]="attendance" [tableStyle]="{ 'min-width': '80rem' }">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 10%">Image</th>
-          <th style="width: 25%">Name</th>
-          <th style="width: 16%">Date</th>
+          <th style="width: 15%">Image</th>
+          <th style="width: 35%">Name</th>
+          <th style="width: 30%">Date</th>
           <th style="width: 20%">Status</th>
         </tr>
       </ng-template>

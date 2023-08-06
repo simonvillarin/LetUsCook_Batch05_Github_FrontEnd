@@ -6,6 +6,8 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { GradesComponent } from './pages/grades/grades.component';
 import { ParentMainComponent } from './pages/parent-main/parent-main.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { StudentGradeComponent } from './pages/student-grade/student-grade.component';
+import { StudentAttendanceComponent } from './pages/student-attendance/student-attendance.component';
 const routes: Routes = [
   {
     path: '',
@@ -26,6 +28,14 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'grades/:id',
+        component: StudentGradeComponent,
+      },
+      {
+        path: 'attendance/:id',
+        component: StudentAttendanceComponent,
       },
     ],
   },

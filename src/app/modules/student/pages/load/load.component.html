@@ -26,6 +26,11 @@
           ></p-dropdown>
         </div>
       </div>
+      <div class="units-container">
+        <div class="selected-unit">Number of Present: {{ present }}</div>
+        <div class="minimum-unit">Number of Late: {{ late }}</div>
+        <div class="maximum-unit">Number of Absent: {{ absent }}</div>
+      </div>
       <p-table [value]="attendance" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
           <tr>

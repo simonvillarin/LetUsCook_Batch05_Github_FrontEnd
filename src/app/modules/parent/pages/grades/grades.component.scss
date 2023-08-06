@@ -17,24 +17,6 @@ main {
   margin-bottom: 1rem;
 }
 
-.pi-search {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-}
-
-tr th {
-  font-weight: 400;
-  text-align: center;
-  color: var(--white);
-  background-color: var(--primary);
-}
-
-tr td {
-  text-align: center;
-}
-
 .btn-container {
   display: flex;
   align-items: center;
@@ -46,11 +28,6 @@ tr td {
   grid-template-columns: repeat(1, 1fr);
   gap: 0.5rem;
 }
-
-.search-container {
-  position: relative;
-}
-
 .table-actions {
   display: flex;
   justify-content: center;
@@ -72,19 +49,6 @@ tr td {
   color: var(--white);
 }
 
-.table-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-.table-icon {
-  color: var(--white);
-}
-
 .send,
 .active {
   background-color: var(--green);
@@ -97,28 +61,6 @@ tr td {
 .reset,
 .inactive {
   background-color: var(--light-red);
-}
-
-.prof-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.avatar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-}
-
-.avatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  overflow: hidden;
 }
 
 img {
@@ -144,12 +86,84 @@ img {
   background-color: var(--light-red);
 }
 
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+.card {
+  width: 100%;
+  gap: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #e2e2e2;
+  overflow: hidden;
+}
+
+.card-banner {
+  position: relative;
+  height: 18rem;
+}
+
+.profile-img {
+  position: absolute;
+  left: 2rem;
+  bottom: -2.25rem;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.card-body {
+  position: relative;
+  padding: 3rem 1.5rem 1.5rem 3rem;
+}
+
+.card-body > div {
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: circle;
+}
+
+li {
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+
+button {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background-color: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--darker-primary);
+}
+
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;
   }
 
   .filter {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .card-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }

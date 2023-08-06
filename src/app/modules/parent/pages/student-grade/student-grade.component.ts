@@ -1,27 +1,26 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 import { GradeService } from 'src/app/shared/services/grade/grade.service';
 
 @Component({
-  selector: 'app-grade',
-  templateUrl: './grade.component.html',
-  styleUrls: ['./grade.component.scss'],
+  selector: 'app-student-grade',
+  templateUrl: './student-grade.component.html',
+  styleUrls: ['./student-grade.component.scss'],
   providers: [DatePipe],
 })
-export class GradeComponent implements OnInit {
+export class StudentGradeComponent implements OnInit {
   grades: any = [];
   schoolYears: any = [];
   schoolYear: string = '';
   student: any = {};
-
   GWA: any;
   cummulativeGWA: any;
 
   constructor(
     private gradeService: GradeService,
-    private authService: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -29,47 +28,45 @@ export class GradeComponent implements OnInit {
   }
 
   getGradesByStudentId = () => {
-    this.gradeService
-      .getGradeByStudentId(this.authService.getUserId())
-      .subscribe((data: any) => {
-        this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
-        this.grades.forEach((grade: any) => {
-          let exists = false;
-          this.schoolYears.forEach((g: any) => {
-            if (g == `${grade.yearLevel} - ${grade.sem}`) {
-              exists = true;
-            }
-          });
-          if (!exists) {
-            this.schoolYears.push(`${grade.yearLevel} - ${grade.sem}`);
+    const params = this.route.snapshot.params['id'];
+    this.gradeService.getGradeByStudentId(params).subscribe((data: any) => {
+      this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+      this.grades.forEach((grade: any) => {
+        let exists = false;
+        this.schoolYears.forEach((g: any) => {
+          if (g == `${grade.yearLevel} - ${grade.sem}`) {
+            exists = true;
           }
         });
-
-        let grades: number = 0;
-        data.map((grade: any) => {
-          let prelim = grade.prelim || 0;
-          let midterm = grade.midterm || 0;
-          let finals = grade.finals || 0;
-          grades += prelim + midterm + finals;
-        });
-        this.cummulativeGWA = (grades / this.grades.length).toFixed(2);
-
-        this.schoolYear = `${data[0].student.yearLevel} - ${data[0].student.sem}`;
-        this.grades = this.grades.filter(
-          (grade: any) =>
-            grade.yearLevel == data[0].student.yearLevel &&
-            grade.sem == data[0].student.sem
-        );
-
-        grades = 0;
-        data.map((grade: any) => {
-          let prelim = grade.prelim || 0;
-          let midterm = grade.midterm || 0;
-          let finals = grade.finals || 0;
-          grades += prelim + midterm + finals;
-        });
-        this.GWA = (grades / this.grades.length).toFixed(2);
+        if (!exists) {
+          this.schoolYears.push(`${grade.yearLevel} - ${grade.sem}`);
+        }
       });
+      let grades: number = 0;
+      data.map((grade: any) => {
+        let prelim = grade.prelim || 0;
+        let midterm = grade.midterm || 0;
+        let finals = grade.finals || 0;
+        grades += prelim + midterm + finals;
+      });
+      this.cummulativeGWA = (grades / this.grades.length).toFixed(2);
+
+      this.schoolYear = `${data[0].student.yearLevel} - ${data[0].student.sem}`;
+      this.grades = this.grades.filter(
+        (grade: any) =>
+          grade.yearLevel == data[0].student.yearLevel &&
+          grade.sem == data[0].student.sem
+      );
+
+      grades = 0;
+      data.map((grade: any) => {
+        let prelim = grade.prelim || 0;
+        let midterm = grade.midterm || 0;
+        let finals = grade.finals || 0;
+        grades += prelim + midterm + finals;
+      });
+      this.GWA = (grades / this.grades.length).toFixed(2);
+    });
   };
 
   getAverage = (prelim: any, midterm: any, final: any) => {
@@ -150,18 +147,17 @@ export class GradeComponent implements OnInit {
 
   onChangeSchoolYear = (schoolYear: string) => {
     const split = schoolYear.split('-');
+    const params = this.route.snapshot.params['id'];
     if (schoolYear != '') {
-      this.gradeService
-        .getGradeByStudentId(this.authService.getUserId())
-        .subscribe((data: any) => {
-          this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
-          this.grades = this.grades.filter(
-            (grade: any) =>
-              grade.yearLevel == split[0].trim() && grade.sem == split[1].trim()
-          );
-          console.log(this.grades);
-          console.log(split);
-        });
+      this.gradeService.getGradeByStudentId(params).subscribe((data: any) => {
+        this.grades = data.sort((a: any, b: any) => b.gradeId - a.gradeId);
+        this.grades = this.grades.filter(
+          (grade: any) =>
+            grade.yearLevel == split[0].trim() && grade.sem == split[1].trim()
+        );
+        console.log(this.grades);
+        console.log(split);
+      });
     } else {
       this.getGradesByStudentId();
     }
@@ -169,5 +165,9 @@ export class GradeComponent implements OnInit {
 
   onReset = () => {
     this.getGradesByStudentId();
+  };
+
+  onBack = () => {
+    history.back();
   };
 }

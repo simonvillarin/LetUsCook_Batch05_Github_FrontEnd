@@ -56,7 +56,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-att>
             <ng-container *ngIf="att.activeDeactive">
-              <ng-container *ngIf="!att.date">
+              <ng-container *ngIf="att.date">
                 <tr>
                   <td>
                     <div class="avatar-container">
@@ -76,7 +76,7 @@
                     {{ att.student.lastname }} {{ att.student.suffix }}
                   </td>
                   <td>
-                    {{ convertDate(att.date) }}
+                    {{ convertDate1() }}
                   </td>
                   <td>
                     <div
@@ -224,7 +224,7 @@
                         : ''
                     }}"
                   >
-                    {{ grade.remarks || "-" }}
+                    {{ grade.remarks }}
                   </div>
                 </td>
                 <td>{{ convertDate(grade.dateModified) }}</td>

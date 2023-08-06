@@ -421,7 +421,7 @@ export class ApplyComponent implements OnInit {
       this.appService.addApplication(this.studentInfo).subscribe(() => {
         const firstName = this.studentInfo.firstname;
         const payload = {
-          email: this.studentInfo.email,
+          email: this.oldStudent.email,
           subject:
             'Acknowledgement of Your Online Application to Educate University',
           body:

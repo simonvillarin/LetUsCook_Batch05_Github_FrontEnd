@@ -569,10 +569,10 @@ export class StudentComponent implements OnInit {
               '\n' +
               'Educate University',
           };
-          this.emailService.sendEmail(emailPayload).subscribe(() => {
-            this.getAllApplications();
-            this.isConfirmDialogOpen = false;
-          });
+          // this.emailService.sendEmail(emailPayload).subscribe(() => {
+          //   this.getAllApplications();
+          //   this.isConfirmDialogOpen = false;
+          // });
         });
     }
   };
