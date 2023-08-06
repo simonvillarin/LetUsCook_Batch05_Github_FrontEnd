@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutComponent } from './pages/about/about.component';
 import { CalendarModule } from 'primeng/calendar';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { ContactComponent } from './pages/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     CourseListComponent,
     EducateLifeComponent,
     AboutComponent,
+    ContactComponent,
   ],
   imports: [
     LandingRoutingModule,

@@ -1,31 +1,44 @@
 <main>
-  <div class="card-container">
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-rounded"> man </span>
-      </div>
-      <div class="card-content">
-        <div class="card-title">Students</div>
-        <div class="count">100</div>
-      </div>
+  <div class="left-container">
+    <label class="title">YOUR EVALUATION</label>
+    <div class="bar-chart">
+      <p-chart type="bar" [data]="professorBar"></p-chart>
     </div>
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-rounded"> safety_divider </span>
-      </div>
-      <div class="card-content">
-        <div class="card-title">Sections</div>
-        <div class="count">100</div>
-      </div>
+    <label class="title">YOUR COURSES</label>
+    <div class="professor-load-container">
+      <ng-container *ngFor="let load of load.schedules; index as i">
+        <ng-container *ngIf="load.activeDeactive">
+          <ng-container *ngIf="load.subject.activeDeactive">
+            <div class="professor-load">
+              <div class="load-img-container">
+                <img src="../../../../../assets/images/computer.png" />
+              </div>
+              <label class="load-title">{{ load.subject.subjectTitle }}</label>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-rounded"> menu_book </span>
+  </div>
+  <div class="right-container">
+    <div class="profile-container">
+      <div class="profile-img-container">
+        <img
+          src="{{
+            userPic || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Profile Image"
+        />
       </div>
-      <div class="card-content">
-        <div class="card-title">Subjects</div>
-        <div class="count">100</div>
-      </div>
+      <label class="profile-name-label">{{ username }}</label>
+    </div>
+    <div class="calendar-container">
+      <p-calendar
+        class="max-w-full"
+        [(ngModel)]="date"
+        [inline]="true"
+        [showWeek]="true"
+      ></p-calendar>
     </div>
   </div>
 </main>

@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
+import { CalendarModule } from 'primeng/calendar';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -41,6 +42,7 @@ import { TabViewModule } from 'primeng/tabview';
     DropdownModule,
     ChartModule,
     RadioButtonModule,
+    CalendarModule,
     FullCalendarModule,
     CardModule,
     ReactiveFormsModule,
