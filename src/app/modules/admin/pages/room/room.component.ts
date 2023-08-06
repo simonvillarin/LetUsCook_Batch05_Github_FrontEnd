@@ -72,6 +72,7 @@ export class RoomComponent implements OnInit {
     this.title = 'Add Room';
     this.isDialogOpen = true;
     this.isUpdating = false;
+    this.alert = false;
     this.roomForm.reset();
     this.roomForm.markAsUntouched();
   };
@@ -144,6 +145,7 @@ export class RoomComponent implements OnInit {
         this.alertStatus = 'Success';
         this.alertMessage = 'Room successfully added';
         this.roomForm.reset();
+        this.isDialogOpen = false;
       } else {
         this.roomForm.markAllAsTouched();
       }

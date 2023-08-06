@@ -90,14 +90,14 @@ export class StudentComponent implements OnInit {
   getAllApplications = () => {
     this.applicationService.getAllApplications().subscribe((data: any) => {
       this.applications = data.sort(
-        (a: any, b: any) => a.applicationId - b.applicationId
+        (a: any, b: any) => b.applicationId - a.applicationId
       );
     });
   };
 
   getAllStudents = () => {
     this.studentService.getAllStudents().subscribe((data: any) => {
-      this.students = data.sort((a: any, b: any) => a.studentId - b.studentId);
+      this.students = data.sort((a: any, b: any) => b.studentId - a.studentId);
     });
   };
 
@@ -359,7 +359,7 @@ export class StudentComponent implements OnInit {
         '\n' +
         'Educate University',
     };
-    // this.emailService.sendEmail(emailPayload).subscribe(() => {});
+    this.emailService.sendEmail(emailPayload).subscribe(() => {});
   };
 
   onClickActive = (student: any) => {
@@ -507,7 +507,6 @@ export class StudentComponent implements OnInit {
                 schedules.push(s);
               });
             });
-            console.log(schedules);
 
             const payload2 = {
               studentId: data.studentId,
@@ -534,9 +533,86 @@ export class StudentComponent implements OnInit {
               });
           });
       } else {
-        this.studentService.addStudent(this.application).subscribe(() => {
-          this.getAllStudents();
-        });
+        this.studentService
+          .addStudent(this.application)
+          .subscribe((res: any) => {
+            this.getAllStudents();
+            console.log(this.application);
+            const split = res.split('-');
+            const emailPayload = {
+              email: this.application.email,
+              subject:
+                'Welcome to Educate University - Your Enrollment and Account Information',
+              body:
+                'Dear ' +
+                this.application.firstname +
+                ',\r\n' +
+                '\r\n' +
+                'Congratulations and a warm welcome to Educate University! We are thrilled to inform you that you have been successfully enrolled in our esteemed institution for the S.Y' +
+                this.application.academicYear +
+                ' / ' +
+                this.application.sem +
+                '. We believe that this marks the beginning of an exciting educational journey for you.\r\n' +
+                '\r\n' +
+                'As a registered student at Educate University, you now have access to a wide range of resources, opportunities, and support to help you thrive academically and personally. We are committed to providing you with a nurturing and stimulating learning environment.\r\n' +
+                '\r\n' +
+                'Here are your login credentials to access your LMS account:\r\n' +
+                '\r\n' +
+                'Student Account: \n' +
+                'Username: ' +
+                split[0] +
+                '\r\n' +
+                'Password: ' +
+                split[1] +
+                '\r\n\n' +
+                'Upon logging in, change your password to something more secure and memorable.' +
+                '\r\n' +
+                'Webisite Link: http://localhost:4200' +
+                '\r\n\n' +
+                'Best regards, \n' +
+                'Simon James Villarin \n' +
+                'School Registrar',
+            };
+
+            const emailPayload1 = {
+              email: this.application.parentEmail,
+              subject:
+                'Welcome to Educate University - Your Account Information',
+              body:
+                'Dear ' +
+                this.application.parentLastname +
+                ',\r\n' +
+                '\r\n' +
+                'Congratulations and a warm welcome to Educate University! We are thrilled to inform you that ' +
+                this.application.firstname +
+                ' have been successfully enrolled in our esteemed institution for the S.Y' +
+                this.application.academicYear +
+                ' / ' +
+                this.application.sem +
+                '. We believe that this marks the beginning of an exciting educational journey for your child.\r\n' +
+                '\r\n' +
+                'As a parent at Educate University, you now have access to a wide range of resources, opportunities, and support to help your child thrive academically and personally. We are committed to providing you with a nurturing and stimulating learning environment.\r\n' +
+                '\r\n' +
+                'Here are your login credentials to access your LMS account:\r\n' +
+                '\r\n' +
+                'Parent Account: \n' +
+                'Username: ' +
+                split[2] +
+                '\r\n' +
+                'Password: ' +
+                split[3] +
+                '\r\n' +
+                'Upon logging in, change your password to something more secure and memorable.' +
+                '\r\n' +
+                'Webisite Link: http://localhost:4200' +
+                '\r\n\n' +
+                'Best regards, \n' +
+                'Simon James Villarin \n' +
+                'School Registrar',
+            };
+            this.emailService.sendEmail(emailPayload).subscribe();
+            this.emailService.sendEmail(emailPayload1).subscribe();
+          });
       }
     } else {
       const payload = {
@@ -569,10 +645,10 @@ export class StudentComponent implements OnInit {
               '\n' +
               'Educate University',
           };
-          // this.emailService.sendEmail(emailPayload).subscribe(() => {
-          //   this.getAllApplications();
-          //   this.isConfirmDialogOpen = false;
-          // });
+          this.emailService.sendEmail(emailPayload).subscribe(() => {
+            this.getAllApplications();
+            this.isConfirmDialogOpen = false;
+          });
         });
     }
   };

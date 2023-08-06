@@ -6,6 +6,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EmailService } from 'src/app/shared/services/email/email.service';
 
 @Component({
   selector: 'app-otp',
@@ -15,8 +16,14 @@ import { Router } from '@angular/router';
 export class OtpComponent {
   otpForm: FormGroup;
   alert: boolean = false;
+  error = '';
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private emailService: EmailService
+  ) {
     this.otpForm = fb.group({
       otp: ['', [Validators.required]],
     });
@@ -30,20 +37,57 @@ export class OtpComponent {
     if (this.otpForm.valid) {
       const otp = localStorage.getItem('otp');
       if (otp) {
-        if (this.otpForm.get('otp')?.value == otp) {
-          localStorage.setItem('reset', 'true');
-          this.router.navigate(['forgot-password/reset']);
-        } else {
-          this.alert = true;
-          setTimeout(() => {
-            this.alert = false;
-          }, 3000);
-        }
+        const localOtp = JSON.parse(otp);
+        this.emailService
+          .checkOTPExpiration(localOtp.email)
+          .subscribe((res) => {
+            if (!res) {
+              if (this.otpForm.get('otp')?.value == localOtp.otp) {
+                localStorage.setItem('reset', 'true');
+                this.router.navigate(['forgot-password/reset']);
+              } else {
+                this.alert = true;
+                this.error = 'Error';
+                this.errorMessage = 'Invalid OTP Code';
+                setTimeout(() => {
+                  this.alert = false;
+                }, 3000);
+              }
+            } else {
+              this.alert = true;
+              this.error = 'Error';
+              this.errorMessage =
+                'The One-Time Password (OTP) has already expired';
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+            }
+          });
       } else {
         this.router.navigate(['forgot-password/email']);
       }
     } else {
       this.otpForm.markAllAsTouched();
+    }
+  };
+
+  resend = () => {
+    const otp = localStorage.getItem('otp');
+    if (otp) {
+      const localOtp = JSON.parse(otp);
+      this.emailService.sendOTP(localOtp.email).subscribe((res: any) => {
+        localStorage.setItem(
+          'otp',
+          JSON.stringify({ email: localOtp.email, otp: res })
+        );
+        this.alert = true;
+        this.error = 'Success';
+        this.errorMessage =
+          'A One-Time Password (OTP) has already been sent to your email.';
+        setTimeout(() => {
+          this.alert = false;
+        }, 3000);
+      });
     }
   };
 }

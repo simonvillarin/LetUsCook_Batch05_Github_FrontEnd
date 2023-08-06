@@ -128,11 +128,14 @@ button:focus {
   padding: 1rem;
   color: var(--white);
   border-radius: 0.25rem;
-  background-color: var(--red);
 }
 
 .success {
   background-color: var(--green);
+}
+
+.error {
+  background-color: var(--red);
 }
 
 .resend-container {
@@ -141,8 +144,11 @@ button:focus {
   align-items: center;
 }
 
-.resend {
+.resent {
   cursor: pointer;
+}
+
+.resent:hover {
   text-decoration: underline;
 }
 

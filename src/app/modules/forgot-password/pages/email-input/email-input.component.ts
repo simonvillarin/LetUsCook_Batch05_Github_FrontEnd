@@ -45,7 +45,10 @@ export class EmailInputComponent {
         } else {
           localStorage.setItem('id', res.message);
           this.emailService.sendOTP(emailAddress).subscribe((res: any) => {
-            localStorage.setItem('otp', res);
+            localStorage.setItem(
+              'otp',
+              JSON.stringify({ email: emailAddress, otp: res })
+            );
             this.router.navigate(['forgot-password/otp']);
           });
           this.isSending = true;

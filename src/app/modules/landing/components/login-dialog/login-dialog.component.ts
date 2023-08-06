@@ -72,10 +72,8 @@ export class LoginDialogComponent {
           this.loginForm.reset();
         },
         (error) => {
-          if (error.status === 403) {
-            this.isError = true;
-            setTimeout(() => (this.isError = false), 3000);
-          }
+          this.isError = true;
+          setTimeout(() => (this.isError = false), 3000);
         }
       );
     } else {

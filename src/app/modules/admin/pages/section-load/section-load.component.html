@@ -21,8 +21,9 @@
               [(ngModel)]="subjectAttendance"
               (ngModelChange)="onChangeSubjectAttendance($event)"
               [style]="{
-            width: '16rem',
-          }"
+                width: '100%',
+                minWidth: '16rem'
+              }"
             ></p-dropdown>
             <div class="search-container">
               <i class="pi pi-search"></i>
@@ -32,6 +33,7 @@
                 placeholder="Search"
                 [style]="{
                   width: '100%',
+                  minWidth: '16rem',
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"
@@ -41,18 +43,17 @@
             </div>
           </div>
         </div>
-        <p-table [value]="attendance" [tableStyle]="{ 'min-width': '80rem' }">
+        <p-table [value]="attendance" [tableStyle]="{ 'min-width': '50rem' }">
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 10%">Image</th>
-              <th style="width: 40%">Name</th>
-              <th style="width: 25%">Subject Title</th>
-              <th style="width: 25%">Action</th>
+              <th style="width: 33.3%">Image</th>
+              <th style="width: 33.3%">Name</th>
+              <th style="width: 33.3%">Action</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-att>
             <ng-container *ngIf="att.activeDeactive">
-              <ng-container *ngIf="att.date">
+              <ng-container *ngIf="!att.date">
                 <tr>
                   <td>
                     <div class="avatar-container">
@@ -71,7 +72,6 @@
                     {{ att.student.firstname }} {{ att.student.middlename }}
                     {{ att.student.lastname }} {{ att.student.suffix }}
                   </td>
-                  <td>{{ att.subject.subjectTitle }}</td>
                   <td>
                     <div class="table-actions">
                       <button

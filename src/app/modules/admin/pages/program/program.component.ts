@@ -395,26 +395,6 @@ export class ProgramComponent implements OnInit {
     } else {
       this.title = 'Add Program';
       if (this.programForm.valid) {
-        const payload = {
-          programCode: this.programForm.get('programCode')?.value,
-          programTitle: this.programForm.get('programTitle')?.value,
-          yearsToComplete: this.programForm.get('yearsToComplete')?.value,
-          units: this.programForm.get('units')?.value,
-          majors:
-            this.programForm.get('majors')?.value != null
-              ? this.programForm.get('majors')?.value
-              : [],
-          minors:
-            this.programForm.get('minors')?.value != null
-              ? this.programForm.get('minors')?.value
-              : [],
-          electives:
-            this.programForm.get('electives')?.value != null
-              ? this.programForm.get('electives')?.value
-              : [],
-        };
-        console.log(payload);
-
         this.programService
           .addProgram(this.programForm.value)
           .subscribe((res: any) => {

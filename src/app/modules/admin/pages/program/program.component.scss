@@ -149,8 +149,8 @@ form {
 
 .unit-input {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
 }
 
 .fg {
@@ -264,5 +264,9 @@ label {
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;
+  }
+
+  .unit-input {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

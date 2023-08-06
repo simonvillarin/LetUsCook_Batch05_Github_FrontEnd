@@ -13,6 +13,10 @@ export class EmailService {
     return this.http.post(`${this.BASE_URL}/otp`, email);
   };
 
+  checkOTPExpiration = (email: string) => {
+    return this.http.post(`${this.BASE_URL}/otp/expiration`, email);
+  };
+
   checkEmail = (email: string) => {
     return this.http.post(`${this.BASE_URL}/email`, email);
   };

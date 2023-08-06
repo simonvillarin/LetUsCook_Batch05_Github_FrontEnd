@@ -81,7 +81,6 @@ export class LoadComponent implements OnInit {
     this.getEvaluations();
     this.getSchedule();
     this.getEvals();
-    this.addStudentToAttendance();
   }
 
   getParam = () => {
@@ -137,19 +136,18 @@ export class LoadComponent implements OnInit {
       });
   };
 
-  addStudentToAttendance = () => {
-    this.attendanceStudentService
-      .getAttendance(this.sectionId, this.subjectId)
-      .subscribe();
-  };
+  // addStudentToAttendance = () => {
+  //   this.attendanceStudentService
+  //     .getAttendance(this.sectionId, this.subjectId)
+  //     .subscribe();
+  // };
 
   getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
+    this.date = `${year}-${month}-${day}`;
   };
 
   convertDate = (dateStr: string) => {
@@ -532,7 +530,6 @@ export class LoadComponent implements OnInit {
     const payload = {
       activeDeactive: !this.evals.activeDeactive,
     };
-    console.log(this.evals.evalId);
 
     this.evalsService.updateEval(this.evals.evalId, payload).subscribe(() => {
       this.evalDialog = false;

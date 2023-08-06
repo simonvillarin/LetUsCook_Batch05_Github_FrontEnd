@@ -28,6 +28,7 @@
             placeholder="Search"
             [style]="{
               width: '100%',
+              minWidth: '16rem',
               paddingLeft: '2.5rem'
             }"
             placeholder="Search"
@@ -506,13 +507,6 @@
             class="img"
             [class.img-active]="isShowImage"
           />
-          <div (click)="removeImagePreview()">
-            <mat-icon
-              class="material-icons-outlined close-icon"
-              *ngIf="isShowImage"
-              >close</mat-icon
-            >
-          </div>
         </div>
       </div>
       <div class="actions">

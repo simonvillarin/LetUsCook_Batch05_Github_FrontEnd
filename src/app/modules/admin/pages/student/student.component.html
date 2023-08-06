@@ -19,7 +19,7 @@
               [options]="yearLevels"
               placeholder="Filter by year level"
               appendTo="body"
-              [style]="{ width: '100%' }"
+              [style]="{ width: '100%', minWidth: '16rem' }"
               [(ngModel)]="yearLevelSelectedApplication"
               (onChange)="onYearChangeApplication()"
             ></p-dropdown>
@@ -27,7 +27,7 @@
               [options]="terms"
               placeholder="Filter by term"
               appendTo="body"
-              [style]="{ width: '100%' }"
+              [style]="{ width: '100%', minWidth: '16rem' }"
               [(ngModel)]="termSelectedApplication"
               (onChange)="onTermChangeApplication()"
             ></p-dropdown>
@@ -39,6 +39,7 @@
                 placeholder="Search"
                 [style]="{
                   width: '100%',
+                  minWidth: '16rem',
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"
@@ -156,7 +157,7 @@
               [options]="yearLevels"
               placeholder="Filter by year level"
               appendTo="body"
-              [style]="{ width: '100%' }"
+              [style]="{ width: '100%', minWidth: '16rem' }"
               [(ngModel)]="yearLevelSelectedStudent"
               (onChange)="onYearChangeStudent()"
             ></p-dropdown>
@@ -164,7 +165,7 @@
               [options]="terms"
               placeholder="Filter by term"
               appendTo="body"
-              [style]="{ width: '100%' }"
+              [style]="{ width: '100%', minWidth: '16rem' }"
               [(ngModel)]="termSelectedStudent"
               (onChange)="onTermChangeStudent()"
             ></p-dropdown>
@@ -176,6 +177,7 @@
                 placeholder="Search"
                 [style]="{
                   width: '100%',
+                  minWidth: '16rem',
                   paddingLeft: '2.5rem'
                 }"
                 placeholder="Search"

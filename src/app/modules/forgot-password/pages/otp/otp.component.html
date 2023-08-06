@@ -7,9 +7,12 @@
       Please enter the verification code that was sent to your email address
     </p>
     <form [formGroup]="otpForm" (ngSubmit)="onSubmitOTP()">
-      <div *ngIf="alert" class="alert">
+      <div
+        *ngIf="alert"
+        class="alert {{ error == 'Error' ? 'error' : 'success' }}"
+      >
         <span class="material-symbols-rounded"> error </span>
-        Invalid OTP Code
+        {{ errorMessage }}
       </div>
       <div class="input-group">
         <input
@@ -27,7 +30,10 @@
         </div>
       </div>
       <div class="resend-container">
-        <span>Didn't receive an OTP? <span class="resent">Resend</span></span>
+        <span
+          >Didn't receive an OTP?
+          <span class="resent" (click)="resend()">Resend</span></span
+        >
       </div>
       <button type="submit">Validate</button>
     </form>

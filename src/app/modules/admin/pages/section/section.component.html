@@ -16,7 +16,7 @@
           [options]="programs"
           placeholder="Filter by program"
           appendTo="body"
-          [style]="{ width: '100%' }"
+          [style]="{ width: '100%', minWidth: '16rem' }"
           [(ngModel)]="programSelected"
           (ngModelChange)="onChangeProgram($event)"
         ></p-dropdown>
@@ -28,6 +28,7 @@
             placeholder="Search"
             [style]="{
               width: '100%',
+              minWidth: '16rem',
               paddingLeft: '2.5rem'
             }"
             placeholder="Search"

@@ -229,6 +229,7 @@ export class ProfessorComponent implements OnInit {
 
   onAdd() {
     this.title = 'Add Professor';
+    this.alert = false;
     this.visible = true;
     this.imagePreview = null;
     this.isShowImage = false;
@@ -512,6 +513,7 @@ export class ProfessorComponent implements OnInit {
           this.professorService
             .addProfessorWithImage(formData)
             .subscribe((res: any) => {
+              console.log(res);
               if (res.message == 'Mobile number already exist') {
                 this.alert = true;
                 this.alertStatus = 'Error';
@@ -532,7 +534,6 @@ export class ProfessorComponent implements OnInit {
                 setTimeout(() => (this.alert = false), 3000);
                 this.visible = false;
                 this.getAllProfessors();
-                this.professorForm.reset();
 
                 const split = res.message.split('-');
                 const body =
@@ -547,10 +548,10 @@ export class ProfessorComponent implements OnInit {
                   'Here are your login credentials to access your school account:\r\n' +
                   '\r\n' +
                   'Username: ' +
-                  split[0].getUsername() +
+                  split[0] +
                   '\r\n' +
                   'Password: ' +
-                  split[1].getPass() +
+                  split[1] +
                   '\n' +
                   '\r\n' +
                   'Upon logging in, change your password to something more secure and memorable.' +
@@ -561,12 +562,16 @@ export class ProfessorComponent implements OnInit {
                   'Simon James Villarin \n' +
                   'School Administrator';
 
+                console.log(this.professorForm.get('email')?.value);
+
                 const payload = {
-                  sendTo: this.professorForm.get('email')?.value,
+                  email: this.professorForm.get('email')?.value,
                   body: body,
                   subject: 'Welcome Abord',
                 };
-                this.emailService.sendEmail(payload).subscribe();
+                this.emailService.sendEmail(payload).subscribe(() => {
+                  this.professorForm.reset();
+                });
               }
             });
         } else {

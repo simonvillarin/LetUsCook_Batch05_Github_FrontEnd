@@ -1,6 +1,7 @@
 import { ApplicationService } from './../../../../shared/services/application/application.service';
 import { Component, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CalendarService } from 'src/app/shared/services/calendar/calendar.service';
 import { EmailService } from 'src/app/shared/services/email/email.service';
 import { ParentService } from 'src/app/shared/services/parent/parent.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
@@ -60,6 +61,9 @@ export class ApplyComponent implements OnInit {
   schoolYears: string[] = [];
   genders = ['Male', 'Female', 'Others'];
   civilStatus = ['Single', 'Married', 'Divorced', 'Widowed'];
+
+  errorDialog = false;
+  errorMessage = '';
 
   constructor(
     private elementRef: ElementRef,
@@ -416,97 +420,127 @@ export class ApplyComponent implements OnInit {
       programCode: this.program,
     });
     if (this.existing) {
-      console.log(this.studentInfo);
       this.studentInfo.email = '';
-      this.appService.addApplication(this.studentInfo).subscribe(() => {
-        const firstName = this.studentInfo.firstname;
-        const payload = {
-          email: this.oldStudent.email,
-          subject:
-            'Acknowledgement of Your Online Application to Educate University',
-          body:
-            'Dear ' +
-            firstName +
-            ', \n\n' +
-            'I hope this email finds you well. I am writing to acknowledge the receipt of your online application to Educate University. We sincerely appreciate your interest in becoming part of our academic community. We have successfully received your application, and our admissions team is already reviewing it carefully.' +
-            '\n' +
-            'We understand that applying for schools can be an exciting yet nerve-wracking experience, and we want to assure you that we treat every application with the utmost attention and consideration.' +
-            '\n' +
-            'Here are the next steps in our admissions process:' +
-            '\n\n' +
-            'Application Review: Our admissions committee will thoroughly review your application, including your academic records.' +
-            '\n' +
-            'Evaluation Period: The evaluation process may take several weeks, as we want to ensure that each applicant receives fair and thorough consideration.' +
-            '\n' +
-            'Decision Notification: We will notify you of the admissions decision by email once the evaluation process is complete. We aim to communicate our decision as promptly as possible.' +
-            '\n\n' +
-            'In the meantime, we would like to ask for your patience while we process your application.' +
-            '\n\n' +
-            'Again, thank you for considering Educate University for your education journey. We are excited to learn more about you and your aspirations.' +
-            '\n' +
-            'Wishing you all the best in your academic pursuits!' +
-            '\n\n' +
-            'Sincerely,' +
-            '\n' +
-            'Simon Villarin' +
-            '\n' +
-            'School Registrar' +
-            '\n' +
-            'Educate University' +
-            '\n',
-        };
-        this.emailService.sendEmail(payload).subscribe();
+      this.appService.addApplication(this.studentInfo).subscribe((res: any) => {
+        if (res.message == 'Email already exists') {
+          this.errorMessage = 'Email already exists';
+          this.errorDialog = true;
+        } else if (
+          (res.message = 'You have already submitted an application')
+        ) {
+          this.errorMessage = 'You have already submitted an application';
+          this.errorDialog = true;
+        } else {
+          const firstName = this.studentInfo.firstname;
+          const payload = {
+            email: this.oldStudent.email,
+            subject:
+              'Acknowledgement of Your Online Application to Educate University',
+            body:
+              'Dear ' +
+              firstName +
+              ', \n\n' +
+              'I hope this email finds you well. I am writing to acknowledge the receipt of your online application to Educate University. We sincerely appreciate your interest in becoming part of our academic community. We have successfully received your application, and our admissions team is already reviewing it carefully.' +
+              '\n' +
+              'We understand that applying for schools can be an exciting yet nerve-wracking experience, and we want to assure you that we treat every application with the utmost attention and consideration.' +
+              '\n' +
+              'Here are the next steps in our admissions process:' +
+              '\n\n' +
+              'Application Review: Our admissions committee will thoroughly review your application, including your academic records.' +
+              '\n' +
+              'Evaluation Period: The evaluation process may take several weeks, as we want to ensure that each applicant receives fair and thorough consideration.' +
+              '\n' +
+              'Decision Notification: We will notify you of the admissions decision by email once the evaluation process is complete. We aim to communicate our decision as promptly as possible.' +
+              '\n\n' +
+              'In the meantime, we would like to ask for your patience while we process your application.' +
+              '\n\n' +
+              'Again, thank you for considering Educate University for your education journey. We are excited to learn more about you and your aspirations.' +
+              '\n' +
+              'Wishing you all the best in your academic pursuits!' +
+              '\n\n' +
+              'Sincerely,' +
+              '\n' +
+              'Simon Villarin' +
+              '\n' +
+              'School Registrar' +
+              '\n' +
+              'Educate University' +
+              '\n',
+          };
+          this.emailService.sendEmail(payload).subscribe();
+
+          this.stepFour = true;
+          this.stepOne = false;
+          this.stepTwo = false;
+          this.stepThree = false;
+          this.stepperNumber = 4;
+          this.stepThreeDone = true;
+          scroll(0, 0);
+          this.existForm.reset();
+        }
       });
     } else {
-      this.appService.addApplication(this.applyForm.value).subscribe(() => {
-        const firstName = this.applyForm.get('firstname')?.value;
-        const payload = {
-          email: this.applyForm.get('email')?.value,
-          subject:
-            'Acknowledgement of Your Online Application to Educate University',
-          body:
-            'Dear ' +
-            firstName +
-            ', \n\n' +
-            'I hope this email finds you well. I am writing to acknowledge the receipt of your online application to Educate University. We sincerely appreciate your interest in becoming part of our academic community. We have successfully received your application, and our admissions team is already reviewing it carefully.' +
-            '\n' +
-            'We understand that applying for schools can be an exciting yet nerve-wracking experience, and we want to assure you that we treat every application with the utmost attention and consideration.' +
-            '\n' +
-            'Here are the next steps in our admissions process:' +
-            '\n\n' +
-            'Application Review: Our admissions committee will thoroughly review your application, including your academic records.' +
-            '\n' +
-            'Evaluation Period: The evaluation process may take several weeks, as we want to ensure that each applicant receives fair and thorough consideration.' +
-            '\n' +
-            'Decision Notification: We will notify you of the admissions decision by email once the evaluation process is complete. We aim to communicate our decision as promptly as possible.' +
-            '\n\n' +
-            'In the meantime, we would like to ask for your patience while we process your application.' +
-            '\n\n' +
-            'Again, thank you for considering Educate University for your education journey. We are excited to learn more about you and your aspirations.' +
-            '\n' +
-            'Wishing you all the best in your academic pursuits!' +
-            '\n\n' +
-            'Sincerely,' +
-            '\n' +
-            'Simon Villarin' +
-            '\n' +
-            'School Registrar' +
-            '\n' +
-            'Educate University' +
-            '\n',
-        };
-        this.emailService.sendEmail(payload).subscribe();
-      });
+      this.appService
+        .addApplication(this.applyForm.value)
+        .subscribe((res: any) => {
+          if (res.message == 'Email already exists') {
+            this.errorMessage = 'Email already exists';
+            this.errorDialog = true;
+          } else if (
+            (res.message = 'You have already submitted an application')
+          ) {
+            this.errorMessage = 'You have already submitted an application';
+            this.errorDialog = true;
+          } else {
+            const firstName = this.applyForm.get('firstname')?.value;
+            const payload = {
+              email: this.applyForm.get('email')?.value,
+              subject:
+                'Acknowledgement of Your Online Application to Educate University',
+              body:
+                'Dear ' +
+                firstName +
+                ', \n\n' +
+                'I hope this email finds you well. I am writing to acknowledge the receipt of your online application to Educate University. We sincerely appreciate your interest in becoming part of our academic community. We have successfully received your application, and our admissions team is already reviewing it carefully.' +
+                '\n' +
+                'We understand that applying for schools can be an exciting yet nerve-wracking experience, and we want to assure you that we treat every application with the utmost attention and consideration.' +
+                '\n' +
+                'Here are the next steps in our admissions process:' +
+                '\n\n' +
+                'Application Review: Our admissions committee will thoroughly review your application, including your academic records.' +
+                '\n' +
+                'Evaluation Period: The evaluation process may take several weeks, as we want to ensure that each applicant receives fair and thorough consideration.' +
+                '\n' +
+                'Decision Notification: We will notify you of the admissions decision by email once the evaluation process is complete. We aim to communicate our decision as promptly as possible.' +
+                '\n\n' +
+                'In the meantime, we would like to ask for your patience while we process your application.' +
+                '\n\n' +
+                'Again, thank you for considering Educate University for your education journey. We are excited to learn more about you and your aspirations.' +
+                '\n' +
+                'Wishing you all the best in your academic pursuits!' +
+                '\n\n' +
+                'Sincerely,' +
+                '\n' +
+                'Simon Villarin' +
+                '\n' +
+                'School Registrar' +
+                '\n' +
+                'Educate University' +
+                '\n',
+            };
+            this.emailService.sendEmail(payload).subscribe();
+
+            this.stepFour = true;
+            this.stepOne = false;
+            this.stepTwo = false;
+            this.stepThree = false;
+            this.stepperNumber = 4;
+            this.stepThreeDone = true;
+            scroll(0, 0);
+            this.applyForm.reset();
+          }
+        });
     }
-    this.stepFour = true;
-    this.stepOne = false;
-    this.stepTwo = false;
-    this.stepThree = false;
-    this.stepperNumber = 4;
-    this.stepThreeDone = true;
-    scroll(0, 0);
-    this.existForm.reset();
-    this.applyForm.reset();
   };
 
   convertDateString = (originalDate: string): string => {
@@ -528,4 +562,8 @@ export class ApplyComponent implements OnInit {
   formatWithLeadingZero(value: number): string {
     return value < 10 ? '0' + value : value.toString();
   }
+
+  onOkError = () => {
+    this.errorDialog = false;
+  };
 }
