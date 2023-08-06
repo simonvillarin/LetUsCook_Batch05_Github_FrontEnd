@@ -1,48 +1,41 @@
 <main>
   <div class="left-container">
-    <div class="label-container">
-      <label class="title">NEW COURSES</label>
+    <label class="title">GRADES</label>
+    <div class="bar-chart">
+      <p-chart type="bar" [data]="studentBar"></p-chart>
     </div>
-    <div class="newcourse-container">
-      <div class="courses-container">
-        <div class="course1-img-container"></div>
-        <label class="course-label">Introduction to Programming</label>
-        <label class="lesson-label">12 Lessons</label>
-      </div>
-      <div class="courses-container">
-        <div class="course2-img-container"></div>
-        <label class="course-label">Database Management</label>
-        <label class="lesson-label">15 Lessons</label>
-      </div>
-      <div class="courses-container">
-        <div class="course3-img-container"></div>
-        <label class="course-label">Multimedia Arts</label>
-        <label class="lesson-label">13 Lessons</label>
-      </div>
-    </div>
-    <div class="label-container">
-      <label class="title">MY COURSES</label>
-    </div>
-    <div class="owncourse-container">
+    <label class="title">ONGOING COURSES</label>
+    <div class="student-course-container" *ngIf="hasSchedule">
       <ng-container *ngFor="let load of course; index as i">
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <label class="course-title">{{ load.subject.subjectTitle }}</label>
-        </div>
+        <ng-container *ngIf="load.activeDeactive">
+          <ng-container *ngIf="load.subject.activeDeactive">
+            <div class="student-course">
+              <div class="course-img-container">
+                <img
+                  src="../../../../../assets/images/computer.png"
+                  class="course-img"
+                />
+              </div>
+              <label class="course-title">{{
+                load.subject.subjectTitle
+              }}</label>
+            </div>
+          </ng-container>
+        </ng-container>
       </ng-container>
     </div>
   </div>
   <div class="right-container">
-    <div class="welcome-container">
-      <div class="image-container">
-        <img src="../../../../../assets/images/student3.jpg" />
+    <div class="profile-container">
+      <div class="profile-img-container">
+        <img
+          src="{{
+            userPic || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Profile Image"
+        />
       </div>
-      <label class="welcome-label">MARK EMBER VILLARIN</label>
+      <label class="profile-name-label">{{ username }}</label>
     </div>
     <div class="calendar-container">
       <p-calendar

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { GradeService } from 'src/app/shared/services/grade/grade.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
+import { SectionService } from 'src/app/shared/services/section/section.service';
 import { StudentService } from 'src/app/shared/services/student/student.service';
 
 @Component({
@@ -10,39 +12,44 @@ import { StudentService } from 'src/app/shared/services/student/student.service'
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
-
   date: Date | undefined;
+
   selectedSchedules: any[] = [];
+  schedules: any = [];
+  sections: any = [];
+  sched: any = [];
   selectedSection: any;
   studentId: any;
   student: any = {};
   course: any = [];
   maxUnits: any;
+  username: string = '';
+  userPic: string = '';
 
   hasSchedule: boolean = false;
 
+  studentBar: any;
+
   constructor(
     private authService: AuthService,
+    private gradeService: GradeService,
     private programService: ProgramService,
-    private studentService: StudentService,
-    private scheduleService: ScheduleService
+    private studentService: StudentService
   ) {}
 
   ngOnInit(): void {
-    this.studentId = this.authService.getUserId;
+    this.studentId = this.authService.getUserId();
     this.getStudent();
+    this.getStudentAverage();
   }
 
   getStudent = () => {
     this.studentService
       .getStudentById(this.studentId)
       .subscribe((data: any) => {
-        console.log(data);
-
         this.student = data;
+        this.username = this.student.firstname + ' ' + this.student.lastname;
+        this.userPic = this.student.image;
         this.course = data.schedules;
         data.tempSched.map((sched: any) => {
           this.selectedSchedules.push(sched);
@@ -86,23 +93,43 @@ export class HomeComponent {
       });
   };
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
-  };
+  getStudentAverage = () => {
+    this.gradeService.getGradeByStudentId(this.studentId).subscribe((data) => {
+      const prelim = data.map((grade: any) => grade.prelim);
+      const midterm = data.map((grade: any) => grade.midterm);
+      const final = data.map((grade: any) => grade.finals);
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
+      const grades: any = [];
 
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-  };
+      let prelimGrade = prelim.reduce((prev: any, curr: any) => prev + curr, 0);
+      prelimGrade = (prelimGrade / prelim.length).toFixed(2);
+      grades.push(prelimGrade);
 
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+      let midtermGrade = midterm.reduce(
+        (prev: any, curr: any) => prev + curr,
+        0
+      );
+      midtermGrade = (midtermGrade / midterm.length).toFixed(2);
+      grades.push(midtermGrade);
+
+      let finalGrade = final.reduce((prev: any, curr: any) => prev + curr, 0);
+      finalGrade = (finalGrade / final.length).toFixed(2);
+      grades.push(finalGrade);
+
+      this.studentBar = {
+        labels: ['Prelim', 'Midterm', 'Finals'],
+        datasets: [
+          {
+            label: 'Average',
+            data: grades,
+            backgroundColor: [
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+            ],
+          },
+        ],
+      };
+    });
   };
 }

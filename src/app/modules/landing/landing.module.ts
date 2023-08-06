@@ -8,12 +8,14 @@ import { LoginDialogComponent } from './components/login-dialog/login-dialog.com
 import { ApplyComponent } from './pages/apply/apply.component';
 import { CourseListComponent } from './pages/course-list/course-list.component';
 import { EducateLifeComponent } from './pages/educate-life/educate-life.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { StepsModule } from 'primeng/steps';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutComponent } from './pages/about/about.component';
 import { CalendarModule } from 'primeng/calendar';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { ContactComponent } from './pages/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +27,12 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     CourseListComponent,
     EducateLifeComponent,
     AboutComponent,
+    ContactComponent,
   ],
   imports: [
     LandingRoutingModule,
     CommonModule,
+    InputTextareaModule,
     SharedModule,
     StepsModule,
     FormsModule,

@@ -1,107 +1,36 @@
 <main>
   <div class="left-container">
-    <div class="label-container">
-      <label class="title">NEW COURSES</label>
+    <label class="title">YOUR EVALUATION</label>
+    <div class="bar-chart">
+      <p-chart type="bar" [data]="professorBar"></p-chart>
     </div>
-    <div class="newcourse-container">
-      <div class="courses-container">
-        <div class="course1-img-container"></div>
-        <label class="course-label">Introduction to Programming</label>
-        <label class="lesson-label">12 Lessons</label>
-      </div>
-      <div class="courses-container">
-        <div class="course2-img-container"></div>
-        <label class="course-label">Database Management</label>
-        <label class="lesson-label">15 Lessons</label>
-      </div>
-      <div class="courses-container">
-        <div class="course3-img-container"></div>
-        <label class="course-label">Multimedia Arts</label>
-        <label class="lesson-label">13 Lessons</label>
-      </div>
-    </div>
-    <div class="label-container">
-      <label class="title">YOUR CLASSES</label>
-      <label class="title">UPCOMING CLASSES</label>
-    </div>
-    <div class="owncourse-container">
-      <div class="left-left-container">
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <label class="course-title">Introduction to Programming</label>
-        </div>
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <label class="course-title">Database Management</label>
-        </div>
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <label class="course-title">Multimedia Arts</label>
-        </div>
-      </div>
-      <div class="left-left-container">
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <div class="right-mycourse-container">
-            <label class="right-course-title"
-              >Introduction to Programming</label
-            >
-            <label class="right-room-title">Room 101</label>
-          </div>
-        </div>
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <div class="right-mycourse-container">
-            <label class="right-course-title">Database Management</label>
-            <label class="right-room-title">Room 102</label>
-          </div>
-        </div>
-        <div class="mycourse-container">
-          <div class="subject-img-container">
-            <img
-              src="../../../../../assets/images/computer.png"
-              class="subject-img"
-            />
-          </div>
-          <div class="right-mycourse-container">
-            <label class="right-course-title">Multimedia Arts</label>
-            <label class="right-room-title">Room 103</label>
-          </div>
-        </div>
-      </div>
+    <label class="title">YOUR COURSES</label>
+    <div class="professor-load-container">
+      <ng-container *ngFor="let load of load.schedules; index as i">
+        <ng-container *ngIf="load.activeDeactive">
+          <ng-container *ngIf="load.subject.activeDeactive">
+            <div class="professor-load">
+              <div class="load-img-container">
+                <img src="../../../../../assets/images/computer.png" />
+              </div>
+              <label class="load-title">{{ load.subject.subjectTitle }}</label>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
   <div class="right-container">
-    <div class="welcome-container">
-      <div class="image-container">
-        <img src="../../../../../assets/images/student3.jpg" />
+    <div class="profile-container">
+      <div class="profile-img-container">
+        <img
+          src="{{
+            userPic || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Profile Image"
+        />
       </div>
-      <label class="welcome-label">MARK EMBER VILLARIN</label>
+      <label class="profile-name-label">{{ username }}</label>
     </div>
     <div class="calendar-container">
       <p-calendar

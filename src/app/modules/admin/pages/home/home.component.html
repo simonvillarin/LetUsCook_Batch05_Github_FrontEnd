@@ -1,8 +1,13 @@
 <main>
-  <div class="first-container">
+  <div class="container">
     <div class="welcome-container">
       <div class="image-container">
-        <img src="../../../../../assets/images/student3.jpg" />
+        <img
+          src="{{
+            userPic || '../../../../../../../assets/images/blank-profile.jpg'
+          }}"
+          alt="Profile Image"
+        />
       </div>
       <div class="welcome-label-container">
         <label class="welcome-label">WELCOME BACK!</label>
@@ -11,61 +16,46 @@
     </div>
     <div class="counter-container">
       <div class="counter">
-        <label>Total Students</label>
+        <label class="total-label">Total Students</label>
         <label class="number-label">{{ student }}</label>
       </div>
       <div class="counter">
-        <label>Total Professors</label>
+        <label class="total-label">Total Professors</label>
         <label class="number-label">{{ professor }}</label>
       </div>
       <div class="counter">
-        <label>Total Programs</label>
+        <label class="total-label">Total Programs</label>
         <label class="number-label">{{ program }}</label>
       </div>
       <div class="counter">
-        <label>Total Courses</label>
+        <label class="total-label">Total Courses</label>
         <label class="number-label">{{ course }}</label>
       </div>
     </div>
   </div>
   <div class="chart-container">
     <div class="pie-chart">
-      <label class="course-label">Courses Per Program</label>
-      <p-chart
-        type="pie"
-        [data]="programs"
-        [options]="programOptions"
-        class="pchart"
-      ></p-chart>
+      <label class="chart-label">Courses Per Program</label>
+      <p-chart type="pie" [data]="programs" class="pchart"></p-chart>
     </div>
-    <div class="line-chart">
-      <label class="course-label">Student Per Room</label>
+    <div class="bar-chart">
+      <label class="chart-label">Student Per Room</label>
       <p-chart type="bar" [data]="studentPerRoom"></p-chart>
     </div>
     <div class="pie-chart">
-      <label class="course-label">Student Status</label>
-      <p-chart
-        type="pie"
-        [data]="studentStatusPie"
-        [options]="courseOptions"
-        class="pchart"
-      ></p-chart>
+      <label class="chart-label">Student Status</label>
+      <p-chart type="pie" [data]="studentStatusPie" class="pchart"></p-chart>
     </div>
-    <div class="line-chart">
-      <label class="course-label">Student Per Course</label>
+    <div class="bar-chart">
+      <label class="chart-label">Student Per Course</label>
       <p-chart type="bar" [data]="studentBar"></p-chart>
     </div>
     <div class="pie-chart">
-      <label class="course-label">Gender</label>
-      <p-chart
-        type="pie"
-        [data]="gender"
-        [options]="genderOptions"
-        class="pchart"
-      ></p-chart>
+      <label class="chart-label">Gender</label>
+      <p-chart type="pie" [data]="gender" class="pchart"></p-chart>
     </div>
-    <div class="line-chart">
-      <label class="course-label">Student Per Year Level</label>
+    <div class="bar-chart">
+      <label class="chart-label">Student Per Year Level</label>
       <p-chart type="bar" [data]="yearLevel"></p-chart>
     </div>
   </div>

@@ -14,10 +14,6 @@ import { StudentService } from 'src/app/shared/services/student/student.service'
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
-
   admin: any = {};
   student: any = {};
   professor: any = {};
@@ -25,21 +21,13 @@ export class HomeComponent implements OnInit {
   course: any = {};
 
   programs: any;
-  programOptions: any;
-  courses: any;
-  courseOptions: any;
-  students: any;
-  studentOptions: any;
-  gender: any;
-  genderOptions: any;
-  genderProgram: any;
-  genderProgramOptions: any;
-  studentBar: any;
-  professorPerDept: any;
-  professorPerDeptOptions: any;
   studentPerRoom: any;
   studentStatusPie: any;
+  studentBar: any;
+  gender: any;
   yearLevel: any;
+
+  userPic: string = '';
 
   constructor(
     private authService: AuthService,
@@ -78,6 +66,7 @@ export class HomeComponent implements OnInit {
       .getAdminById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.admin = data;
+        this.userPic = this.admin.image;
       });
   };
 
@@ -140,7 +129,6 @@ export class HomeComponent implements OnInit {
       });
 
       this.programs = {
-     
         labels: labels,
         datasets: [
           {
@@ -179,7 +167,7 @@ export class HomeComponent implements OnInit {
           arr.push(item.schedules);
         }
       });
-      
+
       arr.map((sched: any) => {
         sched.map((sub: any) => {
           let isExist = false;
@@ -253,8 +241,8 @@ export class HomeComponent implements OnInit {
   getYearLevel = () => {
     this.studentService.getYearLevelCount().subscribe((data) => {
       this.yearLevel = data;
-    })
-  }
+    });
+  };
 
   getRandomColor = () => {
     const minBrightness = 168;
@@ -270,25 +258,5 @@ export class HomeComponent implements OnInit {
     const randomColor = `rgb(${r}, ${g}, ${b})`;
 
     return { randomColor };
-  };
-
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
-  };
-
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
-
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-  };
-
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
   };
 }

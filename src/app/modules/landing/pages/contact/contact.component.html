@@ -1,0 +1,159 @@
+<app-header></app-header>
+<div class="container">
+  <div class="container-form">
+    <h2>Contact Us</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label>First name</label>
+        <input
+          pInputText
+          placeholder="First Name"
+          formControlName="firstName"
+          required
+        />
+        <div
+          *ngIf="
+            (buttonClicked && contactForm.get('firstName')?.invalid) ||
+            contactForm.get('firstName')?.dirty
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('firstName')?.errors?.['required']"
+            >First name is required</small
+          >
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Last name</label>
+        <input
+          pInputText
+          placeholder="Last Name"
+          formControlName="lastName"
+          required
+        />
+        <div
+          *ngIf="
+            (buttonClicked && contactForm.get('lastName')?.invalid) ||
+            contactForm.get('lastName')?.dirty
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('lastName')?.errors?.['required']"
+            >Last name is required</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input
+          pInputText
+          placeholder="Email"
+          formControlName="email"
+          required
+        />
+        <div
+          *ngIf="
+            (buttonClicked && contactForm.get('email')?.invalid) ||
+            contactForm.get('email')?.dirty
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('email')?.errors?.['required']"
+            >Email address is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('email')?.errors?.['email']"
+            >Invalid email address</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Mobile Number</label>
+        <input
+          pInputText
+          placeholder="Mobile Number"
+          formControlName="mobileNumber"
+          required
+        />
+        <div
+          *ngIf="
+            (buttonClicked && contactForm.get('mobileNumber')?.invalid) ||
+            contactForm.get('mobileNumber')?.dirty
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('mobileNumber')?.errors?.['required']"
+            >Contact no. is required</small
+          >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('mobileNumber')?.errors?.['mobileNoIsValid']"
+            >Invalid mobile number</small
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Message</label>
+        <textarea
+          rows="5"
+          cols="30"
+          pInputTextarea
+          placeholder="Message"
+          formControlName="message"
+          required
+        ></textarea>
+        <div
+          *ngIf="
+            (buttonClicked && contactForm.get('message')?.invalid) ||
+            contactForm.get('message')?.dirty
+          "
+        >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="contactForm.get('message')?.errors?.['required']"
+            >Message is required</small
+          >
+        </div>
+      </div>
+
+      <button class="button-submit" (click)="onSubmitContact()">Submit</button>
+    </form>
+  </div>
+  <div class="container-map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.240665131003!2d121.05921181744387!3d14.585357799999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c81751e0f9d5%3A0xff1378b728feff76!2sSeven%20Seven%20Global%20Services%2C%20Inc.!5e0!3m2!1sen!2sph!4v1688393972410!5m2!1sen!2sph"
+      width="600"
+      height="450"
+      style="border: 0"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="isDialogOpen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-header>
+    <div class="modal-title">Contact Us</div>
+  </p-header>
+  <div class="modal-body">Are you sure you want to send the details?</div>
+  <div class="actions">
+    <button class="action-btn cancel" (click)="onCloseDialog()">Cancel</button>
+    <button class="action-btn submit" type="submit">OK</button>
+  </div>
+</p-dialog>

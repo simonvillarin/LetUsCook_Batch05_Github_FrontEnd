@@ -20,4 +20,8 @@ export class EmailService {
   sendEmail = (email: any) => {
     return this.http.post(`${this.BASE_URL}/send/email`, email);
   };
+
+  contactEmail = (email: any) => {
+    return this.http.post(`${this.BASE_URL}/contact`, email);
+  };
 }

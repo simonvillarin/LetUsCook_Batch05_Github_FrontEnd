@@ -14,6 +14,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CardModule } from 'primeng/card';
 import { StudentEvaluationComponent } from './pages/student-evaluation/student-evaluation.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ChartModule } from 'primeng/chart';
 import { ProfMainComponent } from './pages/prof-main/prof-main.component';
 import { CourseComponent } from './pages/course/course.component';
 import { TabViewModule } from 'primeng/tabview';
@@ -41,6 +42,7 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
     ToastModule,
     MatDialogModule,
     CalendarModule,
+    ChartModule,
     FullCalendarModule,
     CardModule,
     InputTextareaModule,
