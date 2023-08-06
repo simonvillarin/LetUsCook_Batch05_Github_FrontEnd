@@ -167,7 +167,7 @@ export class StudentComponent implements OnInit {
   };
 
   isObjectUnique = (obj1: any, obj2: any) => {
-    return obj1.room.roomNumber === obj2.room.roomNumber;
+    return obj1.room.roomName === obj2.room.roomName;
   };
 
   getUniqueObjects = (arr: any) => {
@@ -230,15 +230,13 @@ export class StudentComponent implements OnInit {
       };
       this.evalService.addEval(payload2).subscribe();
     });
-    const uniqueRooms = this.getUniqueObjects(this.selectedSchedules);
-    console.log(uniqueRooms);
+    const uniqueRooms = this.getUniqueObjects(this.schedules);
     uniqueRooms.map((room: any) => {
       this.roomService.getRoomById(room.room.roomId).subscribe((data: any) => {
-        let numOfStudents = data.numOfStudents + 1;
+        let numOfStudents = (data.numOfStudents || 0) + 1;
         let payload = {
           numOfStudents: numOfStudents,
         };
-        console.log(payload);
         this.roomService.updateRoom(room.room.roomId, payload).subscribe();
       });
     });
@@ -253,6 +251,7 @@ export class StudentComponent implements OnInit {
   onRemoveStudent = () => {
     const payload = {
       status: '',
+      studentId: this.student.studentId,
     };
 
     let yearLevel = '';
@@ -318,19 +317,27 @@ export class StudentComponent implements OnInit {
         this.accountService
           .updateAccount(this.student.studentId, payload1)
           .subscribe(() => {
-            this.accountService
-              .updateAccount(this.student.parent.parentId, payload1)
+            this.studentService
+              .updateStudent(this.student.studentId, payload1)
               .subscribe(() => {
-                this.parentService
-                  .updateParent(this.student.parent.parentId, payload1)
-                  .subscribe(() => {
-                    this.studentService
-                      .updateStudent(this.student.studentId, payload1)
-                      .subscribe(() => {
-                        this.getAllStudents();
-                        this.getAllApplications();
-                        this.isRemoveDialogOpen = false;
-                      });
+                this.getAllStudents();
+                this.getAllApplications();
+                this.isRemoveDialogOpen = false;
+                this.studentService
+                  .getStudentByParentId(this.student.parent.parentId)
+                  .subscribe((data: any) => {
+                    if (data.length == 0) {
+                      this.accountService
+                        .updateAccount(this.student.parent.parentId, payload1)
+                        .subscribe(() => {
+                          this.parentService
+                            .updateParent(
+                              this.student.parent.parentId,
+                              payload1
+                            )
+                            .subscribe();
+                        });
+                    }
                   });
               });
           });
@@ -439,9 +446,9 @@ export class StudentComponent implements OnInit {
         if (stud.studentId == this.application.studentId) {
           student = stud;
           isExist = true;
-          return;
         }
       });
+
       if (isExist) {
         let yearLevel = '';
         let sem = '';
@@ -488,15 +495,26 @@ export class StudentComponent implements OnInit {
           yearLevel = 'Fourth Year';
           sem = 'Second Term';
         }
-        const payload1 = {
-          activeDeactive: true,
+
+        const payload1: any = {
           schedId: [],
           tempSchedId: [],
-          yearLevel: yearLevel,
-          sem: sem,
           academicYear: this.application.academicYear,
           appId: this.application.appId,
+          activeDeactive: true,
         };
+
+        this.studentHistoryService
+          .getStudentHistoryById(this.application.studentId)
+          .subscribe((data: any) => {
+            if (data[0].schedules.length > 0) {
+              payload1.yearLevel = yearLevel;
+              payload1.sem = sem;
+            } else {
+              payload1.yearLevel = student.yearLevel;
+              payload1.sem = student.sem;
+            }
+          });
 
         this.studentService
           .getStudentById(this.application.studentId)
@@ -528,7 +546,11 @@ export class StudentComponent implements OnInit {
                 this.accountService
                   .updateAccount(student.parent.parentId, payload1)
                   .subscribe(() => {
-                    this.getAllStudents();
+                    this.parentService
+                      .updateParent(student.parent.parentId, payload1)
+                      .subscribe(() => {
+                        this.getAllStudents();
+                      });
                   });
               });
           });

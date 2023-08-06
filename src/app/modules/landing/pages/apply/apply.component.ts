@@ -431,6 +431,14 @@ export class ApplyComponent implements OnInit {
           this.errorMessage = 'You have already submitted an application';
           this.errorDialog = true;
         } else {
+          this.stepFour = true;
+          this.stepOne = false;
+          this.stepTwo = false;
+          this.stepThree = false;
+          this.stepperNumber = 4;
+          this.stepThreeDone = true;
+          scroll(0, 0);
+
           const firstName = this.studentInfo.firstname;
           const payload = {
             email: this.oldStudent.email,
@@ -468,14 +476,6 @@ export class ApplyComponent implements OnInit {
               '\n',
           };
           this.emailService.sendEmail(payload).subscribe();
-
-          this.stepFour = true;
-          this.stepOne = false;
-          this.stepTwo = false;
-          this.stepThree = false;
-          this.stepperNumber = 4;
-          this.stepThreeDone = true;
-          scroll(0, 0);
           this.existForm.reset();
         }
       });
@@ -486,12 +486,15 @@ export class ApplyComponent implements OnInit {
           if (res.message == 'Email already exists') {
             this.errorMessage = 'Email already exists';
             this.errorDialog = true;
-          } else if (
-            (res.message = 'You have already submitted an application')
-          ) {
-            this.errorMessage = 'You have already submitted an application';
-            this.errorDialog = true;
           } else {
+            this.stepFour = true;
+            this.stepOne = false;
+            this.stepTwo = false;
+            this.stepThree = false;
+            this.stepperNumber = 4;
+            this.stepThreeDone = true;
+            scroll(0, 0);
+
             const firstName = this.applyForm.get('firstname')?.value;
             const payload = {
               email: this.applyForm.get('email')?.value,
@@ -529,14 +532,6 @@ export class ApplyComponent implements OnInit {
                 '\n',
             };
             this.emailService.sendEmail(payload).subscribe();
-
-            this.stepFour = true;
-            this.stepOne = false;
-            this.stepTwo = false;
-            this.stepThree = false;
-            this.stepperNumber = 4;
-            this.stepThreeDone = true;
-            scroll(0, 0);
             this.applyForm.reset();
           }
         });
