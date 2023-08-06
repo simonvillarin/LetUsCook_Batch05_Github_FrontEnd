@@ -238,6 +238,15 @@ img {
   background-color: var(--orange);
 }
 
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;

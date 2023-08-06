@@ -1,6 +1,9 @@
 <main>
   <div class="table">
-    <div class="table-header">
+    <div class="error-container" *ngIf="!show">
+      Stay tuned for your academic progress, grades are on their way!
+    </div>
+    <div class="table-header" *ngIf="show">
       <div class="btn-container">
         <button
           class="reset table-header-btn"
@@ -26,7 +29,7 @@
         ></p-dropdown>
       </div>
     </div>
-    <div class="units-container">
+    <div class="units-container" *ngIf="show">
       <div class="selected-unit">GWA: {{ GWA }}</div>
       <div class="minimum-unit">Commulative GWA: {{ cummulativeGWA }}</div>
     </div>

@@ -14,6 +14,7 @@ export class GradeComponent implements OnInit {
   schoolYears: any = [];
   schoolYear: string = '';
   student: any = {};
+  show: boolean = false;
 
   GWA: any;
   cummulativeGWA: any;
@@ -42,6 +43,10 @@ export class GradeComponent implements OnInit {
           });
           if (!exists) {
             this.schoolYears.push(`${grade.yearLevel} - ${grade.sem}`);
+          }
+          const temp = data.filter((grade: any) => grade.dateModified != null);
+          if (temp.length > 0) {
+            this.show = true;
           }
         });
 

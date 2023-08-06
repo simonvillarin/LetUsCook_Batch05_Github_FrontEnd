@@ -17,6 +17,8 @@ export class StudentGradeComponent implements OnInit {
   GWA: any;
   cummulativeGWA: any;
 
+  show: boolean = false;
+
   constructor(
     private gradeService: GradeService,
     private datePipe: DatePipe,
@@ -66,6 +68,11 @@ export class StudentGradeComponent implements OnInit {
         grades += prelim + midterm + finals;
       });
       this.GWA = (grades / this.grades.length).toFixed(2);
+
+      const temp = data.filter((grade: any) => grade.dateModified != null);
+      if (temp.length > 0) {
+        this.show = true;
+      }
     });
   };
 
