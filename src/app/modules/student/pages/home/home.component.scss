@@ -2,95 +2,78 @@
 
 main {
   min-height: calc(100vh - 4rem);
-  background-color: var(--light-grayish-blue);
-  display: flex;
-  flex-direction: row;
-  padding: 2rem;
-  gap: 1rem;
-}
-
-// Left Container
-.left-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.title {
-  font-size: 1.5rem;
-}
-
-.bar-chart {
-  height: 500px;
-  width: 950px;
   padding: 1.5rem;
-  background-color: var(--white);
-  border-radius: 0.25rem;
-  text-align: center;
 }
 
-.student-course-container {
-  display: grid;
-  grid-template-columns: 0.7fr 0.7fr;
-  gap: 1rem;
-}
-
-.student-course {
-  height: 90px;
-  display: flex;
-  flex-direction: row;
-  background-color: var(--white);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  gap: 2rem;
-}
-
-.course-img-container {
-  height: 70px;
-  width: 70px;
-}
-
-.course-img {
-  height: 100%;
+.chart {
   width: 100%;
-}
-
-.course-title {
-  font-size: 1.3rem;
-  padding-top: 1.3rem;
-}
-
-// Right Container
-.right-container {
-  width: 700px;
-}
-
-.profile-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.25rem;
 }
 
-.profile-img-container {
-  width: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
-  height: clamp(6rem, 4.5185rem + 7.4074vw, 11rem);
-  border-radius: 50%;
-  overflow: hidden;
+.bar-chart {
+  width: 100%;
+  background-color: var(--white);
+  border-radius: 0.25rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(1.25rem, 1.1524rem + 0.4878vw, 1.5rem);
+  font-weight: 300;
+  padding: 0 1.5rem;
+  color: var(--primary);
+}
+
+.professor-load-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  padding: 0 1rem;
+  margin-top: 0.5rem;
+}
+
+.professor-load {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid #e2e2e2;
+  cursor: pointer;
+}
+
+.load-img-container {
+  width: 4rem;
+  height: 4rem;
+}
+
+.load-title {
+  font-size: 1.25rem;
+  font-weight: 300;
 }
 
 img {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
-.profile-name-label {
-  font-size: 1.5rem;
-  text-align: center;
-  padding: 1rem;
+.course-img-container {
+  width: 4rem;
+  height: 4rem;
 }
 
-.calendar-container {
-  padding: 1rem 5rem;
+.t1 {
+  font-size: clamp(1.3125rem, 1.1418rem + 0.8537vw, 1.75rem);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+@media screen and (min-width: 992px) {
+  .professor-load-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

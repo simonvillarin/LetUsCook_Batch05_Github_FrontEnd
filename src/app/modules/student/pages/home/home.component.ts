@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GradeService } from 'src/app/shared/services/grade/grade.service';
 import { ProgramService } from 'src/app/shared/services/program/program.service';
@@ -34,7 +35,8 @@ export class HomeComponent {
     private authService: AuthService,
     private gradeService: GradeService,
     private programService: ProgramService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -131,5 +133,11 @@ export class HomeComponent {
         ],
       };
     });
+  };
+
+  route = (load: any) => {
+    const sectionId = load.section.sectionId;
+    const subjectId = load.subject.subjectId;
+    this.router.navigate([`student/course/${sectionId}-${subjectId}`]);
   };
 }

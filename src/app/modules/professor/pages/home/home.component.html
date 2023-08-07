@@ -1,6 +1,6 @@
 <main>
   <div class="left-container">
-    <label class="title">YOUR EVALUATION</label>
+    <div class="title t1">Student's Average Grade Per Course</div>
     <div class="bar-chart">
       <p-chart type="bar" [data]="professorBar"></p-chart>
     </div>
@@ -9,36 +9,15 @@
       <ng-container *ngFor="let load of load.schedules; index as i">
         <ng-container *ngIf="load.activeDeactive">
           <ng-container *ngIf="load.subject.activeDeactive">
-            <div class="professor-load">
+            <div class="professor-load" (click)="route(load)">
               <div class="load-img-container">
-                <img src="../../../../../assets/images/computer.png" />
+                <img src="../../../../../assets/images/book.png" />
               </div>
               <label class="load-title">{{ load.subject.subjectTitle }}</label>
             </div>
           </ng-container>
         </ng-container>
       </ng-container>
-    </div>
-  </div>
-  <div class="right-container">
-    <div class="profile-container">
-      <div class="profile-img-container">
-        <img
-          src="{{
-            userPic || '../../../../../../../assets/images/blank-profile.jpg'
-          }}"
-          alt="Profile Image"
-        />
-      </div>
-      <label class="profile-name-label">{{ username }}</label>
-    </div>
-    <div class="calendar-container">
-      <p-calendar
-        class="max-w-full"
-        [(ngModel)]="date"
-        [inline]="true"
-        [showWeek]="true"
-      ></p-calendar>
     </div>
   </div>
 </main>

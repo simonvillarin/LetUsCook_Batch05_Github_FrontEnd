@@ -24,7 +24,8 @@ export class HomeComponent {
     private professorLoadService: ProfessorloadService,
     private authService: AuthService,
     private professorService: ProfessorService,
-    private gradeService: GradeService
+    private gradeService: GradeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class HomeComponent {
               labels: subjects,
               datasets: [
                 {
-                  label: 'Average',
+                  label: "Student's Average",
                   data: numStudents,
                   backgroundColor: [
                     'rgba(255, 159, 64, 0.2)',
@@ -81,5 +82,11 @@ export class HomeComponent {
       this.username = this.professor.firstname + ' ' + this.professor.lastname;
       this.userPic = this.professor.image;
     });
+  };
+
+  route = (load: any) => {
+    const sectionId = load.section.sectionId;
+    const subjectId = load.subject.subjectId;
+    this.router.navigate([`professor/course/${sectionId}-${subjectId}`]);
   };
 }

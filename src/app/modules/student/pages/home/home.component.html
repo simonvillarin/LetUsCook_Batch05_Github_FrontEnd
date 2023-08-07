@@ -1,49 +1,25 @@
 <main>
   <div class="left-container">
-    <label class="title">GRADES</label>
-    <div class="bar-chart">
-      <p-chart type="bar" [data]="studentBar"></p-chart>
+    <div class="chart">
+      <label class="title t1">Average Grade Per Grading Period</label>
+      <div class="bar-chart">
+        <p-chart type="bar" [data]="studentBar"></p-chart>
+      </div>
     </div>
-    <label class="title">ONGOING COURSES</label>
-    <div class="student-course-container" *ngIf="hasSchedule">
+    <label class="title">YOUR COURSES</label>
+    <div class="professor-load-container">
       <ng-container *ngFor="let load of course; index as i">
         <ng-container *ngIf="load.activeDeactive">
           <ng-container *ngIf="load.subject.activeDeactive">
-            <div class="student-course">
-              <div class="course-img-container">
-                <img
-                  src="../../../../../assets/images/computer.png"
-                  class="course-img"
-                />
+            <div class="professor-load" (click)="route(load)">
+              <div class="load-img-container">
+                <img src="../../../../../assets/images/book.png" />
               </div>
-              <label class="course-title">{{
-                load.subject.subjectTitle
-              }}</label>
+              <label class="load-title">{{ load.subject.subjectTitle }}</label>
             </div>
           </ng-container>
         </ng-container>
       </ng-container>
-    </div>
-  </div>
-  <div class="right-container">
-    <div class="profile-container">
-      <div class="profile-img-container">
-        <img
-          src="{{
-            userPic || '../../../../../../../assets/images/blank-profile.jpg'
-          }}"
-          alt="Profile Image"
-        />
-      </div>
-      <label class="profile-name-label">{{ username }}</label>
-    </div>
-    <div class="calendar-container">
-      <p-calendar
-        class="max-w-full"
-        [(ngModel)]="date"
-        [inline]="true"
-        [showWeek]="true"
-      ></p-calendar>
     </div>
   </div>
 </main>
