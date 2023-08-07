@@ -53,40 +53,42 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-att>
-            <ng-container *ngIf="att.activeDeactive">
-              <ng-container *ngIf="!att.date">
-                <tr>
-                  <td>
-                    <div class="avatar-container">
-                      <div class="avatar">
-                        <img
-                          src="{{
-                            att.student.image ||
-                              '../../../../../../../assets/images/blank-profile.jpg'
-                          }}"
-                          alt="Student Image"
-                        />
+            <ng-container *ngIf="attendance.length > 0">
+              <ng-container *ngIf="att.activeDeactive">
+                <ng-container *ngIf="!att.date">
+                  <tr>
+                    <td>
+                      <div class="avatar-container">
+                        <div class="avatar">
+                          <img
+                            src="{{
+                              att.student.image ||
+                                '../../../../../../../assets/images/blank-profile.jpg'
+                            }}"
+                            alt="Student Image"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    {{ att.student.firstname }} {{ att.student.middlename }}
-                    {{ att.student.lastname }} {{ att.student.suffix }}
-                  </td>
-                  <td>
-                    <div class="table-actions">
-                      <button
-                        class="table-btn schedule"
-                        title="Edit"
-                        (click)="onAttendance(att)"
-                      >
-                        <span class="material-symbols-rounded table-icon">
-                          calendar_month
-                        </span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                    <td>
+                      {{ att.student.firstname }} {{ att.student.middlename }}
+                      {{ att.student.lastname }} {{ att.student.suffix }}
+                    </td>
+                    <td>
+                      <div class="table-actions">
+                        <button
+                          class="table-btn schedule"
+                          title="Edit"
+                          (click)="onAttendance(att)"
+                        >
+                          <span class="material-symbols-rounded table-icon">
+                            calendar_month
+                          </span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
               </ng-container>
             </ng-container>
           </ng-template>
@@ -151,66 +153,69 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-grade>
-            <ng-container *ngIf="grade.status">
-              <tr>
-                <td>
-                  <div class="avatar-container">
-                    <div class="avatar">
-                      <img
-                        src="{{
-                          grade.student.image ||
-                            '../../../../../../../assets/images/blank-profile.jpg'
-                        }}"
-                        alt="Student Image"
-                      />
+            <ng-container *ngIf="grades.length > 0">
+              <ng-container *ngIf="grade.status">
+                <tr>
+                  <td>
+                    <div class="avatar-container">
+                      <div class="avatar">
+                        <img
+                          src="{{
+                            grade.student.image ||
+                              '../../../../../../../assets/images/blank-profile.jpg'
+                          }}"
+                          alt="Student Image"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  {{ grade.student.firstname }} {{ grade.student.middlename }}
-                  {{ grade.student.lastname }} {{ grade.student.suffix }}
-                </td>
-                <td>
-                  {{ grade.prelim }}
-                </td>
-                <td>
-                  {{ grade.midterm }}
-                </td>
-                <td>
-                  {{ grade.finals }}
-                </td>
-                <td>
-                  {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
-                </td>
-                <td>{{ grade.comment }}</td>
-                <td>
-                  <div
-                    class="{{
-                      grade.remarks == 'Passed'
-                        ? 'status present'
-                        : grade.remarks
-                        ? 'status absent'
-                        : ''
-                    }}"
-                  >
-                    {{ grade.remarks }}
-                  </div>
-                </td>
-                <td>{{ convertDate(grade.dateModified) }}</td>
-                <td>
-                  <div class="table-actions">
-                    <button
-                      class="table-btn edit"
-                      title="Edit"
-                      (click)="onEdit(grade)"
+                  </td>
+                  <td>
+                    {{ grade.student.firstname }}
+                    {{ grade.student.middlename }} {{ grade.student.lastname }}
+                    {{ grade.student.suffix }}
+                  </td>
+                  <td>
+                    {{ grade.prelim }}
+                  </td>
+                  <td>
+                    {{ grade.midterm }}
+                  </td>
+                  <td>
+                    {{ grade.finals }}
+                  </td>
+                  <td>
+                    {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
+                  </td>
+                  <td>{{ grade.comment }}</td>
+                  <td>
+                    <div
+                      class="{{
+                        grade.remarks == 'Passed'
+                          ? 'status present'
+                          : grade.remarks
+                          ? 'status absent'
+                          : ''
+                      }}"
                     >
-                      <span class="material-symbols-rounded table-icon">
-                        edit
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                      {{ grade.remarks }}
+                    </div>
+                  </td>
+                  <td>{{ convertDate(grade.dateModified) }}</td>
+                  <td>
+                    <div class="table-actions">
+                      <button
+                        class="table-btn edit"
+                        title="Edit"
+                        (click)="onEdit(grade)"
+                      >
+                        <span class="material-symbols-rounded table-icon">
+                          edit
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
           </ng-template>
         </p-table>
@@ -271,40 +276,42 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-evaluation>
-            <tr>
-              <td>
-                <div class="avatar-container">
-                  <div class="avatar">
-                    <img
-                      src="{{
-                        evaluation.student.image ||
-                          '../../../../../../../assets/images/blank-profile.jpg'
-                      }}"
-                      alt="Student Image"
-                    />
+            <ng-container *ngIf="evaluations.length > 0">
+              <tr>
+                <td>
+                  <div class="avatar-container">
+                    <div class="avatar">
+                      <img
+                        src="{{
+                          evaluation.student.image ||
+                            '../../../../../../../assets/images/blank-profile.jpg'
+                        }}"
+                        alt="Student Image"
+                      />
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td>
-                {{ evaluation.student.firstname }}
-                {{ evaluation.student.middlename }}
-                {{ evaluation.student.lastname }}
-                {{ evaluation.student.suffix }}
-              </td>
-              <td>
-                <div class="table-actions">
-                  <button
-                    class="table-btn schedule"
-                    title="View"
-                    (click)="onEval(evaluation)"
-                  >
-                    <span class="material-symbols-rounded table-icon">
-                      visibility
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  {{ evaluation.student.firstname }}
+                  {{ evaluation.student.middlename }}
+                  {{ evaluation.student.lastname }}
+                  {{ evaluation.student.suffix }}
+                </td>
+                <td>
+                  <div class="table-actions">
+                    <button
+                      class="table-btn schedule"
+                      title="View"
+                      (click)="onEval(evaluation)"
+                    >
+                      <span class="material-symbols-rounded table-icon">
+                        visibility
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
           </ng-template>
         </p-table>
       </p-tabPanel>
@@ -362,6 +369,8 @@
               placeholder="Prelim"
               pKeyFilter="num"
               formControlName="prelim"
+              maxlength="6"
+              pattern="\d+(\.\d{1,2})?"
             />
           </div>
           <div class="input-group">
@@ -371,6 +380,8 @@
               placeholder="Midterm"
               pKeyFilter="num"
               formControlName="midterm"
+              maxlength="6"
+              pattern="\d+(\.\d{1,2})?"
             />
           </div>
           <div class="input-group">
@@ -380,6 +391,8 @@
               placeholder="Final"
               pKeyFilter="num"
               formControlName="finals"
+              maxlength="6"
+              pattern="\d+(\.\d{1,2})?"
             />
           </div>
         </div>

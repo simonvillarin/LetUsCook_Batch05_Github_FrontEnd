@@ -15,8 +15,8 @@ export class ParentService {
     return this.http.get<Parent[]>(`${this.BASE_URL}/parents`);
   }
 
-  getParentById(parentId: number): Observable<Parent> {
-    return this.http.get<Parent>(`${this.BASE_URL}/parent/${parentId}`);
+  getParentById(parentId: number): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/parent/${parentId}`);
   }
 
   addParent(parent: Parent) {

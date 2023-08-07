@@ -47,9 +47,6 @@ export class ProgramLoadComponent implements OnInit {
         this.majors.map((major: any) => {
           console.log(major.preRequisites);
         });
-        console.log(this.majors);
-        console.log(this.minors);
-        console.log(this.electives);
       });
   };
 
