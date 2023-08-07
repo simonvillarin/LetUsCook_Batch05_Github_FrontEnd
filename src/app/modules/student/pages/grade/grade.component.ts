@@ -55,9 +55,21 @@ export class GradeComponent implements OnInit {
           let prelim = grade.prelim || 0;
           let midterm = grade.midterm || 0;
           let finals = grade.finals || 0;
-          grades += prelim + midterm + finals;
+          let divisor = 0;
+          if (prelim != 0) {
+            divisor = 1;
+          }
+          if (midterm != 0) {
+            divisor = 2;
+          }
+          if (finals != 0) {
+            divisor = 3;
+          }
+          grades += (prelim + midterm + finals) / divisor;
         });
-        this.cummulativeGWA = (grades / this.grades.length).toFixed(2);
+        this.cummulativeGWA = (grades / parseFloat(this.grades.length)).toFixed(
+          2
+        );
 
         this.schoolYear = `${data[0].student.yearLevel} - ${data[0].student.sem}`;
         this.grades = this.grades.filter(
@@ -67,13 +79,25 @@ export class GradeComponent implements OnInit {
         );
 
         grades = 0;
-        data.map((grade: any) => {
+        this.grades.map((grade: any) => {
           let prelim = grade.prelim || 0;
           let midterm = grade.midterm || 0;
           let finals = grade.finals || 0;
-          grades += prelim + midterm + finals;
+          let divisor = 0;
+          if (prelim != 0) {
+            divisor = 1;
+          }
+          if (midterm != 0) {
+            divisor = 2;
+          }
+          if (finals != 0) {
+            divisor = 3;
+          }
+          grades += (prelim + midterm + finals) / divisor;
+          console.log(divisor);
         });
-        this.GWA = (grades / this.grades.length).toFixed(2);
+
+        this.GWA = (grades / parseFloat(this.grades.length)).toFixed(2);
       });
   };
 

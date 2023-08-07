@@ -278,6 +278,7 @@ export class LoadComponent implements OnInit {
     this.getScheduleById();
     this.isUpdatingSchedule = false;
     this.scheduleForm.reset();
+    this.getAllSubjects();
     this.addScheduleDialog = true;
   };
 

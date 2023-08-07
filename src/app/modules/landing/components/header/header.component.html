@@ -12,32 +12,15 @@
     <div class="links" [class.links-active]="showMobileNav">
       <div class="line"></div>
       <div class="link" routerLink="">Home</div>
-      <div class="link">About Educate</div>
+      <div class="link" routerLink="/about">About Educate</div>
       <div class="link" routerLink="/courses">Courses</div>
       <div class="link">Contact Us</div>
       <div class="link" routerLink="/educatelife">Life at Educate</div>
       <button id="apply-mobile" *ngIf="showMobileNav">Apply now</button>
     </div>
     <div class="nav-actions">
-      <button id="apply" (click)="apply()">Apply now</button>
+      <button id="apply" routerLink="/apply">Apply now</button>
       <div id="login" (click)="showLoginDialog()">Login</div>
     </div>
   </div>
 </header>
-
-<p-dialog
-  [(visible)]="errorDialog"
-  [modal]="true"
-  [breakpoints]="{ '960px': '75vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p-header>
-    <div class="modal-title">Error</div>
-  </p-header>
-  <div class="modal-body">Enrollment date is already finished / over</div>
-  <div class="actions">
-    <button class="action-btn submit" (click)="onOkError()">OK</button>
-  </div>
-</p-dialog>

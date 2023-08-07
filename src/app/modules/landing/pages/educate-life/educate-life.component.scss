@@ -1,45 +1,88 @@
 @import "../../../../../variables.scss";
+
+.wrapper {
+  padding: 4rem 0 0;
+}
+
 .container {
   width: 100%;
   max-width: 1140px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 5rem 1.5rem 0;
-  gap: 1rem;
-}
-
-.title-container {
-  width: 100%;
-  text-align: center;
-}
-
-.card {
-  width: 100%;
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+  gap: 2rem;
 }
 
-.card-image {
-  border-radius: 0.25rem;
-  overflow: hidden;
+.box {
+  position: relative;
+  padding: 1.5rem;
+  color: var(--white);
 }
 
-.card-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+.box1 {
+  background-color: var(--light-orange);
 }
 
-.title {
-  font-size: 1.5rem;
-  color: var(--very-dark-saturated-blue);
+.box2 {
+  background-color: var(--light-blue);
+}
+
+.box3 {
+  background-color: var(--light-red);
 }
 
 .content {
-  text-indent: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.content-title {
+  font-size: 2.25rem;
+}
+
+.sub-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: justify;
+  text-indent: 2.5rem;
+  z-index: 2;
+}
+
+.bg-img {
+  position: absolute;
+  z-index: 1;
+}
+
+.img-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.img1 {
+  top: -9%;
+  right: 20%;
+  transform: translate(-20%, 9%);
+  transform: rotate(-118deg);
+  width: 220px;
+  height: 220px;
+}
+
+.img2 {
+  top: 5%;
+  left: 40%;
+  transform: translate(-40%, -5%);
+  width: 180px;
+  height: 100px;
+}
+
+.img3 {
+  top: -4%;
+  right: 22%;
+  transform: translate(-22%, 4%);
+  width: 140px;
+  height: 140px;
 }
 
 img {
