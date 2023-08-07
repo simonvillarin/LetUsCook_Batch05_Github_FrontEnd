@@ -162,8 +162,25 @@ export class StudentGradeComponent implements OnInit {
           (grade: any) =>
             grade.yearLevel == split[0].trim() && grade.sem == split[1].trim()
         );
-        console.log(this.grades);
-        console.log(split);
+        let grades = 0;
+        this.grades.map((grade: any) => {
+          let prelim = grade.prelim || 0;
+          let midterm = grade.midterm || 0;
+          let finals = grade.finals || 0;
+          let divisor = 0;
+          if (prelim != 0) {
+            divisor = 1;
+          }
+          if (midterm != 0) {
+            divisor = 2;
+          }
+          if (finals != 0) {
+            divisor = 3;
+          }
+          grades += (prelim + midterm + finals) / divisor;
+        });
+
+        this.GWA = (grades / parseFloat(this.grades.length)).toFixed(2);
       });
     } else {
       this.getGradesByStudentId();

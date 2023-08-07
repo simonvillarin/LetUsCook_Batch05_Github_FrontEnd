@@ -420,8 +420,11 @@ export class ApplyComponent implements OnInit {
       programCode: this.program,
     });
     if (this.existing) {
-      this.studentInfo.email = '';
-      this.appService.addApplication(this.studentInfo).subscribe((res: any) => {
+      let payload = this.studentInfo;
+      payload.email = '';
+      console.log(payload);
+
+      this.appService.addApplication(payload).subscribe((res: any) => {
         if (res.message == 'Email already exists') {
           this.errorMessage = 'Email already exists';
           this.errorDialog = true;
@@ -470,8 +473,9 @@ export class ApplyComponent implements OnInit {
               'Educate University' +
               '\n',
           };
-          this.emailService.sendEmail(payload).subscribe();
-          this.existForm.reset();
+          this.emailService.sendEmail(payload).subscribe(() => {
+            this.existForm.reset();
+          });
         }
       });
     } else {

@@ -250,8 +250,7 @@ export class StudentComponent implements OnInit {
 
   onRemoveStudent = () => {
     const payload = {
-      status: '',
-      studentId: this.student.studentId,
+      status: false,
     };
 
     let yearLevel = '';
@@ -311,6 +310,8 @@ export class StudentComponent implements OnInit {
       sem: sem,
       academicYear: this.student.academicYear,
     };
+    console.log(this.application);
+
     this.applicationService
       .updateApplication(this.student.appId, payload)
       .subscribe(() => {
@@ -326,6 +327,7 @@ export class StudentComponent implements OnInit {
                 this.studentService
                   .getStudentByParentId(this.student.parent.parentId)
                   .subscribe((data: any) => {
+                    console.log(data);
                     if (data.length == 0) {
                       this.accountService
                         .updateAccount(this.student.parent.parentId, payload1)
@@ -335,38 +337,42 @@ export class StudentComponent implements OnInit {
                               this.student.parent.parentId,
                               payload1
                             )
-                            .subscribe();
+                            .subscribe(() => {
+                              const emailPayload = {
+                                email: this.application.email,
+                                subject:
+                                  'Update on Your Application to Educate University',
+                                body:
+                                  'Dear ' +
+                                  this.application.firstname +
+                                  ',' +
+                                  '\n\n' +
+                                  'I hope this email finds you well. I am writing to inform you about the status of your application to Educate University. After careful consideration and review by our admissions committee, we regret to inform you that we are unable to offer you a place as a student in the upcoming academic year. ' +
+                                  '\n' +
+                                  'Please know that our admissions process is highly competitive, and we receive many exceptional applications each year. While we recognize your accomplishments and strengths, we had to make difficult decisions due to the limited number of available spaces. ' +
+                                  '\n' +
+                                  'We understand that this may be disappointing news, and we want to assure you that this decision does not reflect on your abilities or potential. Many factors contribute to our selection process, and we encourage you to explore other educational opportunities that align with your goals and aspirations. ' +
+                                  '\n\n' +
+                                  'Once again, thank you for considering Educate University. We wish you all the success and fulfillment in your academic and personal pursuits.' +
+                                  '\n\n' +
+                                  'With warm regards,' +
+                                  '\n\n' +
+                                  'Simon Villarin' +
+                                  '\n' +
+                                  'School Registrar' +
+                                  '\n' +
+                                  'Educate University',
+                              };
+                              this.emailService
+                                .sendEmail(emailPayload)
+                                .subscribe();
+                            });
                         });
                     }
                   });
               });
           });
       });
-    const emailPayload = {
-      email: this.application.email,
-      subject: 'Update on Your Application to Educate University',
-      body:
-        'Dear ' +
-        this.application.firstname +
-        ',' +
-        '\n\n' +
-        'I hope this email finds you well. I am writing to inform you about the status of your application to Educate University. After careful consideration and review by our admissions committee, we regret to inform you that we are unable to offer you a place as a student in the upcoming academic year. ' +
-        '\n' +
-        'Please know that our admissions process is highly competitive, and we receive many exceptional applications each year. While we recognize your accomplishments and strengths, we had to make difficult decisions due to the limited number of available spaces. ' +
-        '\n' +
-        'We understand that this may be disappointing news, and we want to assure you that this decision does not reflect on your abilities or potential. Many factors contribute to our selection process, and we encourage you to explore other educational opportunities that align with your goals and aspirations. ' +
-        '\n\n' +
-        'Once again, thank you for considering Educate University. We wish you all the success and fulfillment in your academic and personal pursuits.' +
-        '\n\n' +
-        'With warm regards,' +
-        '\n\n' +
-        'Simon Villarin' +
-        '\n' +
-        'School Registrar' +
-        '\n' +
-        'Educate University',
-    };
-    this.emailService.sendEmail(emailPayload).subscribe(() => {});
   };
 
   onClickActive = (student: any) => {
@@ -438,6 +444,7 @@ export class StudentComponent implements OnInit {
         .subscribe(() => {
           this.isConfirmDialogOpen = false;
           this.getAllApplications();
+          this.getAllStudents();
         });
 
       let isExist = false;
@@ -448,6 +455,8 @@ export class StudentComponent implements OnInit {
           isExist = true;
         }
       });
+      console.log(this.students);
+      console.log(isExist);
 
       if (isExist) {
         let yearLevel = '';
@@ -503,6 +512,7 @@ export class StudentComponent implements OnInit {
           appId: this.application.appId,
           activeDeactive: true,
         };
+        console.log(this.application.appId);
 
         this.studentService
           .getStudentById(this.application.studentId)
@@ -521,6 +531,7 @@ export class StudentComponent implements OnInit {
               sem: data.sem,
               academicYear: data.academicYear,
             };
+
             this.studentHistoryService
               .addStudentHistory(payload2)
               .subscribe(() => {
@@ -534,22 +545,27 @@ export class StudentComponent implements OnInit {
                       payload1.yearLevel = student.yearLevel;
                       payload1.sem = student.sem;
                     }
-                  });
-              });
-          });
-        this.studentService
-          .updateStudent(student.studentId, payload1)
-          .subscribe(() => {
-            this.accountService
-              .updateAccount(student.studentId, payload1)
-              .subscribe(() => {
-                this.accountService
-                  .updateAccount(student.parent.parentId, payload1)
-                  .subscribe(() => {
-                    this.parentService
-                      .updateParent(student.parent.parentId, payload1)
+                    console.log(payload);
+
+                    this.studentService
+                      .updateStudent(student.studentId, payload1)
                       .subscribe(() => {
-                        this.getAllStudents();
+                        this.accountService
+                          .updateAccount(student.studentId, payload1)
+                          .subscribe(() => {
+                            this.accountService
+                              .updateAccount(student.parent.parentId, payload1)
+                              .subscribe(() => {
+                                this.parentService
+                                  .updateParent(
+                                    student.parent.parentId,
+                                    payload1
+                                  )
+                                  .subscribe(() => {
+                                    this.getAllStudents();
+                                  });
+                              });
+                          });
                       });
                   });
               });
@@ -560,7 +576,7 @@ export class StudentComponent implements OnInit {
           .subscribe((res: any) => {
             this.getAllStudents();
             console.log(this.application);
-            const split = res.split('-');
+            const split = res.message.split('-');
             const emailPayload = {
               email: this.application.email,
               subject:
