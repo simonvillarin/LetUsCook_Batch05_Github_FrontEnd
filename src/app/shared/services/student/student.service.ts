@@ -70,8 +70,31 @@ export class StudentService {
   getGenderCount(): Observable<any> {
     const colors: any[] = [];
 
+    const color = [
+      'aquamarine',
+      'beige',
+      'cadetblue',
+      'dodgerblue',
+      'indigo',
+      'lightcoral',
+      'orchid',
+      'seagreen',
+      'springgreen',
+      'turquoise',
+      'tomato',
+      'silver',
+      'salmon',
+      'goldenrod',
+      'khaki',
+      'lightpink',
+      'slateblue',
+      'yellowgreen',
+      'orangered',
+    ];
+
     for (let i = 0; i < 3; i++) {
-      colors.push(this.getRandomColor().randomColor);
+      let randomNumber = Math.floor(Math.random() * color.length) + 1;
+      colors.push(color[randomNumber]);
     }
 
     return this.getAllStudents().pipe(
@@ -104,8 +127,31 @@ export class StudentService {
   getYearLevelCount(): Observable<any> {
     const colors: any[] = [];
 
+    const color = [
+      'aquamarine',
+      'beige',
+      'cadetblue',
+      'dodgerblue',
+      'indigo',
+      'lightcoral',
+      'orchid',
+      'seagreen',
+      'springgreen',
+      'turquoise',
+      'tomato',
+      'silver',
+      'salmon',
+      'goldenrod',
+      'khaki',
+      'lightpink',
+      'slateblue',
+      'yellowgreen',
+      'orangered',
+    ];
+    let randomNumber = Math.floor(Math.random() * color.length) + 1;
+
     for (let i = 0; i < 3; i++) {
-      colors.push(this.getRandomColor().randomColor);
+      colors.push(color[randomNumber]);
     }
 
     return this.getAllStudents().pipe(

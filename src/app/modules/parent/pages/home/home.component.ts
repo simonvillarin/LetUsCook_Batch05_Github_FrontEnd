@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { forkJoin, map, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { GradeService } from 'src/app/shared/services/grade/grade.service';
+import { ParentService } from 'src/app/shared/services/parent/parent.service';
+import { ProgramService } from 'src/app/shared/services/program/program.service';
+import { StudentService } from 'src/app/shared/services/student/student.service';
 
 @Component({
   selector: 'app-home',
@@ -6,66 +12,127 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  grades = [
-    {
-      subject: 'Introduction to Programming',
-      grade: '1.00',
-      remarks: 'Excellent',
-      uploadDate: 'July 1, 2023',
-    },
-    {
-      subject: 'Data Structures',
-      grade: '1.25',
-      remarks: 'Excellent',
-      uploadDate: 'July 1, 2023',
-    },
-    {
-      subject: 'Ethics I',
-      grade: '3.00',
-      remarks: 'Fair',
-      uploadDate: 'July 1, 2023',
-    },
-  ];
+  date: Date | undefined;
 
-  attendance = [
-    {
-      subject: 'Introduction to Programming',
-      status: 'Present',
-      uploadDate: 'July 1, 2023',
-    },
-    {
-      subject: 'Data Structures',
-      status: 'Present',
-      uploadDate: 'July 1, 2023',
-    },
-    {
-      subject: 'Ethics I',
-      status: 'Absent',
-      uploadDate: 'July 1, 2023',
-    },
-  ];
+  parentId: any;
+  parent: any = {};
+  username: string = '';
+  userPic: string = '';
 
-  isShowDropdown = false;
-  isShowMobileNav = false;
-  isShowNotifications = false;
+  childBar: any;
 
-  toggleShowDropdown = () => {
-    this.isShowDropdown = !this.isShowDropdown;
-    this.isShowMobileNav = false;
-    this.isShowNotifications = false;
+  constructor(
+    private authService: AuthService,
+    private parentService: ParentService,
+    private studentService: StudentService,
+    private gradeService: GradeService
+  ) {}
+
+  ngOnInit(): void {
+    this.parentId = this.authService.getUserId();
+    this.getParent();
+    this.getChildGradeAverage();
+  }
+
+  getParent = () => {
+    this.parentService.getParentById(this.parentId).subscribe((data: any) => {
+      this.parent = data;
+      this.username = this.parent.firstname + ' ' + this.parent.lastname;
+      this.userPic = this.parent.image;
+    });
   };
 
-  toggleShowNotifications = () => {
-    this.isShowNotifications = !this.isShowNotifications;
-    this.isShowMobileNav = false;
-    this.isShowDropdown = false;
-  };
+  getChildGradeAverage = () => {
+    const dataset: any = [];
 
-  openMobileNav = () => {
-    this.isShowMobileNav = true;
-  };
+    this.studentService
+      .getStudentByParentId(this.parentId)
+      .pipe(
+        switchMap((students: any) => {
+          const studentObservables = students.map((student: any) =>
+            this.gradeService.getGradeByStudentId(student.studentId).pipe(
+              map((grades: any) => {
+                const filteredGrades = grades.filter(
+                  (g: any) =>
+                    g.yearLevel == student.yearLevel && g.sem == student.sem
+                );
 
-  closeMobileNav = () => {
-    this.isShowMobileNav = false;
+                const grd: any = [];
+
+                for (let i = 0; i < 3; i++) {
+                  if (i == 0) {
+                    const prelims = filteredGrades.map((gr: any) => gr.prelim);
+                    const total = prelims.reduce(
+                      (prev: any, curr: any) => prev + curr,
+                      0
+                    );
+                    grd.push(total / prelims.length);
+                  }
+
+                  if (i == 0) {
+                    const midterms = filteredGrades.map(
+                      (gr: any) => gr.midterm
+                    );
+                    const total = midterms.reduce(
+                      (prev: any, curr: any) => prev + curr,
+                      0
+                    );
+                    grd.push(total / midterms.length);
+                  }
+
+                  if (i == 0) {
+                    const finals = filteredGrades.map((gr: any) => gr.finals);
+                    const total = finals.reduce(
+                      (prev: any, curr: any) => prev + curr,
+                      0
+                    );
+                    grd.push(total / finals.length);
+                  }
+                }
+
+                const colors = [
+                  'aquamarine',
+                  'cadetblue',
+                  'dodgerblue',
+                  'indigo',
+                  'lightcoral',
+                  'orchid',
+                  'seagreen',
+                  'springgreen',
+                  'turquoise',
+                  'tomato',
+                  'silver',
+                  'salmon',
+                  'goldenrod',
+                  'khaki',
+                  'lightpink',
+                  'slateblue',
+                  'yellowgreen',
+                  'orangered',
+                ];
+                let randomNumber =
+                  Math.floor(Math.random() * colors.length) + 1;
+                const label = {
+                  label: student.firstname,
+                  backgroundColor: colors[randomNumber],
+                  data: grd,
+                };
+
+                return label;
+              })
+            )
+          );
+
+          return forkJoin(studentObservables);
+        })
+      )
+      .subscribe((studentLabels: any) => {
+        dataset.push(...studentLabels);
+
+        this.childBar = {
+          labels: ['Prelim', 'Midterm', 'Final'],
+          datasets: dataset,
+        };
+      });
   };
 }

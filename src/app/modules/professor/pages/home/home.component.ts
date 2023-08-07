@@ -54,6 +54,29 @@ export class HomeComponent {
               numStudents.push(student.length);
             });
 
+            const colors = [
+              'aquamarine',
+              'cadetblue',
+              'dodgerblue',
+              'indigo',
+              'lightcoral',
+              'orchid',
+              'seagreen',
+              'springgreen',
+              'turquoise',
+              'tomato',
+              'silver',
+              'salmon',
+              'goldenrod',
+              'ivory',
+              'khaki',
+              'lightpink',
+              'slateblue',
+              'yellowgreen',
+              'orangered',
+            ];
+            let randomNumber = Math.floor(Math.random() * colors.length) + 1;
+
             this.professorBar = {
               labels: subjects,
               datasets: [
@@ -61,9 +84,9 @@ export class HomeComponent {
                   label: "Student's Average",
                   data: numStudents,
                   backgroundColor: [
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
+                    colors[Math.floor(Math.random() * colors.length) + 1],
+                    colors[Math.floor(Math.random() * colors.length) + 1],
+                    colors[Math.floor(Math.random() * colors.length) + 1],
                   ],
                 },
               ],

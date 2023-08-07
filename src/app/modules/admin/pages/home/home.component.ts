@@ -124,8 +124,32 @@ export class HomeComponent implements OnInit {
 
       const colors: any = [];
 
-      data.map((color: any) => {
-        colors.push(this.getRandomColor().randomColor);
+      const color = [
+        'aquamarine',
+        'beige',
+        'cadetblue',
+        'dodgerblue',
+        'indigo',
+        'lightcoral',
+        'orchid',
+        'seagreen',
+        'springgreen',
+        'turquoise',
+        'tomato',
+        'silver',
+        'salmon',
+        'goldenrod',
+        'ivory',
+        'khaki',
+        'lightpink',
+        'slateblue',
+        'yellowgreen',
+        'orangered',
+      ];
+
+      data.map((col: any) => {
+        let randomNumber = Math.floor(Math.random() * color.length) + 1;
+        colors.push(color[randomNumber]);
       });
 
       this.programs = {
@@ -195,8 +219,31 @@ export class HomeComponent implements OnInit {
 
       const colors: any = [];
 
+      const color = [
+        'aquamarine',
+        'beige',
+        'cadetblue',
+        'dodgerblue',
+        'indigo',
+        'lightcoral',
+        'orchid',
+        'seagreen',
+        'springgreen',
+        'turquoise',
+        'tomato',
+        'silver',
+        'salmon',
+        'goldenrod',
+        'khaki',
+        'lightpink',
+        'slateblue',
+        'yellowgreen',
+        'orangered',
+      ];
+
       data.map((student: any) => {
-        colors.push(this.getRandomColor().randomColor);
+        let randomNumber = Math.floor(Math.random() * color.length) + 1;
+        colors.push(color[randomNumber]);
       });
 
       this.studentBar = {
@@ -219,8 +266,31 @@ export class HomeComponent implements OnInit {
       const roomData = data.map((rNum: any) => rNum.roomCapacity);
       const colors: any = [];
 
+      const color = [
+        'aquamarine',
+        'beige',
+        'cadetblue',
+        'dodgerblue',
+        'indigo',
+        'lightcoral',
+        'orchid',
+        'seagreen',
+        'springgreen',
+        'turquoise',
+        'tomato',
+        'silver',
+        'salmon',
+        'goldenrod',
+        'khaki',
+        'lightpink',
+        'slateblue',
+        'yellowgreen',
+        'orangered',
+      ];
+
       data.map((student: any) => {
-        colors.push(this.getRandomColor().randomColor);
+        let randomNumber = Math.floor(Math.random() * color.length) + 1;
+        colors.push(color[randomNumber]);
       });
 
       this.studentPerRoom = {
