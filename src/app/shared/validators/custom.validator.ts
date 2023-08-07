@@ -71,13 +71,16 @@ export const zipcodeValidator = (): ValidatorFn => {
 export const telephoneNumberValidator = (): ValidatorFn => {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const value = control.value;
+    const valueAsString = value ? value.toString() : '';
+
     if (
-      (value && value.toString().length < 8) ||
-      value.toString().length > 10 ||
-      value.toString().length == 9
+      valueAsString.length < 8 ||
+      valueAsString.length > 10 ||
+      valueAsString.length === 9
     ) {
       return { numberRange: true };
     }
+
     return null;
   };
 };

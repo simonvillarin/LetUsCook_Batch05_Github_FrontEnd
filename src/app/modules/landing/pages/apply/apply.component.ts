@@ -425,11 +425,6 @@ export class ApplyComponent implements OnInit {
         if (res.message == 'Email already exists') {
           this.errorMessage = 'Email already exists';
           this.errorDialog = true;
-        } else if (
-          (res.message = 'You have already submitted an application')
-        ) {
-          this.errorMessage = 'You have already submitted an application';
-          this.errorDialog = true;
         } else {
           this.stepFour = true;
           this.stepOne = false;

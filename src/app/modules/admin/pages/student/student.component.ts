@@ -504,18 +504,6 @@ export class StudentComponent implements OnInit {
           activeDeactive: true,
         };
 
-        this.studentHistoryService
-          .getStudentHistoryById(this.application.studentId)
-          .subscribe((data: any) => {
-            if (data[0].schedules.length > 0) {
-              payload1.yearLevel = yearLevel;
-              payload1.sem = sem;
-            } else {
-              payload1.yearLevel = student.yearLevel;
-              payload1.sem = student.sem;
-            }
-          });
-
         this.studentService
           .getStudentById(this.application.studentId)
           .subscribe((data: any) => {
@@ -535,7 +523,19 @@ export class StudentComponent implements OnInit {
             };
             this.studentHistoryService
               .addStudentHistory(payload2)
-              .subscribe((res) => console.log(res));
+              .subscribe(() => {
+                this.studentHistoryService
+                  .getStudentHistoryById(this.application.studentId)
+                  .subscribe((data: any) => {
+                    if (data[0].schedules.length > 0) {
+                      payload1.yearLevel = yearLevel;
+                      payload1.sem = sem;
+                    } else {
+                      payload1.yearLevel = student.yearLevel;
+                      payload1.sem = student.sem;
+                    }
+                  });
+              });
           });
         this.studentService
           .updateStudent(student.studentId, payload1)

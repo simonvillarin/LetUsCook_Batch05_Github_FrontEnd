@@ -195,7 +195,7 @@ export class CourseComponent {
       hour = splitTime[0];
     }
 
-    if (parseInt(splitTime[0]) > 12) {
+    if (parseInt(splitTime[0]) >= 12) {
       zone = 'PM';
     } else {
       zone = 'AM';

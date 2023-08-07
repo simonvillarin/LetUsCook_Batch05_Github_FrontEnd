@@ -12,9 +12,71 @@ footer {
 }
 
 .links {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.usefull-links {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.apply-footer {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+}
+
+.box {
+  width: 100%;
+  align-items: center;
+}
+
+.box-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.box-title mat-icon {
+  font-size: 3rem;
+}
+
+.school-title {
+  font-size: 1.75rem;
+}
+
+.box-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.box-action {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.box-action button {
+  border: none;
+  border-radius: 0.25rem;
+  background-color: var(--white);
+  color: var(--primary);
+  padding: 0.25rem 0.5rem;
+  font-weight: 700;
+}
+
+.box-action button:hover {
+  cursor: pointer;
 }
 
 .contacts {
@@ -24,7 +86,7 @@ footer {
 }
 
 .logo {
-  font-size: clamp(1.25rem, 1.0549rem + 0.9756vw, 1.75rem);
+  font-size: 2rem;
 }
 
 .contact {
@@ -50,13 +112,26 @@ footer {
   margin: 0.5rem 0;
 }
 
+.social-img a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-img img {
+  width: 40px;
+  height: 40px;
+}
+
 i {
   color: var(--primary);
   font-size: 1.5rem;
 }
 
 .title {
-  font-size: clamp(0.9375rem, 0.8643rem + 0.3659vw, 1rem);
+  // font-size: clamp(0.9375rem, 0.8643rem + 0.3659vw, 1rem);
+  font-size: 2rem;
 }
 
 .link {
@@ -74,14 +149,30 @@ i {
   text-decoration: underline;
 }
 
-@media screen and (min-width: 576px) {
-  .links {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+// @media screen and (min-width: 576px) {
+//   .links {
+//     grid-template-columns: repeat(2, 1fr);
+//   }
+// }
 
-@media screen and (min-width: 768px) {
+// @media screen and (min-width: 768px) {
+//   .links {
+//     grid-template-columns: repeat(4, 1fr);
+//   }
+// }
+
+@media screen and (max-width: 905px) {
   .links {
-    grid-template-columns: repeat(4, 1fr);
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .usefull-links {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .apply-footer {
+    width: 100%;
   }
 }

@@ -395,7 +395,7 @@ export class LoadComponent implements OnInit {
     this.att1 = '';
     this.getGrades();
     this.getAttendance();
-    this.evaluations();
+    this.getEvaluations();
   };
 
   onEdit = (grade: any) => {
