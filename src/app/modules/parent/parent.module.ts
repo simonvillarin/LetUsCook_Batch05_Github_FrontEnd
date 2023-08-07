@@ -4,6 +4,7 @@ import { GradesComponent } from './pages/grades/grades.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ParentRoutingModule } from './parent-routing.module';
+import { ChartModule } from 'primeng/chart';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ParentMainComponent } from './pages/parent-main/parent-main.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -19,6 +20,6 @@ import { StudentAttendanceComponent } from './pages/student-attendance/student-a
     StudentGradeComponent,
     StudentAttendanceComponent,
   ],
-  imports: [ParentRoutingModule, CommonModule, SharedModule],
+  imports: [ParentRoutingModule, CommonModule, SharedModule, ChartModule],
 })
 export class ParentModule {}

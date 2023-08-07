@@ -118,6 +118,28 @@ export class HomeComponent {
       finalGrade = (finalGrade / final.length).toFixed(2);
       grades.push(finalGrade);
 
+      const colors = [
+        'aquamarine',
+        'cadetblue',
+        'dodgerblue',
+        'indigo',
+        'lightcoral',
+        'orchid',
+        'seagreen',
+        'springgreen',
+        'turquoise',
+        'tomato',
+        'silver',
+        'salmon',
+        'goldenrod',
+        'khaki',
+        'lightpink',
+        'slateblue',
+        'yellowgreen',
+        'orangered',
+      ];
+      let randomNumber = Math.floor(Math.random() * colors.length) + 1;
+
       this.studentBar = {
         labels: ['Prelim', 'Midterm', 'Finals'],
         datasets: [
@@ -125,9 +147,9 @@ export class HomeComponent {
             label: 'Average',
             data: grades,
             backgroundColor: [
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
+              colors[Math.floor(Math.random() * colors.length) + 1],
+              colors[Math.floor(Math.random() * colors.length) + 1],
+              colors[Math.floor(Math.random() * colors.length) + 1],
             ],
           },
         ],
