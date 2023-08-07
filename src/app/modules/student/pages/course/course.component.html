@@ -123,7 +123,14 @@
                     {{ convertTime(sched.startTime) }} -
                     {{ convertTime(sched.endTime) }}
                   </td>
-                  <td>{{ sched.room.roomNumber }}</td>
+                  <td>
+                    <div class="room-container">
+                      <div>{{ sched.room.roomNumber }}</div>
+                      <div class="room-students">
+                        No. of Students: {{ sched.room.numOfStudents }}
+                      </div>
+                    </div>
+                  </td>
                   <td>{{ sched.section.section }}</td>
                   <td>
                     <div class="professor-container">

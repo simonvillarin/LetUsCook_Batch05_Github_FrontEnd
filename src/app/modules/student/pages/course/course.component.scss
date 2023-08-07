@@ -291,6 +291,23 @@ img {
   font-weight: 300;
 }
 
+.room-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.room-students {
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--light-blue);
+  color: var(--white);
+  font-size: 0.875rem;
+}
+
 @media screen and (min-width: 768px) {
   .table-header {
     flex-direction: row;
