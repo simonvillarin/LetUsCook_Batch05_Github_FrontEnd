@@ -33,85 +33,85 @@
           (ngModelChange)="onChangeSchoolYear($event)"
         ></p-dropdown>
       </div>
-    </div>
-    <div class="units-container" *ngIf="show">
-      <div class="selected-unit">GWA: {{ GWA }}</div>
-      <div class="minimum-unit">Commulative GWA: {{ cummulativeGWA }}</div>
-    </div>
-    <div class="card-container">
-      <ng-container *ngFor="let grade of grades">
-        <div class="card" *ngIf="grade.dateModified">
-          <div class="card-header">
-            <div class="title">{{ grade.subject.subjectTitle }}</div>
-            <div class="subtitle">
-              {{ grade.professor.fullname }} -
-              {{ convertDate(grade.dateModified) }}
+      <div class="units-container" *ngIf="show">
+        <div class="selected-unit">GWA: {{ GWA }}</div>
+        <div class="minimum-unit">Commulative GWA: {{ cummulativeGWA }}</div>
+      </div>
+      <div class="card-container">
+        <ng-container *ngFor="let grade of grades">
+          <div class="card" *ngIf="grade.dateModified">
+            <div class="card-header">
+              <div class="title">{{ grade.subject.subjectTitle }}</div>
+              <div class="subtitle">
+                {{ grade.professor.fullname }} -
+                {{ convertDate(grade.dateModified) }}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-head">
+                <div class="grade-title">PRELIM</div>
+                <div class="grade-title">MIDTERM</div>
+                <div class="grade-title">FINALS</div>
+              </div>
+              <div class="card-content">
+                <div class="grade">{{ convertGrade(grade.prelim) }}</div>
+                <div class="grade">{{ convertGrade(grade.midterm) }}</div>
+                <div class="grade">{{ convertGrade(grade.finals) }}</div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="final">Final Grade</div>
+              <div class="grade">
+                {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            <div class="card-head">
-              <div class="grade-title">PRELIM</div>
-              <div class="grade-title">MIDTERM</div>
-              <div class="grade-title">FINALS</div>
+        </ng-container>
+      </div>
+      <div class="card-grade">
+        <div class="value-container">
+          <div class="value-title">Grading System</div>
+          <div class="grade-container">
+            <div class="grade-content">
+              <div class="grade-value">97.50 - 100%</div>
+              <div class="good">(1.00)</div>
             </div>
-            <div class="card-content">
-              <div class="grade">{{ convertGrade(grade.prelim) }}</div>
-              <div class="grade">{{ convertGrade(grade.midterm) }}</div>
-              <div class="grade">{{ convertGrade(grade.finals) }}</div>
+            <div class="grade-content">
+              <div class="grade-value">94.50 - 97.49%</div>
+              <div class="good">(1.25)</div>
             </div>
-          </div>
-          <div class="card-footer">
-            <div class="final">Final Grade</div>
-            <div class="grade">
-              {{ getAverage(grade.prelim, grade.midterm, grade.finals) }}
+            <div class="grade-content">
+              <div class="grade-value">91.50 - 94.49%</div>
+              <div class="good">(1.50)</div>
             </div>
-          </div>
-        </div>
-      </ng-container>
-    </div>
-    <div class="card-grade">
-      <div class="value-container">
-        <div class="value-title">Grading System</div>
-        <div class="grade-container">
-          <div class="grade-content">
-            <div class="grade-value">97.50 - 100%</div>
-            <div class="good">(1.00)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">94.50 - 97.49%</div>
-            <div class="good">(1.25)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">91.50 - 94.49%</div>
-            <div class="good">(1.50)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">88.50 - 91.49%</div>
-            <div class="good">(1.75)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">85.50 - 88.49%</div>
-            <div class="average">(2.00)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">82.50 - 85.49%</div>
-            <div class="average">(2.25)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">79.50 - 82.49%</div>
-            <div class="average">(2.50)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">76.50 - 79.49%</div>
-            <div class="average">(2.75)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">74.50 - 76.49%</div>
-            <div class="bad">(3.00)</div>
-          </div>
-          <div class="grade-content">
-            <div class="grade-value">Below 74.49%</div>
-            <div class="bad">(5.00)</div>
+            <div class="grade-content">
+              <div class="grade-value">88.50 - 91.49%</div>
+              <div class="good">(1.75)</div>
+            </div>
+            <div class="grade-content">
+              <div class="grade-value">85.50 - 88.49%</div>
+              <div class="average">(2.00)</div>
+            </div>
+            <div class="grade-content">
+              <div class="grade-value">82.50 - 85.49%</div>
+              <div class="average">(2.25)</div>
+            </div>
+            <div class="grade-content">
+              <div class="grade-value">79.50 - 82.49%</div>
+              <div class="average">(2.50)</div>
+            </div>
+            <div class="grade-content">
+              <div class="grade-value">76.50 - 79.49%</div>
+              <div class="average">(2.75)</div>
+            </div>
+            <div class="grade-content">
+              <div class="grade-value">74.50 - 76.49%</div>
+              <div class="bad">(3.00)</div>
+            </div>
+            <div class="grade-content">
+              <div class="grade-value">Below 74.49%</div>
+              <div class="bad">(5.00)</div>
+            </div>
           </div>
         </div>
       </div>

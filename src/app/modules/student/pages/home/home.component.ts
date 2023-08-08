@@ -97,9 +97,15 @@ export class HomeComponent {
 
   getStudentAverage = () => {
     this.gradeService.getGradeByStudentId(this.studentId).subscribe((data) => {
-      const prelim = data.map((grade: any) => grade.prelim);
-      const midterm = data.map((grade: any) => grade.midterm);
-      const final = data.map((grade: any) => grade.finals);
+      const prelim = data
+        .map((grade: any) => grade.prelim)
+        .filter((g: any) => g != null);
+      const midterm = data
+        .map((grade: any) => grade.midterm)
+        .filter((g: any) => g != null);
+      const final = data
+        .map((grade: any) => grade.finals)
+        .filter((g: any) => g != null);
 
       const grades: any = [];
 
