@@ -52,7 +52,7 @@ footer {
 }
 
 .school-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 }
 
 .box-content {
@@ -67,15 +67,11 @@ footer {
 }
 
 .box-action button {
-  border: none;
+  border: 1px solid var(--white);
   border-radius: 0.25rem;
-  background-color: var(--white);
-  color: var(--primary);
-  padding: 0.25rem 0.5rem;
-  font-weight: 700;
-}
-
-.box-action button:hover {
+  background-color: transparent;
+  color: var(--white);
+  padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
@@ -130,8 +126,7 @@ i {
 }
 
 .title {
-  // font-size: clamp(0.9375rem, 0.8643rem + 0.3659vw, 1rem);
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .link {
