@@ -66,11 +66,11 @@ export class ApplicationService {
         };
 
         status.forEach((status) => {
-          if (status.status === null) {
+          if (status.status === 'Pending') {
             statusCount.datasets[0].data[0]++;
-          } else if (status.status === true) {
+          } else if (status.status === 'Approved') {
             statusCount.datasets[0].data[1]++;
-          } else if (status.status === false) {
+          } else if (status.status === 'Rejected') {
             statusCount.datasets[0].data[2]++;
           }
         });
