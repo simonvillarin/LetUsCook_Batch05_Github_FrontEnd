@@ -82,21 +82,15 @@
               <td>
                 <div
                   class="status {{
-                    application.status === null
+                    application.status == 'Pending'
                       ? 'pending'
-                      : application.status
+                      : application.status == 'Approved'
                       ? 'approved'
                       : 'rejected'
                   }}
                   "
                 >
-                  {{
-                    application.status === null
-                      ? "Pending"
-                      : application.status
-                      ? "Approved"
-                      : "Rejected"
-                  }}
+                  {{ application.status }}
                 </div>
               </td>
               <td>
@@ -116,13 +110,15 @@
                   </button>
                   <button
                     class="table-action {{
-                      application.status == true || application.status == false
+                      application.status == 'Approved' ||
+                      application.status == 'Rejected'
                         ? 'disabled'
                         : 'deactive'
                     }}"
                     (click)="onDeleteApplication(application)"
                     [disabled]="
-                      application.status == true || application.status == false
+                      application.status == 'Approved' ||
+                      application.status == 'Rejected'
                     "
                   >
                     <mat-icon

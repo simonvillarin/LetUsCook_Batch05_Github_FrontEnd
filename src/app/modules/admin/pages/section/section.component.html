@@ -58,8 +58,8 @@
         <tr>
           <td>{{ section.section }}</td>
           <td>
-            <div class="{{ !section.activeDeactive ? 'active' : 'inactive' }}">
-              {{ !section.activeDeactive ? "Active" : "Inactive" }}
+            <div class="{{ section.activeDeactive ? 'active' : 'inactive' }}">
+              {{ section.activeDeactive ? "Active" : "Inactive" }}
             </div>
           </td>
           <td>
@@ -80,10 +80,10 @@
               </button>
               <button
                 class="table-action {{
-                  section.activeDeactive ? 'activate' : 'deactive'
+                  !section.activeDeactive ? 'activate' : 'deactive'
                 }}"
                 (click)="onClickRemove(section)"
-                title="{{ section.activeDeactive ? 'Activate' : 'Deactive' }}"
+                title="{{ !section.activeDeactive ? 'Activate' : 'Deactive' }}"
               >
                 <span class="material-symbols-rounded"> block </span>
               </button>

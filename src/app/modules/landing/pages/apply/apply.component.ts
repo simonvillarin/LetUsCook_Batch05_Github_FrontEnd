@@ -102,7 +102,7 @@ export class ApplyComponent implements OnInit {
       province: ['', [Validators.required]],
       zipcode: ['', [Validators.required, zipcodeValidator()]],
       telephone: ['', [telephoneNumberValidator()]],
-      mobile: ['', [Validators.required, mobileNumberValidator()]],
+      mobile: ['', [mobileNumberValidator()]],
       email: ['', [Validators.required, Validators.email]],
       lastSchoolAttended: ['', [Validators.required]],
       programTaken: ['', [Validators.required]],

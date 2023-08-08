@@ -425,10 +425,15 @@ export class LoadComponent implements OnInit {
   };
 
   onDelete = () => {
-    this.scheduleService.deleteSchedule(this.schedule.schedId).subscribe(() => {
-      this.getScheduleById();
-      this.confirmationDialog = false;
-    });
+    const payload = {
+      activeDeactive: !this.schedule.activeDeactive,
+    };
+    this.scheduleService
+      .deleteSchedule(this.schedule.schedId, payload)
+      .subscribe(() => {
+        this.getScheduleById();
+        this.confirmationDialog = false;
+      });
   };
 
   onCloseDialog = () => {

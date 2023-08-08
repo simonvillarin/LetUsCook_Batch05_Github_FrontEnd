@@ -40,6 +40,10 @@ export class ProgramComponent implements OnInit {
   search: string = '';
   yearSelected: string = '';
 
+  alert: boolean = false;
+  alertStatus: string = '';
+  alertMessage: string = '';
+
   constructor(
     private programService: ProgramService,
     private subjectService: CourseService,
@@ -231,6 +235,7 @@ export class ProgramComponent implements OnInit {
 
   onAdd = () => {
     this.title = 'Add Program';
+    this.alert = false;
     this.isDialogOpen = true;
     this.programForm.reset();
     this.programForm.markAsUntouched();
@@ -379,14 +384,25 @@ export class ProgramComponent implements OnInit {
           .updateProgram(this.program.programId, payload)
           .subscribe((res: any) => {
             if (res.message == 'Program Code already exist') {
-              alert('Program Code already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Program code already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else if (res.message == 'Program Title already exist') {
-              alert('Program Title already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Program title already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else {
               this.getAllPrograms();
               this.isDialogOpen = false;
               this.programForm.reset();
               this.isUpdating = false;
+
+              this.alert = true;
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Program successfully updated';
+              setTimeout(() => (this.alert = false), 3000);
             }
           });
       } else {
@@ -399,13 +415,23 @@ export class ProgramComponent implements OnInit {
           .addProgram(this.programForm.value)
           .subscribe((res: any) => {
             if (res.message == 'Program Code already exist') {
-              alert('Program Code already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Program code already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else if (res.message == 'Program Title already exist') {
-              alert('Program Title already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Program title already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else {
               this.getAllPrograms();
               this.isDialogOpen = false;
               this.programForm.reset();
+              this.alert = true;
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Program successfully added';
+              setTimeout(() => (this.alert = false), 3000);
             }
           });
       } else {

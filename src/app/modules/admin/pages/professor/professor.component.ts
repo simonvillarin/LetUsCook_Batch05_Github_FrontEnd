@@ -101,7 +101,7 @@ export class ProfessorComponent implements OnInit {
   getAllProfessors = () => {
     this.professorService.getAllProfessors().subscribe((data: any) => {
       this.professors = data.sort(
-        (a: any, b: any) => a.professorId - b.professorId
+        (a: any, b: any) => b.professorId - a.professorId
       );
     });
   };

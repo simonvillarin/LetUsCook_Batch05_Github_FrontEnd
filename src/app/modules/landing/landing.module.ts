@@ -15,6 +15,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { CalendarModule } from 'primeng/calendar';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { ContactComponent } from './pages/contact/contact.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ContactComponent } from './pages/contact/contact.component';
     ReactiveFormsModule,
     CalendarModule,
     KeyFilterModule,
+    InputTextareaModule,
   ],
   exports: [HeaderComponent, FooterComponent],
 })

@@ -59,11 +59,13 @@ export class StudentGradeComponent implements OnInit {
         if (finals != 0) {
           divisor = 3;
         }
-        grades += (prelim + midterm + finals) / divisor;
+        const result = (prelim + midterm + finals) / divisor;
+        if (result > 0) {
+          grades += result;
+        }
       });
-      this.cummulativeGWA = (grades / parseFloat(this.grades.length)).toFixed(
-        2
-      );
+      let size = data.filter((g: any) => g.prelim != null);
+      this.cummulativeGWA = (grades / parseFloat(size.length)).toFixed(2);
 
       this.schoolYear = `${data[0].student.yearLevel} - ${data[0].student.sem}`;
       this.grades = this.grades.filter(
@@ -87,9 +89,19 @@ export class StudentGradeComponent implements OnInit {
         if (finals != 0) {
           divisor = 3;
         }
-        grades += (prelim + midterm + finals) / divisor;
+        const result = (prelim + midterm + finals) / divisor;
+        if (result > 0) {
+          grades += result;
+        }
       });
-      this.GWA = (grades / this.grades.length).toFixed(2);
+      size = data.filter(
+        (g: any) =>
+          g.prelim != null &&
+          g.yearLevel == data[0].student.yearLevel &&
+          g.sem == data[0].student.sem
+      );
+
+      this.GWA = (grades / parseFloat(size.length)).toFixed(2);
 
       const temp = data.filter((grade: any) => grade.dateModified != null);
       if (temp.length > 0) {
@@ -199,10 +211,20 @@ export class StudentGradeComponent implements OnInit {
           if (finals != 0) {
             divisor = 3;
           }
-          grades += (prelim + midterm + finals) / divisor;
+          const result = (prelim + midterm + finals) / divisor;
+          if (result > 0) {
+            grades += result;
+          }
         });
 
-        this.GWA = (grades / parseFloat(this.grades.length)).toFixed(2);
+        let size = data.filter(
+          (g: any) =>
+            g.prelim != null &&
+            g.yearLevel == data[0].student.yearLevel &&
+            g.sem == data[0].student.sem
+        );
+
+        this.GWA = (grades / parseFloat(size.length)).toFixed(2);
       });
     } else {
       this.getGradesByStudentId();

@@ -93,17 +93,19 @@
         <h3>Programs:</h3>
         <div class="program-container">
           <ng-container *ngFor="let prog of programs">
-            <div class="program">
-              <input
-                type="radio"
-                value="{{ prog.programCode }}"
-                name="program"
-                class="radio radio1"
-                [(ngModel)]="program"
-                (ngModelChange)="onChangeProgram($event)"
-              />
-              <label>{{ prog.programTitle }} ({{ prog.programCode }})</label>
-            </div>
+            <ng-container *ngIf="prog.status">
+              <div class="program">
+                <input
+                  type="radio"
+                  value="{{ prog.programCode }}"
+                  name="program"
+                  class="radio radio1"
+                  [(ngModel)]="program"
+                  (ngModelChange)="onChangeProgram($event)"
+                />
+                <label>{{ prog.programTitle }} ({{ prog.programCode }})</label>
+              </div>
+            </ng-container>
           </ng-container>
         </div>
       </div>

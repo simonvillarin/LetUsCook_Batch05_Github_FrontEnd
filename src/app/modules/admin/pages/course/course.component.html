@@ -123,6 +123,20 @@
     <div class="modal-title">{{ title }}</div>
   </p-header>
   <form [formGroup]="courseForm" (ngSubmit)="onClickSave()">
+    <div
+      class="alert {{
+        alertStatus == 'Success' ? 'alert-success' : 'alert-error'
+      }}"
+      *ngIf="alert"
+    >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Error'"
+        >error</mat-icon
+      >
+      <mat-icon class="material-icons-outlined" *ngIf="alertStatus == 'Success'"
+        >check</mat-icon
+      >
+      {{ alertMessage }}
+    </div>
     <div class="form-group">
       <div class="input-group">
         <label>Subject Code</label>

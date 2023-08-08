@@ -109,8 +109,6 @@ export class SectionComponent implements OnInit {
     this.isDialogOpen = false;
   };
 
-  onClickSave = () => {};
-
   onClickEdit = (section: any) => {
     this.isUpdating = true;
     this.title = 'Edit Section';
@@ -196,6 +194,8 @@ export class SectionComponent implements OnInit {
   };
 
   onDeleteSection = () => {
+    console.log(this.section);
+
     if (this.section) {
       const payload = {
         activeDeactive: !this.section.activeDeactive,
@@ -204,7 +204,6 @@ export class SectionComponent implements OnInit {
         .updateSection(this.section.sectionId, payload)
         .subscribe(() => this.getAllSections());
       this.isDeleteDialogOpen = false;
-      this.section = null;
     }
   };
 

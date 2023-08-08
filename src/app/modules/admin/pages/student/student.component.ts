@@ -250,7 +250,8 @@ export class StudentComponent implements OnInit {
 
   onRemoveStudent = () => {
     const payload = {
-      status: false,
+      status: 'Pending',
+      studentId: this.student.studentId,
     };
 
     let yearLevel = '';
@@ -310,7 +311,6 @@ export class StudentComponent implements OnInit {
       sem: sem,
       academicYear: this.student.academicYear,
     };
-    console.log(this.application);
 
     this.applicationService
       .updateApplication(this.student.appId, payload)
@@ -327,7 +327,6 @@ export class StudentComponent implements OnInit {
                 this.studentService
                   .getStudentByParentId(this.student.parent.parentId)
                   .subscribe((data: any) => {
-                    console.log(data);
                     if (data.length == 0) {
                       this.accountService
                         .updateAccount(this.student.parent.parentId, payload1)
@@ -385,6 +384,7 @@ export class StudentComponent implements OnInit {
     const payload = {
       activeDeactive: !this.student.activeDeactive,
     };
+
     this.studentService
       .updateStudent(this.student.studentId, payload)
       .subscribe(() => {
@@ -409,7 +409,7 @@ export class StudentComponent implements OnInit {
     const hasPendingOrRejectedApp = this.applications.some((app: any) => {
       return (
         student.appId === app.appId &&
-        (app.status == false || app.status === null)
+        (app.status == 'Rejected' || app.status === 'Pending')
       );
     });
     return !hasPendingOrRejectedApp;
@@ -437,8 +437,9 @@ export class StudentComponent implements OnInit {
   onClickConfirm = () => {
     if (this.isEditing) {
       const payload = {
-        status: true,
+        status: 'Approved',
       };
+
       this.applicationService
         .updateApplication(this.application.appId, payload)
         .subscribe(() => {
@@ -455,7 +456,6 @@ export class StudentComponent implements OnInit {
           isExist = true;
         }
       });
-      console.log(this.students);
       console.log(isExist);
 
       if (isExist) {
@@ -512,7 +512,6 @@ export class StudentComponent implements OnInit {
           appId: this.application.appId,
           activeDeactive: true,
         };
-        console.log(this.application.appId);
 
         this.studentService
           .getStudentById(this.application.studentId)
@@ -575,7 +574,6 @@ export class StudentComponent implements OnInit {
           .addStudent(this.application)
           .subscribe((res: any) => {
             this.getAllStudents();
-            console.log(this.application);
             const split = res.message.split('-');
             const emailPayload = {
               email: this.application.email,
@@ -654,7 +652,7 @@ export class StudentComponent implements OnInit {
       }
     } else {
       const payload = {
-        status: this.isEditing,
+        status: 'Rejected',
       };
       this.applicationService
         .updateApplication(this.application.appId, payload)

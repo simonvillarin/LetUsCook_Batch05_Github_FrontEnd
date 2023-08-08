@@ -38,6 +38,10 @@ export class CourseComponent implements OnInit {
   search: string = '';
   typeSelected: string = '';
 
+  alert: boolean = false;
+  alertStatus: string = '';
+  alertMessage: string = '';
+
   constructor(
     private courseService: CourseService,
     private programService: ProgramService,
@@ -133,6 +137,7 @@ export class CourseComponent implements OnInit {
 
   onAdd = () => {
     this.title = 'Add Subject';
+    this.alert = false;
     this.preRequisitesSelection = [];
     this.courseService.getAllSubjects().subscribe((data: any) => {
       const sorData = data.sort((a: any, b: any) => b.subjectId - a.subjectId);
@@ -185,24 +190,26 @@ export class CourseComponent implements OnInit {
           .updateSubject(this.subject.subjectId, payload)
           .subscribe((res: any) => {
             if (res.message == 'Subject code already exist') {
-              alert('Subject code already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Subject code already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else if (res.message == 'Subject title already exist') {
-              alert('Subject title already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Subject title already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else {
-              const index = this.subjects.findIndex(
-                (subject: any) => subject.subjectId == this.subject.subjectId
-              );
-
-              this.subjects[index].subjectCode = subjectCode;
-              this.subjects[index].subjectTitle = subjectTitle;
-              this.subjects[index].units = unit;
-              this.subjects[index].preRequisite = preRequisites;
-              this.subjects[index].type = type;
+              this.getAllSubjects();
               this.isDialogOpen = false;
               this.courseForm.reset();
               this.isUpdating = false;
+
+              this.alert = true;
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Subject successfully updated';
+              setTimeout(() => (this.alert = false), 3000);
             }
-            this.getAllSubjects();
           });
       } else {
         this.courseForm.markAllAsTouched();
@@ -215,13 +222,23 @@ export class CourseComponent implements OnInit {
           .addSubject(this.courseForm.value)
           .subscribe((res: any) => {
             if (res.message == 'Subject code already exist') {
-              alert('Subject code already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Subject code already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else if (res.message == 'Subject title already exist') {
-              alert('Subject title already exist');
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Subject title already exist';
+              setTimeout(() => (this.alert = false), 3000);
             } else {
               this.getAllSubjects();
               this.isDialogOpen = false;
               this.courseForm.reset();
+              this.alert = true;
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Subject successfully added';
+              setTimeout(() => (this.alert = false), 3000);
             }
           });
       } else {

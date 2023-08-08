@@ -70,6 +70,7 @@ export class RoomComponent implements OnInit {
 
   onAdd = () => {
     this.title = 'Add Room';
+    this.alert = false;
     this.isDialogOpen = true;
     this.isUpdating = false;
     this.alert = false;
@@ -128,24 +129,51 @@ export class RoomComponent implements OnInit {
 
         this.roomService
           .updateRoom(this.room.roomId, payload)
-          .subscribe(() => this.getAllRooms());
-        this.isDialogOpen = false;
+          .subscribe((res: any) => {
+            if (res.message == 'Room number already exist') {
+              this.alert = true;
+              this.alertStatus = 'Error';
+              this.alertMessage = 'Room name already exists';
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+            } else {
+              this.alert = true;
+              this.alertStatus = 'Success';
+              this.alertMessage = 'Room successfully updated';
+              setTimeout(() => {
+                this.alert = false;
+              }, 3000);
+              this.getAllRooms();
+              this.isDialogOpen = false;
+              this.roomForm.reset();
+            }
+          });
       } else {
         this.roomForm.markAllAsTouched();
       }
     } else {
       if (this.roomForm.valid) {
-        this.roomService
-          .addRoom(this.roomForm.value)
-          .subscribe(() => this.getAllRooms());
-        this.alert = true;
-        setTimeout(() => {
-          this.alert = false;
-        }, 3000);
-        this.alertStatus = 'Success';
-        this.alertMessage = 'Room successfully added';
-        this.roomForm.reset();
-        this.isDialogOpen = false;
+        this.roomService.addRoom(this.roomForm.value).subscribe((res: any) => {
+          if (res.message == 'Room number already exist') {
+            this.alert = true;
+            this.alertStatus = 'Error';
+            this.alertMessage = 'Room name already exists';
+            setTimeout(() => {
+              this.alert = false;
+            }, 3000);
+          } else {
+            this.alert = true;
+            this.alertStatus = 'Success';
+            this.alertMessage = 'Room successfully added';
+            setTimeout(() => {
+              this.alert = false;
+            }, 3000);
+            this.roomForm.reset();
+            this.isDialogOpen = false;
+            this.getAllRooms();
+          }
+        });
       } else {
         this.roomForm.markAllAsTouched();
       }
