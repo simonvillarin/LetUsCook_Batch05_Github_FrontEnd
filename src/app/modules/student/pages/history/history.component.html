@@ -1,0 +1,91 @@
+<main>
+  <div class="table">
+    <div class="table-header">
+      <div class="btn-container">
+        <button class="reset" title="Reset" (click)="reset()">
+          <span class="material-symbols-rounded table-header-icon">
+            restart_alt
+          </span>
+        </button>
+      </div>
+      <div class="filter">
+        <p-dropdown
+          [options]="types"
+          placeholder="Filter by year level"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="type"
+          (ngModelChange)="onChangeType($event)"
+        ></p-dropdown>
+        <p-dropdown
+          [options]="schoolYears"
+          placeholder="Filter by year level"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="schoolYear"
+          (ngModelChange)="onChangeSchoolYear($event)"
+        ></p-dropdown>
+        <div class="search-container">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search"
+            [style]="{
+              width: '100%',
+              minWidth: '16rem',
+              paddingLeft: '2.5rem'
+            }"
+            placeholder="Search"
+            [(ngModel)]="search"
+            (ngModelChange)="onChangeSearch($event)"
+          />
+        </div>
+      </div>
+    </div>
+    <p-table
+      [value]="history"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '80rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[10, 20, 30]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 12%">Subject Code</th>
+          <th style="width: 20%">Subject Title</th>
+          <th style="width: 12%">Units</th>
+          <th style="width: 20%">Prerequisites</th>
+          <th style="width: 12%">Type</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-history>
+        <tr>
+          <td>{{ history.subject.subjectCode }}</td>
+          <td>{{ history.subject.subjectTitle }}</td>
+          <td>{{ history.subject.units }}</td>
+          <td>
+            <ng-container *ngFor="let item of history.subject.preRequisites"
+              >{{ item.subjectTitle }}<br
+            /></ng-container>
+          </td>
+          <td>
+            <div
+              class="type {{
+                history.subject.type == 'Major'
+                  ? 'major'
+                  : history.subject.type == 'Minor'
+                  ? 'minor'
+                  : 'elective'
+              }}"
+            >
+              {{ history.subject.type }}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</main>

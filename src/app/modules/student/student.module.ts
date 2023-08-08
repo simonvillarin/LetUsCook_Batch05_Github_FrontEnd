@@ -21,6 +21,7 @@ import { GradeComponent } from './pages/grade/grade.component';
 import { LoadComponent } from './pages/load/load.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TabViewModule } from 'primeng/tabview';
+import { HistoryComponent } from './pages/history/history.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TabViewModule } from 'primeng/tabview';
     GradeComponent,
     LoadComponent,
     ProfileComponent,
+    HistoryComponent,
   ],
   imports: [
     CommonModule,

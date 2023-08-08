@@ -92,6 +92,8 @@ export class StudentMainComponent implements OnInit {
       return 'Profile';
     } else if (loc == 'grades') {
       return 'Grades';
+    } else if (loc == 'history') {
+      return 'Course History';
     } else {
       return 'Course';
     }

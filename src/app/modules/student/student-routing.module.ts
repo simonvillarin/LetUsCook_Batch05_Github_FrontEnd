@@ -8,6 +8,7 @@ import { StudentMainComponent } from './pages/student-main/student-main.componen
 import { GradeComponent } from './pages/grade/grade.component';
 import { LoadComponent } from './pages/load/load.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'history',
+        component: HistoryComponent,
       },
     ],
   },

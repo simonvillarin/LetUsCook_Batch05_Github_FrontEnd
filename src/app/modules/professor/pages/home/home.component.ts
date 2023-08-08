@@ -75,13 +75,12 @@ export class HomeComponent {
               'yellowgreen',
               'orangered',
             ];
-            let randomNumber = Math.floor(Math.random() * colors.length) + 1;
 
             this.professorBar = {
               labels: subjects,
               datasets: [
                 {
-                  label: "Student's Average",
+                  label: 'Number of Students',
                   data: numStudents,
                   backgroundColor: [
                     colors[Math.floor(Math.random() * colors.length) + 1],
