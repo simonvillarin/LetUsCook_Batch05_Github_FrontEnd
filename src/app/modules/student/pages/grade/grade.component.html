@@ -3,23 +3,25 @@
     <div class="error-container" *ngIf="!show">
       Stay tuned for your academic progress, grades are on their way!
     </div>
-    <div class="table-header" *ngIf="show">
-      <div class="units-container" *ngIf="show">
-        <div class="selected-unit">GWA: {{ GWA }}</div>
-        <div class="minimum-unit">Commulative GWA: {{ cummulativeGWA }}</div>
-      </div>
-      <div class="filter">
-        <p-dropdown
-          [options]="schoolYears"
-          placeholder="Filter by year and term"
-          appendTo="body"
-          [style]="{
+    <ng-container *ngIf="show">
+      <div class="table-header">
+        <div class="units-container" *ngIf="show">
+          <div class="selected-unit">GWA: {{ GWA }}</div>
+          <div class="minimum-unit">Commulative GWA: {{ cummulativeGWA }}</div>
+        </div>
+        <div class="filter">
+          <p-dropdown
+            [options]="schoolYears"
+            placeholder="Filter by year and term"
+            appendTo="body"
+            [style]="{
             width: '100%',
             minWidth: '16rem',
           }"
-          [(ngModel)]="schoolYear"
-          (ngModelChange)="onChangeSchoolYear($event)"
-        ></p-dropdown>
+            [(ngModel)]="schoolYear"
+            (ngModelChange)="onChangeSchoolYear($event)"
+          ></p-dropdown>
+        </div>
       </div>
 
       <div class="card-container">
@@ -99,7 +101,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div></ng-container
+    >
   </div>
 </main>

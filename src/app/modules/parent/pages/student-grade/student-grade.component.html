@@ -3,35 +3,37 @@
     <div class="error-container" *ngIf="!show">
       Grades update coming soon! Keep an eye out for the latest results
     </div>
-    <div class="table-header" *ngIf="show">
-      <div class="btn-container">
-        <button class="edit table-header-btn" title="Back" (click)="onBack()">
-          <span class="material-symbols-rounded table-header-icon">
-            arrow_back
-          </span>
-        </button>
-        <button
-          class="reset table-header-btn"
-          title="Reset"
-          (click)="onReset()"
-        >
-          <span class="material-symbols-rounded table-header-icon">
-            restart_alt
-          </span>
-        </button>
-      </div>
-      <div class="filter">
-        <p-dropdown
-          [options]="schoolYears"
-          placeholder="Filter by year and term"
-          appendTo="body"
-          [style]="{
+    <ng-container *ngIf="show"
+      ><div class="table-header">
+        <div class="btn-container">
+          <button class="edit table-header-btn" title="Back" (click)="onBack()">
+            <span class="material-symbols-rounded table-header-icon">
+              arrow_back
+            </span>
+          </button>
+          <button
+            class="reset table-header-btn"
+            title="Reset"
+            (click)="onReset()"
+          >
+            <span class="material-symbols-rounded table-header-icon">
+              restart_alt
+            </span>
+          </button>
+        </div>
+        <div class="filter">
+          <p-dropdown
+            [options]="schoolYears"
+            placeholder="Filter by year and term"
+            appendTo="body"
+            [style]="{
             width: '100%',
             minWidth: '16rem',
           }"
-          [(ngModel)]="schoolYear"
-          (ngModelChange)="onChangeSchoolYear($event)"
-        ></p-dropdown>
+            [(ngModel)]="schoolYear"
+            (ngModelChange)="onChangeSchoolYear($event)"
+          ></p-dropdown>
+        </div>
       </div>
       <div class="units-container" *ngIf="show">
         <div class="selected-unit">GWA: {{ GWA }}</div>
@@ -114,7 +116,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div></ng-container
+    >
   </div>
 </main>
