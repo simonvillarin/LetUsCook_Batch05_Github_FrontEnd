@@ -27,6 +27,18 @@ export class HistoryComponent implements OnInit {
     this.getStudentHistory();
   }
 
+  isObjectUnique = (obj1: any, obj2: any) => {
+    return obj1.subject.subjectId === obj2.subject.subjectId;
+  };
+
+  getUniqueObjects = (arr: any) => {
+    return arr.filter((item: any, index: any, self: any) => {
+      return (
+        self.findIndex((obj: any) => this.isObjectUnique(obj, item)) === index
+      );
+    });
+  };
+
   getStudentHistory = () => {
     this.studentId = this.authService.getUserId();
     this.studentHistory
@@ -40,6 +52,7 @@ export class HistoryComponent implements OnInit {
             this.history.push(sched);
           });
         });
+        this.history = this.getUniqueObjects(this.history);
       });
   };
 
@@ -67,6 +80,7 @@ export class HistoryComponent implements OnInit {
               }
             });
           });
+          this.history = this.getUniqueObjects(this.history);
         });
     } else {
       this.getStudentHistory();
@@ -93,6 +107,7 @@ export class HistoryComponent implements OnInit {
                 }
               });
             });
+            this.history = this.getUniqueObjects(this.history);
           });
       }
 
@@ -112,6 +127,7 @@ export class HistoryComponent implements OnInit {
               }
             });
           });
+          this.history = this.getUniqueObjects(this.history);
         });
     } else {
       this.getStudentHistory();
@@ -138,6 +154,7 @@ export class HistoryComponent implements OnInit {
                 }
               });
             });
+            this.history = this.getUniqueObjects(this.history);
           });
       }
       this.studentId = this.authService.getUserId();
@@ -153,6 +170,7 @@ export class HistoryComponent implements OnInit {
               }
             });
           });
+          this.history = this.getUniqueObjects(this.history);
         });
     } else {
       this.getStudentHistory();

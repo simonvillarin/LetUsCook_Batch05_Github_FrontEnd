@@ -196,6 +196,7 @@ export class StudentComponent implements OnInit {
         this.getAllStudents();
         this.isApprovalDialogOpen = false;
         this.scheduleDialog = false;
+        this.pdfService.generatePDF(this.student.studentId).subscribe();
       });
 
     this.schedules.map((sched: any) => {
@@ -240,7 +241,6 @@ export class StudentComponent implements OnInit {
         this.roomService.updateRoom(room.room.roomId, payload).subscribe();
       });
     });
-    this.pdfService.generatePDF(this.student.studentId).subscribe();
   };
 
   onClickRemove = (student: any) => {
