@@ -97,10 +97,10 @@
                 <div class="table-actions">
                   <button
                     class="table-action {{
-                      application.status == true ? 'disabled' : 'activate'
+                      application.status == 'Approved' ? 'disabled' : 'activate'
                     }}"
                     (click)="onEditApplication(application)"
-                    [disabled]="application.status == true"
+                    [disabled]="application.status == 'Approved'"
                   >
                     <mat-icon
                       class="material-icons-outlined"
